@@ -1,0 +1,20 @@
+{#
+/**
+ * @file
+ * Default theme implementation for an 'ambientimpact_icon' #type.
+ *
+ * Available variables
+ * - containerTag: The container HTML tag.
+ * - containerAttributes: Attributes object for the icon container.
+ * - iconAttributes: Attributes object for the icon <svg> element.
+ * - useAttributes: Attributes object for the icon <use> element.
+ * - text: The text string to associate with the icon.
+ * - textAttributes: Attributes object for the icon text element.
+ *
+ * @ingroup themeable
+ */
+#}
+<{{ containerTag }}{{ containerAttributes }}>
+  <svg{{ iconAttributes }}><use{{ useAttributes }}></use></svg>
+  <span{{ textAttributes }}>{{ text }}</span>
+</{{ containerTag }}>

@@ -1,0 +1,13 @@
+component.icon:
+  version: 1.0
+  css:
+    component:
+      icon.css: {}
+  js:
+    icon.js: {}
+    icon.support.js: {}
+    icon.load.js: {}
+    icon.get.js: {}
+    icon.jquery.js: {}
+  dependencies:
+    - ambientimpact_core/component.jquery

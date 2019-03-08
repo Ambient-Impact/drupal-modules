@@ -1,0 +1,5 @@
+<!-- Upload/arrow up icon stolen from the Material Icons set on Icomoon, was 'file_upload' -->
+<svg viewBox="0 0 1024 1024">
+	<title>Upload icon (arrow pointing up)</title>
+	<path fill="#444" d="M214 768h596v86h-596v-86zM384 682v-256h-170l298-298 298 298h-170v256h-256z"></path>
+</svg>

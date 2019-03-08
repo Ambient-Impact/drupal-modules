@@ -1,0 +1,18 @@
+# Shared social links block configuration. These items are not stored per-block
+# instance but shared globally.
+
+orientation_types:
+  horizontal: 'Horizontal'
+  vertical: 'Vertical'
+
+alignment_types:
+  start: 'Start (left if left-to-right language, right otherwise)'
+  centre: 'Centre'
+  end: 'End (right if left-to-right language, left otherwise)'
+
+display_types:
+  icon_and_text: 'Icons and text'
+  icon_only: 'Icons only'
+  text_only: 'Text only'
+
+langcode: en

@@ -1,0 +1,7 @@
+ambientimpact_core.component_list:
+  path: '/web/components'
+  defaults:
+    _controller: '\Drupal\ambientimpact_core\Controller\ComponentController::componentList'
+    _title: 'Components'
+  requirements:
+    _permission: 'administer ambientimpact components'

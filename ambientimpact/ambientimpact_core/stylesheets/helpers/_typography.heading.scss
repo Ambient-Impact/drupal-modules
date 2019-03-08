@@ -1,0 +1,18 @@
+// -----------------------------------------------------------------------------
+//	Heading helpers
+// -----------------------------------------------------------------------------
+
+
+$heading-selector:		'h1, h2, h3, h4, h5, h6'			!default;
+// This is a shortcut for the above.
+$h1to6:					$heading-selector					!default;
+
+// Target specified range of headings.
+// http://jsfiddle.net/jitendravyas/cxJtc/light/
+@mixin headings($from: 1, $to: 6) {
+	@for $i from $from through $to {
+		h#{$i} {
+			@content;
+		}
+	}
+}

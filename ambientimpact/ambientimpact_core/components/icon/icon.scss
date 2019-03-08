@@ -1,0 +1,79 @@
+// -----------------------------------------------------------------------------
+//	Ambient.Impact - Core - Icon component
+// -----------------------------------------------------------------------------
+
+// Make sure to load this rather than just the icon partial, as the partial
+// needs access to mixins.
+@import '../../stylesheets/common';
+
+
+.ambientimpact-icon {
+	@include set-icon-size($icon-size);
+
+	// Inherit the text colour from the parent:
+	// http://css-tricks.com/cascading-svg-fill-color/
+	@include set-icon-colour(currentColor);
+
+	&__icon {
+		position: relative;
+
+		// Chrome has a bug (feature?) where events can be spuriously fired on
+		// SVGs inside of links, etc., which causes all sorts of problems.
+		pointer-events: none;
+	}
+
+	@include set-icon-display(inline);
+
+	&:not(.ambientimpact-icon--icon-standalone-loaded) {
+		grid-template-columns:	auto 1fr;
+
+		// Icons with text align to text baseline.
+		@include set-icon-vertical-alignment('text');
+
+		a & {
+			// Icons with text inside links align to text baseline, taking the
+			// link underline into account.
+			@include set-icon-vertical-alignment('text');
+		}
+
+		// Add a bit of space between icon and text.
+		@include set-icon-text-spacing($icon-text-spacing);
+
+		// Set any wrapped lines to line up with the start of the first line's
+		// text content (after the icon).
+		@include set-icon-text-indent($icon-size + $icon-text-spacing);
+
+		// These icons are smaller than their bounding boxes, so reduce the
+		// spacing between the icon and text to compensate and better match
+		// icons that do take up the whole bounding box.
+		&.ambientimpact-icon--name-add,
+		&.ambientimpact-icon--name-remove,
+		&.ambientimpact-icon--name-bookmark,
+		&.ambientimpact-icon--name-bookmark_outline {
+			@include set-icon-text-spacing($icon-text-spacing - 0.1em);
+			@include set-icon-text-indent($icon-size + $icon-text-spacing - 0.1em);
+		}
+	}
+
+	// Visually hidden text. This text is visually hidden but still accessible
+	// to non-visual user agents like screen readers. Note that this is only
+	// applied to the icon once the bundle has been marked as loaded by
+	// JavaScript.
+	&--icon-standalone-loaded#{&}--text-visually-hidden &__text {
+		@include hide-me;
+	}
+	// Totally hidden text. This text is not accessible to either visual or non-
+	// visual user agents like screen readers. Note that this is only applied to
+	// the icon once the bundle has been marked as loaded by JavaScript.
+	&--icon-standalone-loaded#{&}--text-hidden &__text {
+		display: none;
+	}
+
+	// The Material play icon has a certain amount of empty space on the left,
+	// so add a negative margin to line things up better.
+	&--name-play {
+		.ambientimpact-icon__icon {
+			margin-left: -0.4em;
+		}
+	}
+}

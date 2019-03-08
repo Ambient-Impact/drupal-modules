@@ -1,0 +1,202 @@
+// -----------------------------------------------------------------------------
+//	Ambient.Impact - Core - Icon component partial
+// -----------------------------------------------------------------------------
+
+// Make sure to import the common partial if including this, as some mixins are
+// needed from there.
+
+
+$icon-size:			1.2em	!default;
+$icon-text-spacing:	0.3em	!default;
+
+
+///
+/// Sets the icon size on an .ambientimpact-icon element.
+///
+/// This is mostly meant for internal use. If you want to change the icon size,
+/// either override the $icon-size global variable, or change the font-size on
+/// .ambientimpact-icon (for icon and text), or .ambientimpact-icon__icon (for
+/// just the icon).
+///
+/// @param {Number} $size - The width and height of the icon.
+///
+@mixin set-icon-size($size) {
+	.ambientimpact-icon__icon {
+		width:		$size;
+		height:		$size;
+	}
+	// If this icon is standalone, set explicit dimensions on container and
+	// display as block.
+	&.ambientimpact-icon--icon-standalone-loaded {
+		display:	block;
+
+		width:		$size;
+		height:		$size;
+	}
+}
+
+///
+/// Sets the icon colour on an .ambientimpact-icon element.
+///
+/// @param {Color} $colour
+///
+@mixin set-icon-colour($colour) {
+	.ambientimpact-icon__icon {
+		fill: $colour;
+	}
+}
+
+///
+/// Sets the icon display property, using grid layout if available.
+///
+/// Note that grid is only applied to non-standalone icons and standalone icons
+/// that haven't loaded yet, the latter having text visible until the icon loads
+/// and thus being treated as non-standalone until the icon is loaded.
+///
+/// @param {String} $display ['inline'] - Valid values are:
+///
+///   * 'inline' - This sets display: inline; if grid is not supported or
+///     allowed, and display: inline-grid; otherwise.
+///
+///   * 'block' - This sets display: block; if grid is not supported or allowed,
+///     and display: grid; otherwise.
+///
+/// @require {Mixin} use-grid
+///
+@mixin set-icon-display($display: inline) {
+	@if ($display == inline) {
+		display:	inline;
+	} @else if ($display == block) {
+		display:	block;
+	}
+
+	&:not(.ambientimpact-icon--icon-standalone-loaded) {
+		@include use-grid {
+			@if ($display == inline) {
+				display:	inline-grid;
+			} @else if ($display == block) {
+				display:	grid;
+			}
+		}
+	}
+}
+
+///
+/// Sets the icon vertical alignment on an .ambientimpact-icon element.
+///
+/// @param {String} $align ['text'] - Valid values are:
+///
+///   * 'text' - aligns to the text baseline, which is also the default if not
+///     specified or value is not recognized.
+///
+///   * 'link' - will behave similar to 'text', but will be slightly higher to
+///     account for text underline.
+///
+///   * 'center' - attempts to vertically center the icon within the parent
+///     container.
+///
+@mixin set-icon-vertical-alignment($align: 'text') {
+	// Icons next to plain text.
+	$text-align-inline:	-0.2em;
+	$text-align-grid:	-0.15em;
+	// Icons within a link next to text.
+	$link-align-inline:	-0.3em;
+	$link-align-grid:	-0.2em;
+
+	// Centre vertically.
+	@if ($align == 'center') {
+		align-items:	center;
+
+		.ambientimpact-icon__icon {
+			// We can't use a value of 0 or baseline as that still looks off. We
+			// can align to the first line, which is better than nothing.
+			vertical-align:		$text-align-inline;
+
+			// Reset, in case we've set these previously.
+			@include use-grid {
+				bottom:			0;
+
+				vertical-align: 0;
+			}
+		}
+
+	// Align to text baseline but account for link underlines.
+	} @else if $align == 'link' {
+		align-items:	baseline;
+
+		.ambientimpact-icon__icon {
+			vertical-align:		$link-align-inline;
+
+			@include use-grid {
+				bottom:			$link-align-grid;
+
+				vertical-align: 0;
+			}
+		}
+	// Default is to align roughly to the text baseline.
+	} @else {
+		align-items:	baseline;
+
+		.ambientimpact-icon__icon {
+			vertical-align:		$text-align-inline;
+
+			@include use-grid {
+				bottom:			$text-align-grid;
+
+				vertical-align: 0;
+			}
+		}
+	}
+}
+
+///
+/// Sets the space between icon and text on an .ambientimpact-icon element.
+///
+/// @param {Number} $spacing
+///
+@mixin set-icon-text-spacing($spacing) {
+	@include use-grid {
+		grid-column-gap: $spacing;
+	}
+	.ambientimpact-icon__icon {
+		@include root-conditions(('[dir=ltr]'), 'html') {
+			padding-right: $spacing;
+		}
+
+		@include root-conditions(('[dir=rtl]'), 'html') {
+			padding-left: $spacing;
+		}
+
+		@include use-grid {
+			@include root-conditions(('[dir=ltr]'), 'html') {
+				padding-right: 0;
+			}
+
+			@include root-conditions(('[dir=rtl]'), 'html') {
+				padding-left: 0;
+			}
+		}
+	}
+}
+
+///
+/// Sets text indent on lines after the first on an .ambientimpact-icon element.
+///
+/// Usually this is the icon width plus the spacing between the icon and text to
+/// line up the start of the first line and subsequent lines. This is removed
+/// if CSS Grid is supported.
+///
+/// @param {Number} $indent
+///
+@mixin set-icon-text-indent($indent) {
+	@supports (display: inline-block) {
+		display:		inline-block;
+		margin-left:	$indent;
+		text-indent:	-$indent;
+
+		@include use-grid {
+			margin-left:	0;
+			text-indent:	0;
+		}
+	}
+}

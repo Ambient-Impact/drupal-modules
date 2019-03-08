@@ -1,0 +1,203 @@
+// -----------------------------------------------------------------------------
+//	Colour helpers
+// -----------------------------------------------------------------------------
+
+
+///
+/// Default background colour.
+///
+$background-colour:				white			!default;
+///
+/// Foreground (usually text) colour on light backgrounds.
+///
+$foreground-colour-on-light:	hsl(0, 0, 20%)	!default;
+///
+/// Foreground colour on dark backgrounds.
+///
+$foreground-colour-on-dark:		white			!default;
+
+// $foreground-colour is set lower down.
+
+
+///
+/// Get a greyscale colour as rgba().
+///
+/// @param {Number} $lightness
+///   The lightness value. Can be any number that can be passed to rgba().
+///
+/// @param {Number} $opacity [1]
+///   The opacity value to be passed to rgba().
+///
+/// @return {Color}
+///   An rgba() colour.
+///
+/// @author Lea Verou
+/// @author Matei "Ambient.Impact" Stanca
+///
+/// @link https://gist.github.com/LeaVerou/20ac0049428ccfcbe8f1
+///
+@function greyscale($lightness, $opacity: 1) {
+	@return rgba($lightness, $lightness, $lightness, $opacity);
+}
+
+///
+/// Calculate brightness of a given colour.
+///
+/// @param {Color} $colour
+///   The colour to get the brightness of.
+///
+/// @return {Number}
+///   The brightness value.
+///
+/// @author Brendan Saunders
+/// @author Matei "Ambient.Impact" Stanca
+///
+/// @link https://ambientimpact.com/web/snippets/sass-text-contrast-mixin
+///
+@function get-colour-brightness($colour) {
+	@return (
+		(red($colour)	* .299) +
+		(green($colour)	* .587) +
+		(blue($colour)	* .114)
+	) / 255 * 100%;
+}
+
+///
+/// Return the foreground colour which contrasts best with the background.
+///
+/// Compares contrast of a given colour to the light/dark arguments and returns
+/// whichever is most "contrasty".
+///
+/// @param {Color} $background [$background-colour]
+///   The background colour to test against.
+///
+/// @param {Color} $foreground-on-light [$foreground-colour-on-light]
+///   The foreground colour to return if the background is considered to be more
+///   dark than light.
+///
+/// @param {Color} $foreground-on-dark [$foreground-colour-on-dark]
+///   The foreground colour to return if the background is considered to be more
+///   light than dark.
+///
+/// @return {Color}
+///   The foreground colour that contrasts the most against the background.
+///
+/// @see {function} get-colour-brightness
+///
+/// @author Brendan Saunders
+/// @author Matei "Ambient.Impact" Stanca
+///
+/// @link https://ambientimpact.com/web/snippets/sass-text-contrast-mixin
+///
+@function get-contrasting-colour(
+	$background:			$background-colour,
+	$foreground-on-light:	$foreground-colour-on-light,
+	$foreground-on-dark:	$foreground-colour-on-dark
+) {
+	@if $background == null {
+		@return null;
+
+	} @else {
+		$background-brightness:
+			get-colour-brightness($background);
+		$foreground-on-dark-brightness:
+			get-colour-brightness($foreground-on-dark);
+		$foreground-on-light-brightness:
+			get-colour-brightness($foreground-on-light);
+
+		@return if(
+			abs($background-brightness - $foreground-on-dark-brightness) >
+				abs($background-brightness - $foreground-on-light-brightness),
+			$foreground-on-dark,
+			$foreground-on-light
+		);
+	}
+}
+
+///
+/// Default foreground colour.
+///
+/// This automatically chooses the most contrasting colour by default, so you
+/// may not need to change this at all when changing $background-colour. Set
+/// $foreground-colour-on-light and $foreground-colour- on-dark instead of this
+/// if you need to.
+///
+$foreground-colour:	get-contrasting-colour(
+						$background-colour,
+						$foreground-colour-on-light,
+						$foreground-colour-on-dark
+					) !default;
+
+///
+/// Set background and foreground colours on an element, contrast-aware.
+///
+/// If you only pass the background colour, this mixin will choose from the two
+/// foreground colours, using the one that contrasts best with the background
+/// colour. In addition, this sets the --background-colour and
+/// --foreground-colour custom properties on the element, for browsers that
+/// support them.
+///
+/// @param {Color} $background [$background-colour]
+///   The background colour to test against.
+///
+/// @param {Color} $foreground-on-light [$foreground-colour-on-light]
+///   The foreground colour to return if the background is considered to be more
+///   dark than light.
+///
+/// @param {Color} $foreground-on-dark [$foreground-colour-on-dark]
+///   The foreground colour to return if the background is considered to be more
+///   light than dark.
+///
+/// @param {null|Color} $background-reference [null]
+///   The background colour reference to pass to get-contrasting-colour() if
+///   $background-colour is transparent, inherit, etc.
+///
+/// @see {function} get-contrasting-colour
+///
+/// @author Matei "Ambient.Impact" Stanca
+///
+@mixin set-colours(
+	$background:			$background-colour,
+	$foreground-on-light:	$foreground-colour-on-light,
+	$foreground-on-dark:	$foreground-colour-on-dark,
+	$background-reference:	null
+) {
+	// Get the appropriately contrasting foreground colour.
+	$foreground: get-contrasting-colour(
+		if($background-reference != null, $background-reference, $background),
+		$foreground-on-light,
+		$foreground-on-dark
+	);
+
+	// Set custom properties.
+	@include custom-property(
+		'background-colour',
+		$background
+	);
+	@include custom-property(
+		'foreground-colour',
+		$foreground
+	);
+
+	background-color:	$background;
+	color:				$foreground;
+}
+
+///
+/// Invert the lightness value of a colour.
+///
+/// @param {Color} $colour
+///   The colour to invert the lightness of.
+///
+/// @return {Color}
+///   The colour that was passed as the argument, but with the lightness
+///   inverted.
+///
+@function invert-lightness($colour) {
+	@return hsla(
+		hue($colour),
+		saturation($colour),
+		100% - lightness($colour),
+		alpha($colour)
+	);
+}

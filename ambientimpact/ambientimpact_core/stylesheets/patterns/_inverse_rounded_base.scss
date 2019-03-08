@@ -1,0 +1,88 @@
+// -----------------------------------------------------------------------------
+//	Inverse (or flared) box bases (i.e. when attached to something)
+// -----------------------------------------------------------------------------
+
+@mixin inverse-rounded-base-shadow($size, $colour, $direction-x, $direction-y) {
+	/* Shadows: corner erase, left/right erase, top/bottom erase */
+	box-shadow:
+		($size / 2 * $direction-x) ($size / 2 * $direction-y) 0 $colour,
+		($size / 4 * $direction-x) ($size / 2 * $direction-y) 0 $colour,
+		($size / 2 * $direction-x) ($size / 4 * $direction-y) 0 $colour;
+}
+
+@mixin inverse-rounded-base(
+	$border-radius,
+	$border-width,
+	$border-colour,
+	$background-colour,
+	$location,
+	$overlap: false
+) {
+	$size: $border-radius;
+
+	&:before,
+	&:after {
+		content: '.';
+		@include hide-text;
+
+		position: absolute;
+		width: $size;
+		height: $size;
+
+		@if $location == 'bottom' {
+			@if $overlap == true {
+				bottom: -$border-width;
+			} @else {
+				bottom: 0;
+			}
+		} @else if $location == 'top' {
+			@if $overlap == true {
+				top: -$border-width;
+			} @else {
+				top: 0;
+			}
+		}
+
+		border-color: $border-colour;
+		border-style: solid;
+
+		//@include force-webkit-acceleration;
+	}
+	&:before {
+		left: -$size - $border-width;
+
+		@if $location == 'bottom' {
+			border-bottom-right-radius: $size;
+
+			border-width: 0 $border-width $border-width 0;
+
+			@include inverse-rounded-base-shadow($size, $background-colour, 1, 1);
+		} @else if $location == 'top' {
+			border-top-right-radius: $size;
+
+			border-width: $border-width $border-width 0 0;
+
+			@include inverse-rounded-base-shadow($size, $background-colour, 1, -1);
+		}
+	}
+	&:after {
+		right: -$size - $border-width;
+
+		@if $location == 'bottom' {
+			border-bottom-left-radius: $size;
+
+			border-width: 0 0 $border-width $border-width;
+
+			@include inverse-rounded-base-shadow($size, $background-colour, -1, 1);
+		} @else if $location == 'top' {
+			border-top-left-radius: $size;
+
+			border-width: $border-width 0 0 $border-width;
+
+			@include inverse-rounded-base-shadow($size, $background-colour, -1, -1);
+		}
+	}
+}
+
+
+

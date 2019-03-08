@@ -1,0 +1,33 @@
+// -----------------------------------------------------------------------------
+//	Hiding helpers
+// -----------------------------------------------------------------------------
+
+
+// Hide an element.
+@mixin hide-me {
+	position: absolute;
+
+	// Legacy.
+	clip: rect(1px, 1px, 1px, 1px);
+	// Modern.
+	clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+
+	// This is just in case.
+	width:	1px;
+	height:	1px;
+	overflow: hidden;
+
+	// Prevent flowing to new lines, which can make text render without spaces
+	// in screen readers:
+	// https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
+	white-space: nowrap;
+}
+
+
+// Hide text within an element.
+// http://www.zeldman.com/2012/03/01/replacing-the-9999px-hack-new-image-replacement/
+@mixin hide-text {
+	text-indent:	100%;
+	white-space:	nowrap;
+	overflow:		hidden;
+}

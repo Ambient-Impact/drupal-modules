@@ -1,0 +1,5 @@
+<!-- Help icon stolen from the Material Icons set on Icomoon, was 'help' -->
+<svg viewBox="0 0 1024 1024">
+	<title>Help icon (question mark within a circle)</title>
+	<path d="M642 480q40-40 40-96 0-70-50-120t-120-50-120 50-50 120h84q0-34 26-60t60-26 60 26 26 60-26 60l-52 54q-50 54-50 120v22h84q0-66 50-120zM554 810v-84h-84v84h84zM512 86q176 0 301 125t125 301-125 301-301 125-301-125-125-301 125-301 301-125z"></path>
+</svg>

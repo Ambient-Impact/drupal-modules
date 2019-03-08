@@ -1,0 +1,78 @@
+// -----------------------------------------------------------------------------
+//	Outline helpers
+// -----------------------------------------------------------------------------
+
+
+$outline-width:		2px				!default;
+$outline-style:		dashed			!default;
+$outline-colour:	currentColor	!default;
+$outline-radius:	2px				!default;
+$outline-offset:	0.1em			!default;
+
+
+@mixin outline(
+	$width:			$outline-width,
+	$style:			$outline-style,
+	$colour:		$outline-colour,
+	$radius:		$outline-radius,
+	$offset:		$outline-offset,
+	$show-on:		'',
+	$is-link:		false,
+	$transitions:	false
+) {
+	outline-offset:			$offset;
+
+	// Sadly, only Firefox/Gecko supports this as of December 2017.
+	-moz-outline-radius:	$radius;
+	outline-radius:			$radius;
+
+	@if $show-on == '' {
+		outline:			$colour $style $width;
+	} @else {
+		$outline-base:		transparent $style $width;
+
+		outline:			$outline-base;
+
+		// AdaptiveTheme annoyingly sets outline: 0; on hover and active states,
+		// causing the outline to show and fade out on mouse out. This overrides
+		// that.
+		@if $is-link == true {
+			&:hover, &:active {
+				outline:	$outline-base;
+			}
+		}
+
+		@if $transitions == true {
+			@include transition-fade-normal;
+		}
+
+		&#{$show-on} {
+			outline:		$colour $style $width;
+
+			@if $transitions == true {
+				@include transition-fade-hover;
+			}
+		}
+	}
+}
+@mixin focus-outline(
+	$width:			$outline-width,
+	$style:			$outline-style,
+	$colour:		$outline-colour,
+	$radius:		$outline-radius,
+	$offset:		$outline-offset,
+	$show-on:		':focus',
+	$is-link:		false,
+	$transitions:	true
+) {
+	@include outline(
+		$width:			$width,
+		$style:			$style,
+		$colour:		$colour,
+		$radius:		$radius,
+		$offset:		$offset,
+		$show-on:		$show-on,
+		$is-link:		$is-link,
+		$transitions:	$transitions
+	);
+}

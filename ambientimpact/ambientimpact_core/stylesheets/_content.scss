@@ -1,0 +1,29 @@
+// -----------------------------------------------------------------------------
+//	Ambient.Impact - Core - Shared content stylesheet
+// -----------------------------------------------------------------------------
+
+
+@include add-breakpoints((
+	'content-items-floated': 30em
+));
+
+
+@include media('>=content-items-floated') {
+	$content-items-gutter: $general-spacing * 2;
+
+	.content-left,
+	.content-right {
+		max-width: 50%;
+		max-width: calc(50% - $content-items-gutter);
+	}
+	.content-left {
+		float: left;
+
+		margin-right: $content-items-gutter;
+	}
+	.content-right {
+		float: right;
+
+		margin-left: $content-items-gutter;
+	}
+}

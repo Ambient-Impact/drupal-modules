@@ -1,0 +1,36 @@
+// -----------------------------------------------------------------------------
+//	Descendent markers (a downward and right pointing line)
+// -----------------------------------------------------------------------------
+
+@mixin descendent-marker(
+	$border-colour: '',
+	$border-width: $general-border-width,
+	$border-radius: $general-border-radius-tiny,
+	$width: 0.5em,
+	$indent: 0,
+	$height: 1em,
+	$top: 0
+) {
+	position: relative;
+	padding-left: ($width * 2) + $indent;
+
+	&:before {
+		content: '.';
+		@include hide-text;
+
+		position: absolute;
+		top: $top;
+		left: $indent;
+
+		width: $width;
+		height: $height;
+
+		border-width: 0 0 $border-width $border-width;
+		border-style: solid;
+		border-color: $border-colour;
+		border-bottom-left-radius: $border-radius;
+	}
+}
+
+
+

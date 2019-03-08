@@ -1,0 +1,59 @@
+// -----------------------------------------------------------------------------
+//	Layout helpers
+// -----------------------------------------------------------------------------
+
+
+// Contain floats in an element.
+// http://perishablepress.com/press/2009/12/06/new-clearfix-hack
+@mixin contain-floats {
+	&:after {
+		content: '';
+
+		display: block;
+		width:	0;
+		height: 0;
+
+		visibility: hidden;
+
+		font-size:		0;
+		line-height:	0;
+
+		clear: both;
+	}
+}
+
+// Wrap any CSS Grid stuff in this so it can be disabled for testing via the
+// 'disable-grid' query string on a URL. See:
+// ambientimpact_core.theme.inc -> ambientimpact_core_preprocess_html().
+@mixin use-grid(
+	// Should we include an @supports check?
+	$supports-check: true,
+	// Should we use only the final spec, as opposed to including the old
+	// Edge/IE implementation?
+	$modern-grid-only: true
+) {
+	@include root-conditions('.use-grid', 'body') {
+		@if $supports-check == true {
+			// Whether we want to include only browsers with the final Grid spec
+			// or also include the old Edge/IE implementation:
+
+			// https://ambientimpact.com/web/snippets/excluding-microsoft-edges-old-css-grid-implementation-with-feature-queries
+
+			// If you do want to use the old Edge/IE implementation, be very
+			// aware of the limitations:
+
+			// https://ambientimpact.com/web/snippets/should-i-try-to-use-the-ie-implementation-of-css-grid-layout
+			@if $modern-grid-only == true {
+				@supports (grid-area: auto) {
+					@content;
+				}
+			} @else {
+				@supports (display: grid) {
+					@content;
+				}
+			}
+		} @else {
+			@content;
+		}
+	}
+}

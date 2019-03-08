@@ -1,0 +1,7 @@
+name: Ambient.Impact - Blocks
+type: module
+description: Various blocks for site building.
+package: Ambient.Impact
+core: 8.x
+dependencies:
+  - ambientimpact_core:ambientimpact_core

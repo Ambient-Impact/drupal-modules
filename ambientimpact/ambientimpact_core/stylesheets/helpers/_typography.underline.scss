@@ -1,0 +1,318 @@
+// -----------------------------------------------------------------------------
+//	Typograpy underlines helpers
+// -----------------------------------------------------------------------------
+
+///
+/// The text underline colour.
+///
+$text-underline-colour:		currentColor	!default;
+
+///
+/// The text underline vertical position, as a background-position-y value.
+///
+$text-underline-position:	95%				!default;
+
+///
+/// The text underline thickness.
+///
+$text-underline-thickness:	2px				!default;
+
+///
+/// The text underline style; should be one of solid, dotted, or dashed.
+///
+$text-underline-style:		solid			!default;
+
+///
+/// Wrap styles to only serve them to browsers that support our underlines.
+///
+/// The following @supports tests wrap the provided styles:
+///
+/// * background-size support
+///
+/// * calc() support
+///
+/// * support for the output of text-underline-background(), currently a
+///   linear-gradient()
+///
+/// * CSS custom properties
+///
+/// @content
+///   The styles to wrap in the @supports block.
+///
+/// @require {Function} text-underline-background
+///
+@mixin supports-cleared-text-underline {
+	@supports
+		(background-size:	calc(1px * 1) 1px) and
+		(background-image:	text-underline-background(white)) and
+		#{'(--test: orange)'}
+	{
+		@content;
+	}
+}
+
+///
+/// Get the linear-gradient to use as the background underline.
+///
+/// This is adapted from Jimmy Wilson's linked Pen.
+///
+/// @param {Color} $underline-colour [$text-underline-colour]
+///   The underline colour.
+///
+/// @param {String} $underline-style [$text-underline-style]
+///   The underline style; should be one of solid, dotted, or dashed.
+///
+/// @return {String}
+///   A linear-gradient using the provided underline colour and style.
+///
+/// @see {mixin} text-underline-background
+///   Sets the background-size based on the $underline-style.
+///
+/// @author Jimmy Wilson
+/// @author Matei "Ambient.Impact" Stanca
+///
+/// @link https://codepen.io/jimmynotjim/pen/EabQjV
+///
+@function text-underline-background(
+	$underline-colour:	$text-underline-colour,
+	$underline-style:	$text-underline-style
+) {
+	// Dotted and dashed gradients are identical, with the difference being only
+	// the background-size that mixin text-underline-background sets.
+	@if $underline-style == dotted or $underline-style == dashed {
+		@return linear-gradient(
+			to right,
+			$underline-colour	0%,
+			$underline-colour	50%,
+			transparent			50%,
+			transparent			100%
+		);
+	} @else {
+		@return linear-gradient(
+			$underline-colour, $underline-colour
+		);
+	}
+}
+
+///
+/// Set a text underline using a background gradient.
+///
+/// This is adapted from Jimmy Wilson's linked Pen.
+///
+/// @param {Color} $underline-colour [$text-underline-colour]
+///   The underline colour.
+///
+/// @param {Number} $underline-position [$text-underline-position]
+///   The y-axis background position value to use for the underline.
+///
+/// @param {Number} $underline-thickness [$text-underline-thickness]
+///   The thickness of the generated underline.
+///
+/// @param {String} $underline-style [$text-underline-style]
+///   The underline style; should be one of solid, dotted, or dashed.
+///
+/// @output
+///   Various background properties to display the underline based on
+///   parameters.
+///
+/// @require {Function} custom-property
+/// @require {Function} text-underline-background
+///
+/// @author Jimmy Wilson
+/// @author Matei "Ambient.Impact" Stanca
+///
+/// @link https://codepen.io/jimmynotjim/pen/EabQjV
+///
+@mixin text-underline-background(
+	$underline-colour:		$text-underline-colour,
+	$underline-position:	$text-underline-position,
+	$underline-thickness:	$text-underline-thickness,
+	$underline-style:		$text-underline-style
+) {
+	// Set underline values as custom properties so that they can be altered on
+	// a per-element basis at run-time.
+	@include custom-property(
+		'text-underline-colour',	$underline-colour
+	);
+	@include custom-property(
+		'text-underline-position',	$underline-position
+	);
+	@include custom-property(
+		'text-underline-thickness',	$underline-thickness
+	);
+	// The underline style currently requires pre-processing in Sass so this is
+	// only here for JavaScript or other uses, but will not have any effect if
+	// changed.
+	@include custom-property(
+		'text-underline-style',		$underline-style
+	);
+
+	// The default width to height ratio is 1:1.
+	$background-width-ratio:		1;
+
+	// The X position of the background. The default is 0, but the dotted and
+	// dashed styles offset this from the right edge to attempt to compensate
+	// for the extra space at the end of the gradient so that the solid parts
+	// start and stop at roughly the start and end of the text.
+	$background-x-position:			0;
+
+	@if $underline-style == dotted {
+		// Dotted width to height ratio is 2:1 as it should be 1 pixel solid and
+		// 1 pixel transparent.
+		$background-width-ratio:	2;
+
+		$background-x-position:		calc(100% + 0.75px);
+
+	} @else if $underline-style == dashed {
+		// Dashed width to height ratio is 6:1 as it should be 3 pixels solid
+		// and 3 pixels transparent.
+		$background-width-ratio:	6;
+
+		$background-x-position:		calc(100% + 2.5px);
+	}
+
+	background-image:		text-underline-background(
+		custom-property('text-underline-colour'), $underline-style
+	);
+	// Background width is multiplied by the ratio. We do this in a calc() in
+	// case the passed thickness is a CSS custom property - trying to multiply
+	// that on compile will rightly throw an error.
+	background-size:
+		calc(
+			#{$background-width-ratio} *
+			#{custom-property('text-underline-thickness')}
+		)
+		custom-property('text-underline-thickness');
+	background-repeat:		repeat-x;
+	// If the 'round' keyword is supported, use it to avoid the last repeated
+	// background image being clipped. See:
+	// https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat
+	background-repeat:		round no-repeat;
+	background-position:
+		$background-x-position custom-property('text-underline-position');
+}
+
+///
+/// Crop underlines with the background colour, using text-shadow.
+///
+/// This is based on the linked Pen by Jimmy Wilson, but modified to generate
+/// the shadow parts with an interval value and list of offsets, as opposed to
+/// hard coding the shadow.
+///
+/// @param {Color} $background-colour
+///   The background colour to use to crop the the underline. If transparent is
+///   provided as the value, text-shadow: none; will be output instead.
+///
+/// @author Jimmy Wilson
+/// @author Matei "Ambient.Impact" Stanca
+///
+/// @link https://codepen.io/jimmynotjim/pen/EabQjV
+///
+@mixin text-underline-crop($background-colour) {
+	@if $background-colour == transparent {
+		text-shadow: none;
+
+	} @else {
+		// This is the interval used to calculate the text-shadow offsets.
+		$interval: 0.03em;
+
+		// These are offset multipliers in x/y pairs, used to generate the text-
+		// shadow offsets with the $interval.
+		$offsets: (
+			// These clear strictly horizontally.
+			( 1,  0),
+			(-1,  0),
+			( 2,  0),
+			(-2,  0),
+			( 3,  0),
+			(-3,  0),
+			( 4,  0),
+			(-4,  0),
+			( 5,  0),
+			(-5,  0),
+
+			// These clear horizontally and below the descenders. We stop at 3
+			// so that we don't go too far down and crop the underline even
+			// under characters without descenders.
+			( 1,  1),
+			(-1,  1),
+			( 2,  2),
+			(-2,  2),
+			( 3,  3),
+			(-3,  3),
+		);
+
+		$shadow: ();
+
+		@each $offset in $offsets {
+			$shadow-part: (
+				(nth($offset, 1) * $interval)
+				(nth($offset, 2) * $interval)
+				$background-colour
+			);
+
+			$shadow: append($shadow, $shadow-part, comma);
+		}
+
+		text-shadow: $shadow;
+	}
+}
+
+///
+/// Set text underline, clearing descenders.
+///
+/// @param {Color} $underline-colour [$text-underline-colour]
+///   The underline colour.
+///
+/// @param {Number} $underline-position [$text-underline-position]
+///   The y-axis background position value to use for the underline.
+///
+/// @param {Number} $underline-thickness [$text-underline-thickness]
+///   The thickness of the generated underline.
+///
+/// @param {String} $underline-style [$text-underline-style]
+///   The underline style; should be one of solid, dotted, or dashed.
+///
+/// @param {Color} $background-colour [custom-property('background-colour')]
+///   The background colour to use for the underline crop.
+///
+/// @content
+///   Additional styles if cleared text underlines are supported. This is useful
+///   if you need to override some styles for progressive enhancement.
+///
+/// @require {Mixin} supports-cleared-text-underline
+/// @require {Mixin} text-underline-background
+/// @require {Mixin} text-underline-crop
+/// @require {mixin} selection-active
+/// @require {mixin} selection-inactive
+/// @require {Function} custom-property
+///
+@mixin text-underline(
+	$underline-colour:		$text-underline-colour,
+	$underline-position:	$text-underline-position,
+	$underline-thickness:	$text-underline-thickness,
+	$underline-style:		$text-underline-style,
+	$background-colour:		custom-property('background-colour')
+) {
+
+	@include supports-cleared-text-underline {
+		@include text-underline-background(
+			$underline-colour:		$underline-colour,
+			$underline-position:	$underline-position,
+			$underline-thickness:	$underline-thickness,
+			$underline-style:		$underline-style
+		);
+
+		@include text-underline-crop($background-colour);
+		// For whatever reason, we have to explicitly declare the crop when text
+		// is selected.
+		@include selection-active {
+			@include text-underline-crop($background-colour);
+		}
+		@include selection-inactive {
+			@include text-underline-crop($background-colour);
+		}
+
+		@content;
+	}
+}

@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ *
+ * Defines the following theme elements:
+ * - 'ambientimpact_block_social_links'
+ */
+function ambientimpact_block_theme($existing, $type, $theme, $path) {
+	// Get the default values for the social links block so that we can use them
+	// as variable names and default values without hard-coding them here.
+	$defaultSocialLinksConfig =
+		\Drupal::config('ambientimpact_block.social_links')->get();
+
+	// Remove these as they're not needed.
+	unset($defaultSocialLinksConfig['langcode']);
+	unset($defaultSocialLinksConfig['_core']);
+
+	// This must be defined or it won't make it into the template.
+	$defaultSocialLinksConfig['base_class'] = '';
+
+	$items = [
+		'ambientimpact_block_social_links' => [
+			'variables'	=> $defaultSocialLinksConfig,
+			'template'	=> 'ambientimpact-block-social-links',
+		],
+	];
+
+	return $items;
+}

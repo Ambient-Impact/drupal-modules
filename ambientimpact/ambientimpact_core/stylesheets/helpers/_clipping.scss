@@ -1,0 +1,32 @@
+// -----------------------------------------------------------------------------
+//	Clipping helpers
+// -----------------------------------------------------------------------------
+
+
+///
+/// Bevel all four corners of an element by the specified amount.
+///
+/// This is based on the linked article by Chris Coyier.
+///
+/// @author Matei "Ambient.Impact" Stanca
+///
+/// @link https://ambientimpact.com/web/snippets/bevelled-box-corners-with-css-and-sass
+///
+/// @param {Number} $size - The amount to bevel by.
+///
+@mixin bevel($size) {
+	clip-path: polygon(
+		// Top left corner points.
+		0%						#{$size},
+		#{$size}				0%,
+		// Top right corner points.
+		calc(100% - #{$size})	0%,
+		100%					#{$size},
+		// Bottom right corner points.
+		100%					calc(100% - #{$size}),
+		calc(100% - #{$size})	100%,
+		// Bottom left corner points.
+		#{$size}				100%,
+		0%						calc(100% - #{$size})
+	);
+}

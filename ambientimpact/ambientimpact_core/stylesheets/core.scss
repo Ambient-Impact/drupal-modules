@@ -1,0 +1,19 @@
+// -----------------------------------------------------------------------------
+//	Ambient.Impact - Core - General stylesheet
+// -----------------------------------------------------------------------------
+
+@import 'common';
+
+
+// Content stuff
+@import 'content';
+
+
+// Formerly .element-invisible in Drupal 7:
+// https://www.drupal.org/docs/8/theming/upgrading-classes-on-7x-themes-to-8x
+.visually-hidden {
+	// Prevent flowing to new lines, which can make text render without spaces
+	// in screen readers:
+	// https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
+	white-space: nowrap;
+}

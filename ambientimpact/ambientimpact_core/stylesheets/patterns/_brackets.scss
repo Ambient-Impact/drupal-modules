@@ -1,0 +1,43 @@
+// -----------------------------------------------------------------------------
+//	Vertical brackets, used to highlight elements
+// -----------------------------------------------------------------------------
+
+@mixin brackets(
+	$border-colour: '',
+	$border-width: $general-border-width,
+	$border-radius: $general-border-radius-tiny,
+	$offset-x: 0.3em,
+	$offset-y: 0.3em
+) {
+	position: relative;
+
+	&::before,
+	&::after {
+		content: '.';
+		@include hide-text;
+
+		display: block;
+		position: absolute;
+		top: -$offset-y;
+		bottom: -$offset-y;
+
+		width: 0.5em;
+
+		border:			$border-width solid $border-colour;
+		border-radius:	$general-border-radius-tiny;
+	}
+	&::before {
+		left: -$offset-x;
+
+		border-right-width:			0;
+		border-top-right-radius:	0;
+		border-bottom-right-radius:	0;
+	}
+	&::after {
+		right: -$offset-x;
+
+		border-left-width:			0;
+		border-top-left-radius:		0;
+		border-bottom-left-radius:	0;
+	}
+}

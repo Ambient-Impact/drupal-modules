@@ -1,0 +1,45 @@
+/* -----------------------------------------------------------------------------
+	Ambient.Impact - Blocks - Social links block administration stylesheet
+----------------------------------------------------------------------------- */
+
+
+@import '../../ambientimpact_core/stylesheets/_common.scss';
+
+
+.ambientimpact-block-social-links {
+	// General link settings.
+	&-settings-edit > .fieldset-wrapper {
+		// Flow this section into two columns when the space allows for it.
+		columns:	2 20em;
+		column-gap:	$general-spacing * 4;
+
+		> * {
+			// Avoid breaking to new column inside children:
+			// http://stackoverflow.com/a/7785711
+
+			// Chrome, Safari
+			-webkit-column-break-inside: avoid;
+			// Theoretically FF 20+
+			page-break-inside: avoid;
+			// IE 11
+			break-inside: avoid-column;
+		}
+	}
+
+	// Network settings.
+	&-networks-edit {
+		&__title-and-icon {
+			font-size: 130%;
+
+			@include set-icon-size(2em);
+
+			// We need to include this for specificity. If we don't, the
+			// alignment and spacing won't take effect.
+			&:not(.ambientimpact-icon--icon-standalone) {
+				// Align to center and increase space between icon and text.
+				@include set-icon-vertical-alignment('center');
+				@include set-icon-text-spacing(1em);
+			}
+		}
+}
+}

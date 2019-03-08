@@ -1,0 +1,50 @@
+{#
+/**
+ * @file
+ * Default theme implementation for the social links list.
+ *
+ * @see config/install/ambientimpact_block.social_links.yml
+ *   List of variables and their default values.
+ *
+ * @see config/install/ambientimpact_block.social_links_network.yml
+ *   Individual network default values.
+ *
+ * @ingroup themeable
+ */
+#}
+<ol{{ create_attribute({'class': [
+	base_class,
+	base_class ~ '--display-'		~ display|clean_class,
+	base_class ~ '--orientation-'	~ orientation|clean_class,
+	base_class ~ '--alignment-'		~ alignment|clean_class,
+]}) }}>
+{% for network in networks %}
+	<li{{ create_attribute({'class': [
+		base_class ~ '__network',
+	]}) }}>
+		{#- Render the accessibility text as an element and save it. -#}
+		{%- set accessibilityMarkup -%}
+			<span{{ create_attribute({'class': [
+				base_class ~ '__network-link-accessibility-text',
+			]}) }}>{{
+				network.contentAccessibilityText
+			}}</span>
+		{%- endset -%}
+
+		{#- Render the link and network content with the accessibility markup
+		    inserted. Note that we have to output the content as raw so that it
+		    doesn't get escaped, but this should have been passed through
+		    Drupal's translation system which would strip out/escape anything
+		    harmful in the block build method. -#}
+		<a{{ create_attribute({
+			'class':	[
+				base_class ~ '__network-link',
+			],
+			'href':		network.url,
+			'title':	network.titleAttribute
+		}) }}>{{ network.content|render|replace({
+			'@accessibilitytext': accessibilityMarkup
+		})|raw }}</a>
+	</li>
+{% endfor %}
+</ol>

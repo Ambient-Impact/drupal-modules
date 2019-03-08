@@ -1,0 +1,7 @@
+services:
+  plugin.manager.ambientimpact_component:
+    class: Drupal\ambientimpact_core\ComponentPluginManager
+    parent: default_plugin_manager
+  plugin.manager.ambientimpact_icon_bundle:
+    class: Drupal\ambientimpact_core\IconBundlePluginManager
+    parent: default_plugin_manager

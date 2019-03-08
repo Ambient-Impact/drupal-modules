@@ -1,0 +1,74 @@
+# Schema for shared social links block configuration.
+ambientimpact_block.social_links_shared:
+  type: config_object
+  label: 'Ambient.Impact: Social links shared block configuration'
+  mapping:
+    orientation_types:
+      type: sequence
+      label: 'The available orientation types'
+      sequence:
+        type: string
+    alignment_types:
+      type: sequence
+      label: 'The available alignment types'
+      sequence:
+        type: string
+    display_types:
+      type: sequence
+      label: 'The available display types'
+      sequence:
+        type: string
+
+# Schema for default social links network configuration.
+ambientimpact_block.social_links_network:
+  type: config_object
+  label: 'Ambient.Impact: Social links individual network default configuration'
+  mapping:
+    title:
+      type: label
+      label: 'The human-readable title of this network'
+    weight:
+      type: integer
+      label: 'The weight for determining the order of this network relative to others'
+    url:
+      type: uri
+      label: 'The URL of the profile to link to on this network'
+
+# Schema for default social links block configuration.
+ambientimpact_block.social_links:
+  type: config_object
+  label: 'Ambient.Impact: Social links block default configuration'
+  mapping:
+    orientation:
+      type: string
+      label: 'The orientation of the social links'
+    alignment:
+      type: string
+      label: 'The alignment of the social links'
+    display:
+      type: string
+      label: 'The display mode of the social links'
+    link_text:
+      type: label
+      label: 'The main text for each link'
+    link_text_pronoun:
+      type: label
+      label: 'The pronoun to use in the main text for each link'
+    link_text_accessibility:
+      type: label
+      label: 'The accessibility text to append to the main text for each link'
+    networks:
+      type: sequence
+      label: 'Settings for individual social networks'
+      sequence:
+        type: ambientimpact_block.social_links_network
+        label: 'An individual social network'
+
+# Schema for individual social links block instance configuration.
+block.settings.ambientimpact_block_social_links:
+  type: block_settings
+  label: 'Ambient.Impact: Social links block instance configuration'
+  mapping:
+    social_links:
+      type: ambientimpact_block.social_links
+      label: 'Social links configuration'

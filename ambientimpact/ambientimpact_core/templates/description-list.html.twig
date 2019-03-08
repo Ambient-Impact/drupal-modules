@@ -1,0 +1,194 @@
+{#
+/**
+ * @file
+ * Default theme implementation for a description list.
+ *
+ * "The dl element represents an association list consisting of zero or more
+ * name-value groups (a description list). Each group must consist of one or
+ * more names (dt elements) followed by one or more values (dd elements). Within
+ * a single dl element, there should not be more than one dt element for each
+ * name."
+ *
+ * This means:
+ * - The dl element may be empty.
+ * - If there is a dt element, it must be followed by a dd element.
+ * - There can be multiple dt elements followed by one or more dd element.
+ * - Each set of dt elements and dd elements forms a "group".
+ * - The text of one dt element must be unique within the dl element.
+ * - The dl element must contain dt and dd elements only.
+ *
+ * @see http://html5doctor.com/the-dl-element/
+ * @see http://www.w3.org/TR/html-markup/dl.html
+ * @see http://www.w3.org/wiki/HTML_lists#Description_lists
+ * @see https://www.drupal.org/project/drupal/issues/54898
+ *
+ * @todo Should this ensure all terms are unique?
+ *
+ * Available variables:
+ * - groups: The list of groups to render. Each group is an array keyed by tag
+ *   name containing one of the following values:
+ *   - A simple string.
+ *   - An array of strings.
+ *   - An array of arrays containing the following keys:
+ *     - value: the content of a single dt or dd element.
+ *     - wrapper_attributes: (optional) an associative array of attributes to
+ *       apply to the dt/dd element.
+ *   Each element will be wrapped in either a dt or dd element depending on
+ *   the key of the group array.
+ * - attributes: (optional) associative array of attributes to apply to the dl
+ *   element.
+ *
+ * Examples:
+ *   $renderArray['description_list_test'] = [
+ *     '#theme'  => 'description_list',
+ *     '#groups' => [
+ *       [
+ *         'dt'  => 'A single term',
+ *         'dd'  => 'A single description.',
+ *       ],
+ *       [
+ *         'dt'  => 'A single term',
+ *         'dd'  => [
+ *           'A description.',
+ *           'Another description.',
+ *         ],
+ *       ],
+ *       [
+ *         'dt'  => [
+ *           'A term',
+ *           'Another term',
+ *         ],
+ *         'dd'  => 'A description.',
+ *       ],
+ *       [
+ *         'dt'  => [
+ *           [
+ *             'value'               => 'A term with attributes',
+ *             'wrapper_attributes'  => [
+ *               'data-test-attribute' => 'A data attribute.',
+ *               'class'               => ['hey', 'you', 'have', 'class'],
+ *             ],
+ *           ],
+ *         ],
+ *         'dd'  => 'A description.',
+ *       ],
+ *       [
+ *         'dd'  => [
+ *           'This should be rendered terms first, then descriptions, even though it is defined descriptions first.',
+ *           'Cool, right?',
+ *         ],
+ *         'dt'  => 'Out of order rendering',
+ *       ],
+ *       [
+ *         'dt'  => [
+ *           'value'         => 'Mixed descriptions',
+ *         ],
+ *         'dd'  => [
+ *           'A string description',
+ *           [
+ *             'value'                 => 'A description with attributes.',
+ *             'wrapper_attributes'    => [
+ *               'data-test-attribute' => 'A data attribute.',
+ *             ],
+ *           ],
+ *         ],
+ *       ],
+ *       [
+ *         'dd'  => [
+ *           'These descriptions have no terms in their group, so they will not be rendered.',
+ *           'Nope, not valid.',
+ *         ],
+ *       ],
+ *       [
+ *         'dt'  => 'This term has no description in its group, so it will not be rendered',
+ *       ],
+ *     ],
+ *   ];
+ *
+ *
+ * @ingroup themeable
+ */
+#}
+<dl{{ attributes }}>
+  {#- This will contain the valid parsed and normalized terms and descriptions.
+      Items in this are guaranteed to have terms matched with descriptions. -#}
+  {%- set outputItems = [] -%}
+
+  {#- Loop over every group, only processing those that have both dd and dt keys
+      to ensure valid markup. -#}
+  {%- for group in groups if group.dt is defined and group.dd is defined -%}
+    {#- These will contain the group's terms and descriptions, respectively.
+        These will not have been checked to both contain items; that's done
+        later down before they're added to outputItems. -#}
+    {%- set groupTerms        = [] -%}
+    {%- set groupDescriptions = [] -%}
+
+    {#- Loop through each tag definition, making sure only dt and dd tags are
+        used, as anything else is invalid according to the spec. -#}
+    {%- for tag, elements in group if tag == 'dt' or tag == 'dd' -%}
+      {%- set elementsNormalized = [] -%}
+
+      {#- If elements is iterable, then it is assumed to be an array of items.
+          -#}
+      {%- if elements is iterable -%}
+        {%- for item in elements -%}
+          {#- Check if the item is iterable and has a value key. Note that if an
+              item is iterable but does not have a value key, it will be
+              ignored. -#}
+          {%- if item is iterable and item.value is defined -%}
+            {#- Create default wrapper_attributes if it does't exist. -#}
+            {%- if item.wrapper_attributes is not defined -%}
+              {%- set item = item|merge({'wrapper_attributes': {}}) -%}
+            {%- endif -%}
+
+            {# Save the normalized item. #}
+            {%- set elementsNormalized = elementsNormalized|merge([
+              item|merge({'tag': tag})
+            ]) -%}
+
+          {#- If the item is not iterable, it's assumed to be a string value and
+              saved in a normalized structure. -#}
+          {%- elseif item is not iterable -%}
+            {%- set elementsNormalized = elementsNormalized|merge([{
+              'value': item,
+              'tag': tag,
+              'wrapper_attributes': {}
+            }]) -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+      {#- If elements is not iterable, it's assumed to be a string value and
+          saved in a normalized structure. -#}
+      {%- else -%}
+        {%- set elementsNormalized = [{
+          'value': elements,
+          'tag': tag,
+          'wrapper_attributes': {}
+        }] -%}
+      {%- endif -%}
+
+      {#- Save the normalized elements to the appropriate array. -#}
+      {%- if tag == 'dt' -%}
+        {%- set groupTerms        = elementsNormalized -%}
+      {%- else -%}
+        {%- set groupDescriptions = elementsNormalized -%}
+      {%- endif -%}
+
+    {%- endfor -%}
+
+    {#- If both the group terms and group descriptions contain items, add them
+        to the output items. This ensures that only groups that have at least
+        one term and one description are output. -#}
+    {%- if groupTerms is not empty and groupDescriptions is not empty -%}
+      {%- set outputItems =
+            outputItems|merge(groupTerms)|merge(groupDescriptions) -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {#- Finally, output the valid items that have been parsed and normalized. -#}
+  {%- for item in outputItems -%}
+    <{{ item.tag }}{{ create_attribute(item.wrapper_attributes) }}>{{
+      item.value
+    }}</{{ item.tag }}>
+  {%- endfor -%}
+</dl>

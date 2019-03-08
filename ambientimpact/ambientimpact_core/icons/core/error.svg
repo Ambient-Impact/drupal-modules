@@ -1,0 +1,5 @@
+<!-- Error icon stolen from the Material Icons set on Icomoon, was 'report' -->
+<svg viewBox="0 0 1024 1024">
+	<title>Error icon (exclamation mark within an octogon)</title>
+	<path d="M554 554v-256h-84v256h84zM512 738q22 0 39-17t17-39-17-38-39-16-39 16-17 38 17 39 39 17zM672 128l224 224v320l-224 224h-320l-224-224v-320l224-224h320z"></path>
+</svg>

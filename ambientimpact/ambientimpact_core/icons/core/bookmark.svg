@@ -1,0 +1,5 @@
+<!-- Bookmark icon stolen from the Material Icons set on Icomoon -->
+<svg viewBox="0 0 1024 1024">
+	<title>Bookmark icon (A vertical rectangle with a triangular indentation on the bottom edge)</title>
+	<path d="M726 128q34 0 59 26t25 60v682l-298-128-298 128v-682q0-34 25-60t59-26h428z"></path>
+</svg>

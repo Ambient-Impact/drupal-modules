@@ -1,0 +1,134 @@
+// -----------------------------------------------------------------------------
+//	Horizontal bleed background from within constrained container
+// -----------------------------------------------------------------------------
+
+
+/**
+ * Sets a full viewport width background from inside a width-limited container.
+ *
+ * Loosely based on: https://css-tricks.com/full-browser-width-bars/
+ *
+ * @param {Colour} $colour - the background colour.
+ * @param {Number} $z-index - the z-index of the generated element.
+ * @param {Mixed} $shadow - whether to use a Material shadow. Can be a boolean,
+ *   or a list of 3 booleans. In the case of the list, controls which parts of
+ *   the material-shadow() returned list is used, true for use, false to not.
+ * @param {Number} $shadow-depth - the depth value passed to material-shadow().
+ */
+@mixin horizontal-bleed-background(
+	$colour,
+	$z-index:		1,
+	$shadow:		false,
+	$shadow-depth:	2
+) {
+	$background-width: 100vw;
+
+	position: relative;
+
+	@include set-colours(
+		$background:	$colour
+	);
+
+	&::before {
+		content:	'';
+
+		// This is in case the element has a .clearfix class, which would cause
+		// this generated content block to be display: table; which would mess
+		// everything up.
+		display:	block;
+
+		position:	absolute;
+
+		left:	calc(-#{$background-width} + 1px);
+		right:	0;
+		top:	0;
+		bottom:	0;
+
+		// Use a border-left to provide the left side bleed.
+		border-left:	$background-width solid $colour;
+
+		// Use a box-shadow with a zero blur to provide the right side bleed.
+		$box-shadow:	$background-width 0 0 $colour;
+
+		@if $shadow == true {
+			$shadow: (true, true, true);
+		}
+
+		@if type-of($shadow) == 'list' and length($shadow) == 3 {
+			$material-shadow:	material-shadow($shadow-depth);
+			$shadow-list:		();
+
+			// Use the parts of the shadow that we're asked to.
+			@for $i from 1 through length($shadow) {
+				@if nth($shadow, $i) == true {
+					$shadow-list: append($shadow-list, nth($material-shadow, $i), 'comma');
+				}
+			}
+
+			// Override the Material shadow's x offset to position the shadow
+			// correctly centred under entire width.
+			@for $i from 1 through length($shadow-list) {
+				$shadow-list: set-nth($shadow-list, $i, set-nth(
+					nth($shadow-list, $i), 1, #{$background-width / 2}
+				));
+			}
+
+			// Append the shadows to the $box-shadow variable.
+			$box-shadow:	$box-shadow, $shadow-list;
+		}
+
+		box-shadow: $box-shadow;
+
+		z-index: $z-index;
+	}
+}
+/**
+ * Sets the targetted element as a full viewport width top edge shadow.
+ *
+ * Meant to be used when you pass $shadow: (false, true, true) to
+ * horizontal-bleed-background, and need to set the top peek shadow on another
+ * element to prevent the top peek shadow from being set on top of certain
+ * elements, e.g. to maintain visual continuity.
+ *
+ * @param {Number} $depth - the depth value passed to material-shadow().
+ * @param {Number} $z-index - the z-index of the generated element.
+ * @param {Number} $height - the height to set on the generated element.
+ */
+@mixin horizontal-bleed-background-top-peek-shadow(
+	$depth:		2,
+	$z-index:	1,
+	$height:	1rem
+) {
+	$shadow-width:		100vw;
+	// Generate a Material shadow with the required depth.
+	$material-shadow:	material-shadow($depth);
+	// Grab the first item in the list, which is the top peek shadow.
+	$shadow:			nth($material-shadow, 1);
+
+	// Since this tends to be used on generated elements, set the content
+	// property to ensure the block is displayed.
+	content:		'';
+
+	// Override Drupal's .clearfix which uses the ::after element, in case we're
+	// set on such an element.
+	visibility:		visible;
+
+	position:		absolute;
+
+	// Position exactly centred in the current context.
+	left:			50%;
+	margin-left:	-($shadow-width / 2);
+
+	bottom: 		-$height;
+
+	// Set to larger than the width of the viewport, along with a bit of
+	// height.
+	width:			$shadow-width;
+	height:			$height;
+
+	z-index:		$z-index;
+
+	// We're increasing the Material shadow top peek opacity a bit, to make it
+	// more visible.
+	box-shadow:		set-nth($shadow, 4, opacify(nth($shadow, 4), 0.3));
+}

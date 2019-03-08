@@ -1,0 +1,5 @@
+<!-- Open in new icon stolen from the Material Icons set on Icomoon. -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+	<title>Open in new (a square frame with an arrow going from the centre of the frame to outside of the top right corner).</title>
+	<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298q0 34-26 60t-60 26h-596q-36 0-61-26t-25-60v-596q0-34 25-60t61-26h298v86h-298v596h596z"></path>
+</svg>

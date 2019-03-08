@@ -1,0 +1,47 @@
+{
+  "name": "Ambient.Impact - Core",
+  "dependencies": {
+    "jquery.parseparams": "https://gist.github.com/956897.git",
+    "autosize": "3.0.4",
+    "jquery.livequery": "https://github.com/brandonaaron/livequery.git#1.1.1",
+    "jquery.throttle-debounce": "https://github.com/cowboy/jquery-throttle-debounce.git#v1.1",
+    "jquery.onfontresize": "https://github.com/johnantoni/jquery.onfontresize.git#1cc450aa65",
+    "jquery.fitvids": "https://github.com/davatron5000/FitVids.js.git#1.1.0",
+    "svg4everybody": "1.0.0",
+    "fitter-happier-text": "https://github.com/jxnblk/fitter-happier-text.git#0.0.7",
+    "fontloader": "https://github.com/smnh/FontLoader.git#fe26f35e2e",
+    "socialcount": "0.1.6",
+    "photoswipe": "~4.1.1",
+    "Stickyfill": "~1.1.4",
+    "gsap": "^2.0.1",
+    "textfit": "~2.3.1",
+    "fontfaceobserver": "2.0.13",
+    "js-cookie": "~2.1.2",
+    "jquery-observe": "^2.0.2",
+    "smoothscroll": "^0.3.3",
+    "ally.js": "https://github.com/medialize/ally.js/releases/download/1.4.1/ally.js.zip",
+    "roboto": "https://github.com/FontFaceKit/roboto.git#v1.1.0",
+    "DOM-Query": "https://github.com/Ambient-Impact/DOM-Query.git",
+    "tinymce": "4.5.7",
+    "underscore": "1.8.3",
+    "backbone": "1.2.0",
+    "frend-offcanvas": "https://raw.githubusercontent.com/frend/frend.co/gh-pages/_components/offcanvas/dist/froffcanvas.min.js",
+    "headroom.js": "https://npmcdn.com/headroom.js@0.9.4/dist/headroom.min.js",
+    "jquery-hoverintent": "^1.9.0",
+    "popper.js": "https://github.com/FezVrasta/popper.js/archive/v1.14.4.zip",
+    "tippy.js": "https://files.ambientimpact.com/web/libraries/tippy.js-2.6.0.zip",
+    "chillout": "^3.1.7"
+  },
+  "devDependencies": {
+    "sass-toolkit": "~2.9.0",
+    "SassyLists": "~2.2.4",
+    "jacket": "~1.1.1",
+    "sassy-math": "~1.5.1",
+    "include-media": "^1.4.9",
+    "SassyCast": "sassy-cast#^2.0.0",
+    "tippy.js-source": "https://github.com/atomiks/tippyjs/archive/v2.6.0.zip"
+  },
+  "resolutions": {
+    "gsap": "^2.0.1"
+  }
+}

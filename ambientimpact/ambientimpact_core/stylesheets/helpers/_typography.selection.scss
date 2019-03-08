@@ -1,0 +1,52 @@
+// -----------------------------------------------------------------------------
+//	Typograpy selection helpers
+// -----------------------------------------------------------------------------
+
+
+// Light blue.
+$text-selection-background-colour: #0078d7 !default;
+
+$text-inactive-selection-background-colour:
+	desaturate($text-selection-background-colour, 60%) !default;
+
+
+// Set selection colours. Selection is when a user selects one or more
+// characters of text, images, etc. on the page.
+@mixin selection(
+	$active-background-colour:		$text-selection-background-colour,
+	$inactive-background-colour:	$text-inactive-selection-background-colour
+) {
+	// Active selection.
+	@include selection-active {
+		@include set-colours($active-background-colour);
+	}
+
+	// Inactive selection, i.e when the viewport is not in focus.
+	@include selection-inactive {
+		@include set-colours($inactive-background-colour);
+	}
+}
+
+// Active selection. Autoprefixer will handle the prefixed variants.
+@mixin selection-active {
+	&::selection {
+		@content;
+	}
+}
+
+// Inactive selection, i.e when the viewport is not in focus. These must be kept
+// as separate rules in case a browser supports one but not the other. Browsers
+// that don't understand one part of a selector will ignore the whole block,as
+// per the CSS spec.
+@mixin selection-inactive {
+
+	// Standard, not well supported yet.
+	&::inactive-selection {
+		@content;
+	}
+	// Also standard, but supported by some browsers
+	// https://css-tricks.com/window-inactive-styling/
+	&::selection:window-inactive {
+		@content;
+	}
+}

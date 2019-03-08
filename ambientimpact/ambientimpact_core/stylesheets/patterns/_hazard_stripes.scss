@@ -1,0 +1,23 @@
+// -----------------------------------------------------------------------------
+//	Pattern: Hazard stripes
+// -----------------------------------------------------------------------------
+
+
+@mixin pattern-hazard-stripes(
+	$colour1:	hsla(0, 0, 100%, 0.1),
+	$colour2:	transparent,
+	$scale:		1
+) {
+	background-image: linear-gradient(
+		-45deg,
+		$colour1 25%,
+		$colour2 25%,
+		$colour2 50%,
+		$colour1 50%,
+		$colour1 75%,
+		$colour2 75%,
+		$colour2
+	);
+
+	background-size: (50px * $scale) (50px * $scale);
+}

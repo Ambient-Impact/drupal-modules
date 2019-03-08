@@ -1,0 +1,33 @@
+# Default social links block configuration values.
+
+orientation: horizontal
+
+alignment: centre
+
+display: icon_and_text
+
+link_text: 'Find @pronoun @accessibilitytext'
+link_text_pronoun: 'us'
+link_text_accessibility: 'on @network'
+
+# The available social networks keyed by machine name and containing their
+# human-readable title.
+networks:
+  facebook:
+    title: 'Facebook'
+  twitter:
+    title: 'Twitter'
+  instagram:
+    title: 'Instagram'
+  youtube:
+    title: 'YouTube'
+  steam:
+    title: 'Steam'
+  github:
+    title: 'GitHub'
+  tumblr:
+    title: 'Tumblr'
+
+# This is only here for the translation system; it's not saved to the block
+# instance config as that is already set by Drupal.
+langcode: en

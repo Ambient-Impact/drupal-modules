@@ -1,0 +1,18 @@
+// -----------------------------------------------------------------------------
+//	Common master file
+// -----------------------------------------------------------------------------
+
+// Include this in your theme to take advantage of all the mixins and variables.
+
+
+@import '../../../../sites/all/assets/vendor/SassyLists/stylesheets/SassyLists';
+@import '../../../../sites/all/assets/vendor/sassy-math/compass/stylesheets/math';
+@import '../../../../sites/all/assets/vendor/SassyCast/dist/SassyCast';
+@import '../../../../sites/all/assets/vendor/sass-toolkit/stylesheets/toolkit';
+@import '../../../../sites/all/assets/vendor/jacket/stylesheets/jacket';
+@import '../../../../sites/all/assets/vendor/include-media/dist/include-media';
+
+@import 'variables/variables';
+@import 'helpers/helpers';
+@import 'patterns/patterns';
+@import '../components/_components';

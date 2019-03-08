@@ -1,0 +1,15 @@
+core:
+  css:
+    layout:
+      stylesheets/core.css: {minified: true}
+
+framework:
+  js:
+    javascript/framework.core.js: {}
+    javascript/framework.object.js: {}
+    javascript/framework.global.js: {}
+    javascript/framework.cache.js: {}
+    javascript/framework.html.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery

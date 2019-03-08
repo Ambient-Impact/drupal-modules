@@ -1,0 +1,5 @@
+name: Ambient.Impact - Core
+type: module
+description: Core module code used over a number of projects.
+package: Ambient.Impact
+core: 8.x

@@ -1,0 +1,5 @@
+<!-- Calendar icon stolen from the Entypo set on Icomoon -->
+<svg viewBox="0 0 1024 1024">
+	<title>Calendar icon (calendar card attached to rings)</title>
+	<path class="path1" d="M870.4 153.6h-46.080v102.4h-163.84v-102.4h-296.96v102.4h-163.84v-102.4h-46.080c-56.32 0-102.4 46.080-102.4 102.4v614.4c0 56.32 46.080 102.4 102.4 102.4h716.8c56.32 0 102.4-46.080 102.4-102.4v-614.4c0-56.32-46.080-102.4-102.4-102.4zM870.4 870.4h-716.8v-409.6h716.8v409.6zM317.44 51.2h-71.68v174.080h71.68v-174.080zM778.24 51.2h-71.68v174.080h71.68v-174.080z"></path>
+</svg>

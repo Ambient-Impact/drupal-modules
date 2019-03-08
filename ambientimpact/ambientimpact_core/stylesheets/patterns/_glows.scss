@@ -1,0 +1,76 @@
+// -----------------------------------------------------------------------------
+//	Glow effect helpers
+// -----------------------------------------------------------------------------
+
+@function build-glow($base-glow: '', $fringe-glow: '') {
+	@return
+		repeat-value($base-glow, 3),
+		repeat-value($fringe-glow, 3);
+}
+
+@function get-text-glow(
+	$is-gecko: false,
+	$scale: 1,
+	$base-glow-colour: $link-glow-base-colour,
+	$fringe-glow-colour: $link-glow-fringe-colour
+) {
+	@return build-glow(
+		$base-glow: 0 0 get-blur-radius(0.25em * $scale, $is-gecko) $base-glow-colour,
+		$fringe-glow: 0 0 get-blur-radius(0.8em * $scale, $is-gecko) $fringe-glow-colour
+	);
+}
+
+
+@function get-box-glow-outer(
+	$is-gecko: false,
+	$scale: 1,
+	$base-glow-colour: $link-glow-base-colour,
+	$fringe-glow-colour: $link-glow-fringe-colour
+) {
+	@return build-glow(
+		$base-glow: 0 0 get-blur-radius(0.4em * $scale, $is-gecko) $base-glow-colour,
+		$fringe-glow: 0 0 get-blur-radius(1em * $scale, $is-gecko) $fringe-glow-colour
+	);
+}
+
+
+@function get-box-glow-inner(
+	$is-gecko: false,
+	$scale: 1,
+	$base-glow-colour: $link-glow-base-colour,
+	$fringe-glow-colour: $link-glow-fringe-colour
+) {
+	@return build-glow(
+		$base-glow: 0 0 get-blur-radius(0.4em * $scale, $is-gecko) $base-glow-colour inset,
+		$fringe-glow: 0 0 get-blur-radius(1em * $scale, $is-gecko) $fringe-glow-colour inset
+	);
+}
+
+
+@function get-box-glow-text-shadow($is-gecko: false) {
+	$shadow: 0 0 get-blur-radius(0.5em, $is-gecko) $generic-shadow-colour;
+	@return repeat-value($shadow, 3);
+}
+
+
+@mixin button-glow($mode: hover, $is-gecko: false) {
+
+	$shadow: get-box-glow-outer($is-gecko);
+
+	@if $mode == active {
+		background-color: $button-active-background-colour;
+		border-color: $button-active-border-colour;
+	} @else {
+		border-color: $button-hover-border-colour;
+		text-shadow: get-box-glow-text-shadow($is-gecko);
+
+		$shadow:
+			$shadow,
+
+			get-box-glow-inner($is-gecko: $is-gecko, $scale: 3);
+	}
+
+	box-shadow: $shadow;
+}
+
+
