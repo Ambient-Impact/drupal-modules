@@ -1,0 +1,194 @@
+/* -----------------------------------------------------------------------------
+	Ambient.Impact - Core - Material Design shadow partial
+----------------------------------------------------------------------------- */
+
+// Shadow functions based on:
+// https://css-tricks.com/snippets/sass/material-shadows-mixin/
+
+
+$material-shadow-colour:	black !default;
+
+
+/**
+ * Returns the opacity for the 'top' element of a Material shadow.
+ *
+ * @param {Number} $depth - depth level
+ *
+ * @return {Number}
+ */
+@function material-shadow-top-opacity($depth) {
+	@return nth(.12 .16 .19 .25 .30, $depth);
+}
+
+/**
+ * Returns the 'top' element of a Material shadow.
+ *
+ * @param {Number} $depth - depth level
+ * @param {Number} $opacity - opacity override
+ *
+ * @return {List}
+ */
+@function material-shadow-top($depth, $opacity: null) {
+
+	@if $opacity == null {
+		$opacity: material-shadow-top-opacity($depth);
+	}
+
+	$offset:	nth(1 3 10 14 19,	$depth)	* 1px;
+	$blur:		nth(1 3 10 14 19,	$depth)	* 1px;
+	$colour:	rgba($material-shadow-colour, $opacity);
+
+	@return 0 $offset $blur $colour;
+}
+
+/**
+ * Returns the opacity for the 'bottom' element of a Material shadow.
+ *
+ * @param {Number} $depth - depth level
+ *
+ * @return {Number}
+ */
+@function material-shadow-bottom-opacity($depth) {
+	@return nth(.24 .23 .23 .22 .22, $depth);
+}
+
+/**
+ * Returns the 'bottom' element of a Material shadow.
+ *
+ * @param {Number} $depth - depth level
+ * @param {Number} $opacity - opacity override
+ *
+ * @return {List}
+ */
+@function material-shadow-bottom($depth, $opacity: null) {
+
+	@if $opacity == null {
+		$opacity: material-shadow-bottom-opacity($depth);
+	}
+
+	$offset:	nth(1 3 6 10 15,	$depth)	* 1px;
+	$blur:		nth(1 3 3 5 6,		$depth)	* 1px;
+	$color:		rgba($material-shadow-colour, $opacity);
+
+	@return 0 $offset $blur $color;
+}
+
+/**
+ * Returns a Material shadow list for use with box-shadow, etc.
+ *
+ * @param {Number} $depth - depth level
+ *
+ * @return {List} - consists of:
+ *   1. The shadow that peeks over the top of the element.
+ *   2. The 'bottom' shadow.
+ *   3. The 'top' shadow.
+ */
+@function material-shadow($depth) {
+	@if $depth < 1 or $depth > 5 {
+		@warn "Invalid $depth `#{$depth}` for function `material-shadow`.";
+		@return '';
+	} @else {
+		// Starting shadow is there to ensure the top of the element has a
+		// shadow.
+		@return
+			0 -1px 2px rgba($material-shadow-colour, 0.1),
+			material-shadow-bottom($depth),
+			material-shadow-top($depth);
+	}
+}
+
+/**
+ * Sets a Material shadow as a box-shadow.
+ *
+ * @param {Number} $depth - depth level
+ */
+@mixin material-shadow($depth) {
+	box-shadow: material-shadow($depth);
+}
+
+/**
+ * Returns the downward portion of a Material shadow, for use with CSS filters.
+ *
+ * @param {Number} $depth - depth level
+ *
+ * @return {List}
+ */
+@function material-shadow-filter-downward(
+	$depth: 2
+) {
+	// Grab the 'bottom' Material shadow.
+	$shadow: nth(material-shadow($depth), 2);
+
+	// Decrease the vertical offset by 1 pixel, so small shadows better match
+	// the multi-layered Material shadows used in text-shadow and box-shadow.
+	@if nth($shadow, 2) > 1 {
+		$shadow: set-nth($shadow, 2, nth($shadow, 2) - 1);
+	}
+
+	// Reduce the blur radius by 1 pixel to better match the multi-layered
+	// Material shadows.
+	@if nth($shadow, 3) > 1 {
+		$shadow: set-nth($shadow, 3, nth($shadow, 3) - 1);
+	}
+
+	// Increase the opacity slightly.
+	$shadow: set-nth($shadow, 4, opacify(nth($shadow, 4), 0.1));
+
+	@return $shadow;
+}
+
+/**
+ * Sets the downward-oriented Material shadow on an element as a filter.
+ *
+ * This is useful when you can't use box-shadow or text-shadow. Unfortunately,
+ * filter: drop-shadow() does not support multiple shadows in a comma-separated
+ * list like one would expect, so this is the next best thing. Meant to be used
+ * with material-shadow-filter-ambient on a separate child/parent element.
+ *
+ * @param {Number} $depth - the depth value passed to material-shadow().
+ */
+@mixin material-shadow-filter-downward(
+	$depth: 2
+) {
+	filter: drop-shadow(material-shadow-filter-downward($depth));
+}
+
+/**
+ * Returns the ambient portion of a Material shadow, for use with CSS filters.
+ *
+ * @param {Number} $depth - depth level
+ *
+ * @return {List}
+ */
+@function material-shadow-filter-ambient(
+	$depth: 2
+) {
+	// Grab the 'bottom' Material shadow.
+	$shadow: nth(material-shadow($depth), 2);
+	// Increase the opacity slightly.
+	$shadow: set-nth($shadow, 4, opacify(nth($shadow, 4), 0.1));
+	// Change the vertical offset to zero.
+	$shadow: set-nth($shadow, 2, 0);
+	// Reduce the blur width by a pixel, if we have at least two pixels.
+	@if nth($shadow, 3) > 1px {
+		$shadow: set-nth($shadow, 3, nth($shadow, 3) - 1);
+	}
+
+	@return $shadow;
+}
+
+/**
+ * Sets the ambient Material shadow on an element as a filter.
+ *
+ * This is useful when you can't use box-shadow or text-shadow. Unfortunately,
+ * filter: drop-shadow() does not support multiple shadows in a comma-separated
+ * list like one would expect, so this is the next best thing. Meant to be used
+ * with material-shadow-filter-downward on a separate child/parent element.
+ *
+ * @param {Number} $depth - the depth value passed to material-shadow().
+ */
+@mixin material-shadow-filter-ambient(
+	$depth: 2
+) {
+	filter: drop-shadow(material-shadow-filter-ambient($depth));
+}

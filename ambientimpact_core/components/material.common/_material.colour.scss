@@ -1,0 +1,19 @@
+/* -----------------------------------------------------------------------------
+	Ambient.Impact - Core - Material Design colour partial
+----------------------------------------------------------------------------- */
+
+
+// This is the primary colour (Material Design indigo) used for all elements and
+// highlights, unless overridden on a global or per-element basis.
+$material-primary-colour:	rgb(63, 81, 181)		!default;
+
+
+// Material Design error.
+$material-error-colour:		rgb(219, 68, 55)		!default;
+
+// This is used for various elements that require a line, esp. horizontal.
+$material-line-colour:		hsla(0, 0, 0, 0.15)		!default;
+
+// This is used as a background for flat items (buttons, tabs, etc.) when they
+// are being interacted with, e.g. hovered, focused, etc.
+$material-flat-item-interact-colour:	hsla(0, 0, 0, 0.1)	!default;
