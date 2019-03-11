@@ -13,3 +13,13 @@ framework:
   dependencies:
     - core/drupal
     - core/jquery
+
+ally.js:
+  remote: https://allyjs.io/
+  version: 1.4.1
+  license:
+    name: MIT
+    url: https://github.com/medialize/ally.js/blob/1.4.1/LICENSE.txt
+    gpl-compatible: true
+  js:
+    assets/vendor/ally.js/ally.min.js: { minified: true }
