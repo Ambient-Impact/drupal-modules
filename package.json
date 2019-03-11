@@ -1,0 +1,16 @@
+{
+  "name": "ambientimpact-drupal-modules",
+  "version": "1.0.0",
+  "license": "GPL-2.0",
+  "repository": "gitlab:Ambient.Impact/drupal-modules",
+  "devDependencies": {
+    "grunt": "^1.0.0",
+    "grunt-autoprefixer": "^3.0.4",
+    "grunt-contrib-uglify": "^3.1.0",
+    "grunt-modernizr": "^1.0.2",
+    "grunt-sass": "^2.0.0",
+    "grunt-svgstore": "^1.0.0",
+    "modernizr": "^3.5.0"
+  },
+  "dependencies": {}
+}
