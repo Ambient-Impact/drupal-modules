@@ -1,0 +1,5 @@
+.sublime-grunt.cache
+node_modules
+*/assets/vendor
+.sass-cache
+sftp-config.json
