@@ -1,0 +1,53 @@
+// -----------------------------------------------------------------------------
+//	Ambient.Impact - Core - Link component state partial
+// -----------------------------------------------------------------------------
+
+///
+/// Apply styles to link hover and focus states.
+///
+/// This applies the given styles to the hover state if hover is allowed, on
+/// both the native hover and .proxy-hover class. If inidcated by the parameter,
+/// will also apply the styles on a non-pointer focus.
+///
+/// @param {String} $focus [true]
+///   Whether to also apply the styles to the focus state, either true or false.
+///
+/// @content
+///   The styles to apply on hover and focus (if indicated).
+///
+/// @require {mixin}	yep
+/// @require {mixin}	not-pointer-focus
+///
+@mixin link-hover($focus: true) {
+	@include yep('ambientimpact-global-hover') {
+		&:hover,
+		&.proxy-hover {
+			@content;
+		}
+	}
+
+	@if ($focus == true) {
+		@include not-pointer-focus {
+			@content;
+		}
+	}
+}
+
+///
+/// Apply styles to link active state.
+///
+/// This applies the given styles to the element if it is not a
+/// .material-ripple-container, on both the native active and the .proxy-active
+/// class.
+///
+/// @content
+///   The styles to apply on active state.
+///
+@mixin link-active {
+	&:not(.material-ripple-container) {
+		&:active,
+		&.proxy-active {
+			@content;
+		}
+	}
+}

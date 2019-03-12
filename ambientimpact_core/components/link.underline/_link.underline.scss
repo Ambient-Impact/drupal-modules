@@ -1,0 +1,185 @@
+/* -----------------------------------------------------------------------------
+	Ambient.Impact - Core - Link underline component partial
+----------------------------------------------------------------------------- */
+
+
+// Fancy link underlines require CSS custom properties, so we can safely use
+// them without fallbacks, as the native underlines will be used if custom
+// properties are not supported.
+:root {
+	@include custom-property(
+		'fancy-link-underline-distance',	$text-underline-position
+	);
+	@include custom-property(
+		'fancy-link-underline-thickness',	$text-underline-thickness
+	);
+
+	// These are used by GSAP to fade out the fancy link underlines.
+	@include custom-property(
+		'fancy-link-transition-in-duration',
+		$transition-fade-in-duration
+	);
+	@include custom-property(
+		'fancy-link-transition-out-duration',
+		$transition-fade-out-duration
+	);
+}
+
+///
+/// Class applied via JavaScript to links that contain an image.
+///
+$fancy-link-underlines-has-image-class:
+	'ambientimpact-link-has-image'									!default;
+
+///
+/// Class for text wrapper inside of a link containing an image.
+///
+$fancy-link-underlines-has-image-text-class:
+	'ambientimpact-link-has-image__text'							!default;
+
+///
+/// Apply styles to links for fancy link underlines.
+///
+/// This helper applies the provided styles to:;
+///
+/// * The current element if it doesn't have the class indicating it contains
+///   an image.
+///
+/// * Any link-has-image text wrappers contained in the current element.
+///
+/// @content
+///   The styles to apply to the link or text wrapper.
+///
+/// @require $fancy-link-underlines-has-image-class
+/// @require $fancy-link-underlines-has-image-text-class
+///
+/// @see {mixin} fancy-link-underlines
+/// @see {mixin} remove-fancy-link-underlines
+///
+@mixin fancy-link-underlines-link {
+	// Not a link that contains an image.
+	&:not(.#{$fancy-link-underlines-has-image-class}),
+	// Wrapped link text for links that contain images.
+	.#{$fancy-link-underlines-has-image-text-class} {
+		@content;
+	}
+}
+
+///
+/// Apply fancy link underlines to a link.
+///
+/// Even when available, the native implementation of cropped text underlines
+/// doesn't allow for setting the line thickness, so our solution gives us more
+/// control. If the standard adds this, this should be revisited.
+///
+/// @param {String} $underline-style [solid]
+///   The underline style; should be one of solid, dotted, or dashed.
+///
+/// @output
+///   Styles and custom properties for cleared text underlines, wrapped in
+///   qualifing selectors and @supports.
+///
+/// @require {mixin} fancy-link-underlines-link
+/// @require $fancy-link-underlines-has-image-class
+/// @require {mixin} supports-cleared-text-underline
+/// @require {mixin} text-underline-crop
+/// @require {mixin} selection-active
+/// @require {mixin} selection-inactive
+/// @require {mixin} link-hover
+/// @require {mixin} link-active
+/// @require {mixin} custom-property
+/// @require {function} custom-property
+///
+/// @see {mixin} remove-fancy-link-underlines
+///
+/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-skip-ink
+/// @link https://caniuse.com/#feat=text-decoration
+///
+@mixin fancy-link-underlines($underline-style: solid) {
+	@include fancy-link-underlines-link {
+		@include text-underline(
+			$underline-colour:
+				custom-property('link-underline-colour'),
+			$underline-position:
+				custom-property('fancy-link-underline-distance'),
+			$underline-thickness:
+				custom-property('fancy-link-underline-thickness'),
+			$underline-style: $underline-style
+		) {
+			// Remove the native underlines.
+			text-decoration: none;
+
+			@include custom-property(
+				'link-underline-colour',
+				custom-property('link-underline-normal-colour')
+			);
+		};
+	}
+
+	@include supports-cleared-text-underline {
+		&.#{$fancy-link-underlines-has-image-class} {
+			// Remove the native underlines as these can show up on top of the
+			// fancy underlines for links that contain images, since we don't
+			// target those links directly.
+			text-decoration: none;
+		}
+
+		// Remove crop on selected links when the window is blurred.
+		&.ambientimpact-link-underline-window-blur {
+			@include text-underline-crop(transparent);
+		}
+
+		@include link-hover {
+			@include fancy-link-underlines-link {
+				@include custom-property(
+					'link-underline-colour',
+					custom-property(
+						'link-underline-hover-colour'
+					)
+				);
+			}
+		}
+
+		@include link-active {
+			@include fancy-link-underlines-link {
+				@include custom-property(
+					'link-underline-colour',
+					custom-property(
+						'link-underline-active-colour'
+					)
+				);
+			}
+		}
+	}
+}
+
+///
+/// Remove fancy link underlines from a link.
+///
+/// Note that this does not restore the native underlines - that must be done
+/// separately or via @content if needed.
+///
+/// @content
+///   Optional content that may be included after underlines are removed.
+///
+/// @require {mixin} fancy-link-underlines-link
+/// @require {mixin} supports-cleared-text-underline
+/// @require {mixin} text-underline-crop
+/// @require {mixin} custom-property
+///
+/// @see {mixin} fancy-link-underlines
+///
+@mixin remove-fancy-link-underlines {
+	@include supports-cleared-text-underline {
+		@include fancy-link-underlines-link {
+			@include text-underline-crop(transparent);
+			@include custom-property(
+				'link-underline-colour',
+				transparent !important
+			);
+
+			@content;
+		}
+	}
+}
+
