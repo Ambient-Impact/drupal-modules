@@ -1,0 +1,24 @@
+icons_core:
+  options:
+    prefix: icon-
+  files:
+    ambientimpact_core/icons/core.svg:
+      - ambientimpact_core/icons/core/*.svg
+icons_brands:
+  options:
+    prefix: icon-
+  files:
+    ambientimpact_core/icons/brands.svg:
+      - ambientimpact_core/icons/brands/*.svg
+icons_libricons:
+  options:
+    prefix: icon-
+  files:
+    ambientimpact_core/icons/libricons.svg:
+      - ambientimpact_core/icons/libricons/*.svg
+icons_photoswipe:
+  options:
+    prefix: icon-
+  files:
+    ambientimpact_core/components/photoswipe/icons/photoswipe.svg:
+      - ambientimpact_core/components/photoswipe/icons/photoswipe/*.svg

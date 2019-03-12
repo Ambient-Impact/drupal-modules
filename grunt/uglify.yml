@@ -1,0 +1,12 @@
+module:
+  options:
+    compress:
+      # Note that this removes all console.* calls, not just console.log():
+      # https://github.com/gruntjs/grunt-contrib-uglify#turn-off-console-warnings
+      drop_console: true
+  src:
+    - '{<%= modulePaths %>}/{<%= javascriptPaths %>}/**/*.js'
+    - '!**/*.min.js'
+  ext: .min.js
+  extDot: last
+  expand: true

@@ -1,0 +1,25 @@
+dist:
+  dest: ambientimpact_core/<%= librariesPath %>/modernizr/modernizr.min.js
+  crawl: false
+  uglify: true
+  tests:
+    # Used by several things, including icons.
+    - svg
+    # This is needed to know if we can afford to bind to
+    # transitionend events. If these don't fire, we could end
+    # up with various stuff in unusable states.
+    - csstransitions
+    # These are required by Drupal core.
+    - details
+    - inputtypes
+    - touchevents
+  options:
+    - domPrefixes
+    - prefixed
+    - html5shiv
+    - mq
+    # These are required by Drupal core.
+    - addtest
+    - prefixes
+    - setClasses
+    - teststyles
