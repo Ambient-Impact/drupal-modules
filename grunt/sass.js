@@ -2,24 +2,24 @@
 // which we cannot do via a YAML file. See:
 // https://github.com/sindresorhus/grunt-sass/issues/288
 module.exports = function(grunt, options) {
-	'use strict';
+  'use strict';
 
-	const sass = require('node-sass');
+  const sass = require('node-sass');
 
-	return {
-		module: {
-			options: {
-				implementation:	sass,
-				outputStyle:	'compressed',
-				sourceMap:		true
-			},
-			files: [{
-				src:
-					'{<%= modulePaths %>}/{<%= stylesheetPaths %>}/**/*.scss',
-				ext:	'.css',
-				extDot:	'last',
-				expand:	true,
-			}]
-		}
-	};
+  return {
+    module: {
+      options: {
+        implementation: sass,
+        outputStyle:  'compressed',
+        sourceMap:    true
+      },
+      files: [{
+        src:
+          '{<%= modulePaths %>}/{<%= stylesheetPaths %>}/**/*.scss',
+        ext:  '.css',
+        extDot: 'last',
+        expand: true,
+      }]
+    }
+  };
 };
