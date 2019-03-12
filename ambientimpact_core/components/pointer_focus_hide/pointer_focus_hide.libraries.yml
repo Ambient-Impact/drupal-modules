@@ -1,0 +1,9 @@
+component.pointer_focus_hide:
+  version: 1.0
+  css:
+    state:
+      pointer_focus_hide.css: {}
+  js:
+    pointer_focus_hide.js: {}
+  dependencies:
+    - ambientimpact_core/ally.js

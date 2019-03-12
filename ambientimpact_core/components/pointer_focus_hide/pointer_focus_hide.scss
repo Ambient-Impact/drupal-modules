@@ -1,0 +1,8 @@
+// -----------------------------------------------------------------------------
+//	Ambient.Impact - Core - Hide pointer focus component
+// -----------------------------------------------------------------------------
+
+
+html[data-focus-source=pointer] .pointer-focus-hide {
+	outline-color: transparent !important;
+}

@@ -54,11 +54,22 @@ function ambientimpact_core_theme($existing, $type, $theme, $path) {
  *
  * This adds our general library which contains common and layout CSS.
  *
+ * This attaches the following components unconditionally:
+ * - pointer_focus_hide
+ *
  * This outputs the framework and component JavaScript settings to
  * drupalSettings.AmbientImpact.
  */
 function ambientimpact_core_page_attachments(array &$page) {
 	$page['#attached']['library'][] = 'ambientimpact_core/core';
+
+	// Unconditionally attach these components to the page.
+	foreach ([
+		'pointer_focus_hide',
+	] as $name) {
+		$page['#attached']['library'][] =
+			'ambientimpact_core/component.' . $name;
+	}
 
 	$jsSettings = [
 		'framework'	=> [

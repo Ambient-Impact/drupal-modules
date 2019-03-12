@@ -1,0 +1,30 @@
+// -----------------------------------------------------------------------------
+//	Ambient.Impact - Core - Hide pointer focus component partial
+// -----------------------------------------------------------------------------
+
+
+///
+/// Apply styles to an element when it is focused by the pointer.
+///
+/// @content
+///
+@mixin pointer-focus-hide {
+	@include root-conditions('[data-focus-source=pointer]', 'html') {
+		&.pointer-focus-hide:focus {
+			@content;
+		}
+	}
+}
+
+///
+/// Apply styles to an element when it is focused by anything but a pointer.
+///
+/// @content
+///
+@mixin not-pointer-focus {
+	@include root-conditions(':not([data-focus-source=pointer])', 'html') {
+		&:not(:hover):focus {
+			@content;
+		}
+	}
+}
