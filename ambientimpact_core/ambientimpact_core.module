@@ -100,8 +100,10 @@ function ambientimpact_core_library_info_build() {
  * Modernizr path is used, so as not to replace another module's override.
  */
 function ambientimpact_core_library_info_alter(&$libraries, $extension) {
+	$moduleHandler		= \Drupal::service('module_handler');
 	$coreModernizrPath	= 'assets/vendor/modernizr/modernizr.min.js';
-	$ourModernizrPath	= '../sites/all/assets/vendor/modernizr/modernizr.min.js';
+	$ourModernizrPath	= '../' . $moduleHandler
+		->getModule('ambientimpact_core')->getPath() . '/' . $coreModernizrPath;
 
 	if (
 		$extension === 'core' &&
