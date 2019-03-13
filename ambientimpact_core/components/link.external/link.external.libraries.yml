@@ -1,0 +1,3 @@
+component.link.external:
+  js:
+    link.external.js: {}
