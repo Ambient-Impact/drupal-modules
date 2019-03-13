@@ -134,6 +134,16 @@ function ambientimpact_core_library_info_alter(&$libraries, $extension) {
 }
 
 /**
+ * Implements hook_element_info_alter().
+ */
+// function ambientimpact_core_element_info_alter(array &$info) {
+// 	if (isset($info['toolbar'])) {
+// 		$info['toolbar']['#attached']['library'][] =
+// 			'ambientimpact_core/component.toolbar';
+// 	}
+// }
+
+/**
  * Prepare variables for HTML document templates.
  *
  * Default template: html.html.twig.
