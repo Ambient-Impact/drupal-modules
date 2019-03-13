@@ -1,0 +1,7 @@
+component.link.image:
+  js:
+    link.image.js: {}
+  dependencies:
+    - ambientimpact_core/component.jquery
+    - ambientimpact_core/component.link.external
+    - ambientimpact_core/component.link.file
