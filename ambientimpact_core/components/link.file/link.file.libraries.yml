@@ -1,0 +1,5 @@
+component.link.file:
+  js:
+    link.file.js: {}
+  dependencies:
+    - ambientimpact_core/component.link.external
