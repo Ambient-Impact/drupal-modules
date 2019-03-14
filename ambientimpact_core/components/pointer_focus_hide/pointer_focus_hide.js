@@ -19,7 +19,7 @@ AmbientImpact.addComponent('pointerFocusHide', function(
 	// List of element selectors to watch. Is there a point to exposing this?
 	this.elements = [
 		'a', ':button', ':submit', ':reset', ':radio', ':checkbox',
-		'[tabindex][tabindex!="-1"]'
+		'[role="button"]', '[tabindex][tabindex!="-1"]'
 	];
 
 	// The class to apply to the above elements when a pointer was used to focus
