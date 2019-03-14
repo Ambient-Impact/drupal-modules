@@ -1,0 +1,19 @@
+// -----------------------------------------------------------------------------
+//	Ambient.Impact - Core - Abbreviation (abbr) component partial
+// -----------------------------------------------------------------------------
+
+
+///
+/// Set provided content on <abbr> elements that have titles/tooltips.
+///
+/// This applies both to a normal title attribute and when Tippy.js has modified
+/// the element.
+///
+/// @content The content to wrap in the selector.
+///
+@mixin abbr {
+	abbr[title],
+	abbr[data-original-title] {
+		@content;
+	}
+}
