@@ -75,7 +75,7 @@ class ComponentController extends ControllerBase {
 			'#type'		=> 'html_tag',
 			'#tag'		=> 'p',
 			'#value'	=> $this->t(
-				'This lists all discovered Ambient.Impact Component plugins and their configuration arrays. Each component is instantiated once.'
+				'This lists all discovered Ambient.Impact Component plugins and some information about each plugin.'
 			),
 		];
 
