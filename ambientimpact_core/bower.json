@@ -1,5 +1,5 @@
 {
-  "name": "Ambient.Impact - Core",
+  "name": "ambientimpact-core",
   "dependencies": {
     "jquery.parseparams": "https://gist.github.com/956897.git",
     "autosize": "3.0.4",
