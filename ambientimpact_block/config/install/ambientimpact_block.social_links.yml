@@ -25,6 +25,8 @@ networks:
     title: 'Steam'
   github:
     title: 'GitHub'
+  gitlab:
+    title: 'GitLab'
   tumblr:
     title: 'Tumblr'
 
