@@ -1,5 +1,4 @@
 component.pointer_focus_hide:
-  version: 1.0
   css:
     state:
       pointer_focus_hide.css: {}

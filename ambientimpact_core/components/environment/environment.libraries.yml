@@ -1,4 +1,3 @@
 component.environment:
-  version: 1.0
   js:
     environment.js: {}

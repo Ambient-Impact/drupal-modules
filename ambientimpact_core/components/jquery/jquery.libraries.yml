@@ -1,5 +1,4 @@
 component.jquery:
-  version: 1.0
   js:
     jquery.js: {}
     jquery.selector.textall.js: {}

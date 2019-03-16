@@ -1,5 +1,4 @@
 component.icon:
-  version: 1.0
   css:
     component:
       icon.css: {}
