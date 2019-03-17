@@ -25,7 +25,7 @@ class IconTwigExtension extends \Twig_Extension {
   }
 
   /**
-   * In this function we can declare the extension function.
+   * In this function we can declare the extension callback.
    */
   public function getFunctions() {
     return [
