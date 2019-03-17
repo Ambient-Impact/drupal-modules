@@ -5,3 +5,7 @@ services:
   plugin.manager.ambientimpact_icon_bundle:
     class: Drupal\ambientimpact_core\IconBundlePluginManager
     parent: default_plugin_manager
+  ambientimpact_core.twig.IconTwigExtension:
+    class: Drupal\ambientimpact_core\Template\IconTwigExtension
+    tags:
+      - { name: twig.extension }
