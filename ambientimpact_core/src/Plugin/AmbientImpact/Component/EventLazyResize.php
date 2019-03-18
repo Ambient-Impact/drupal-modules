@@ -8,7 +8,7 @@ use Drupal\ambientimpact_core\ComponentBase;
  * Lazy resize event component.
  *
  * @Component(
- *   id = "event.lazyResize",
+ *   id = "event.lazy_resize",
  *   title = @Translation("Lazy resize event"),
  *   description = @Translation("A throttled resize event triggered on the window.")
  * )
