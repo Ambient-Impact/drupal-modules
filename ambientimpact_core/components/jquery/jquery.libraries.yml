@@ -2,4 +2,4 @@ component.jquery:
   js:
     jquery.js: {}
     jquery.selector.textall.js: {}
-    jquery.textnodes.js: {}
+    jquery.textNodes.js: {}
