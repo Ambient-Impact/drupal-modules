@@ -1,0 +1,32 @@
+// -----------------------------------------------------------------------------
+//	Ambient.Impact - Core - Immerse component partial
+// -----------------------------------------------------------------------------
+
+
+///
+/// Apply styles when we're in immerse mode.
+///
+/// @content The styles to apply when immersed.
+///
+@mixin on-immerse {
+	@include root-conditions('.is-immersed', 'body') {
+		@content;
+	}
+}
+
+///
+/// Hide an element when in immerse mode.
+///
+@mixin hide-on-immerse {
+	@include on-immerse {
+		visibility:	hidden;
+
+		@supports (pointer-events: none) {
+			visibility:		visible;
+
+			pointer-events:	none;
+
+			opacity:		0;
+		}
+	}
+}
