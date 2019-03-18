@@ -24,13 +24,11 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-modernizr');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-svgstore');
 
 	grunt.registerTask('all', [
 		'sass',
 		'autoprefixer',
-		'uglify',
 		'svgstore',
 	]);
 
