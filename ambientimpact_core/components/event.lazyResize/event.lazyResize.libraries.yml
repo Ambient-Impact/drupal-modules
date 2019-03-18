@@ -1,0 +1,5 @@
+component.event.lazyResize:
+  js:
+    event.lazyResize.js: {}
+  dependencies:
+    - core/drupal.debounce
