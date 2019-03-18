@@ -1,0 +1,21 @@
+// -----------------------------------------------------------------------------
+//	Ambient.Impact - Core - Headroom.js component
+// -----------------------------------------------------------------------------
+
+// See http://wicky.nillia.ms/headroom.js/
+
+@import '../../stylesheets/_common';
+
+
+.headroom {
+	@include headroom-base;
+	@include headroom-pinned;
+
+	&--unpinned {
+		@include headroom-unpinned;
+	}
+
+	&--not-top {
+		@include headroom-immerse;
+	}
+}

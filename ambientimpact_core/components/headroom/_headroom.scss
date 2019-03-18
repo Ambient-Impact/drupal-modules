@@ -1,0 +1,122 @@
+// -----------------------------------------------------------------------------
+//	Ambient.Impact - Core - Headroom.js component partial
+// -----------------------------------------------------------------------------
+
+// Make sure to import the common partial if including this, as some things are
+// needed from there.
+
+
+///
+/// The easing or timing function to use for Headroom.js element transitions.
+///
+$headroom-easing:				$easing-sharp	!default;
+
+///
+/// The transition duration to use for Headroom.js elements.
+///
+$headroom-duration:				200ms			!default;
+
+///
+/// The transform value to apply to pinned (visible) Headroom.js elements.
+///
+/// This must be a positive number. It will be made negative when needed. This
+/// is set to 1px to avoid rounding errors in browsers that may result in a 1px
+/// gap being visible, e.g. in Blink.
+///
+$headroom-translate-pinned:		1px				!default;
+
+///
+/// The transform value to apply to unpinned (hidden) Headroom.js elements.
+///
+/// This must be a positive number. It will be made negative when needed. It's
+/// set a bit higher than 100% to account for and sufficiently hide drop shadows
+/// on the element.
+///
+$headroom-translate-unpinned:	105%			!default;
+
+
+///
+/// The base styles for Headroom.js elements.
+///
+@mixin headroom-base {
+	@supports (position: sticky) {
+		position:		sticky;
+
+		// Sticky positioning uses 'top' to determine the offset from the top of
+		// the viewport or scroll container to stick to, and when to go from
+		// behaving like static/relative to behaving like fixed. This will get
+		// overridden by the JS component with the viewport displacement so it's
+		// just here in case.
+		top:			0;
+
+		transition-property:		transform;
+		transition-duration:		$headroom-duration;
+		transition-timing-function:	$headroom-easing;
+
+		will-change:	transform;
+	}
+}
+
+///
+/// Styles for pinned (visible) Headroom.js elements.
+///
+/// @param {Number} $translate [$headroom-translate-pinned]
+///   - The amount to translate by. Must a positive number, will be made
+///     negative as needed.
+///
+@mixin headroom-pinned($translate: $headroom-translate-pinned) {
+	@supports (position: sticky) {
+		transform:		translateY($translate * -1);
+	}
+}
+
+///
+/// Styles for unpinned (hidden) Headroom.js elements.
+///
+/// @param {Number} $translate [$headroom-translate-unpinned]
+///   - The amount to translate by. Must a positive number, will be made
+///     negative as needed.
+///
+@mixin headroom-unpinned($translate: $headroom-translate-unpinned) {
+	@supports (position: sticky) {
+		transform:		translateY($translate * -1);
+	}
+}
+
+///
+/// Hide Headroom.js elements on immerse mode.
+///
+/// If you're doing any complex layout stuff with Headroom elements being offset
+/// from the top, you'd normally only want to do this if the Headroom element is
+/// not at the top of the scrolling area, and also only apply a higher z-index
+/// at that time as well, i.e. only when it's stuck to the top of the scrolling
+/// area.
+///
+/// @param {Number} $translate [$headroom-translate-unpinned]
+///   - The amount to translate by. Must a positive number, will be made
+///     negative as needed.
+///
+/// @see {mixin} on-immerse
+///
+@mixin headroom-immerse($translate: $headroom-translate-unpinned) {
+	// Hide when in immerse mode.
+	@include on-immerse {
+		// Include this as a fallback in case CSS Custom Properties and/or
+		// calc() are not supported.
+		@include headroom-unpinned($translate);
+
+		// This calculates the top offset, whether or not it's set. If it is,
+		// it's used, if not, a value of 0px is used. Note that calc() will
+		// evaluate the whole expression to 0 if the px unit is not added to the
+		// 0. :|
+		$calc: calc(
+			var(--offset-top, 0px) * -1 - #{$translate}
+		);
+		$transform:	translateY($calc);
+
+		// Do we need to check for the second condition?
+		@supports (position: sticky) and #{'(transform: #{$transform})'} {
+			transform:	#{$transform};
+		}
+	}
+}
