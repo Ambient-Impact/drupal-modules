@@ -3,7 +3,15 @@
 ----------------------------------------------------------------------------- */
 
 
-$material-is-dark:			false !default;
+$material-is-dark:					false !default;
 
-$material-border-radius:	2px !default;
-$material-item-padding:		0.6em 1em;
+$material-border-radius:			2px !default;
+$material-item-padding:				0.6em 1em;
+
+///
+/// Material item padding taking text align weirdness into account.
+///
+/// This basically just adds a bit to the top padding to offset the text
+/// downwards.
+///
+$material-item-padding-text-align:	0.75em 1em 0.6em;
