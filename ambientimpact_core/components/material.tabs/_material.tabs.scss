@@ -1,0 +1,92 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Core - Material tabs partial
+// -----------------------------------------------------------------------------
+
+///
+/// Material tabs container underline colour.
+///
+$material-tabs-underline-colour: $material-line-colour !default;
+
+///
+/// Material tabs container underline thickness.
+///
+$material-tabs-underline-thickness: 1px !default;
+
+///
+/// Material tabs active indicator underline colour.
+///
+$material-tabs-indicator-colour: $material-primary-colour !default;
+
+///
+/// Material tabs active indicator underline thickness.
+///
+$material-tabs-indicator-thickness: 2px !default;
+
+///
+/// Material tabs padding.
+///
+$material-tabs-padding: $material-item-padding-text-align !default;
+
+///
+/// Style and layout for a Material tabs container.
+///
+/// This is usually applied to a <ul> or similar element.
+///
+@mixin material-tabs-container {
+  border-bottom:
+    $material-tabs-underline-thickness solid $material-tabs-underline-colour;
+
+  // Fallback if flex-wrap: wrap is not supported.
+  > * {
+    display: inline-block;
+  }
+
+  // Setting items as wrapping flex means that any white space between nodes is
+  // ignored, e.g. in template files.
+  @supports (flex-wrap: wrap) {
+    display:    flex;
+    flex-wrap:  wrap;
+
+    > * {
+      display:  block;
+    }
+  }
+}
+
+///
+/// Style and layout for Material tab items.
+///
+/// This is usually applied to interactive elements such as <a>.
+///
+/// @see {mixin} link-hover
+///   Used to set interacted state.
+///
+@mixin material-tabs-item {
+  position: relative;
+
+  padding:  $material-tabs-padding;
+
+  font-weight:    strong;
+  text-transform: uppercase;
+  line-height:    1;
+
+  @include link-hover {
+    background-color: $material-flat-item-interact-colour;
+  }
+
+  // This adds a bar under the active item to indicate its active state.
+  &.is-active::after {
+    content: '';
+
+    position: absolute;
+
+    left:   0;
+    right:  0;
+    // Shift down to cancel out the container underline.
+    bottom: -$material-tabs-underline-thickness;
+
+    height: $material-tabs-indicator-thickness;
+
+    background-color: $material-tabs-indicator-colour;
+  }
+}
