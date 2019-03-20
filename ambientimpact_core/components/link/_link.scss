@@ -24,9 +24,7 @@
 /// @require {mixin}	link-colours
 ///
 @mixin link($background: $background-colour) {
-	&, &::before, &::after {
-		@include transition-fade-normal();
-	}
+	@include transition-fade-normal();
 
 	// Override AdaptiveTheme so that underlines are always visible, not just
 	// on hover, making them more obvious on mobile.
@@ -40,9 +38,7 @@
 	text-decoration-skip-ink:	auto;
 
 	@include link-hover {
-		&, &::before, &::after {
-			@include transition-fade-hover();
-		}
+		@include transition-fade-hover();
 	}
 
 	@include link-colours($background);
