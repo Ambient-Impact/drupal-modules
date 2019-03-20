@@ -120,7 +120,10 @@
   left:         50%;
   margin-left:  -($shadow-width / 2);
 
-  bottom:       -$height;
+  // @todo Is this needed? This pseudo-element is already floating with its top
+  // against the underside of its parent, and this value still seems to allow
+  // a 1px space to creep in, even if px are used.
+  // bottom:       -$height;
 
   // Set to larger than the width of the viewport, along with a bit of height.
   width:      $shadow-width;
