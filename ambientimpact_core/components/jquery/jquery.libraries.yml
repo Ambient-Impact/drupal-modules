@@ -3,3 +3,5 @@ component.jquery:
     jquery.js: {}
     jquery.selector.textall.js: {}
     jquery.textNodes.js: {}
+  dependencies:
+    - core/jquery
