@@ -9,4 +9,5 @@ component.icon:
     icon.get.js: {}
     icon.jquery.js: {}
   dependencies:
+    - core/modernizr
     - ambientimpact_core/component.jquery
