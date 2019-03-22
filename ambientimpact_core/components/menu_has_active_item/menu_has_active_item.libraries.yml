@@ -1,5 +1,0 @@
-component.menu_has_active_item:
-  js:
-    menu_has_active_item.js: {}
-  dependencies:
-    - ambientimpact_core/ally.js
