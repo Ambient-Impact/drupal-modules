@@ -1,49 +1,48 @@
-/* -----------------------------------------------------------------------------
-	Ambient.Impact - Core - Material Design button partial
------------------------------------------------------------------------------ */
-
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Core - Material Design button partial
+// -----------------------------------------------------------------------------
 
 ///
 /// Material button background colour, light variant.
 ///
 $material-button-background-colour-light:
-	darken($material-panel-background-colour-light, 10%)	!default;
+  darken($material-panel-background-colour-light, 10%)  !default;
 
 ///
 /// Material button background colour, light variant, with user interaction.
 ///
 $material-button-background-colour-light-interact:
-	darken($material-button-background-colour-light, 10%)	!default;
+  darken($material-button-background-colour-light, 10%) !default;
 
 ///
 /// Material button background colour, dark variant.
 ///
 $material-button-background-colour-dark:
-	lighten($material-panel-background-colour-dark, 10%)	!default;
+  lighten($material-panel-background-colour-dark, 10%)  !default;
 
 ///
 /// Material button background colour, dark variant, with user interaction.
 ///
 $material-button-background-colour-dark-interact:
-	lighten($material-button-background-colour-dark, 10%)	!default;
+  lighten($material-button-background-colour-dark, 10%) !default;
 
 ///
 /// Material button background colour, light variant, with user interaction.
 ///
 $material-button-background-colour-light-interact:
-	darken($material-button-background-colour-light, 10%)	!default;
+  darken($material-button-background-colour-light, 10%) !default;
 
 ///
 /// Material button foreground colour when button background colour is light.
 ///
 $material-button-foreground-colour-on-light:
-	$foreground-colour-on-light								!default;
+  $foreground-colour-on-light               !default;
 
 ///
 /// Material button foreground colour when button background colour is dark.
 ///
 $material-button-foreground-colour-on-dark:
-	$foreground-colour-on-dark								!default;
+  $foreground-colour-on-dark                !default;
 
 ///
 /// Material button padding.
@@ -51,12 +50,12 @@ $material-button-foreground-colour-on-dark:
 /// These specific values allow us to vertically centre text. They work in
 /// concert with the button's line-height value to do this.
 ///
-$material-button-padding:	0.7em 1em 0.6em					!default;
+$material-button-padding: 0.7em 1em 0.6em         !default;
 
 ///
 /// Material button border radius.
 ///
-$material-button-border-radius:	$material-border-radius		!default;
+$material-button-border-radius: $material-border-radius   !default;
 
 
 ///
@@ -101,109 +100,109 @@ $material-button-border-radius:	$material-border-radius		!default;
 /// @author Matei "Ambient.Impact" Stanca
 ///
 @mixin material-button(
-	$background-colour:				$material-button-background-colour-light,
-	$background-colour-interact:
-		$material-button-background-colour-light-interact,
-	$background-colour-reference:			null,
-	$background-colour-interact-reference:	null,
+  $background-colour:       $material-button-background-colour-light,
+  $background-colour-interact:
+    $material-button-background-colour-light-interact,
+  $background-colour-reference:     null,
+  $background-colour-interact-reference:  null,
 
-	$foreground-colour-on-light:	$foreground-colour-on-light,
-	$foreground-colour-on-dark:		$foreground-colour-on-dark,
+  $foreground-colour-on-light:  $foreground-colour-on-light,
+  $foreground-colour-on-dark:   $foreground-colour-on-dark,
 
-	$shadow-depth:					1,
+  $shadow-depth:          1,
 
-	$border-radius:					$material-button-border-radius
+  $border-radius:         $material-button-border-radius
 ) {
-	position:	relative;
-	z-index:	1;
+  position: relative;
+  z-index:  1;
 
-	padding:	$material-button-padding;
+  padding:  $material-button-padding;
 
-	border:				0;
-	&,
-	&::before,
-	&::after,
-	.material-ripple {
-		border-radius:	$border-radius;
-	}
+  border:       0;
+  &,
+  &::before,
+  &::after,
+  .material-ripple {
+    border-radius:  $border-radius;
+  }
 
-	@include set-colours(
-		$background:			$background-colour,
-		$background-reference:	$background-colour-reference,
-		$foreground-on-light:	$foreground-colour-on-light,
-		$foreground-on-dark:	$foreground-colour-on-dark
-	);
+  @include set-colours(
+    $background:      $background-colour,
+    $background-reference:  $background-colour-reference,
+    $foreground-on-light: $foreground-colour-on-light,
+    $foreground-on-dark:  $foreground-colour-on-dark
+  );
 
-	// Only add a shadow if the depth is a valid value. This allows for passing
-	// anything else to disable the shadow.
-	@if $shadow-depth >= 1 and $shadow-depth <= 5 {
-		@include material-button-shadow($shadow-depth);
-	}
+  // Only add a shadow if the depth is a valid value. This allows for passing
+  // anything else to disable the shadow.
+  @if $shadow-depth >= 1 and $shadow-depth <= 5 {
+    @include material-button-shadow($shadow-depth);
+  }
 
-	@include transition-fade-base();
+  @include transition-fade-base();
 
-	text-transform:	uppercase;
-	font-weight:	bold;
-	// Line height is set to this in an attempt to vertically centre text. It
-	// works in concert with the vertical padding values to do so.
-	line-height:	1.2;
+  text-transform: uppercase;
+  font-weight:  bold;
+  // Line height is set to this in an attempt to vertically centre text. It
+  // works in concert with the vertical padding values to do so.
+  line-height:  1.2;
 
-	&::before,
-	&::after {
-		content:	'';
+  &::before,
+  &::after {
+    content:  '';
 
-		display:	block;
+    display:  block;
 
-		position:	absolute;
+    position: absolute;
 
-		top:		0;
-		left:		0;
+    top:    0;
+    left:   0;
 
-		width:		100%;
-		height:		100%;
+    width:    100%;
+    height:   100%;
 
-		margin:		0;
-		padding:	0;
+    margin:   0;
+    padding:  0;
 
-		z-index:	-1;
+    z-index:  -1;
 
-		@include transition-fade-base();
-	}
+    @include transition-fade-base();
+  }
 
-	// Apply hover/focus styles on hover, if hover styles are allowed.
-	@include yep('ambientimpact-global-hover') {
-		&:not(:disabled):hover {
-			@include material-button-interact(
-				$background-colour-interact,
-				$foreground-colour-on-light,
-				$foreground-colour-on-dark,
-				$background-colour-interact-reference
-			);
-		}
-	}
-	// Apply hover/focus styles on non-pointer focus.
-	@include not-pointer-focus {
-		&:not(:disabled) {
-			@include material-button-interact(
-				$background-colour-interact,
-				$foreground-colour-on-light,
-				$foreground-colour-on-dark,
-				$background-colour-interact-reference
-			);
-		}
-	}
-	// Disabled buttons get faded out foreground colours.
-	&:disabled {
-		color: rgba($foreground-colour, 0.3);
-		@include set-colours(
-			$background:
-				$background-colour,
-			$foreground-on-light:
-				transparentize($foreground-colour-on-light,	0.7),
-			$foreground-on-dark:
-				transparentize($foreground-colour-on-dark,	0.7)
-		);
-	}
+  // Apply hover/focus styles on hover, if hover styles are allowed.
+  @include yep('ambientimpact-global-hover') {
+    &:not(:disabled):hover {
+      @include material-button-interact(
+        $background-colour-interact,
+        $foreground-colour-on-light,
+        $foreground-colour-on-dark,
+        $background-colour-interact-reference
+      );
+    }
+  }
+  // Apply hover/focus styles on non-pointer focus.
+  @include not-pointer-focus {
+    &:not(:disabled) {
+      @include material-button-interact(
+        $background-colour-interact,
+        $foreground-colour-on-light,
+        $foreground-colour-on-dark,
+        $background-colour-interact-reference
+      );
+    }
+  }
+  // Disabled buttons get faded out foreground colours.
+  &:disabled {
+    color: rgba($foreground-colour, 0.3);
+    @include set-colours(
+      $background:
+        $background-colour,
+      $foreground-on-light:
+        transparentize($foreground-colour-on-light, 0.7),
+      $foreground-on-dark:
+        transparentize($foreground-colour-on-dark,  0.7)
+    );
+  }
 }
 
 ///
@@ -228,25 +227,25 @@ $material-button-border-radius:	$material-border-radius		!default;
 /// @see {mixin} transition-fade-active
 ///
 @mixin material-button-interact(
-	$background-colour,
-	$foreground-colour-on-light,
-	$foreground-colour-on-dark,
-	$background-colour-reference:	null
+  $background-colour,
+  $foreground-colour-on-light,
+  $foreground-colour-on-dark,
+  $background-colour-reference: null
 ) {
-	// In addition to requiring the colours here to be passed explicitly, this
-	// overrides the colour of links masquerading as buttons.
-	@include set-colours(
-		$background:			$background-colour,
-		$background-reference:	$background-colour-reference,
-		$foreground-on-light:	$foreground-colour-on-light,
-		$foreground-on-dark:	$foreground-colour-on-dark
-	);
+  // In addition to requiring the colours here to be passed explicitly, this
+  // overrides the colour of links masquerading as buttons.
+  @include set-colours(
+    $background:      $background-colour,
+    $background-reference:  $background-colour-reference,
+    $foreground-on-light: $foreground-colour-on-light,
+    $foreground-on-dark:  $foreground-colour-on-dark
+  );
 
-	&,
-	&::before,
-	&::after {
-		@include transition-fade-active();
-	}
+  &,
+  &::before,
+  &::after {
+    @include transition-fade-active();
+  }
 }
 
 ///
@@ -268,41 +267,41 @@ $material-button-border-radius:	$material-border-radius		!default;
 /// @link http://codepen.io/stoikerty/pen/Glwxi
 ///
 @mixin material-button-shadow($depth) {
-	@if $depth < 1 or $depth > 5 {
-		@warn "Invalid $depth `#{$depth}` for mixin `material-button-shadow`.";
-	} @else {
-		$depth-map: sl-replace-nth(0 0 0 0 0, $depth, 1);
+  @if $depth < 1 or $depth > 5 {
+    @warn "Invalid $depth `#{$depth}` for mixin `material-button-shadow`.";
+  } @else {
+    $depth-map: sl-replace-nth(0 0 0 0 0, $depth, 1);
 
-		// Top shadow
-		&::before {
-			opacity: material-shadow-top-opacity($depth);
+    // Top shadow
+    &::before {
+      opacity: material-shadow-top-opacity($depth);
 
-			$shadow: ();
-			@for $i from 1 through 5 {
-				$shadow: append(
-					$shadow,
-					material-shadow-top($i, nth($depth-map, $i)),
-					comma
-				);
-			}
-			box-shadow: $shadow;
-		}
+      $shadow: ();
+      @for $i from 1 through 5 {
+        $shadow: append(
+          $shadow,
+          material-shadow-top($i, nth($depth-map, $i)),
+          comma
+        );
+      }
+      box-shadow: $shadow;
+    }
 
-		// Bottom shadow
-		&::after {
-			opacity: material-shadow-bottom-opacity($depth);
+    // Bottom shadow
+    &::after {
+      opacity: material-shadow-bottom-opacity($depth);
 
-			$shadow: ();
-			@for $i from 1 through 5 {
-				$shadow: append(
-					$shadow,
-					material-shadow-bottom($i, nth($depth-map, $i)),
-					comma
-				);
-			}
-			box-shadow: $shadow;
-		}
-	}
+      $shadow: ();
+      @for $i from 1 through 5 {
+        $shadow: append(
+          $shadow,
+          material-shadow-bottom($i, nth($depth-map, $i)),
+          comma
+        );
+      }
+      box-shadow: $shadow;
+    }
+  }
 }
 
 ///
@@ -332,27 +331,27 @@ $material-button-border-radius:	$material-border-radius		!default;
 /// @author Matei "Ambient.Impact" Stanca
 ///
 @mixin material-button-fab(
-	$background-colour:				$material-button-background-colour,
-	$background-colour-interact:	$material-button-background-colour-interact,
-	$icon-size:						$icon-size,
-	$padding:						$icon-size * 0.9
+  $background-colour:       $material-button-background-colour,
+  $background-colour-interact:  $material-button-background-colour-interact,
+  $icon-size:           $icon-size,
+  $padding:           $icon-size * 0.9
 ) {
-	// The border radius is exactly half the icon size plus padding. This allows
-	// buttons to be rounded rectangles if the contents do not fit inside a
-	// perfect circle, which is preferable to just setting a fixed size and
-	// having the content overflow.
-	$border-radius:	($icon-size + ($padding * 2)) / 2;
+  // The border radius is exactly half the icon size plus padding. This allows
+  // buttons to be rounded rectangles if the contents do not fit inside a
+  // perfect circle, which is preferable to just setting a fixed size and
+  // having the content overflow.
+  $border-radius: ($icon-size + ($padding * 2)) / 2;
 
-	@include material-button(
-		$background-colour:				$background-colour,
-		$background-colour-interact:	$background-colour-interact,
-		$shadow-depth:					2,
-		$border-radius:					$border-radius
-	);
+  @include material-button(
+    $background-colour:       $background-colour,
+    $background-colour-interact:  $background-colour-interact,
+    $shadow-depth:          2,
+    $border-radius:         $border-radius
+  );
 
-	padding: $padding;
+  padding: $padding;
 
-	.ambientimpact-icon {
-		@include set-icon-size($icon-size);
-	}
+  .ambientimpact-icon {
+    @include set-icon-size($icon-size);
+  }
 }
