@@ -2,6 +2,14 @@
 //   Ambient.Impact - Core - Material Design button partial
 // -----------------------------------------------------------------------------
 
+// Note that implementing buttons as <button> elements in Drupal 8 is more
+// challenging than in Drupal 7, so parts of the following mixins have been
+// commented out where they assume a <button> and its support of ::before and
+// ::after, which <input> elements do not support. There is an ongoing issue
+// with attempts to do this in core, but it seems to have stalled as of March
+// 2019.
+// @see https://www.drupal.org/project/drupal/issues/1671190
+
 ///
 /// Material button background colour, light variant.
 ///
@@ -120,8 +128,8 @@ $material-button-border-radius: $material-border-radius   !default;
 
   border:       0;
   &,
-  &::before,
-  &::after,
+  // &::before,
+  // &::after,
   .material-ripple {
     border-radius:  $border-radius;
   }
@@ -136,7 +144,8 @@ $material-button-border-radius: $material-border-radius   !default;
   // Only add a shadow if the depth is a valid value. This allows for passing
   // anything else to disable the shadow.
   @if $shadow-depth >= 1 and $shadow-depth <= 5 {
-    @include material-button-shadow($shadow-depth);
+    // @include material-button-shadow($shadow-depth);
+    @include material-shadow($shadow-depth);
   }
 
   @include transition-fade-base();
@@ -147,27 +156,27 @@ $material-button-border-radius: $material-border-radius   !default;
   // works in concert with the vertical padding values to do so.
   line-height:  1.2;
 
-  &::before,
-  &::after {
-    content:  '';
+  // &::before,
+  // &::after {
+  //   content:  '';
 
-    display:  block;
+  //   display:  block;
 
-    position: absolute;
+  //   position: absolute;
 
-    top:    0;
-    left:   0;
+  //   top:    0;
+  //   left:   0;
 
-    width:    100%;
-    height:   100%;
+  //   width:    100%;
+  //   height:   100%;
 
-    margin:   0;
-    padding:  0;
+  //   margin:   0;
+  //   padding:  0;
 
-    z-index:  -1;
+  //   z-index:  -1;
 
-    @include transition-fade-base();
-  }
+  //   @include transition-fade-base();
+  // }
 
   // Apply hover/focus styles on hover, if hover styles are allowed.
   @include yep('ambientimpact-global-hover') {
