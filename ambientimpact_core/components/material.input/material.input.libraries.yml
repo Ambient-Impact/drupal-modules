@@ -1,0 +1,7 @@
+component.material.input:
+  js:
+    material.input.js: {}
+  dependencies:
+    - ambientimpact_core/ally.js
+    - ambientimpact_core/component.jquery
+    - ambientimpact_core/component.textarea
