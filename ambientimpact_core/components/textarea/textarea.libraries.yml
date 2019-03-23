@@ -1,0 +1,8 @@
+component.textarea:
+  css:
+    component:
+      textarea.css: {}
+  js:
+    textarea.js: {}
+  dependencies:
+    - ambientimpact_core/autosize

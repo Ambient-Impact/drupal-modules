@@ -1,0 +1,13 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Core - Textarea component
+// -----------------------------------------------------------------------------
+
+@import '../../stylesheets/_common.scss';
+
+.autosize-textarea-wrapper textarea {
+  resize: none;
+
+  @include yep('ambientimpact-expensive-effects') {
+    transition: height 0.2s $easing-decelerate;
+  }
+}
