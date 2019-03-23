@@ -5,8 +5,13 @@
 @import '../../stylesheets/_common.scss';
 
 .autosize-textarea-wrapper textarea {
-  resize: none;
+  // Override Drupal's default min-height for textareas so that autosize has
+  // complete control.
+  min-height: 0;
+  // Native resizing is not needed if autosize is active.
+  resize:     none;
 
+  // @todo Why doesn't this work at all?
   @include yep('ambientimpact-expensive-effects') {
     transition: height 0.2s $easing-decelerate;
   }
