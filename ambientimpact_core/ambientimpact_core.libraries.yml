@@ -25,6 +25,16 @@ ally.js:
   js:
     assets/vendor/ally.js/ally.min.js: { minified: true }
 
+autosize:
+  remote: https://github.com/jackmoore/autosize
+  version: 3.0.4
+  license:
+    name: MIT
+    url: https://github.com/jackmoore/autosize/blob/master/LICENSE.md
+    gpl-compatible: true
+  js:
+    assets/vendor/autosize/dest/autosize.min.js: { minified: true }
+
 fontfaceobserver:
   remote: https://github.com/bramstein/fontfaceobserver
   version: 2.1.0
