@@ -6,6 +6,12 @@ services:
     class: Drupal\ambientimpact_core\IconBundlePluginManager
     parent: default_plugin_manager
 
+  # Description list hook_theme() event subscriber.
+  ambientimpact_core.hook_theme_description_list_event_subscriber:
+    class: \Drupal\ambientimpact_core\EventSubscriber\HookThemeDescriptionListEventSubscriber
+    arguments: ['@service_container']
+    tags:
+      - { name: 'event_subscriber' }
   ambientimpact_core.preprocess_html_event_subscriber:
     class: \Drupal\ambientimpact_core\EventSubscriber\PreprocessHTMLEventSubscriber
     arguments: ['@service_container']

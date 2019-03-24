@@ -4,7 +4,6 @@
  * Implements hook_theme().
  *
  * Defines the following theme elements:
- * - 'description_list'
  * - 'ambientimpact_icon'
  */
 function ambientimpact_core_theme($existing, $type, $theme, $path) {
@@ -15,13 +14,6 @@ function ambientimpact_core_theme($existing, $type, $theme, $path) {
 	$iconConfig		= $iconInstance->getConfiguration();
 
 	return [
-		'description_list' => [
-			'variables'	=> [
-				'groups'		=> [],
-				'attributes'	=> [],
-			],
-			'template'	=> 'description-list',
-		],
 		'ambientimpact_icon' => [
 			'variables'	=> [
 				'icon'					=> '',
