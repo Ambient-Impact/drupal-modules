@@ -131,29 +131,3 @@ function ambientimpact_core_library_info_alter(&$libraries, $extension) {
 // 			'ambientimpact_core/component.toolbar';
 // 	}
 // }
-
-/**
- * Prepare variables for HTML document templates.
- *
- * Default template: html.html.twig.
- *
- * This adds a 'use-grid' class to the <html> element if 'disable-grid' is not
- * found in the request query.
- *
- * @param array $vars
- *   An associative array containing variables for the template.
- *
- * @see template_preprocess_html()
- * @see \Symfony\Component\HttpFoundation\RequestStack
- */
-function ambientimpact_core_preprocess_html(array &$vars) {
-	$requestStack	= \Drupal::service('request_stack');
-	$requestQuery	= $requestStack->getCurrentRequest()->query;
-
-	// If the query parameter is not present, this will return null. If the
-	// parameter is present, it will be a string, either empty or not.
-	if ($requestQuery->get('disable-grid') === null) {
-		// This applies to the <body>. Why isn't this an Attributes object?
-		$vars['attributes']['class'][] = 'use-grid';
-	}
-}

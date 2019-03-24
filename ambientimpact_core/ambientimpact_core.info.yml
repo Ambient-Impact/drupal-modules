@@ -3,3 +3,6 @@ type: module
 description: Core module code used over a number of projects.
 package: Ambient.Impact
 core: 8.x
+
+dependencies:
+  - hook_event_dispatcher:hook_event_dispatcher
