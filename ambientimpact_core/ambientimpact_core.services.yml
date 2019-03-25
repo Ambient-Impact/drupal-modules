@@ -23,6 +23,13 @@ services:
     tags:
       - { name: 'event_subscriber' }
 
+  # Modernizr hook_library_info_alter() event subscriber.
+  ambientimpact_core.hook_library_info_alter_modernizr_event_subscriber:
+    class: \Drupal\ambientimpact_core\EventSubscriber\HookLibraryInfoAlterModernizrEventSubscriber
+    arguments: ['@service_container']
+    tags:
+      - { name: 'event_subscriber' }
+
   # template_preprocess_html() event subscriber.
   ambientimpact_core.preprocess_html_event_subscriber:
     class: \Drupal\ambientimpact_core\EventSubscriber\PreprocessHTMLEventSubscriber

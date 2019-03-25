@@ -44,36 +44,6 @@ function ambientimpact_core_library_info_build() {
 }
 
 /**
- * Implements hook_library_info_alter().
- *
- * This replaces Drupal core's Modernizr with our own. We implement all the
- * options core's does, plus others. Note that we only do this if the core
- * Modernizr path is used, so as not to replace another module's override.
- */
-function ambientimpact_core_library_info_alter(&$libraries, $extension) {
-	$moduleHandler		= \Drupal::service('module_handler');
-	$coreModernizrPath	= 'assets/vendor/modernizr/modernizr.min.js';
-	$ourModernizrPath	= '../' . $moduleHandler
-		->getModule('ambientimpact_core')->getPath() . '/' . $coreModernizrPath;
-
-	if (
-		$extension === 'core' &&
-		isset($libraries['modernizr']['js'][$coreModernizrPath])
-	) {
-		// Save the settings core's uses.
-		$libraries['modernizr']['js'][$ourModernizrPath] =
-			$libraries['modernizr']['js'][$coreModernizrPath];
-
-		// Remove the core path.
-		unset($libraries['modernizr']['js'][$coreModernizrPath]);
-
-		// This is the version that Grunt Modernizr has pulled on 2019-03-02.
-		// @todo Can this be read from the file?
-		$libraries['modernizr']['version'] = 'v3.5.0';
-	}
-}
-
-/**
  * Implements hook_element_info_alter().
  */
 // function ambientimpact_core_element_info_alter(array &$info) {
