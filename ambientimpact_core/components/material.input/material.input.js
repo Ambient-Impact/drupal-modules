@@ -102,11 +102,10 @@ AmbientImpact.addComponent('material.input', function(aiMaterialInput, $) {
           .find('.' + messagesClass)
             .text(text);
 
-        // Focus the current element only if the current active element
-        // is not an input, so that we hit the first error field only,
-        // and won't end up focusing all fields in sequence, finishing
-        // off on the last one.
-        if (!$(ally.get.activeElement()).is('input, textarea')) {
+        // Focus the current element only if the current active element is not a
+        // text input, so that we hit the first error field only, and won't end
+        // up focusing all fields in sequence, finishing off on the last one.
+        if (!$(ally.get.activeElement()).is(':textall')) {
           $(this).trigger('focus');
         }
 
