@@ -1,7 +1,10 @@
 services:
+  # Component plugin manager.
   plugin.manager.ambientimpact_component:
     class: Drupal\ambientimpact_core\ComponentPluginManager
     parent: default_plugin_manager
+
+  # Icon bundle plugin manager.
   plugin.manager.ambientimpact_icon_bundle:
     class: Drupal\ambientimpact_core\IconBundlePluginManager
     parent: default_plugin_manager
@@ -20,12 +23,14 @@ services:
     tags:
       - { name: 'event_subscriber' }
 
+  # template_preprocess_html() event subscriber.
   ambientimpact_core.preprocess_html_event_subscriber:
     class: \Drupal\ambientimpact_core\EventSubscriber\PreprocessHTMLEventSubscriber
     arguments: ['@service_container']
     tags:
       - { name: 'event_subscriber' }
 
+  # ambientimpact_icon() Twig function.
   ambientimpact_core.twig.IconTwigExtension:
     class: Drupal\ambientimpact_core\Template\IconTwigExtension
     tags:
