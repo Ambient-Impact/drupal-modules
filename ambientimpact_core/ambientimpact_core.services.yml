@@ -12,6 +12,14 @@ services:
     arguments: ['@service_container']
     tags:
       - { name: 'event_subscriber' }
+
+  # Icon hook_theme() event subscriber.
+  ambientimpact_core.hook_theme_icon_event_subscriber:
+    class: \Drupal\ambientimpact_core\EventSubscriber\HookThemeIconEventSubscriber
+    arguments: ['@service_container']
+    tags:
+      - { name: 'event_subscriber' }
+
   ambientimpact_core.preprocess_html_event_subscriber:
     class: \Drupal\ambientimpact_core\EventSubscriber\PreprocessHTMLEventSubscriber
     arguments: ['@service_container']

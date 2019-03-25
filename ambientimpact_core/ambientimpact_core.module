@@ -1,47 +1,6 @@
 <?php
 
 /**
- * Implements hook_theme().
- *
- * Defines the following theme elements:
- * - 'ambientimpact_icon'
- */
-function ambientimpact_core_theme($existing, $type, $theme, $path) {
-	$componentManager =
-		\Drupal::service('plugin.manager.ambientimpact_component');
-
-	$iconInstance	= $componentManager->getComponentInstance('icon');
-	$iconConfig		= $iconInstance->getConfiguration();
-
-	return [
-		'ambientimpact_icon' => [
-			'variables'	=> [
-				'icon'					=> '',
-				'bundle'				=>
-					$iconConfig['defaults']['bundle'],
-				'text'					=> '',
-				// Can be one of 'visible', 'visuallyHidden', or 'hidden'. The
-				// latter two are analogous to the Drupal core .visually-hidden
-				// and .hidden classes:
-				// https://www.drupal.org/docs/8/theming/upgrading-classes-on-7x-themes-to-8x
-				'textDisplay'			=>
-					$iconConfig['defaults']['textDisplay'],
-				'containerAttributes'	=> [],
-				'containerTag'			=>
-					$iconConfig['defaults']['containerTag'],
-				'iconAttributes'		=> [],
-				'useAttributes'			=> [],
-				'textAttributes'		=> [],
-				'url'					=> '',
-				'standalone'			=> null,
-				'size'					=> $iconConfig['defaults']['size'],
-			],
-			'template'	=> 'ambientimpact-icon',
-		],
-	];
-}
-
-/**
  * Implements hook_page_attachments().
  *
  * This adds our general library which contains common and layout CSS.
