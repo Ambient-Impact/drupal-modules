@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-  Ambient.Impact - Core - Scroll to top component
+   Ambient.Impact - Core - Scroll to top component
 ----------------------------------------------------------------------------- */
 
 // This creates a floating button that scrolls to the top of the screen when
@@ -31,21 +31,19 @@ AmbientImpact.addComponent('toTop', function(aiToTop, $) {
     // The Headroom.js instance.
     headroom,
 
-    // The threshold in pixels scrolled down to show the container. This is
-    // set to the screen height at the start of every call to
-    // handleVisibility().
+    // The threshold in pixels scrolled down to show the container. This is set
+    // to the screen height at the start of every call to handleVisibility().
     scrollShowThreshold,
 
-    // The multiplier to use to determine the area within which to not show
-    // the container as it would result in showing and then immediately
-    // hiding on upward scroll. See handleVisibility().
+    // The multiplier to use to determine the area within which to not show the
+    // container as it would result in showing and then immediately hiding on
+    // upward scroll. See handleVisibility().
     scrollShowIgnoreFactor  = 1.5,
 
     // The direction Headroom.js informs us we're scrolling. If 'down',
-    // handleVisibility() will not show the container, and hide it if
-    // visible; if 'up', will show the container after checking other
-    // criteria. Starts with 'down' so we don't show the container on init
-    // until needed.
+    // handleVisibility() will not show the container, and hide it if visible;
+    // if 'up', will show the container after checking other criteria. Starts
+    // with 'down' so we don't show the container on init until needed.
     scrollDirection     = 'down';
 
   // Set link attributes and text, and append to the container.
@@ -68,8 +66,8 @@ AmbientImpact.addComponent('toTop', function(aiToTop, $) {
       textDisplay:  'visuallyHidden'
     });
 
-    // Add Material ripple. This has to be here to not get trashed by the
-    // text wrapping above.
+    // Add Material ripple. This has to be here to not get trashed by the text
+    // wrapping above.
     AmbientImpact.on('material.ripple', function() {
       this.add({
         selector: '.' + aiToTop.baseClass + ' a',
@@ -102,22 +100,21 @@ AmbientImpact.addComponent('toTop', function(aiToTop, $) {
 
     window.scroll(scrollObject);
 
-    // The link has #top as the href, so we're going to prevent that being
-    // add to the URL. This is probably unnecessary, but it feels cleaner to
-    // me.
+    // The link has #top as the href, but we're going to prevent that being add
+    // to the URL to not mess with history states and keep the URL clean.
     event.preventDefault();
   });
 
   $container.on({
-    // Show even handler. This is naive to any conditions, so only call this
-    // to definitely show the container.
+    // Show even handler. This is naive to any conditions, so only call this to
+    // definitely show the container.
     'show.aiToTop': function(event) {
       // Remove the hidden attribute.
       $container.removeAttr('hidden');
 
-      // We need to delay the removal of the class until the next paint,
-      // so that the browser has a chance to paint the container as
-      // unhidden, otherwise transitions won't run.
+      // We need to delay the removal of the class until the next paint, so that
+      // the browser has a chance to paint the container as unhidden, otherwise
+      // transitions won't run.
       if (window.requestAnimationFrame) {
         // At this point we haven't painted a new frame yet.
         window.requestAnimationFrame(function(timestamp) {
@@ -144,8 +141,8 @@ AmbientImpact.addComponent('toTop', function(aiToTop, $) {
       }
     },
     'transitionend.aiToTop': function(event) {
-      // Hide the container from everything, including screen readers, at
-      // the end of a transition if the hidden class is set.
+      // Hide the container from everything, including screen readers, at the
+      // end of a transition if the hidden class is set.
       if ($container.is('.' + aiToTop.hiddenClass)) {
         $container.attr('hidden', 'hidden');
       }
@@ -156,16 +153,15 @@ AmbientImpact.addComponent('toTop', function(aiToTop, $) {
    * Show or hide the container depending on various conditions.
    *
    * This checks the following conditions, and if all are true, will show the
-   * container. If any of them are false, the container will be hidden
-   * instead.
+   * container. If any of them are false, the container will be hidden instead:
    *
    * * Is the user scrolling upwards?
    *
    * * Is the current window scroll position outside of the ignore area? This
    *   prevents the container being shown and then immediately hidden again if
    *   an upward scroll was initiated close to the scroll threshold. Note that
-   *   Headroom.js is in charge of the hiding on the actual threshold, and
-   *   will fire this on that.
+   *   Headroom.js is in charge of the hiding on the actual threshold, and will
+   *   fire this on that.
    *
    * * Is the currently focused element not a text input?
    */
@@ -202,9 +198,9 @@ AmbientImpact.addComponent('toTop', function(aiToTop, $) {
     'focus.aiToTop blur.aiToTop',
     'input:textall, textarea',
     function(event) {
-      // Use a timeout to delay checking the active element. This ensures
-      // we don't incorrectly show the widget when the user blurs on text
-      // field by focusing another one.
+      // Use a timeout to delay checking the active element. This ensures we
+      // don't incorrectly show the widget when the user blurs on text field by
+      // focusing another one.
       setTimeout(handleVisibility);
     }
   );
@@ -237,29 +233,29 @@ AmbientImpact.addComponent('toTop', function(aiToTop, $) {
     // when we pass the scroll threshold.
     // http://wicky.nillia.ms/headroom.js/
     headroom = new Headroom($container[0], {
-      // This is the threshold from the top of the window/parent that
-      // determines if we're considered at the top or not. Above this
-      // fires the onTop handler.
+      // This is the threshold from the top of the window/parent that determines
+      // if we're considered at the top or not. Above this fires the onTop
+      // handler.
       offset:   scrollShowThreshold,
-      // This gives the scrolling a slight margin of error so that
-      // scrolling up or down less than this (usually by accident) does
-      // not cause a state change.
+      // This gives the scrolling a slight margin of error so that scrolling up
+      // or down less than this (usually by accident) does not cause a state
+      // change.
       tolerance:  5,
 
       // Specify our own classes so we don't inherit the headroom
       // component styles.
       classes: {
-        initial:  aiToTop.baseClass,
-        pinned:   aiToTop.baseClass + '--pinned',
-        unpinned: aiToTop.baseClass + '--unpinned',
-        top:    aiToTop.baseClass + '--top',
-        notTop:   aiToTop.baseClass + '--not-top',
-        bottom:   aiToTop.baseClass + '--bottom',
+        initial:    aiToTop.baseClass,
+        pinned:     aiToTop.baseClass + '--pinned',
+        unpinned:   aiToTop.baseClass + '--unpinned',
+        top:        aiToTop.baseClass + '--top',
+        notTop:     aiToTop.baseClass + '--not-top',
+        bottom:     aiToTop.baseClass + '--bottom',
         notBottom:  aiToTop.baseClass + '--not-bottom'
       },
 
-      // When Headroom says we're pinned and thus going up, record the
-      // direction and execute show if other conditions are met.
+      // When Headroom says we're pinned and thus going up, record the direction
+      // and execute show if other conditions are met.
       onPin:    function() {
         scrollDirection = 'up';
         handleVisibility();
@@ -270,15 +266,14 @@ AmbientImpact.addComponent('toTop', function(aiToTop, $) {
         scrollDirection = 'down';
         handleVisibility();
       },
-      // When Headroom says we're at the top, i.e. above the 'offset'
-      // setting, hide if not already hidden.
+      // When Headroom says we're at the top, i.e. above the 'offset' setting,
+      // hide if not already hidden.
       onTop:    function() {
         handleVisibility();
       },
-      // When Headroom says we've hit the bottom, set the scroll direction
-      // to 'up' and show the container if possible. This automatically
-      // shows the container at the bottom, which makes a certain
-      // intuitive sense.
+      // When Headroom says we've hit the bottom, set the scroll direction to
+      // 'up' and show the container if possible. This automatically shows the
+      // container at the bottom, which makes a certain intuitive sense.
       onBottom: function() {
         scrollDirection = 'up';
         handleVisibility();
