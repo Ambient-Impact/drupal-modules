@@ -103,3 +103,13 @@ headroom.js:
     gpl-compatible: true
   js:
     assets/vendor/headroom.js/index.js: { minified: true }
+
+smoothscroll:
+  remote: https://github.com/iamdustan/smoothscroll
+  version: 0.3.3
+  license:
+    name: MIT
+    url: https://github.com/iamdustan/smoothscroll/blob/master/LICENSE
+    gpl-compatible: true
+  js:
+    assets/vendor/smoothscroll/dist/smoothscroll.js: {}
