@@ -70,14 +70,23 @@ $to-top-foreground-colour-hover:  white !default;
     }
   }
 
-  // The icon is throwing off the x/y coordinates of the Material ripple, so
-  // make it click-through.
   .ambientimpact-icon {
+    // The icon is throwing off the x/y coordinates of the Material ripple, so
+    // make it click-through.
     pointer-events: none;
+
+    // Make sure the icon text is vertically aligned with the icon for if/when
+    // we decide to make the text visible or the icon fails to load/hasn't
+    // loaded yet. The selector is required for specificity over the default
+    // icon styles.
+    &:not(.ambientimpact-icon--icon-standalone-loaded) {
+      @include set-icon-vertical-alignment('center');
+      @include set-icon-display(block);
+    }
   }
 }
 
-// Page top anchor
+// Page top anchor.
 #top {
   position: absolute;
   top: 0;
