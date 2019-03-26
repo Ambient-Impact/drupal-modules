@@ -20,13 +20,12 @@ AmbientImpact.addComponent('toTop', function(aiToTop, $) {
   'use strict';
 
   // Container classes.
-  this.baseClass          = 'to-top';
-  this.hiddenClass        = this.baseClass + '--hidden';
-  this.noTransitionsClass = this.baseClass + '--no-transitions';
-  this.linkClass          = this.baseClass + '__link';
+  this.baseClass    = 'to-top';
+  this.hiddenClass  = this.baseClass + '--hidden';
+  this.linkClass    = this.baseClass + '__link';
 
-  var $container  = $('<div></div>'),
-      $link       = $('<a></a>'),
+  var $container    = $('<div></div>'),
+      $link         = $('<a></a>'),
 
     // The Headroom.js instance.
     headroom,
@@ -185,13 +184,12 @@ AmbientImpact.addComponent('toTop', function(aiToTop, $) {
     }
   };
 
-  // Run once on ready to show or hide depending on conditions, without any
-  // transitions.
-  // $container.disableTransitions();
-  $container.addClass(this.noTransitionsClass);
+  // Run once on ready to show or hide depending on conditions.
   handleVisibility();
-  // $container.enableTransitions();
-  $container.removeClass(this.noTransitionsClass);
+  // Immediately trigger the transitionend event so that the 'hidden' attribute
+  // is added (if handleVisibility() set the hidden class) and no transition
+  // occurs.
+  $container.trigger('transitionend.aiToTop');
 
   // Handle visibility on text input focus/blur.
   $('body').on(

@@ -43,10 +43,6 @@ $to-top-foreground-colour-hover:  white !default;
     }
   }
 
-  &--no-transition {
-    transition-duration: 0 !important;
-  }
-
   &__link {
     display: block;
 
