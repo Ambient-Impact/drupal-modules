@@ -30,6 +30,13 @@ services:
     tags:
       - { name: 'event_subscriber' }
 
+  # hook_page_top() event subscriber.
+  ambientimpact_core.hook_page_top_event_subscriber:
+    class: \Drupal\ambientimpact_core\EventSubscriber\HookPageTopEventSubscriber
+    arguments: ['@service_container']
+    tags:
+      - { name: 'event_subscriber' }
+
   # hook_page_attachments() event subscriber.
   ambientimpact_core.hook_page_attachments_event_subscriber:
     class: \Drupal\ambientimpact_core\EventSubscriber\HookPageAttachmentsEventSubscriber

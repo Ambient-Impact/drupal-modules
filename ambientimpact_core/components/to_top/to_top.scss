@@ -1,0 +1,88 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Core - Scroll to top component
+// -----------------------------------------------------------------------------
+
+@import '../../stylesheets/_common.scss';
+
+$to-top-offset-horizontal:  1em   !default;
+$to-top-offset-bottom:      2em   !default;
+$to-top-hidden-offset:      4em   !default;
+
+$to-top-background-colour-normal: lighten(black, 10%) !default;
+$to-top-background-colour-hover:  lighten(black, 20%) !default;
+
+$to-top-foreground-colour-normal: white !default;
+$to-top-foreground-colour-hover:  white !default;
+
+.to-top {
+  position: fixed;
+
+  @include root-conditions(('[dir=ltr]'), 'html') {
+    right:  $to-top-offset-horizontal;
+  }
+  @include root-conditions(('[dir=rtl]'), 'html') {
+    left: $to-top-offset-horizontal;
+  }
+
+  bottom: $to-top-offset-bottom;
+
+  @include z-index('floating');
+
+  transition-property:    opacity, transform;
+  transition-duration:    0.3s;
+  transition-timing-function: $easing-sharp;
+
+  &--hidden {
+    opacity:  0;
+
+    @include root-conditions(('[dir=ltr]'), 'html') {
+      transform:  translateX($to-top-hidden-offset);
+    }
+    @include root-conditions(('[dir=rtl]'), 'html') {
+      transform:  translateX(-$to-top-hidden-offset);
+    }
+  }
+
+  &--no-transition {
+    transition-duration: 0 !important;
+  }
+
+  &__link {
+    display: block;
+
+    color: $to-top-foreground-colour-normal !important;
+
+    @include material-button-fab(
+      $background-colour:       $to-top-background-colour-normal,
+      $background-colour-interact:  $to-top-background-colour-hover
+    );
+
+    // Remove the standard link underlines, as we style as a button.
+    text-decoration: none;
+    // Remove fancy link underlines.
+    @include remove-fancy-link-underlines;
+
+    // Make focus outline circular if the browser supports it.
+    -moz-outline-radius:  50%;
+    outline-radius:     50%;
+
+    // Use the background colour for the focus outline to ensure contrast as
+    // the outline uses currentColor by default, which is white in this
+    // case.
+    &:focus {
+      outline-color: $to-top-background-colour-normal;
+    }
+  }
+
+  // The icon is throwing off the x/y coordinates of the Material ripple, so
+  // make it click-through.
+  .ambientimpact-icon {
+    pointer-events: none;
+  }
+}
+
+// Page top anchor
+#top {
+  position: absolute;
+  top: 0;
+}

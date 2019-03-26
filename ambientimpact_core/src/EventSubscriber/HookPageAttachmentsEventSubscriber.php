@@ -28,6 +28,9 @@ extends ContainerAwareEventSubscriber {
    *
    * - 'ambientimpact_core/core' library, which contains common and layout CSS.
    *
+   * - The 'to_top' component on every page, regardless of theme. This is done
+   *   because it provides a useful UX improvement.
+   *
    * - Framework JavaScript settings to drupalSettings.
    *
    * - Component JavaScript settings to drupalSettings; these need to be here
@@ -42,6 +45,7 @@ extends ContainerAwareEventSubscriber {
     $attached = &$event->getAttachments()['#attached'];
 
     $attached['library'][] = 'ambientimpact_core/core';
+    $attached['library'][] = 'ambientimpact_core/component.to_top';
 
     $attached['drupalSettings']['AmbientImpact'] = [
       'framework' => [

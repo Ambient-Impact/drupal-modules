@@ -1,0 +1,16 @@
+component.to_top:
+  css:
+    component:
+      to_top.css: {}
+  js:
+    to_top.js: {}
+  dependencies:
+    - core/modernizr
+    - ambientimpact_core/ally.js
+    - ambientimpact_core/smoothscroll
+    - ambientimpact_core/component.jquery
+    - ambientimpact_core/component.media_query
+    - ambientimpact_core/component.event.lazy_resize
+    - ambientimpact_core/component.headroom
+    - ambientimpact_core/component.icon
+    # - ambientimpact_core/component.material.ripple
