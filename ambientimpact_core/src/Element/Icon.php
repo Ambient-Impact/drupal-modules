@@ -42,7 +42,7 @@ class Icon extends RenderElement {
 		$iconConfig = $componentManager->getComponentConfiguration('icon');
 		$containerBaseClass	= $iconConfig['containerBaseClass'];
 
-		$uri = '';
+		$url = '';
 
 		foreach ($iconConfig['defaults'] as $key => $value) {
 			if (!isset($element['#' . $key]) && $key !== 'bundle') {
@@ -124,7 +124,7 @@ class Icon extends RenderElement {
 					'base:' . $bundle->getPath()
 				);
 
-				$uri = $urlObject->toString();
+				$url = $urlObject->toString();
 
 				// Mark the bundle as being in use.
 				$bundle->markUsed();
@@ -136,11 +136,11 @@ class Icon extends RenderElement {
 			}
 		}
 
-		// Fall back to the 'uri' variable if no bundle was specified. This can
+		// Fall back to the 'url' variable if no bundle was specified. This can
 		// be used to bypass fetching the bundle URL when outputting a template,
 		// for example.
-		if (empty($uri) && !empty($element['#uri'])) {
-			$uri = $element['#uri'];
+		if (empty($url) && !empty($element['#url'])) {
+			$url = $element['#url'];
 		}
 
 		// Determine how to display the text.
@@ -184,7 +184,7 @@ class Icon extends RenderElement {
 		// Set the icon file path and icon ID.
 		$element['#useAttributes']->setAttribute(
 			'xlink:href',
-			$uri . '#icon-' . $element['#icon']
+			$url . '#icon-' . $element['#icon']
 		);
 
 		return $element;
