@@ -106,10 +106,10 @@ headroom.js:
 
 smoothscroll:
   remote: https://github.com/iamdustan/smoothscroll
-  version: 0.3.3
+  version: 0.4.4
   license:
     name: MIT
     url: https://github.com/iamdustan/smoothscroll/blob/master/LICENSE
     gpl-compatible: true
   js:
-    assets/vendor/smoothscroll/dist/smoothscroll.js: {}
+    assets/vendor/smoothscroll/src/smoothscroll.js: {}
