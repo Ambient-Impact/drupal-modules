@@ -65,9 +65,9 @@ AmbientImpact.addComponent('icon.get', function(aiIconGet, $) {
 
 		// Determine how to display the text.
 		switch (settings.textDisplay) {
-			case 'invisible':
+			case 'visuallyHidden':
 				settings.containerClasses.push(
-					containerBaseClass + '--text-invisible'
+					containerBaseClass + '--text-visually-hidden'
 				);
 
 				break;
