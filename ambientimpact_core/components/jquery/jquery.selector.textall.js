@@ -10,17 +10,38 @@ AmbientImpact.addComponent('jquery.selector.textall', function(
 ) {
 	'use strict';
 
-	var types = 'text password search number email datetime datetime-local date month week time tel url color range'.split(' '),
-		len = types.length;
+	var types = [
+		'text',
+		'password',
+		'search',
+		'email',
+		'tel',
+		'url',
+		'number',
+		'range',
+
+		// These are currently disabled until they can be verified and tested to
+		// work with Drupal's custom form widgets:
+		// 'datetime',
+		// 'datetime-local',
+		// 'date',
+		// 'month',
+		// 'week',
+		// 'time',
+		// 'color',
+	],
+	length = types.length;
 
 	$.expr[':']['textall'] = function(elem) {
 		var type = elem.getAttribute('type');
 
-		for (var i = 0; i < len; i++) {
+		// Starting from the end is allegedly faster?
+		for (var i = length - 1; i >= 0; i--) {
 			if (type === types[i]) {
 				return true;
 			}
 		}
+
 		return false;
 	};
 });
