@@ -64,6 +64,15 @@ trait ComponentLibrariesTrait {
 				) {
 					$library['dependencies'][] = 'ambientimpact_core/framework';
 				}
+
+				// If no 'defer' attribute is set, default to true to delay component
+				// JavaScript until most other stuff is done executing. This helps the
+				// page feel a bit faster to load.
+				foreach ($library['js'] as $file => &$fileSettings) {
+					if (!isset($fileSettings['defer'])) {
+						$fileSettings['defer'] = true;
+					}
+				}
 			}
 		}
 
