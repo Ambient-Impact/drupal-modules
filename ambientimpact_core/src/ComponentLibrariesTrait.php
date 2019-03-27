@@ -69,8 +69,8 @@ trait ComponentLibrariesTrait {
 				// JavaScript until most other stuff is done executing. This helps the
 				// page feel a bit faster to load.
 				foreach ($library['js'] as $file => &$fileSettings) {
-					if (!isset($fileSettings['defer'])) {
-						$fileSettings['defer'] = true;
+					if (!isset($fileSettings['attributes']['defer'])) {
+						$fileSettings['attributes']['defer'] = true;
 					}
 				}
 			}
