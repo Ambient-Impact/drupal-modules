@@ -28,8 +28,8 @@ $to-top-foreground-colour-hover:  white !default;
 
   @include z-index('floating');
 
-  transition-property:    opacity, transform;
-  transition-duration:    0.3s;
+  transition-property:        opacity, transform;
+  transition-duration:        0.3s;
   transition-timing-function: $easing-sharp;
 
   &--hidden {
@@ -49,7 +49,7 @@ $to-top-foreground-colour-hover:  white !default;
     color: $to-top-foreground-colour-normal !important;
 
     @include material-button-fab(
-      $background-colour:       $to-top-background-colour-normal,
+      $background-colour:           $to-top-background-colour-normal,
       $background-colour-interact:  $to-top-background-colour-hover
     );
 
@@ -60,7 +60,7 @@ $to-top-foreground-colour-hover:  white !default;
 
     // Make focus outline circular if the browser supports it.
     -moz-outline-radius:  50%;
-    outline-radius:     50%;
+    outline-radius:       50%;
 
     // Use the background colour for the focus outline to ensure contrast as
     // the outline uses currentColor by default, which is white in this
@@ -89,5 +89,5 @@ $to-top-foreground-colour-hover:  white !default;
 // Page top anchor.
 #top {
   position: absolute;
-  top: 0;
+  top:      0;
 }
