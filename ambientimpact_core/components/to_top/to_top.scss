@@ -80,7 +80,8 @@ $to-top-foreground-colour-hover:  white !default;
     // loaded yet. The selector is required for specificity over the default
     // icon styles.
     &:not(.ambientimpact-icon--icon-standalone-loaded) {
-      @include set-icon-vertical-alignment('center');
+      @include set-icon-vertical-alignment(centre);
+      @include set-icon-text-spacing($icon-text-spacing * 2);
       @include set-icon-display(block);
     }
   }
