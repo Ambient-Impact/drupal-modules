@@ -214,9 +214,51 @@ class ComponentPluginManager extends DefaultPluginManager {
 				continue;
 			}
 
-			$jsSettings[$componentID] = $instanceJSSettings;
+			// Use the camelized version of the ID so that the front-end settings are
+			// matched by the framework to the components, which declare themselves
+			// using lowerCamelCase.
+			$jsSettings[static::camelizeComponentID($componentID)] =
+				$instanceJSSettings;
 		}
 
 		return $jsSettings;
+	}
+
+	/**
+	 * Convert a Component ID to lowerCamelCase format.
+	 *
+	 * This is copied from the Symfony Container::camelize() method, with the
+	 * following changes:
+	 *
+	 * - The first character is lowercased.
+	 *
+	 * - The only characters used for delimiters are underscores (_), so periods
+	 *   (.) are left as-is.
+	 *
+	 * - Periods (.) are used to denote a sub-component or namespace, so they're
+	 *   treated as starting a new lowercase portion.
+	 *
+	 * @param  string $id
+	 *   The Component ID to camelize.
+	 *
+	 * @return string
+	 *   The Component ID in lowerCamelCase.
+	 *
+	 * @see https://api.drupal.org/api/drupal/vendor%21symfony%21dependency-injection%21Container.php/function/Container%3A%3Acamelize
+	 *   The Symfony method that inspired this.
+	 */
+	public static function camelizeComponentID(string $id) {
+		$camelized  = [];
+		$exploded   = explode('.', $id);
+
+		foreach ($exploded as $part) {
+			$camelized[] = lcfirst(strtr(ucwords(strtr($part, [
+				'_' => ' ',
+			])), [
+				' ' => '',
+			]));
+		}
+
+		return implode('.', $camelized);
 	}
 }
