@@ -56,13 +56,13 @@ $icon-text-spacing:	0.3em	!default;
 /// that haven't loaded yet, the latter having text visible until the icon loads
 /// and thus being treated as non-standalone until the icon is loaded.
 ///
-/// @param {String} $display ['inline']
+/// @param {String} $display [inline]
 ///   Valid values are:
 ///
-///   - 'inline': This sets display: inline; if grid is not supported or
-///     allowed, and display: inline-grid; otherwise.
+///   - inline: This sets display: inline; if grid is not supported or allowed,
+///     and display: inline-grid; otherwise.
 ///
-///   - 'block': This sets display: block; if grid is not supported or allowed,
+///   - block: This sets display: block; if grid is not supported or allowed,
 ///     and display: grid; otherwise.
 ///
 /// @require {Mixin} use-grid
@@ -88,19 +88,19 @@ $icon-text-spacing:	0.3em	!default;
 ///
 /// Sets the icon vertical alignment on an .ambientimpact-icon element.
 ///
-/// @param {String} $align ['text']
+/// @param {String} $align [text]
 ///   Valid values are:
 ///
-///   - 'text': aligns to the text baseline, which is also the default if not
+///   - text: aligns to the text baseline, which is also the default if not
 ///     specified or value is not recognized.
 ///
-///   - 'link': will behave similar to 'text', but will be slightly higher to
+///   - link: will behave similar to 'text', but will be slightly higher to
 ///     account for text underline.
 ///
-///   - 'center': attempts to vertically center the icon within the parent
+///   - centre: attempts to vertically center the icon within the parent
 ///     container.
 ///
-@mixin set-icon-vertical-alignment($align: 'text') {
+@mixin set-icon-vertical-alignment($align: text) {
 	// Icons next to plain text.
 	$text-align-inline:	-0.2em;
 	$text-align-grid:		-0.15em;
@@ -109,8 +109,8 @@ $icon-text-spacing:	0.3em	!default;
 	$link-align-inline:	-0.3em;
 	$link-align-grid:		-0.2em;
 
-	// Centre vertically.
-	@if ($align == 'center') {
+	// Centre vertically. 'center' is accepted for backwards compatibility.
+	@if $align == centre or $align == center {
 		align-items:	center;
 
 		.ambientimpact-icon__icon {
@@ -127,7 +127,7 @@ $icon-text-spacing:	0.3em	!default;
 		}
 
 	// Align to text baseline but account for link underlines.
-	} @else if $align == 'link' {
+	} @else if $align == link {
 		align-items:	baseline;
 
 		.ambientimpact-icon__icon {
