@@ -79,9 +79,11 @@ AmbientImpact.addComponent('material.input', function(aiMaterialInput, $) {
       }
     },
     validationEvent     = function(event) {
+      var $this = $(this);
+
       // Mark container with invalid class if 'invalid' event.
       if (event.type === 'invalid') {
-        $(this).closest('.' + containerClass)
+        $this.closest('.' + containerClass)
           .addClass(containerIsInvalidClass);
 
         // Grab the validation message, if any.
@@ -90,7 +92,7 @@ AmbientImpact.addComponent('material.input', function(aiMaterialInput, $) {
           text = this.validationMessage;
         }
         // Present the validation message in the messages area.
-        $(this)
+        $this
           .closest('.' + containerClass)
           .find('.' + messagesClass)
             .text(text);
@@ -99,14 +101,14 @@ AmbientImpact.addComponent('material.input', function(aiMaterialInput, $) {
         // text input, so that we hit the first error field only, and won't end
         // up focusing all fields in sequence, finishing off on the last one.
         if (!$(ally.get.activeElement()).is(':textall')) {
-          $(this).trigger('focus');
+          $this.trigger('focus');
         }
 
         // Prevent the browser from showing the default built-in errors,
         // e.g. error bubbles.
         event.preventDefault();
       } else {
-        $(this).closest('.' + containerClass)
+        $this.closest('.' + containerClass)
           .removeClass(containerIsInvalidClass)
           // Remove any messages
           .find('.' + messagesClass)
