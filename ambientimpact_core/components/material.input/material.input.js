@@ -97,12 +97,17 @@ AmbientImpact.addComponent('material.input', function(aiMaterialInput, $) {
           .find('.' + messagesClass)
             .text(text);
 
-        // Focus the current element only if the current active element is not a
-        // text input, so that we hit the first error field only, and won't end
-        // up focusing all fields in sequence, finishing off on the last one.
-        if (!$(ally.get.activeElement()).is(':textall')) {
-          $this.trigger('focus');
-        }
+        // Focus the current element only if the current active element
+        // is not an input, so that we hit the first error field only,
+        // and won't end up focusing all fields in sequence, finishing
+        // off on the last one.
+        // IMPORTANT: this is disabled because Chrome as of 2019-03-27,
+        // version 73.0.3683.86 (Official Build) (64-bit) refuses to allow any
+        // blurring of this element until it's valid again, which is pretty
+        // terrible UX. The 'form' component handles this now.
+        // if (!$(ally.get.activeElement()).is('input, textarea')) {
+        //  $this.trigger('focus');
+        // }
 
         // Prevent the browser from showing the default built-in errors,
         // e.g. error bubbles.

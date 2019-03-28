@@ -1,0 +1,5 @@
+component.form:
+  js:
+    form.validation.js: {}
+  dependencies:
+    - ambientimpact_core/component.jquery
