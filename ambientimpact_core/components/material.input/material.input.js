@@ -38,19 +38,12 @@ AmbientImpact.addComponent('material.input', function(aiMaterialInput, $) {
       $(this).closest('.' + containerClass)
         .removeClass(containerHasFocusClass);
 
-      var
-        // These are the input types to ignore.
-        ignoreTypes = ['submit', 'button', 'reset', 'hidden'],
-        // These are the other available inputs in the form.
-        $otherInputs =
-          $(this).parents('form').find('input, textarea')
-          // Ignore this input.
-          .not(this)
-          // Ignore various types defined above.
-          .not('[type=' + ignoreTypes.join('], [type=') + ']')
-          // Ignore disabled, readonly, and otherwise visually hidden
-          // inputs.
-          .not(':disabled, [readonly], :hidden');
+      // These are the input types to ignore.
+      var $otherInputs = $(this).parents('form').find(':textall, textarea')
+        // Ignore this input.
+        .not(this)
+        // Ignore disabled, readonly, and otherwise visually hidden inputs.
+        .not(':disabled, [readonly], :hidden');
 
       // Check if the field is valid on blur. This is in addition to the
       // check the browser does on form submission. By checking on blur,
