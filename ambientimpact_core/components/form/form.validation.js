@@ -22,12 +22,12 @@ AmbientImpact.addComponent('form.validation', function(aiFormValidation, $) {
       var $form = $(this);
 
       $form.on('submit.aiFormValidationEvents', function(event) {
-        if (this.checkValidity() === false) {
-          event.preventDefault();
-
-          $form.trigger('invalid');
-        } else {
+        if (this.checkValidity() === true) {
           $form.trigger('valid');
+        } else {
+          $form.trigger('invalid');
+
+          event.preventDefault();
         }
       });
 
