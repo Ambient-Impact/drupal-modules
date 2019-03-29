@@ -9,6 +9,8 @@ dist:
     # transitionend events. If these don't fire, we could end
     # up with various stuff in unusable states.
     - csstransitions
+    # Used by the material.ripple component.
+    - cssanimations
     # These are required by Drupal core.
     - details
     - inputtypes

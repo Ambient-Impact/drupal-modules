@@ -59,8 +59,8 @@ extends ContainerAwareEventSubscriber {
     // Remove the core path.
     unset($libraries['modernizr']['js'][$coreModernizrPath]);
 
-    // This is the version that Grunt Modernizr has pulled on 2019-03-02.
+    // This is the version that Grunt Modernizr has pulled on 2019-03-28.
     // @todo Can this be read from the file?
-    $libraries['modernizr']['version'] = 'v3.5.0';
+    $libraries['modernizr']['version'] = 'v3.7.0';
   }
 }
