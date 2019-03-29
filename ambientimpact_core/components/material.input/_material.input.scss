@@ -2,15 +2,6 @@
 //   Ambient.Impact - Core - Material Design text input partial
 // -----------------------------------------------------------------------------
 
-
-$material-input-border-colour-inactive: $material-line-colour   !default;
-$material-input-border-colour-focus:  $material-primary-colour  !default;
-
-$material-input-label-height:     1.3rem                  !default;
-$material-input-label-colour-active:  $material-input-border-colour-focus   !default;
-$material-input-label-colour-disabled:  inherit                 !default;
-$material-input-label-colour-empty:   inherit                 !default;
-
 $material-input-disabled-opacity:   0.4                   !default;
 
 $material-input-messages-colour-error:  $material-error-colour          !default;
@@ -19,9 +10,9 @@ $material-input-messages-height:    1.5rem                  !default;
 $material-input-description-opacity:  0.75    !default;
 $material-input-description-duration: 0.2s    !default;
 
-$material-input-autocomplete-spinner-size:          1.3rem            !default;
-$material-input-autocomplete-selected-background-colour:  $material-primary-colour  !default;
-
+@import '_material.input.underline.scss';
+@import '_material.input.label.scss';
+// @import '_material.input.autocomplete.scss';
 
 @mixin material-input {
   position: relative;
@@ -31,7 +22,7 @@ $material-input-autocomplete-selected-background-colour:  $material-primary-colo
   // underline, or messages at the end of the block to prevent issues with the
   // floating label pattern. A good example is the Mollom verification form
   // item, which has a field prefix.
-  display:    flex;
+  display:        flex;
   flex-direction: column;
 
   > :not(.material-input__label):not(.material-input__input):not(.material-input__underline):not(.material-input__messages) {
@@ -45,22 +36,7 @@ $material-input-autocomplete-selected-background-colour:  $material-primary-colo
     padding-bottom: 0;
   }
 
-  input,
-  textarea,
-  .material-input__underline {
-    border-width: 0 0 1px 0 !important; //  !important is required to override Drupal error styles
-    border-style: solid;
-    border-color: $material-input-border-colour-inactive;
-  }
-
-  input:disabled,
-  textarea:disabled {
-    opacity: $material-input-disabled-opacity;
-
-    &, & + .material-input__underline {
-      border-bottom-style: dashed;
-    }
-  }
+  @include material-input-underline;
 
   input,
   textarea {
@@ -77,104 +53,19 @@ $material-input-autocomplete-selected-background-colour:  $material-primary-colo
 
     // This removes the default outlining in various browsers
     box-shadow: none !important;
-    outline:  none !important;
+    outline:    none !important;
 
     // This ensures the autosizing textareas don't get phantom space underneath
     // when they're just one line due to Drupal 8's normalize.css rules. What
     // matters here is that all inputs and textareas have the same line-height.
     line-height: 1.2;
 
-    &:focus {
-      border-color: $material-input-border-colour-focus;
-    }
-  }
-  .material-input__input {
-    // Progressive enhancement - we use the injected element below for underline
-    border-width: 0 !important; //  !important is required to override Drupal error styles
-  }
-  .material-input__label:not(.visually-hidden) {
-    & + .material-input__input,
-    & + .material-input__autocomplete + input.material-input__input,
-    & + .form-textarea-wrapper .material-input__input {
-      // We use margin-top instead of padding-top to avoid Chrome (and
-      // maybe WebKit in general?) autofill background colour from
-      // reaching up under the input label, when it should only show
-      // behind the input.
-      margin-top: $material-input-label-height;
+    &:disabled {
+      opacity: $material-input-disabled-opacity;
     }
   }
 
-  .material-input__underline {
-    position: relative;
-    display:  block;
-
-    &::after {
-      content: '';
-
-      display: block;
-
-      height: 2px;
-
-      position: absolute;
-
-      left: 0;
-      right:  0;
-      bottom: -1px;
-
-      background-color: $material-input-border-colour-focus;
-
-      transform:  scaleX(0);
-
-      transition: 0.2s ease transform;
-    }
-  }
-  &.material-input--has-focus .material-input__underline::after {
-    transform:  scaleX(1);
-  }
-
-  label {
-    font-size:  75%;
-
-    color:    $material-input-label-colour-active;
-  }
-  .material-input__label:not(.visually-hidden) {
-    position: absolute;
-    top:    0;
-    left:   0;
-
-    transform:      scale(0.75);
-    transform-origin: 0 0;
-
-    opacity:  1;
-
-    font-size:  100%;
-
-    transition-duration:  0.1s;
-    transition-property:  transform opacity color;
-
-    pointer-events:   none;
-
-    &.form-required::after {
-      // Hide the required asterisk, as they are detrimental to UX
-      // @see http://uxmovement.com/forms/why-users-fill-out-less-if-you-mark-required-fields/
-      content: none;
-    }
-  }
-  &.material-input--is-empty:not(.material-input--has-focus):not(.material-input--has-placeholder) .material-input__label:not(.visually-hidden) {
-    transform:  translateY($material-input-label-height * 0.95) scale(1);
-
-    opacity:  0.4;
-
-    color:    $material-input-label-colour-empty;
-  }
-  &.form-disabled .material-input__label {
-    color:    $material-input-label-colour-disabled;
-    opacity:  $material-input-disabled-opacity;
-  }
-  .material-input__optional {
-    opacity:  0.6;
-    font-style: italic;
-  }
+  @include material-input-label;
 
   .material-input__messages {
     display:  block;
@@ -201,57 +92,13 @@ $material-input-autocomplete-selected-background-colour:  $material-primary-colo
     transition: transform $material-input-description-duration ease-in;
   }
 
-  .form-type-link-field & {
-    // Hide Link field prefix and suffix labels
-    .field-prefix,
-    .field-suffix {
-      @include hide-me;
-    }
-  }
+  // .form-type-link-field & {
+  //   // Hide Link field prefix and suffix labels
+  //   .field-prefix,
+  //   .field-suffix {
+  //     @include hide-me;
+  //   }
+  // }
 
-
-  // Autocomplete input
-  input.form-autocomplete {
-    padding-right: $material-input-autocomplete-spinner-size;
-  }
-  // Autocomplete spinner.
-  .form-item-autocomplete__spinner {
-    position: absolute;
-
-    top:    $material-input-label-height;
-    right:    0;
-
-    // @todo Uncomment this when spinner is ported.
-    // @include set-spinner-size($material-input-autocomplete-spinner-size);
-  }
-
-  // Autocomplete popup
-  .material-input__autocomplete {
-    border: none !important;
-
-    margin-top: $material-input-label-height;
-
-    @include material-panel(
-      $padding-small  : 0,
-      $padding-large  : 0
-    );
-
-    li {
-      background-color: $material-panel-colour  !important;
-      color:        inherit         !important;
-
-      padding:      0 0.2em;
-
-      // Transitions are not enabled as they look too distracting with the
-      // current selected item colours.
-      // @include transition-fade-base($duration: 0.2s);
-
-      &.selected {
-        background-color: $material-input-autocomplete-selected-background-colour !important;
-        color:        $material-panel-colour  !important;
-
-        // @include transition-fade-active;
-      }
-    }
-  }
+  // @include material-input-autocomplete;
 }

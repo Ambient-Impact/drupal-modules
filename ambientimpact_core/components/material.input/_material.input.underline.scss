@@ -1,0 +1,64 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Core - Material Design text input underline partial
+// -----------------------------------------------------------------------------
+
+$material-input-border-colour-inactive: $material-line-colour !default;
+
+$material-input-border-colour-focus: $material-primary-colour !default;
+
+@mixin material-input-underline {
+  input,
+  textarea,
+  .material-input__underline {
+    // !important is required to override Drupal error styles.
+    border-width: 0 0 1px 0 !important;
+    border-style: solid;
+    border-color: $material-input-border-colour-inactive;
+  }
+
+  input,
+  textarea {
+    &:disabled {
+      &, & + .material-input__underline {
+        border-bottom-style: dashed;
+      }
+    }
+
+    &:focus {
+      border-color: $material-input-border-colour-focus;
+    }
+  }
+
+  .material-input__input {
+    // Progressive enhancement - we use the injected element below for underline
+    border-width: 0 !important; //  !important is required to override Drupal error styles
+  }
+
+  .material-input__underline {
+    position: relative;
+    display:  block;
+
+    &::after {
+      content: '';
+
+      display: block;
+
+      height: 2px;
+
+      position: absolute;
+
+      left: 0;
+      right:  0;
+      bottom: -1px;
+
+      background-color: $material-input-border-colour-focus;
+
+      transform:  scaleX(0);
+
+      transition: 0.2s ease transform;
+    }
+  }
+  &.material-input--has-focus .material-input__underline::after {
+    transform:  scaleX(1);
+  }
+}

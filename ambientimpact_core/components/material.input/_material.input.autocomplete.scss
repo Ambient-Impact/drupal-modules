@@ -1,0 +1,63 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Core - Material Design text input autocomplete partial
+// -----------------------------------------------------------------------------
+
+///
+/// The width and height of a Material Input autocomplete spinner.
+///
+$material-input-autocomplete-spinner-size: 1.3rem !default;
+
+///
+/// Material Input autocomplete drop-down selected item background colour.
+///
+$material-input-autocomplete-selected-background-colour:
+  $material-primary-colour !default;
+
+///
+/// Material Input autocomplete styles.
+///
+@mixin material-input-autocomplete {
+  input.form-autocomplete {
+    padding-right: $material-input-autocomplete-spinner-size;
+  }
+
+  .form-item-autocomplete__spinner {
+    position: absolute;
+
+    top:    $material-input-label-height;
+    right:    0;
+
+    // @todo Uncomment this when spinner is ported.
+    // @include set-spinner-size($material-input-autocomplete-spinner-size);
+  }
+
+  // Autocomplete popup
+  .material-input__autocomplete {
+    border: none !important;
+
+    margin-top: $material-input-label-height;
+
+    @include material-panel(
+      $padding-small  : 0,
+      $padding-large  : 0
+    );
+
+    li {
+      background-color: $material-panel-colour  !important;
+      color:        inherit         !important;
+
+      padding:      0 0.2em;
+
+      // Transitions are not enabled as they look too distracting with the
+      // current selected item colours.
+      // @include transition-fade-base($duration: 0.2s);
+
+      &.selected {
+        background-color: $material-input-autocomplete-selected-background-colour !important;
+        color:        $material-panel-colour  !important;
+
+        // @include transition-fade-active;
+      }
+    }
+  }
+}
