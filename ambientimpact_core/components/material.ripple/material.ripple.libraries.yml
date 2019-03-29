@@ -1,0 +1,8 @@
+component.material.ripple:
+  css:
+    component:
+      material.ripple.css: {}
+  js:
+    material.ripple.js: {}
+  dependencies:
+    - core/modernizr
