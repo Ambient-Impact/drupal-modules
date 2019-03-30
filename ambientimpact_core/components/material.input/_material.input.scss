@@ -14,29 +14,38 @@ $material-input-description-duration: 0.2s    !default;
 @import '_material.input.label.scss';
 // @import '_material.input.autocomplete.scss';
 
+///
+/// Material Input styles.
+///
 @mixin material-input {
   position: relative;
 
-
   // We're using flexbox to place any children that aren't the label, input,
   // underline, or messages at the end of the block to prevent issues with the
-  // floating label pattern. A good example is the Mollom verification form
-  // item, which has a field prefix.
+  // floating label pattern.
   display:        flex;
   flex-direction: column;
 
-  > :not(.material-input__label):not(.material-input__input):not(.material-input__underline):not(.material-input__messages) {
+  > :not(
+    .material-input__label
+  ):not(
+    .material-input__input
+  ):not(
+    .material-input__underline
+  ):not(
+    .material-input__messages
+  ) {
     order: 2;
   }
 
-
-  // This reduces layout jump when progressively enhancing
+  // This reduces layout jump when progressively enhancing.
   padding-bottom: $material-input-messages-height;
+
+  // When the .material-input class is applied to the container, JavaScript
+  // should have enhanced it, so we can remove the bottom padding.
   &.material-input {
     padding-bottom: 0;
   }
-
-  @include material-input-underline;
 
   input,
   textarea {
@@ -51,7 +60,7 @@ $material-input-description-duration: 0.2s    !default;
 
     color: inherit;
 
-    // This removes the default outlining in various browsers
+    // This removes the default outlining in various browsers.
     box-shadow: none !important;
     outline:    none !important;
 
@@ -65,27 +74,38 @@ $material-input-description-duration: 0.2s    !default;
     }
   }
 
+  @include material-input-underline;
+
   @include material-input-label;
 
+  // Messages are currently only used to display error messages. These are
+  // placed right after the input/underline, but before any description or other
+  // elements.
   .material-input__messages {
-    display:  block;
+    display:    block;
 
     min-height: $material-input-messages-height;
 
     font-size:  75%;
 
-    color: $material-input-messages-colour-error;
+    color:      $material-input-messages-colour-error;
   }
 
+  // Optional input description provided via Drupal's Form API. This is
+  // translated upwards to occupy the space the messages are in, until the
+  // messages are shown.
   .material-input__description {
     margin-top: 0.2rem;
 
-    opacity:  $material-input-description-opacity;
+    opacity:    $material-input-description-opacity;
 
     transform:  translateY(-$material-input-messages-height);
 
     transition: transform $material-input-description-duration ease-out;
   }
+
+  // Shift the description into its natural place if an error is being displayed
+  // as it would now be occupying the error message's place.
   &.material-input--is-invalid .material-input__description {
     transform:  translateY(0);
 
