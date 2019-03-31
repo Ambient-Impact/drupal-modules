@@ -24,15 +24,27 @@ $material-input-label-colour-disabled: inherit !default;
 $material-input-label-colour-empty: inherit !default;
 
 ///
+/// Material Input static label styles.
+///
+/// @param {Color} $foreground-colour
+///   The colour to set on the label text.
+///
+@mixin material-input-label-static($foreground-colour) {
+  display:    block;
+
+  font-size:  75%;
+
+  color:      $foreground-colour;
+}
+
+///
 /// Material Input label styles.
 ///
 @mixin material-input-label {
   // Labels without any JavaScript enhancement are made to look like the
   // enhanced labels when the input has focus/has a value.
   label {
-    font-size: 75%;
-
-    color: $material-input-label-colour-active;
+    @include material-input-label-static($material-input-label-colour-active);
   }
 
   .material-input__label:not(.visually-hidden) {
