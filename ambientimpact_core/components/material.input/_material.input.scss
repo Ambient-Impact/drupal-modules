@@ -2,13 +2,15 @@
 //   Ambient.Impact - Core - Material Design text input partial
 // -----------------------------------------------------------------------------
 
-$material-input-disabled-opacity:   0.4                   !default;
+$material-input-disabled-opacity: 0.4 !default;
 
-$material-input-messages-colour-error:  $material-error-colour          !default;
-$material-input-messages-height:    1.5rem                  !default;
+$material-input-messages-colour-error: $material-error-colour !default;
 
-$material-input-description-opacity:  0.75    !default;
-$material-input-description-duration: 0.2s    !default;
+$material-input-messages-height: 1.5rem !default;
+
+$material-input-description-opacity: 0.75 !default;
+
+$material-input-description-duration: 0.2s !default;
 
 @import '_material.input.underline.scss';
 @import '_material.input.label.scss';

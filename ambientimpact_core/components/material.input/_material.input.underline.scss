@@ -2,11 +2,23 @@
 //   Ambient.Impact - Core - Material Design text input underline partial
 // -----------------------------------------------------------------------------
 
+///
+/// The Material Input underline colour when input is not focused.
+///
+/// This is applied to the thin underline.
+///
 $material-input-border-colour-inactive: $material-line-colour !default;
 
+///
+/// The Material Input underline colour when input is focused.
+///
+/// This is applied to the thick underline.
+///
 $material-input-border-colour-focus: $material-primary-colour !default;
 
 @mixin material-input-underline {
+  // This is the base, thin underline. It's applied to both the input and the
+  // inserted underline element for progressive enhancement.
   input,
   textarea,
   .material-input__underline {
@@ -18,36 +30,43 @@ $material-input-border-colour-focus: $material-primary-colour !default;
 
   input,
   textarea {
+    // Disabled underline is dashed to differentiate it from enabled.
     &:disabled {
       &, & + .material-input__underline {
         border-bottom-style: dashed;
       }
     }
 
+    // On focus without JavaScript enhancement, we just change the border
+    // colour.
     &:focus {
       border-color: $material-input-border-colour-focus;
     }
   }
 
+  // Once the input is given this class by the JavaScript, remove the bottom
+  // border as that's handled by the inserted underline element.
   .material-input__input {
-    // Progressive enhancement - we use the injected element below for underline
-    border-width: 0 !important; //  !important is required to override Drupal error styles
+    // !important is required to override Drupal error styles.
+    border-width: 0 !important;
   }
 
+  // Underline element inserted via JavaScript.
   .material-input__underline {
     position: relative;
     display:  block;
 
+    // The actual thick underline.
     &::after {
       content: '';
 
       display: block;
 
-      height: 2px;
-
       position: absolute;
 
-      left: 0;
+      height: 2px;
+
+      left:   0;
       right:  0;
       bottom: -1px;
 
@@ -58,6 +77,7 @@ $material-input-border-colour-focus: $material-primary-colour !default;
       transition: 0.2s ease transform;
     }
   }
+  // Expand the thick underline to the full width on focus.
   &.material-input--has-focus .material-input__underline::after {
     transform:  scaleX(1);
   }

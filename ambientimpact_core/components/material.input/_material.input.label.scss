@@ -2,19 +2,33 @@
 //   Ambient.Impact - Core - Material Design text input label partial
 // -----------------------------------------------------------------------------
 
+///
+/// Material Input label height when shown at full size.
+///
 $material-input-label-height: 1.3rem !default;
 
+///
+/// Material Input label text colour when input has content or is focused.
+///
 $material-input-label-colour-active:
   $material-input-border-colour-focus !default;
 
+///
+/// Material Input label text colour when input is disabled.
+///
 $material-input-label-colour-disabled: inherit !default;
 
+///
+/// Material Input label text colour when input is empty.
+///
 $material-input-label-colour-empty: inherit !default;
 
 ///
 /// Material Input label styles.
 ///
 @mixin material-input-label {
+  // Labels without any JavaScript enhancement are made to look like the
+  // enhanced labels when the input has focus/has a value.
   label {
     font-size: 75%;
 
@@ -43,6 +57,7 @@ $material-input-label-colour-empty: inherit !default;
 
     opacity: 1;
 
+    // Reset the font-size now that we've enhanced the label.
     font-size: 100%;
 
     transition-duration:  0.1s;
@@ -56,7 +71,11 @@ $material-input-label-colour-empty: inherit !default;
       content: none;
     }
   }
-  &.material-input--is-empty:not(.material-input--has-focus):not(.material-input--has-placeholder) .material-input__label:not(.visually-hidden) {
+  &.material-input--is-empty:not(
+    .material-input--has-focus
+  ):not(
+    .material-input--has-placeholder
+  ) .material-input__label:not(.visually-hidden) {
     transform:  translateY($material-input-label-height * 0.95) scale(1);
 
     opacity:  0.4;
