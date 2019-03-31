@@ -3,18 +3,18 @@
 // -----------------------------------------------------------------------------
 
 ///
-/// The Material Input underline colour when input is not focused.
+/// Material Input underline colour when the input is not focused.
 ///
 /// This is applied to the thin underline.
 ///
-$material-input-border-colour-inactive: $material-line-colour !default;
+$material-input-underline-colour-inactive: $material-line-colour !default;
 
 ///
-/// The Material Input underline colour when input is focused.
+/// Material Input underline colour when the input is focused.
 ///
 /// This is applied to the thick underline.
 ///
-$material-input-border-colour-focus: $material-primary-colour !default;
+$material-input-underline-colour-focus: $material-primary-colour !default;
 
 ///
 /// Material Input underline transition duration.
@@ -34,7 +34,7 @@ $material-input-underline-transition-duration:
     // !important is required to override Drupal error styles.
     border-width: 0 0 1px 0 !important;
     border-style: solid;
-    border-color: $material-input-border-colour-inactive;
+    border-color: $material-input-underline-colour-inactive;
   }
 
   input,
@@ -49,7 +49,7 @@ $material-input-underline-transition-duration:
     // On focus without JavaScript enhancement, we just change the border
     // colour.
     &:focus {
-      border-color: $material-input-border-colour-focus;
+      border-color: $material-input-underline-colour-focus;
     }
   }
 
@@ -79,7 +79,7 @@ $material-input-underline-transition-duration:
       right:  0;
       bottom: -1px;
 
-      background-color: $material-input-border-colour-focus;
+      background-color: $material-input-underline-colour-focus;
 
       transform:  scaleX(0);
 

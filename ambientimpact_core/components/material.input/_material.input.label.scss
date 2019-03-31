@@ -11,7 +11,7 @@ $material-input-label-height: 1.3rem !default;
 /// Material Input label text colour when input has content or is focused.
 ///
 $material-input-label-colour-active:
-  $material-input-border-colour-focus !default;
+  $material-input-underline-colour-focus !default;
 
 ///
 /// Material Input label text colour when input is disabled.
