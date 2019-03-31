@@ -74,7 +74,9 @@ $material-input-border-colour-focus: $material-primary-colour !default;
 
       transform:  scaleX(0);
 
-      transition: $material-input-transition-duration ease transform;
+      transition-duration:        $material-input-transition-duration;
+      transition-property:        transform;
+      transition-timing-function: $easing-standard;
     }
   }
   // Expand the thick underline to the full width on focus.

@@ -123,7 +123,9 @@ $material-input-messages-height: 1.5rem !default;
 
     transform:  translateY(-$material-input-messages-height);
 
-    transition: transform $material-input-transition-duration ease-out;
+    transition-duration:        $material-input-transition-duration;
+    transition-property:        transform;
+    transition-timing-function: $easing-decelerate;
   }
 
   // Shift the description into its natural place if an error is being displayed
@@ -131,7 +133,9 @@ $material-input-messages-height: 1.5rem !default;
   &.material-input--is-invalid .material-input__description {
     transform:  translateY(0);
 
-    transition: transform $material-input-transition-duration ease-in;
+    transition-duration:        $material-input-transition-duration;
+    transition-property:        transform;
+    transition-timing-function: $easing-accelerate;
   }
 
   // .form-type-link-field & {

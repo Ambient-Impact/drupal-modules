@@ -79,8 +79,9 @@ $material-input-label-minified-scale: 0.75 !default;
     // Reset the font-size now that we've enhanced the label.
     font-size: 100%;
 
-    transition-duration:  $material-input-transition-duration;
-    transition-property:  transform opacity color;
+    transition-duration:        $material-input-transition-duration;
+    transition-property:        transform opacity color;
+    transition-timing-function: $easing-sharp;
 
     // Don't obstruct clicks on the input underneath when overlaid.
     pointer-events: none;
