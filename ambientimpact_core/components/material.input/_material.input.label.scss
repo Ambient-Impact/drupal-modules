@@ -24,17 +24,24 @@ $material-input-label-colour-disabled: inherit !default;
 $material-input-label-colour-empty: inherit !default;
 
 ///
+/// Material Input label scale factor when minified.
+///
+$material-input-label-minified-scale: 0.75 !default;
+
+///
 /// Material Input static label styles.
 ///
 /// @param {Color} $foreground-colour
 ///   The colour to set on the label text.
 ///
 @mixin material-input-label-static($foreground-colour) {
-  display:    block;
+  display:      block;
 
-  font-size:  75%;
+  font-size:    $material-input-label-minified-scale * 100%;
 
-  color:      $foreground-colour;
+  color:        $foreground-colour;
+
+  line-height:  $material-input-line-height;
 }
 
 ///
@@ -64,7 +71,7 @@ $material-input-label-colour-empty: inherit !default;
     top:      0;
     left:     0;
 
-    transform: scale(0.75);
+    transform: scale($material-input-label-minified-scale);
     transform-origin: 0 0;
 
     opacity: 1;
@@ -72,9 +79,10 @@ $material-input-label-colour-empty: inherit !default;
     // Reset the font-size now that we've enhanced the label.
     font-size: 100%;
 
-    transition-duration:  0.1s;
+    transition-duration:  $material-input-transition-duration;
     transition-property:  transform opacity color;
 
+    // Don't obstruct clicks on the input underneath when overlaid.
     pointer-events: none;
 
     &.form-required::after {
@@ -82,24 +90,28 @@ $material-input-label-colour-empty: inherit !default;
       // @see http://uxmovement.com/forms/why-users-fill-out-less-if-you-mark-required-fields/
       content: none;
     }
+
+    // Optional indicator on labels.
+    .material-input__optional {
+      opacity:    0.6;
+      font-style: italic;
+    }
   }
+  // Labels for empty inputs that don't have a placeholder and aren't in focus
+  // are overlaid on top of the input.
   &.material-input--is-empty:not(
     .material-input--has-focus
   ):not(
     .material-input--has-placeholder
   ) .material-input__label:not(.visually-hidden) {
-    transform:  translateY($material-input-label-height * 0.95) scale(1);
+    transform:  translateY($material-input-label-height) scale(1);
 
-    opacity:  0.4;
+    opacity:  $material-input-de-emphasized-opacity;
 
     color:    $material-input-label-colour-empty;
   }
   &.form-disabled .material-input__label {
     color:    $material-input-label-colour-disabled;
-    opacity:  $material-input-disabled-opacity;
-  }
-  .material-input__optional {
-    opacity:    0.6;
-    font-style: italic;
+    opacity:  $material-input-de-emphasized-opacity;
   }
 }

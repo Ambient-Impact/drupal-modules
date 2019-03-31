@@ -2,15 +2,35 @@
 //   Ambient.Impact - Core - Material Design text input partial
 // -----------------------------------------------------------------------------
 
-$material-input-disabled-opacity: 0.4 !default;
+///
+/// Material Input transition duration.
+///
+/// This is used for underline, label, and description transitions.
+///
+$material-input-transition-duration: 0.15s !default;
 
+///
+/// Material Input de-emphasized element opacity.
+///
+/// This is used on labels when they're overlaid on an empty input and on the
+/// inputs themselves when they're disabled.
+///
+$material-input-de-emphasized-opacity: 0.4 !default;
+
+///
+/// Material Input line height for inputs, labels, and related elements.
+///
+$material-input-line-height: 1.2 !default;
+
+///
+/// Material Input error message colour.
+///
 $material-input-messages-colour-error: $material-error-colour !default;
 
+///
+/// Material Input messages height.
+///
 $material-input-messages-height: 1.5rem !default;
-
-$material-input-description-opacity: 0.75 !default;
-
-$material-input-description-duration: 0.2s !default;
 
 @import '_material.input.underline.scss';
 @import '_material.input.label.scss';
@@ -60,7 +80,7 @@ $material-input-description-duration: 0.2s !default;
 
     background-color: transparent;
 
-    color: inherit;
+    color:      inherit;
 
     // This removes the default outlining in various browsers.
     box-shadow: none !important;
@@ -69,10 +89,10 @@ $material-input-description-duration: 0.2s !default;
     // This ensures the autosizing textareas don't get phantom space underneath
     // when they're just one line due to Drupal 8's normalize.css rules. What
     // matters here is that all inputs and textareas have the same line-height.
-    line-height: 1.2;
+    line-height: $material-input-line-height;
 
     &:disabled {
-      opacity: $material-input-disabled-opacity;
+      opacity: $material-input-de-emphasized-opacity;
     }
   }
 
@@ -99,11 +119,11 @@ $material-input-description-duration: 0.2s !default;
   .material-input__description {
     margin-top: 0.2rem;
 
-    opacity:    $material-input-description-opacity;
+    opacity:    0.75;
 
     transform:  translateY(-$material-input-messages-height);
 
-    transition: transform $material-input-description-duration ease-out;
+    transition: transform $material-input-transition-duration ease-out;
   }
 
   // Shift the description into its natural place if an error is being displayed
@@ -111,7 +131,7 @@ $material-input-description-duration: 0.2s !default;
   &.material-input--is-invalid .material-input__description {
     transform:  translateY(0);
 
-    transition: transform $material-input-description-duration ease-in;
+    transition: transform $material-input-transition-duration ease-in;
   }
 
   // .form-type-link-field & {
