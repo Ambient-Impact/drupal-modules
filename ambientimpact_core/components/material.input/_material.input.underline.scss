@@ -16,6 +16,15 @@ $material-input-border-colour-inactive: $material-line-colour !default;
 ///
 $material-input-border-colour-focus: $material-primary-colour !default;
 
+///
+/// Material Input underline transition duration.
+///
+/// This is a bit slower than the general transition value, which roughly equals
+/// 0.2s if the general one is the default 0.15s.
+///
+$material-input-underline-transition-duration:
+  $material-input-transition-duration * 1.34 !default;
+
 @mixin material-input-underline {
   // This is the base, thin underline. It's applied to both the input and the
   // inserted underline element for progressive enhancement.
@@ -74,7 +83,7 @@ $material-input-border-colour-focus: $material-primary-colour !default;
 
       transform:  scaleX(0);
 
-      transition-duration:        $material-input-transition-duration;
+      transition-duration:        $material-input-underline-transition-duration;
       transition-property:        transform;
       transition-timing-function: $easing-standard;
     }

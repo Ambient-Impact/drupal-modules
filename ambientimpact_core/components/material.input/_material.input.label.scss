@@ -29,6 +29,15 @@ $material-input-label-colour-empty: inherit !default;
 $material-input-label-minified-scale: 0.75 !default;
 
 ///
+/// Material Input label transition duration.
+///
+/// This is a bit faster than the general transition value, which roughly equals
+/// 0.1s if the general one is the default 0.15s.
+///
+$material-input-label-transition-duration:
+  $material-input-transition-duration * 0.67 !default;
+
+///
 /// Material Input static label styles.
 ///
 /// @param {Color} $foreground-colour
@@ -79,7 +88,7 @@ $material-input-label-minified-scale: 0.75 !default;
     // Reset the font-size now that we've enhanced the label.
     font-size: 100%;
 
-    transition-duration:        $material-input-transition-duration;
+    transition-duration:        $material-input-label-transition-duration;
     transition-property:        transform opacity color;
     transition-timing-function: $easing-sharp;
 
