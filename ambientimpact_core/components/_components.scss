@@ -1,26 +1,26 @@
 // -----------------------------------------------------------------------------
-//	 Ambient.Impact - Core - Component partial
+//   Ambient.Impact - Core - Component partial
 // -----------------------------------------------------------------------------
 
 // Including this will include all component partials.
 
-@import 'material/_material';
+@import 'material/_material.scss';
 
-@import 'modernizr/_modernizr';
+@import 'modernizr/_modernizr.scss';
 
-@import 'pointer_focus_hide/_pointer_focus_hide';
+@import 'pointer_focus_hide/_pointer_focus_hide.scss';
 
-@import 'abbr/_abbr';
-@import 'link/_link';
-@import 'link.underline/_link.underline';
-@import 'link.image/_link.image';
+@import 'abbr/_abbr.scss';
+@import 'link/_link.scss';
+@import 'link.underline/_link.underline.scss';
+@import 'link.image/_link.image.scss';
 @import 'media/_media.scss';
 
-// @import 'autocomplete/_autocomplete';
-@import 'icon/_icon';
-// @import 'spinner/_spinner';
-// @import 'contextual/_contextual';
-@import 'immerse/_immerse';
-@import 'headroom/_headroom';
-// @import 'photoswipe/_photoswipe';
-// @import 'toast/_toast';
+// @import 'autocomplete/_autocomplete.scss';
+@import 'icon/_icon.scss';
+// @import 'spinner/_spinner.scss';
+// @import 'contextual/_contextual.scss';
+@import 'immerse/_immerse.scss';
+@import 'headroom/_headroom.scss';
+// @import 'photoswipe/_photoswipe.scss';
+// @import 'toast/_toast.scss';
