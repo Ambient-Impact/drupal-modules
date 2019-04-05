@@ -26,3 +26,21 @@ function ambientimpact_core_library_info_build() {
 // 			'ambientimpact_core/component.toolbar';
 // 	}
 // }
+
+/**
+ * Implements hook_field_formatter_info_alter().
+ *
+ * This replaces the 'video_embed_field_thumbnail' formatter class (if present)
+ * with our own, which alters the video thumbnail render array to include a play
+ * icon element. It doesn't seem possible currently to use this hook in a .theme
+ * file, so we have to do this at the module level.
+ *
+ * @see \Drupal\ambientimpact_core\Plugin\Field\FieldFormatter\VideoEmbedFieldThumbnail
+ *   Our thumbnail field formatter that extends the 'video_embed_field' one.
+ */
+function ambientimpact_core_field_formatter_info_alter(array &$info) {
+  if (isset($info['video_embed_field_thumbnail'])) {
+    $info['video_embed_field_thumbnail']['class'] =
+      'Drupal\ambientimpact_core\Plugin\Field\FieldFormatter\VideoEmbedFieldThumbnail';
+  }
+}
