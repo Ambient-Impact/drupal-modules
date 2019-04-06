@@ -44,3 +44,59 @@ function ambientimpact_core_field_formatter_info_alter(array &$info) {
       'Drupal\ambientimpact_core\Plugin\Field\FieldFormatter\VideoEmbedFieldThumbnail';
   }
 }
+
+/**
+ * Implements hook_field_formatter_third_party_settings_form().
+ *
+ * @see https://www.drupal.org/node/2130757
+ *   Change record; describes the third party settings usage.
+ *
+ * @see https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Config%21Entity%21ThirdPartySettingsInterface.php/interface/ThirdPartySettingsInterface
+ *   API documentation for third party settings on entities.
+ */
+function ambientimpact_core_field_formatter_third_party_settings_form(
+  \Drupal\Core\Field\FormatterInterface $plugin,
+  \Drupal\Core\Field\FieldDefinitionInterface $fieldDefinition,
+  $viewMode,
+  $form,
+  \Drupal\Core\Form\FormStateInterface $formState
+) {
+  $elements = [];
+
+  if ($plugin->getPluginId() === 'video_embed_field_thumbnail') {
+    $elements['play_icon'] = [
+      '#type'           => 'checkbox',
+      '#title'          => t('Show provider/play icon'),
+      '#description'    => t('If enabled, will overlay a provider-specific icon (e.g. YouTube) over the thumbnail or a generic play icon if no external provider is used.'),
+      '#default_value'  =>
+        $plugin->getThirdPartySetting('ambientimpact_core', 'play_icon'),
+    ];
+  }
+
+  return $elements;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary_alter().
+ *
+ * This displays a message on the video embed field thumbnail formatter summary
+ * if the provider/play icon is shown over the thumbnail.
+ *
+ * @see https://www.drupal.org/node/2130757
+ *   Change record; describes the third party settings usage.
+ *
+ * @see https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Config%21Entity%21ThirdPartySettingsInterface.php/interface/ThirdPartySettingsInterface
+ *   API documentation for third party settings on entities.
+ */
+function ambientimpact_core_field_formatter_settings_summary_alter(
+  &$summary, $context
+) {
+  if (
+    $context['formatter']->getPluginId() === 'video_embed_field_thumbnail' &&
+    $context['formatter']->getThirdPartySetting(
+      'ambientimpact_core', 'play_icon'
+    )
+  ) {
+    $summary[] = t('Provider/play icon shown.');
+  }
+}

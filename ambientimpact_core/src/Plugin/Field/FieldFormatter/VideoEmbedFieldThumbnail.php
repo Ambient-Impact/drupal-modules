@@ -21,9 +21,28 @@ use Drupal\Core\Field\FieldItemListInterface;
 class VideoEmbedFieldThumbnail extends Thumbnail {
   /**
    * {@inheritdoc}
+   *
+   * @see \ambientimpact_core_field_formatter_third_party_settings_form()
+   *   Provides the third party setting form element to enable or disable the
+   *   play icon on the field formatter form.
+   *
+   * @see https://www.drupal.org/node/2130757
+   *   Change record; describes the third party settings usage.
+   *
+   * @see https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Config%21Entity%21ThirdPartySettingsInterface.php/interface/ThirdPartySettingsInterface
+   *   API documentation for third party settings on entities.
    */
   public function viewElements(FieldItemListInterface $items, $langCode) {
     $elements = parent::viewElements($items, $langCode);
+
+    // Don't alter the render array if our field formatter setting isn't present
+    // or is not truthy. (Drupal saves checkbox values as '0' '1'.)
+    if (
+      !isset($this->thirdPartySettings['ambientimpact_core']['play_icon']) ||
+      !$this->thirdPartySettings['ambientimpact_core']['play_icon']
+    ) {
+      return $elements;
+    }
 
     foreach ($items as $delta => $item) {
       $element  = &$elements[$delta];
