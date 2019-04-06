@@ -1,0 +1,10 @@
+# Schema for ambientimpact_core.
+
+# ambientimpact_core field formatter third-party settings schema.
+field.formatter.third_party.ambientimpact_core:
+  type: mapping
+  label: 'Ambient.Impact: Core third party field formatter settings'
+  mapping:
+    play_icon:
+      type: boolean
+      label: 'Whether to display a provider/play icon over a video thumbnail'
