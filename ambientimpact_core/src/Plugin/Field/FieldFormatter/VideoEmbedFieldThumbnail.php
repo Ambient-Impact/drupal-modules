@@ -36,10 +36,10 @@ class VideoEmbedFieldThumbnail extends Thumbnail {
     $elements = parent::viewElements($items, $langCode);
 
     // Don't alter the render array if our field formatter setting isn't present
-    // or is not truthy. (Drupal saves checkbox values as '0' '1'.)
+    // or is not set to true.
     if (
       !isset($this->thirdPartySettings['ambientimpact_core']['play_icon']) ||
-      !$this->thirdPartySettings['ambientimpact_core']['play_icon']
+      $this->thirdPartySettings['ambientimpact_core']['play_icon'] !== true
     ) {
       return $elements;
     }
