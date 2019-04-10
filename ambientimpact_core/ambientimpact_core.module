@@ -1,23 +1,6 @@
 <?php
 
 /**
- * Implements hook_library_info_build().
- *
- * This returns the libraries defined in individual Ambient.Impact Components,
- * as returned by the 'plugin.manager.ambientimpact_component' service.
- *
- * @see \Drupal\ambientimpact_core\ComponentPluginManager::getComponentLibraries()
- *   Returns the value returned by this method.
- *
- * @see https://www.drupal.org/docs/8/creating-custom-modules/adding-stylesheets-css-and-javascript-js-to-a-drupal-8-module#dynamic-css-js
- */
-function ambientimpact_core_library_info_build() {
-	return
-		\Drupal::service('plugin.manager.ambientimpact_component')
-			->getComponentLibraries();
-}
-
-/**
  * Implements hook_element_info_alter().
  */
 // function ambientimpact_core_element_info_alter(array &$info) {
