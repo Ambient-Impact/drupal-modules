@@ -8,11 +8,10 @@ use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\hook_event_dispatcher\Event\Theme\LibraryInfoAlterEvent;
 
 /**
- * hook_library_info_alter() Modernizr event subscriber class.
+ * hook_library_info_alter() Component libraries event subscriber class.
  *
- * This registeres the libraries defined in individual Ambient.Impact
- * Components, as returned by the 'plugin.manager.ambientimpact_component'
- * service.
+ * This registers the libraries defined in individual Ambient.Impact Components,
+ * as returned by the 'plugin.manager.ambientimpact_component' service.
  */
 class HookLibraryInfoAlterComponentLibrariesEventSubscriber
 extends ContainerAwareEventSubscriber {
