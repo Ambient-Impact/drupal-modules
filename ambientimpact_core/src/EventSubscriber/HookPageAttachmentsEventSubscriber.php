@@ -38,11 +38,15 @@ extends ContainerAwareEventSubscriber {
    *   usually attached to because they may use shared global settings and/or
    *   counters.
    *
+   *   - Attaches the 'ambientimpact_core/component.seven' library if the
+   *     current theme is Seven.
+   *
    * @param \Drupal\hook_event_dispatcher\Event\Page\PageAttachmentsEvent $event
    *   The event object.
    */
   public function pageAttachments(PageAttachmentsEvent $event) {
-    $attached = &$event->getAttachments()['#attached'];
+    $attached     = &$event->getAttachments()['#attached'];
+    $activeTheme  = $this->container->get('theme.manager')->getActiveTheme();
 
     $attached['library'][] = 'ambientimpact_core/core';
     $attached['library'][] = 'ambientimpact_core/component.to_top';
@@ -58,5 +62,9 @@ extends ContainerAwareEventSubscriber {
         $this->container->get('plugin.manager.ambientimpact_component')
           ->getComponentJSSettings()
     ];
+
+    if ($activeTheme->getName() === 'seven') {
+      $attached['library'][] = 'ambientimpact_core/component.seven';
+    }
   }
 }

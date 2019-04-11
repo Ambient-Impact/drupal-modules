@@ -1,0 +1,53 @@
+// -----------------------------------------------------------------------------
+//  Ambient.Impact - Core - Seven theme component
+// -----------------------------------------------------------------------------
+
+@import '../../stylesheets/_common.scss';
+
+html {
+  // Don't show horizontal scrollbars so that we don't get phantom scrolling due
+  // to full width layout stuff. Care must be taken that this doesn't prevent
+  // users accessing parts of the page.
+  overflow-x: hidden;
+
+  // Always show the vertical scrollbar which avoids layout jumps on platforms
+  // where the scrollbar takes up space, i.e. is not floating.
+  overflow-y: scroll;
+}
+
+// This gives layout containers a maximum width and centres them horizontally.
+.layout-container {
+  $gutter-small:  1.5em;
+  $gutter-large:  2.5em;
+
+  max-width:      80em;
+
+  padding-left:   $gutter-small;
+  padding-right:  $gutter-small;
+
+  @include media('>=38em') {
+    padding-left:   $gutter-large;
+    padding-right:  $gutter-large;
+  }
+
+  margin-left:    auto;
+  margin-right:   auto;
+}
+
+// This makes the tabs underline span the full width of the viewport when the
+// layout containers have a maximum width.
+.content-header {
+  .is-horizontal,
+  .is-collapse-enabled {
+    // Specificity.
+    .tabs.tabs::before {
+      @supports (width: 100vw) and (transform: translateX(-50%)) {
+        width:  100vw;
+
+        left:   50%;
+
+        transform: translateX(-50%);
+      }
+    }
+  }
+}

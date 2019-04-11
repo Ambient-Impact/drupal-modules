@@ -1,0 +1,4 @@
+component.seven:
+  css:
+    theme:
+      seven.css: {}
