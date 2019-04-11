@@ -4,8 +4,7 @@
 
 // See http://wicky.nillia.ms/headroom.js/
 
-@import '../../stylesheets/_common';
-
+@import '../../stylesheets/_common.scss';
 
 .headroom {
 	@include headroom-base;
