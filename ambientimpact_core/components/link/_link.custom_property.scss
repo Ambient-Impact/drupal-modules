@@ -50,9 +50,3 @@
 		map-get($colours, 'underline-active')
 	);
 }
-
-// Set the default custom properties on the root element.
-// @todo Is this needed for anything?
-:root {
-	@include link-colour-custom-properties;
-}

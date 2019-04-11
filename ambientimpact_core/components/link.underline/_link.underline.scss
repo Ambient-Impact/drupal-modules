@@ -2,11 +2,24 @@
 	Ambient.Impact - Core - Link underline component partial
 ----------------------------------------------------------------------------- */
 
+///
+/// Class applied via JavaScript to links that contain an image.
+///
+$fancy-link-underlines-has-image-class:
+	'ambientimpact-link-has-image'									!default;
 
-// Fancy link underlines require CSS custom properties, so we can safely use
-// them without fallbacks, as the native underlines will be used if custom
-// properties are not supported.
-:root {
+///
+/// Class for text wrapper inside of a link containing an image.
+///
+$fancy-link-underlines-has-image-text-class:
+	'ambientimpact-link-has-image__text'							!default;
+
+///
+/// Set fancy link custom properties on the root element containing them.
+///
+/// @require {mixin}	custom-property
+///
+@mixin fancy-link-underlines-root-custom-properties {
 	@include custom-property(
 		'fancy-link-underline-distance',	$text-underline-position
 	);
@@ -24,18 +37,6 @@
 		$transition-fade-out-duration
 	);
 }
-
-///
-/// Class applied via JavaScript to links that contain an image.
-///
-$fancy-link-underlines-has-image-class:
-	'ambientimpact-link-has-image'									!default;
-
-///
-/// Class for text wrapper inside of a link containing an image.
-///
-$fancy-link-underlines-has-image-text-class:
-	'ambientimpact-link-has-image__text'							!default;
 
 ///
 /// Apply styles to links for fancy link underlines.
