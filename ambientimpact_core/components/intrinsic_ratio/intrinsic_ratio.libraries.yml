@@ -1,0 +1,4 @@
+component.intrinsic_ratio:
+  css:
+    layout:
+      intrinsic_ratio.css: {}
