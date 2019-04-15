@@ -15,39 +15,29 @@ AmbientImpact.addComponent('link.underline.image', function(
 ) {
   'use strict';
 
-  // Drupal behaviors.
-  this.addBehaviors({
-    AmbientImpactLinkUnderlineImage: {
-      attach: function (context, settings) {
-        // Wrap any links not excluded.
-        $(
-          'a:not(.' + aiLinkUnderline.excludeLinkClass + ')' +
-          ':has(' + aiLinkImage.elements.join(',') + ')',
-        context).wrapImageLinkText();
-      },
-      detach: function (context, settings, trigger) {
-        if (trigger !== 'unload') {
-          return;
-        }
-
-        // Unwrap.
-        $('a.' + aiLinkImage.imageLinkClass)
-          .unwrapImageLinkText();
-      }
+  // Behaviour to wrap and unwrap image link text.
+  this.addBehaviour(
+    'AmbientImpactLinkUnderlineImage',
+    'ambientimpact-link-underline-image',
+    'a:not(.' + aiLinkUnderline.excludeLinkClass + ')' +
+      ':has(' + aiLinkImage.elements.join(',') + ')',
+    function(context, settings) {
+      $(this).wrapImageLinkText();
+    },
+    function(context, settings, trigger) {
+      $(this).unwrapImageLinkText();
     }
-  });
+  );
 
-  // Link underline exclude added/removed events.
-  // TO DO: this will **not** fire if an exclude was added before the
-  // 'link.image' component has loaded. What should we do about this?
+  // Link underline exclude added/removed events. This catches links that have
+  // their exclusion state changed after the behaviour has been applied.
   $(document).on(aiLinkUnderline.excludeAddedEvent, function(
     event, selector
   ) {
     // An exclude was added, so unwrap any links.
-    $(selector)
-      .unwrapImageLinkText();
+    $(selector).unwrapImageLinkText();
   }).on(aiLinkUnderline.excludeRemoveEvent, function(event, selector) {
-    // Exclude was removed, wrap links.
+    // Exclude was removed, so wrap links.
     $(selector + ':has(' + aiLinkImage.elements.join(',') + ')')
       .wrapImageLinkText();
   });
