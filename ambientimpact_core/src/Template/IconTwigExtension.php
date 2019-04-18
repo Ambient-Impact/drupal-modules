@@ -55,7 +55,7 @@ class IconTwigExtension extends \Twig_Extension {
       }
     }
 
-    // Merge #typ, #icon, #bundle, and #text on top of any provided options.
+    // Merge #type, #icon, #bundle, and #text on top of any provided options.
     $renderArray = NestedArray::mergeDeep(
       $renderArray,
       [
