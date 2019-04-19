@@ -3,9 +3,9 @@
 namespace Drupal\ambientimpact_core;
 
 use Drupal\Component\Plugin\PluginBase;
+use Drupal\Component\Plugin\ConfigurableInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\ambientimpact_core\ComponentConfigurableInterface;
 use Drupal\ambientimpact_core\ComponentConfigurableTrait;
 use Drupal\ambientimpact_core\ComponentLibrariesInterface;
 use Drupal\ambientimpact_core\ComponentLibrariesTrait;
@@ -16,9 +16,8 @@ use Drupal\ambientimpact_core\ComponentJSSettingsTrait;
  * Base class for implementing Ambient.Impact Component plugins.
  */
 class ComponentBase extends PluginBase implements
-ContainerFactoryPluginInterface, ComponentInterface,
-ComponentConfigurableInterface, ComponentLibrariesInterface,
-ComponentJSSettingsInterface {
+ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface,
+ComponentLibrariesInterface, ComponentJSSettingsInterface {
 	use ComponentConfigurableTrait;
 	use ComponentLibrariesTrait;
 	use ComponentJSSettingsTrait;
