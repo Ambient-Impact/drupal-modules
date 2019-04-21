@@ -14,7 +14,8 @@ use Drupal\video_embed_field\Plugin\Field\FieldFormatter\Thumbnail;
 /**
  * Plugin implementation of the thumbnail field formatter.
  *
- * This adds a play icon if the thumbnail is linked to the provider URL.
+ * This adds a play icon if the thumbnail is linked to the provider URL and
+ * attempts to fetch and set the image width and height as Thumbnail does not.
  *
  * @FieldFormatter(
  *   id = "ambientimpact_video_embed_field_thumbnail",
@@ -92,6 +93,15 @@ class VideoEmbedFieldThumbnail extends Thumbnail {
 
   /**
    * {@inheritdoc}
+   *
+   * This extends Thumbnail::viewElements() with the following:
+   * - Adds a play icon to each item's render array if the corresponding setting
+   *   is enabled in the field formatter settings.
+   *
+   * - Attempts to fetch and set the thumbnail image's width and height,
+   *   including if it's set to use an image style (if the derivative exists and
+   *   is readable), as Thumbnail::viewElements() does not and we need those for
+   *   the intrinsic ratio wrapper to be able to calculate the aspect ratio.
    *
    * @see \ambientimpact_core_field_formatter_third_party_settings_form()
    *   Provides the third party setting form element to enable or disable the
