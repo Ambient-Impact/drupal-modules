@@ -47,5 +47,18 @@ AmbientImpact.addComponent('font', function(aiFont, $) {
         });
     });
   };
+
+  /**
+   * Determine if a given font has been loaded yet.
+   *
+   * @param {String} fontMachineName
+   *   The machine name of the font, as a key that can be passed to this.load().
+   *
+   * @return {Boolean}
+   *   True if the font with the given machine name has loaded, false otherwise.
+   */
+  this.isLoaded = function(fontMachineName) {
+    return this.loaded.indexOf(fontMachineName) > -1;
+  };
 });
 });
