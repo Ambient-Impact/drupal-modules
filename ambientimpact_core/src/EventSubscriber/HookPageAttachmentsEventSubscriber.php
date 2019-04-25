@@ -57,10 +57,11 @@ extends ContainerAwareEventSubscriber {
             $this->container->get('state')->get('system.css_js_query_string'),
         ],
         'html'    => [
-          'endpointPath' => $componentManager->getHTMLEndpointPath(),
+          'endpointPath'  => $componentManager->getHTMLEndpointPath(),
+          'haveHTML'      => $componentManager->getComponentNamesWithHTML(),
         ],
       ],
-      'components'  => $componentManager->getComponentJSSettings()
+      'components'  => $componentManager->getComponentJSSettings(),
     ];
 
     $attached['library'][] = 'ambientimpact_core/core';
