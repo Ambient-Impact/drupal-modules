@@ -18,14 +18,31 @@
  * icon element. It doesn't seem possible currently to use this hook in a .theme
  * file, so we have to do this at the module level.
  *
+ * This replaces the core 'image' formatter with our own, which extends the core
+ * formatter with functionality that the PhotoSwipe component requires.
+ *
  * @see \Drupal\ambientimpact_core\Plugin\Field\FieldFormatter\VideoEmbedFieldThumbnail
  *   Our thumbnail field formatter that extends the 'video_embed_field' one.
+ *
+ * @see \Drupal\ambientimpact_core\Plugin\Field\FieldFormatter\PhotoSwipeImageFormatter
+ *   Our 'image' field formatter.
  */
 function ambientimpact_core_field_formatter_info_alter(array &$info) {
   if (isset($info['video_embed_field_thumbnail'])) {
     $info['video_embed_field_thumbnail']['class'] =
       'Drupal\ambientimpact_core\Plugin\Field\FieldFormatter\VideoEmbedFieldThumbnail';
     $info['video_embed_field_thumbnail']['provider'] = 'ambientimpact_core';
+  }
+
+  if (
+    isset($info['image']) &&
+    // Only if this is the core formatter class to avoid breaking other modules.
+    $info['image']['class'] ===
+      'Drupal\image\Plugin\Field\FieldFormatter\ImageFormatter'
+  ) {
+    $info['image']['class'] =
+      'Drupal\ambientimpact_core\Plugin\Field\FieldFormatter\PhotoSwipeImageFormatter';
+    $info['image']['provider'] = 'ambientimpact_core';
   }
 }
 
