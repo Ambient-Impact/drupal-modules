@@ -31,15 +31,15 @@ extends ContainerAwareEventSubscriber {
    * - The 'to_top' component on every page, regardless of theme. This is done
    *   because it provides a useful UX improvement.
    *
+   * - 'ambientimpact_core/component.seven' library if the current theme is
+   *   Seven.
+   *
    * - Framework JavaScript settings to drupalSettings.
    *
    * - Component JavaScript settings to drupalSettings; these need to be here
    *   rather than on individual elements the actual component libraries are
    *   usually attached to because they may use shared global settings and/or
    *   counters.
-   *
-   *   - Attaches the 'ambientimpact_core/component.seven' library if the
-   *     current theme is Seven.
    *
    * @param \Drupal\hook_event_dispatcher\Event\Page\PageAttachmentsEvent $event
    *   The event object.
@@ -49,9 +49,6 @@ extends ContainerAwareEventSubscriber {
     $activeTheme  = $this->container->get('theme.manager')->getActiveTheme();
     $componentManager =
       $this->container->get('plugin.manager.ambientimpact_component');
-
-    $attached['library'][] = 'ambientimpact_core/core';
-    $attached['library'][] = 'ambientimpact_core/component.to_top';
 
     $attached['drupalSettings']['AmbientImpact'] = [
       'framework' => [
@@ -65,6 +62,9 @@ extends ContainerAwareEventSubscriber {
       ],
       'components'  => $componentManager->getComponentJSSettings()
     ];
+
+    $attached['library'][] = 'ambientimpact_core/core';
+    $attached['library'][] = 'ambientimpact_core/component.to_top';
 
     if ($activeTheme->getName() === 'seven') {
       $attached['library'][] = 'ambientimpact_core/component.seven';
