@@ -16,14 +16,6 @@ use Drupal\video_embed_field\Plugin\Field\FieldFormatter\Thumbnail;
  *
  * This adds a play icon if the thumbnail is linked to the provider URL and
  * attempts to fetch and set the image width and height as Thumbnail does not.
- *
- * @FieldFormatter(
- *   id = "ambientimpact_video_embed_field_thumbnail",
- *   label = @Translation("Thumbnail"),
- *   field_types = {
- *     "video_embed_field"
- *   }
- * )
  */
 class VideoEmbedFieldThumbnail extends Thumbnail {
   /**
