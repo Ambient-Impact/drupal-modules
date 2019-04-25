@@ -25,6 +25,7 @@ function ambientimpact_core_field_formatter_info_alter(array &$info) {
   if (isset($info['video_embed_field_thumbnail'])) {
     $info['video_embed_field_thumbnail']['class'] =
       'Drupal\ambientimpact_core\Plugin\Field\FieldFormatter\VideoEmbedFieldThumbnail';
+    $info['video_embed_field_thumbnail']['provider'] = 'ambientimpact_core';
   }
 }
 
