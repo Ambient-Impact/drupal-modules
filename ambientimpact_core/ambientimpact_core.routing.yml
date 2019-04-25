@@ -1,3 +1,4 @@
+# Component list page.
 ambientimpact_core.component_list:
   path: '/web/components'
   defaults:
@@ -5,3 +6,13 @@ ambientimpact_core.component_list:
     _title: 'Components'
   requirements:
     _permission: 'administer ambientimpact components'
+
+# Component HTML endpoint; returns the HTML for components wrapped in JSON.
+ambientimpact_core.component_html_endpoint:
+  path: '/ambientimpact/endpoint/component/html'
+  defaults:
+    _controller: '\Drupal\ambientimpact_core\Controller\ComponentController::htmlEndpoint'
+  requirements:
+    # We have to specify at least one requirement, and because we don't require
+    # any permission for components, set this to always allow.
+    _access: 'TRUE'

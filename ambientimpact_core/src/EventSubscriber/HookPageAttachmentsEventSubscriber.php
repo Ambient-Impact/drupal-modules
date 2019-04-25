@@ -47,6 +47,8 @@ extends ContainerAwareEventSubscriber {
   public function pageAttachments(PageAttachmentsEvent $event) {
     $attached     = &$event->getAttachments()['#attached'];
     $activeTheme  = $this->container->get('theme.manager')->getActiveTheme();
+    $componentManager =
+      $this->container->get('plugin.manager.ambientimpact_component');
 
     $attached['library'][] = 'ambientimpact_core/core';
     $attached['library'][] = 'ambientimpact_core/component.to_top';
@@ -57,10 +59,11 @@ extends ContainerAwareEventSubscriber {
           'assetKey'  =>
             $this->container->get('state')->get('system.css_js_query_string'),
         ],
+        'html'    => [
+          'endpointPath' => $componentManager->getHTMLEndpointPath(),
+        ],
       ],
-      'components'  =>
-        $this->container->get('plugin.manager.ambientimpact_component')
-          ->getComponentJSSettings()
+      'components'  => $componentManager->getComponentJSSettings()
     ];
 
     if ($activeTheme->getName() === 'seven') {

@@ -5,6 +5,7 @@ namespace Drupal\ambientimpact_core;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Url;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\ambientimpact_core\Annotation\Component as ComponentAnnotation;
 
@@ -18,6 +19,26 @@ class ComponentPluginManager extends DefaultPluginManager {
    * @var array
    */
   protected $componentInstances = [];
+
+  /**
+   * The path to the Component HTML endpoint.
+   *
+   * @var string
+   *
+   * @see $this->getHTMLEndpointPath()
+   *   Sets this property on first call to this method.
+   */
+  protected $htmlEndpointPath = '';
+
+  /**
+   * The route name for the Component HTML endpoint.
+   *
+   * @var string
+   *
+   * @see $this->getHTMLEndpointPath()
+   *   Uses this.
+   */
+  protected $htmlEndpointRoute = 'ambientimpact_core.component_html_endpoint';
 
   /**
    * Creates the discovery object.
@@ -222,6 +243,70 @@ class ComponentPluginManager extends DefaultPluginManager {
     }
 
     return $jsSettings;
+  }
+
+  /**
+   * Get the Component HTML endpoint path.
+   *
+   * This gets the path from Drupal via the route system.
+   *
+   * @return string
+   *   The Component HTML endpoint path.
+   *
+   * @see $this->htmlEndpointPath
+   *   Stores the path so we only have to build it once.
+   *
+   * @see $this->htmlEndpointRoute
+   *   Contains the route name.
+   *
+   * @see \Drupal\ambientimpact_core\EventSubscriber\HookPageAttachmentsEventSubscriber::pageAttachments()
+   *   Passes the path to the front-end.
+   */
+  public function getHTMLEndpointPath() {
+    if (empty($this->htmlEndpointPath)) {
+      $this->htmlEndpointPath =
+        Url::fromRoute($this->htmlEndpointRoute)->toString();
+    }
+
+    return $this->htmlEndpointPath;
+  }
+
+  /**
+   * Get HTML from all available Components.
+   *
+   * @return array
+   *   An array of key/value pairs, where the keys are the lowerCamelCase ID
+   *   of the Component and the value being the rendered HTML of that Component.
+   *   Components that do not provide any HTML are not included in this.
+   *
+   * @see static::camelizeComponentID()
+   *   Converts Component ID to lowerCamelCase.
+   */
+  public function getComponentHTML() {
+    $html = [];
+
+    foreach ($this->getDefinitions() as $componentID => $definition) {
+      $instance = $this->getComponentInstance($componentID);
+
+      if ($instance === false) {
+        continue;
+      }
+
+      $instanceHTML = $instance->getHTML();
+
+      // If we just get an empty string or other value that equates to empty,
+      // skip this component.
+      if (empty($instanceHTML)) {
+        continue;
+      }
+
+      // Use the camelized version of the ID so that the front-end settings are
+      // matched by the framework to the components, which declare themselves
+      // using lowerCamelCase.
+      $html[static::camelizeComponentID($componentID)] = $instanceHTML;
+    }
+
+    return $html;
   }
 
   /**
