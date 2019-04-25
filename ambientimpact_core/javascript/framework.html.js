@@ -7,7 +7,7 @@
 // feature check, i.e. AmbientImpact.mustard().
 AmbientImpact.onGlobals([
 	'jQuery',
-	'drupalSettings.AmbientImpact.framework.html.ajaxPath',
+	'drupalSettings.AmbientImpact.framework.html.endpointPath',
 	'drupalSettings.AmbientImpact.framework.html.haveHTML',
 ], function() {
 	'use strict';
@@ -134,7 +134,7 @@ AmbientImpact.onGlobals([
 
 		// Make a request to the server to retrieve the HTML of all available
 		// and attached components.
-		$.get(settings.html.ajaxPath).done(function(data) {
+		$.get(settings.html.endpointPath).done(function(data) {
 			receivedHTML = data;
 
 			// Append the returned HTML to the <body>. In the future, this may
