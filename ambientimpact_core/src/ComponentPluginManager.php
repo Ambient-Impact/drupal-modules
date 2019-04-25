@@ -310,6 +310,35 @@ class ComponentPluginManager extends DefaultPluginManager {
   }
 
   /**
+   * Get an array of Component IDs that have HTML in lowerCamelCase format.
+   *
+   * @return array
+   *   An array containing zero or more lowerCamelCase Component IDs that have
+   *   HTML available.
+   */
+  public function getComponentNamesWithHTML() {
+    $haveHTML = [];
+
+    foreach ($this->getDefinitions() as $componentID => $definition) {
+      $instance = $this->getComponentInstance($componentID);
+
+      if (
+        $instance === false ||
+        !$instance->hasHTML()
+      ) {
+        continue;
+      }
+
+      // Use the camelized version of the ID so that the front-end settings are
+      // matched by the framework to the components, which declare themselves
+      // using lowerCamelCase.
+      $haveHTML[] = static::camelizeComponentID($componentID);
+    }
+
+    return $haveHTML;
+  }
+
+  /**
    * Convert a Component ID to lowerCamelCase format.
    *
    * This is copied from the Symfony Container::camelize() method, with the
