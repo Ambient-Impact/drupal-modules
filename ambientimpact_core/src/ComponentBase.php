@@ -11,6 +11,7 @@ use Drupal\ambientimpact_core\ComponentLibrariesInterface;
 use Drupal\ambientimpact_core\ComponentLibrariesTrait;
 use Drupal\ambientimpact_core\ComponentJSSettingsInterface;
 use Drupal\ambientimpact_core\ComponentJSSettingsTrait;
+use Drupal\ambientimpact_core\ComponentHTMLTrait;
 
 /**
  * Base class for implementing Ambient.Impact Component plugins.
@@ -21,6 +22,7 @@ ComponentLibrariesInterface, ComponentJSSettingsInterface {
   use ComponentConfigurableTrait;
   use ComponentLibrariesTrait;
   use ComponentJSSettingsTrait;
+  use ComponentHTMLTrait;
 
   /**
    * The directory in which component directories are located.
