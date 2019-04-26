@@ -2,3 +2,5 @@ component.toolbar:
   css:
     component:
       toolbar.css: {}
+  js:
+    toolbar.offset.js: {}
