@@ -1,2 +1,2 @@
-
-/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJ0b29sYmFyLmNzcyJ9 */
+.toolbar{-webkit-transition-property:opacity;transition-property:opacity;-webkit-transition-duration:200ms;transition-duration:200ms;-webkit-transition-timing-function:linear;transition-timing-function:linear}body.is-immersed .toolbar{visibility:hidden}@supports (pointer-events: none){body.is-immersed .toolbar{visibility:visible;pointer-events:none;opacity:0}}
+/*# sourceMappingURL=toolbar.css.map */

@@ -2,13 +2,15 @@
 
 /**
  * Implements hook_element_info_alter().
+ *
+ * This attaches the toolbar component to the toolbar element.
  */
-// function ambientimpact_core_element_info_alter(array &$info) {
-// 	if (isset($info['toolbar'])) {
-// 		$info['toolbar']['#attached']['library'][] =
-// 			'ambientimpact_core/component.toolbar';
-// 	}
-// }
+function ambientimpact_core_element_info_alter(array &$info) {
+ if (isset($info['toolbar'])) {
+   $info['toolbar']['#attached']['library'][] =
+     'ambientimpact_core/component.toolbar';
+ }
+}
 
 /**
  * Implements hook_field_formatter_info_alter().
