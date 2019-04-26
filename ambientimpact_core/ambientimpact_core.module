@@ -51,6 +51,8 @@ function ambientimpact_core_field_formatter_info_alter(array &$info) {
 /**
  * Implements hook_field_formatter_third_party_settings_form().
  *
+ * This adds the video embed field provider/play icon form elements.
+ *
  * @see https://www.drupal.org/node/2130757
  *   Change record; describes the third party settings usage.
  *
