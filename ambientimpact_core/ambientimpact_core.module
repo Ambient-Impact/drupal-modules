@@ -96,6 +96,14 @@ function ambientimpact_core_field_formatter_third_party_settings_form(
         $plugin->getThirdPartySetting(
           'ambientimpact_core', 'use_photoswipe_gallery'
         ),
+      '#states'   => [
+        'visible'   => [
+          // This hides this item if 'use_photoswipe' is not checked.
+          ':input[name*="[ambientimpact_core][use_photoswipe]"]' => [
+            'checked' => true,
+          ],
+        ],
+      ],
     ];
   }
 
