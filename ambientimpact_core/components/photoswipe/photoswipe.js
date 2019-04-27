@@ -36,7 +36,11 @@ AmbientImpact.addComponent('photoswipe', function(aiPhotoSwipe, $) {
     // Default settings. Passed settings are merged on top of these.
     defaults: {
       // The selector of gallery item within the the parent to consider as
-      // distinct items.
+      // distinct items. Note that this selector can match the gallery element
+      // that PhotoSwipe is applied to, in which case the gallery itself will be
+      // added as an item.
+      // @todo Wouldn't it make more sense to allow a value of false or null
+      // here so that a selector doesn't need to be provided in that case?
       itemSelector:     'li',
 
       // The selector to use when searching for links. This should only
@@ -180,7 +184,7 @@ AmbientImpact.addComponent('photoswipe', function(aiPhotoSwipe, $) {
       return items;
     }
 
-    $items = gallery.$gallery.find(gallerySettings.itemSelector)
+    $items = gallery.$gallery.findAndSelf(gallerySettings.itemSelector);
 
     $items.each(function(i) {
       var $item       = $(this),
@@ -375,7 +379,7 @@ AmbientImpact.addComponent('photoswipe', function(aiPhotoSwipe, $) {
 
     var gallerySettings = getGallerySettings(galleryUID),
       $items      = gallery.$gallery
-                .find(gallerySettings.itemSelector),
+                .findAndSelf(gallerySettings.itemSelector),
       index;
 
     index = $items.index($(this).closest(gallerySettings.itemSelector));
