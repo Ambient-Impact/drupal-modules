@@ -42,8 +42,12 @@ class PhotoSwipe extends ComponentBase {
         ],
       ],
       'linkedImageAttributes' => [
-        'width'   => 'data-linked-width',
-        'height'  => 'data-linked-height',
+        'width'   => 'data-photoswipe-linked-width',
+        'height'  => 'data-photoswipe-linked-height',
+      ],
+      'fieldAttributes' => [
+        'enabled' => 'data-photoswipe-field-enabled',
+        'gallery' => 'data-photoswipe-field-gallery',
       ],
     ];
   }
@@ -54,6 +58,7 @@ class PhotoSwipe extends ComponentBase {
     return [
       'icons'                 => $this->configuration['icons'],
       'linkedImageAttributes' => $this->configuration['linkedImageAttributes'],
+      'fieldAttributes'       => $this->configuration['fieldAttributes'],
     ];
   }
 
@@ -97,17 +102,42 @@ class PhotoSwipe extends ComponentBase {
    *
    * @param \Drupal\Core\Field\FieldItemListInterface $items
    *   The field items from a field formatter's viewElements() method.
+   *
+   * @param array $settings
+   *   Any settings for the field.
    */
   public function alterImageFormatterElements(
     array &$elements,
-    FieldItemListInterface $items
+    FieldItemListInterface $items,
+    array $settings = []
   ) {
-    $attributeMap = $this->configuration['linkedImageAttributes'];
+    $imageAttributeMap  = $this->configuration['linkedImageAttributes'];
+    $fieldAttributeMap  = $this->configuration['fieldAttributes'];
+
+    if (!empty($elements)) {
+      $attributes = &$elements[0]['#item_attributes'];
+
+      // Pass this flag to ambientimpact_core_preprocess_field() so that it
+      // knows that it should look for PhotoSwipe attributes on this, to save
+      // having to load the component settings for every image field.
+      $attributes['photoswipe'] = true;
+
+      // Indicate that PhotoSwipe should attach to this item.
+      $attributes[$fieldAttributeMap['enabled']] = 'true';
+
+      // Indicate whether this item is to be grouped into a gallery with the
+      // other items in this field.
+      $attributes[$fieldAttributeMap['gallery']] =
+        $settings['gallery'] ? 'true' : 'false';
+
+      // Clean up just in case we could affect the foreach below.
+      unset($attributes);
+    }
 
     foreach ($items as $delta => $item) {
+      $attributes = &$elements[$delta]['#item_attributes'];
       foreach (['width', 'height'] as $type) {
-        $elements[$delta]['#item_attributes'][$attributeMap[$type]] =
-          $item->$type;
+        $attributes[$imageAttributeMap[$type]] = $item->$type;
       }
     }
   }

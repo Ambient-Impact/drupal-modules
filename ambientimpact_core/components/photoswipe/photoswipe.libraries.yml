@@ -21,3 +21,9 @@ component.photoswipe:
     - ambientimpact_core/component.link.image
     - ambientimpact_core/component.icon
     - ambientimpact_core/component.immerse
+
+component.photoswipe.field:
+  js:
+    photoswipe.field.js: {}
+  dependencies:
+    - ambientimpact_core/component.photoswipe

@@ -107,9 +107,25 @@ class PhotoSwipeImageFormatter extends ImageFormatter {
    */
   public function viewElements(FieldItemListInterface $items, $langCode) {
     $elements = parent::viewElements($items, $langCode);
+    $settings = &$this->thirdPartySettings['ambientimpact_core'];
+    // Whether to automatically group all field items into one gallery.
+    $gallery    = false;
 
-    $this->componentManager->getComponentInstance('photoswipe')
-      ->alterImageFormatterElements($elements, $items);
+    if (
+      isset($settings['use_photoswipe']) &&
+      $settings['use_photoswipe'] === true
+    ) {
+      if (
+        isset($settings['use_photoswipe_gallery']) &&
+        $settings['use_photoswipe_gallery'] === true
+      ) {
+        $gallery = true;
+      }
+      $this->componentManager->getComponentInstance('photoswipe')
+        ->alterImageFormatterElements($elements, $items, [
+          'gallery' => $gallery,
+        ]);
+    }
 
     return $elements;
   }

@@ -53,6 +53,8 @@ function ambientimpact_core_field_formatter_info_alter(array &$info) {
  *
  * This adds the video embed field provider/play icon form elements.
  *
+ * This adds the PhotoSwipe image field formatter form elements.
+ *
  * @see https://www.drupal.org/node/2130757
  *   Change record; describes the third party settings usage.
  *
@@ -78,6 +80,25 @@ function ambientimpact_core_field_formatter_third_party_settings_form(
     ];
   }
 
+  if ($plugin->getPluginId() === 'image') {
+    $elements['use_photoswipe'] = [
+      '#type'           => 'checkbox',
+      '#title'          => t('Use PhotoSwipe'),
+      '#description'    => t('If enabled, will use the <a href="https://photoswipe.com/" target="_blank">PhotoSwipe</a> JavaScript library to display linked images.'),
+      '#default_value'  =>
+        $plugin->getThirdPartySetting('ambientimpact_core', 'use_photoswipe'),
+    ];
+    $elements['use_photoswipe_gallery'] = [
+      '#type'           => 'checkbox',
+      '#title'          => t('Group as PhotoSwipe gallery'),
+      '#description'    => t('If enabled, will group all items in this field as a PhotoSwipe gallery.'),
+      '#default_value'  =>
+        $plugin->getThirdPartySetting(
+          'ambientimpact_core', 'use_photoswipe_gallery'
+        ),
+    ];
+  }
+
   return $elements;
 }
 
@@ -86,6 +107,8 @@ function ambientimpact_core_field_formatter_third_party_settings_form(
  *
  * This displays a message on the video embed field thumbnail formatter summary
  * if the provider/play icon is shown over the thumbnail.
+ *
+ * This displays PhotoSwipe summary information for image field formatters.
  *
  * @see https://www.drupal.org/node/2130757
  *   Change record; describes the third party settings usage.
@@ -106,5 +129,57 @@ function ambientimpact_core_field_formatter_settings_summary_alter(
     ) === true
   ) {
     $summary[] = t('Provider/play icon shown.');
+  }
+
+  if (
+    $context['formatter']->getPluginId() === 'image' &&
+    // This is passed to us as a string ('1' or '0'), despite the schema
+    // specifying it as boolean, likely because this is at the Form API stage
+    // where checkbox values are treated as strings.
+    (bool) $context['formatter']->getThirdPartySetting(
+      'ambientimpact_core', 'use_photoswipe'
+    ) === true
+  ) {
+    if ((bool) $context['formatter']->getThirdPartySetting(
+      'ambientimpact_core', 'use_photoswipe_gallery'
+    ) === true) {
+      $summary[] = t('Uses PhotoSwipe; grouped as gallery');
+    } else {
+      $summary[] = t('Uses PhotoSwipe');
+    }
+  }
+}
+
+/**
+ * Prepares variables for field templates.
+ *
+ * This attaches the 'ambientimpact_core/component.photoswipe.field' library and
+ * required attributes to fields that have PhotoSwipe enabled via the field
+ * formatter settings.
+ */
+function ambientimpact_core_preprocess_field(&$variables, $hook) {
+  if (
+    $variables['field_type'] === 'image' &&
+    // We only need to process the first item as that's the only one that the
+    // field formatter adds the settings to, to avoid unnecessary work.
+    !empty($variables['items'][0]['content']['#item_attributes']['photoswipe'])
+  ) {
+    $componentManager =
+      \Drupal::service('plugin.manager.ambientimpact_component');
+    $config = $componentManager->getComponentConfiguration('photoswipe');
+    $itemAttributes = &$variables['items'][0]['content']['#item_attributes'];
+
+    foreach ($config['fieldAttributes'] as $attributeName) {
+      if (isset($itemAttributes[$attributeName])) {
+        $variables['attributes'][$attributeName] =
+          $itemAttributes[$attributeName];
+
+        unset($itemAttributes[$attributeName]);
+      }
+    }
+
+    // Attach the field library.
+    $variables['#attached']['library'][] =
+      'ambientimpact_core/component.photoswipe.field';
   }
 }
