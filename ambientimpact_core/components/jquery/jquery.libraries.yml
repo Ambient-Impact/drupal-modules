@@ -3,5 +3,6 @@ component.jquery:
     jquery.js: {}
     jquery.selector.textall.js: {}
     jquery.textNodes.js: {}
+    jquery.findAndSelf.js: {}
   dependencies:
     - core/jquery

@@ -7,8 +7,8 @@
 
 // This component only becomes available once the sub-components have loaded.
 AmbientImpact.on([
-	'jquery.textNodes', 'jquery.selector.textall',
-], function(aijQueryTextNodes, aiSelectorTextAll) {
+	'jquery.textNodes', 'jquery.findAndSelf', 'jquery.selector.textall',
+], function(aijQueryTextNodes, aijQueryFindAndSelf, aiSelectorTextAll) {
 AmbientImpact.addComponent('jquery', function(aijQuery, $) {
 	'use strict';
 });
