@@ -168,23 +168,23 @@ function ambientimpact_core_field_formatter_settings_summary_alter(
 function ambientimpact_core_preprocess_field(&$variables, $hook) {
   if (
     $variables['field_type'] === 'image' &&
-    // We only need to process the first item as that's the only one that the
-    // field formatter adds the settings to, to avoid unnecessary work.
-    !empty($variables['items'][0]['content']['#item_attributes']['photoswipe'])
+    // Check if the field formatter has added the #use_photoswipe key to the
+    // first item to avoid unnecessary work.
+    !empty($variables['items'][0]['content']['#use_photoswipe'])
   ) {
     $componentManager =
       \Drupal::service('plugin.manager.ambientimpact_component');
     $config = $componentManager->getComponentConfiguration('photoswipe');
-    $itemAttributes = &$variables['items'][0]['content']['#item_attributes'];
+    $fieldAttributeMap = $config['fieldAttributes'];
+    $firstItem = &$variables['items'][0]['content'];
 
-    foreach ($config['fieldAttributes'] as $attributeName) {
-      if (isset($itemAttributes[$attributeName])) {
-        $variables['attributes'][$attributeName] =
-          $itemAttributes[$attributeName];
-
-        unset($itemAttributes[$attributeName]);
-      }
-    }
+    // Transfer #use_photoswipe and #use_photoswipe_gallery to the the relevant
+    // attributes on the field itself, and remove them from the first item.
+    $variables['attributes'][$fieldAttributeMap['enabled']] = 'true';
+    $variables['attributes'][$fieldAttributeMap['gallery']] =
+      $firstItem['#use_photoswipe_gallery'] ? 'true' : 'false';
+    unset($firstItem['#use_photoswipe']);
+    unset($firstItem['#use_photoswipe_gallery']);
 
     // Attach the field library.
     $variables['#attached']['library'][] =

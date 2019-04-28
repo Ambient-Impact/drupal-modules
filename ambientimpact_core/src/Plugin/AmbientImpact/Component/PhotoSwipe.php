@@ -104,40 +104,57 @@ class PhotoSwipe extends ComponentBase {
    *   The field items from a field formatter's viewElements() method.
    *
    * @param array $settings
-   *   Any settings for the field.
+   *   Our third-party settings for the field.
    */
   public function alterImageFormatterElements(
     array &$elements,
     FieldItemListInterface $items,
     array $settings = []
   ) {
-    $imageAttributeMap  = $this->configuration['linkedImageAttributes'];
-    $fieldAttributeMap  = $this->configuration['fieldAttributes'];
-
-    if (!empty($elements)) {
-      $attributes = &$elements[0]['#item_attributes'];
-
-      // Pass this flag to ambientimpact_core_preprocess_field() so that it
-      // knows that it should look for PhotoSwipe attributes on this, to save
-      // having to load the component settings for every image field.
-      $attributes['photoswipe'] = true;
-
-      // Indicate that PhotoSwipe should attach to this item.
-      $attributes[$fieldAttributeMap['enabled']] = 'true';
-
-      // Indicate whether this item is to be grouped into a gallery with the
-      // other items in this field.
-      $attributes[$fieldAttributeMap['gallery']] =
-        $settings['gallery'] ? 'true' : 'false';
-
-      // Clean up just in case we could affect the foreach below.
-      unset($attributes);
+    if (empty($elements)) {
+      return;
     }
+
+    $imageAttributeMap = $this->configuration['linkedImageAttributes'];
+
+    // Whether to automatically group all field items into one gallery.
+    $gallery = false;
+
+    if (
+      isset($settings['use_photoswipe_gallery']) &&
+      $settings['use_photoswipe_gallery'] === true
+    ) {
+      $gallery = true;
+    }
+
+    // Pass this flag to ambientimpact_core_preprocess_field() so that it knows
+    // to add PhotoSwipe attributes on this and to attach the library.
+    $elements[0]['#use_photoswipe'] = true;
+
+    // Indicate to ambientimpact_core_preprocess_field() whether this item is to
+    // be grouped into a gallery with the other items in this field.
+    $elements[0]['#use_photoswipe_gallery'] = $gallery;
 
     foreach ($items as $delta => $item) {
       $attributes = &$elements[$delta]['#item_attributes'];
-      foreach (['width', 'height'] as $type) {
-        $attributes[$imageAttributeMap[$type]] = $item->$type;
+
+      // If the width and height have been provided by the formatter, use those.
+      if (
+        isset($elements[$delta]['#photoswipe_width']) &&
+        isset($elements[$delta]['#photoswipe_height'])
+      ) {
+        foreach (['width', 'height'] as $dimension) {
+          $attributes[$imageAttributeMap[$dimension]] =
+            $elements[$delta]['#photoswipe_' . $dimension];
+        }
+
+      // If they haven't been provided, fall back to using the ones on the image
+      // item. If the aspect ratio is the same between the displayed image on
+      // the page and the image being linked to, PhotoSwipe should work fine.
+      } else {
+        foreach (['width', 'height'] as $dimension) {
+          $attributes[$imageAttributeMap[$dimension]] = $item->$dimension;
+        }
       }
     }
   }
