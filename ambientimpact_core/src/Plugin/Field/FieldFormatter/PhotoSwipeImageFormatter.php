@@ -96,6 +96,7 @@ class PhotoSwipeImageFormatter extends ImageFormatter {
       $container->get('plugin.manager.ambientimpact_component')
     );
   }
+
   /**
    * {@inheritdoc}
    *
