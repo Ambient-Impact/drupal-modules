@@ -46,6 +46,12 @@ function ambientimpact_core_field_formatter_info_alter(array &$info) {
       'Drupal\ambientimpact_core\Plugin\Field\FieldFormatter\PhotoSwipeImageFormatter';
     $info['image']['provider'] = 'ambientimpact_core';
   }
+
+  if (isset($info['image_formatter_link_to_image_style'])) {
+    $info['image_formatter_link_to_image_style']['class'] =
+      'Drupal\ambientimpact_core\Plugin\Field\FieldFormatter\PhotoSwipeImageFormatterLinkToImageStyleFormatter';
+    $info['image_formatter_link_to_image_style']['provider'] = 'ambientimpact_core';
+  }
 }
 
 /**
@@ -69,8 +75,9 @@ function ambientimpact_core_field_formatter_third_party_settings_form(
   \Drupal\Core\Form\FormStateInterface $formState
 ) {
   $elements = [];
+  $pluginID = $plugin->getPluginId();
 
-  if ($plugin->getPluginId() === 'video_embed_field_thumbnail') {
+  if ($pluginID === 'video_embed_field_thumbnail') {
     $elements['play_icon'] = [
       '#type'           => 'checkbox',
       '#title'          => t('Show provider/play icon'),
@@ -80,7 +87,10 @@ function ambientimpact_core_field_formatter_third_party_settings_form(
     ];
   }
 
-  if ($plugin->getPluginId() === 'image') {
+  if (in_array($pluginID, [
+    'image',
+    'image_formatter_link_to_image_style',
+  ])) {
     $elements['use_photoswipe'] = [
       '#type'           => 'checkbox',
       '#title'          => t('Use PhotoSwipe'),
@@ -127,8 +137,10 @@ function ambientimpact_core_field_formatter_third_party_settings_form(
 function ambientimpact_core_field_formatter_settings_summary_alter(
   &$summary, $context
 ) {
+  $pluginID = $context['formatter']->getPluginId();
+
   if (
-    $context['formatter']->getPluginId() === 'video_embed_field_thumbnail' &&
+    $pluginID === 'video_embed_field_thumbnail' &&
     // This is passed to us as a string ('1' or '0'), despite the schema
     // specifying it as boolean, likely because this is at the Form API stage
     // where checkbox values are treated as strings.
@@ -140,7 +152,10 @@ function ambientimpact_core_field_formatter_settings_summary_alter(
   }
 
   if (
-    $context['formatter']->getPluginId() === 'image' &&
+    in_array($pluginID, [
+      'image',
+      'image_formatter_link_to_image_style',
+    ]) &&
     // This is passed to us as a string ('1' or '0'), despite the schema
     // specifying it as boolean, likely because this is at the Form API stage
     // where checkbox values are treated as strings.
