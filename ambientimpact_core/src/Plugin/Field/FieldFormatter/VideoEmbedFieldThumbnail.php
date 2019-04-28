@@ -19,6 +19,13 @@ use Drupal\video_embed_field\Plugin\Field\FieldFormatter\Thumbnail;
  */
 class VideoEmbedFieldThumbnail extends Thumbnail {
   /**
+   * The Drupal image factory service.
+   *
+   * @var \Drupal\Core\Image\ImageFactory
+   */
+  protected $imageFactory;
+
+  /**
    * Constructs a new instance of the plugin.
    *
    * This is modified from the parent Thumbnail::__construct() to add the
