@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_core;
+namespace Drupal\ambientimpact_core\EventSubscriber;
 
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
