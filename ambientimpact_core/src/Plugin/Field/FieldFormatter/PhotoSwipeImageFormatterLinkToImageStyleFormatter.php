@@ -11,6 +11,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Utility\LinkGeneratorInterface;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\image_formatter_link_to_image_style\Plugin\Field\FieldFormatter\ImageFormatterLinkToImageStyleFormatter;
+use Drupal\ambientimpact_core\Config\Entity\ThirdPartySettingsDefaultsTrait;
 use Drupal\ambientimpact_core\ComponentPluginManager;
 
 /**
@@ -20,6 +21,8 @@ use Drupal\ambientimpact_core\ComponentPluginManager;
  */
 class PhotoSwipeImageFormatterLinkToImageStyleFormatter
 extends ImageFormatterLinkToImageStyleFormatter {
+  use ThirdPartySettingsDefaultsTrait;
+
   /**
    * The Drupal image factory service.
    *
@@ -95,6 +98,11 @@ extends ImageFormatterLinkToImageStyleFormatter {
 
     $this->imageFactory     = $imageFactory;
     $this->componentManager = $componentManager;
+
+    // Set default for the gallery setting to true.
+    $this->setThirdPartySettingDefault(
+      'ambientimpact_core', 'use_photoswipe_gallery', true
+    );
   }
 
   /**
@@ -138,7 +146,6 @@ extends ImageFormatterLinkToImageStyleFormatter {
     // Don't do any work if the field is empty or PhotoSwipe is not to be used.
     if (
       empty($elements) ||
-      !isset($settings['use_photoswipe']) ||
       $settings['use_photoswipe'] !== true
     ) {
       return $elements;

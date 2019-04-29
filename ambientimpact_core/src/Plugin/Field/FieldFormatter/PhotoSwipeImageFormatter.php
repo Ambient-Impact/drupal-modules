@@ -8,12 +8,15 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\image\Plugin\Field\FieldFormatter\ImageFormatter;
+use Drupal\ambientimpact_core\Config\Entity\ThirdPartySettingsDefaultsTrait;
 use Drupal\ambientimpact_core\ComponentPluginManager;
 
 /**
  * Plugin implementation of the 'image' formatter with PhotoSwipe data.
  */
 class PhotoSwipeImageFormatter extends ImageFormatter {
+  use ThirdPartySettingsDefaultsTrait;
+
   /**
    * The Component plugin manager instance.
    *
@@ -72,6 +75,11 @@ class PhotoSwipeImageFormatter extends ImageFormatter {
     );
 
     $this->componentManager = $componentManager;
+
+    // Set default for the gallery setting to true.
+    $this->setThirdPartySettingDefault(
+      'ambientimpact_core', 'use_photoswipe_gallery', true
+    );
   }
 
   /**
@@ -116,7 +124,6 @@ class PhotoSwipeImageFormatter extends ImageFormatter {
     if (
       empty($elements) ||
       $this->getSetting('image_link') !== 'file' ||
-      !isset($settings['use_photoswipe']) ||
       $settings['use_photoswipe'] !== true
     ) {
       return $elements;
