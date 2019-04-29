@@ -124,16 +124,6 @@ class VideoEmbedFieldThumbnail extends Thumbnail {
     $elements = parent::viewElements($items, $langCode);
     $settings = $this->getThirdPartySettings('ambientimpact_core');
 
-    // Don't alter the render array if our field formatter setting isn't set to
-    // true. We still need to loop over all the items to attempt to fetch the
-    // width and height regardless, so just set a variable that we can use to
-    // quickly continue in the foreach loop.
-    if ($settings['play_icon'] !== true) {
-      $addPlayIcon = false;
-    } else {
-      $addPlayIcon = true;
-    }
-
     foreach ($items as $delta => $item) {
       $element  = &$elements[$delta];
       $image    = &$element['#title'];
@@ -176,7 +166,7 @@ class VideoEmbedFieldThumbnail extends Thumbnail {
       if (
         !$provider ||
         $this->getSetting('link_image_to') !== static::LINK_PROVIDER ||
-        !$addPlayIcon
+        !$settings['play_icon']
       ) {
         continue;
       }
