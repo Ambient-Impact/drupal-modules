@@ -141,7 +141,7 @@ extends ImageFormatterLinkToImageStyleFormatter {
   public function viewElements(FieldItemListInterface $items, $langCode) {
     $elements = parent::viewElements($items, $langCode);
 
-    $settings = &$this->thirdPartySettings['ambientimpact_core'];
+    $settings = $this->getThirdPartySettings('ambientimpact_core');
 
     // Don't do any work if the field is empty or PhotoSwipe is not to be used.
     if (
