@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\Core\Image\ImageFactory;
+use Drupal\ambientimpact_core\Config\Entity\ThirdPartySettingsDefaultsTrait;
 use Drupal\video_embed_field\ProviderManagerInterface;
 use Drupal\video_embed_field\Plugin\Field\FieldFormatter\Thumbnail;
 
@@ -18,6 +19,8 @@ use Drupal\video_embed_field\Plugin\Field\FieldFormatter\Thumbnail;
  * attempts to fetch and set the image width and height as Thumbnail does not.
  */
 class VideoEmbedFieldThumbnail extends Thumbnail {
+  use ThirdPartySettingsDefaultsTrait;
+
   /**
    * The Drupal image factory service.
    *
@@ -65,6 +68,11 @@ class VideoEmbedFieldThumbnail extends Thumbnail {
     );
 
     $this->imageFactory = $image_factory;
+
+    // Set default for the gallery setting to true.
+    $this->setThirdPartySettingDefault(
+      'ambientimpact_core', 'play_icon', true
+    );
   }
 
   /**
@@ -115,14 +123,11 @@ class VideoEmbedFieldThumbnail extends Thumbnail {
   public function viewElements(FieldItemListInterface $items, $langCode) {
     $elements = parent::viewElements($items, $langCode);
 
-    // Don't alter the render array if our field formatter setting isn't present
-    // or is not set to true. We still need to loop over all the items to
-    // attempt to fetch the width and height regardless, so just set a variable
-    // that we can use to quickly continue in the foreach loop.
-    if (
-      !isset($this->thirdPartySettings['ambientimpact_core']['play_icon']) ||
-      $this->thirdPartySettings['ambientimpact_core']['play_icon'] !== true
-    ) {
+    // Don't alter the render array if our field formatter setting isn't  set to
+    // true. We still need to loop over all the items to attempt to fetch the
+    // width and height regardless, so just set a variable that we can use to
+    // quickly continue in the foreach loop.
+    if ($this->thirdPartySettings['ambientimpact_core']['play_icon'] !== true) {
       $addPlayIcon = false;
     } else {
       $addPlayIcon = true;
