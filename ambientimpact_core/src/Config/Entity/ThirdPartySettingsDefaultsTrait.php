@@ -36,7 +36,10 @@ trait ThirdPartySettingsDefaultsTrait {
   public function setThirdPartySettingDefault(
     string $module, string $key, $value
   ) {
-    if (!isset($this->third_party_settings[$module][$key])) {
+    // Note: don't check $this->third_party_settings here because it won't be
+    // reliable, but for some reason $this->getThirdPartySetting() is. Perhaps
+    // it prompts Drupal to build $this->third_party_settings?
+    if ($this->getThirdPartySetting($module, $key) === null) {
       $this->setThirdPartySetting($module, $key, $value);
     }
 
