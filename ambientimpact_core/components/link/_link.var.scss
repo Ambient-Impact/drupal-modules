@@ -1,7 +1,6 @@
 // -----------------------------------------------------------------------------
-//	Ambient.Impact - Core - Link component variables partial
+//   Ambient.Impact - Core - Link component variables partial
 // -----------------------------------------------------------------------------
-
 
 ///
 /// The link base colour.
@@ -11,15 +10,15 @@
 /// blue if it does not exist.
 ///
 $link-base-colour: if(
-	variable-exists(material-primary-colour),
-	$material-primary-colour,
-	#3B53BF
-)																	!default;
+  variable-exists(material-primary-colour),
+  $material-primary-colour,
+  #3B53BF
+) !default;
 
 ///
 /// Link colour on light backgrounds when not highlighted/activated.
 ///
-$link-normal-colour-on-light:		$link-base-colour				!default;
+$link-normal-colour-on-light: $link-base-colour !default;
 
 ///
 /// Link colour on dark backgrounds when not highlighted/activated.
@@ -30,63 +29,58 @@ $link-normal-colour-on-light:		$link-base-colour				!default;
 ///
 /// @require {function} invert-lightness
 ///
-$link-normal-colour-on-dark:
-	invert-lightness($link-base-colour)								!default;
+$link-normal-colour-on-dark: invert-lightness($link-base-colour) !default;
 
 ///
 /// Link colour on light backgrounds when hovered/focused.
 ///
 $link-hover-colour-on-light:
-	lighten($link-normal-colour-on-light,	10%)					!default;
+  lighten($link-normal-colour-on-light, 10%) !default;
 
 ///
 /// Link colour on dark backgrounds when hovered/focused.
 ///
 $link-hover-colour-on-dark:
-	lighten($link-normal-colour-on-dark,	10%)					!default;
+  lighten($link-normal-colour-on-dark,  10%) !default;
 
 ///
 /// Link colour on light backgrounds when activated.
 ///
-$link-active-colour-on-light:		#EE0000							!default;
+$link-active-colour-on-light: #EE0000 !default;
 
 ///
 /// Link colour on dark backgrounds when activated.
 ///
-$link-active-colour-on-dark:		#EE0000							!default;
+$link-active-colour-on-dark: #EE0000 !default;
 
 ///
 /// Link underline colour on light backgrounds when not highlighted/activated.
 ///
 $link-underline-normal-colour-on-light:
-	rgba($link-normal-colour-on-light, 0.6)							!default;
+  rgba($link-normal-colour-on-light, 0.6) !default;
 
 ///
 /// Link underline colour on dark backgrounds when not highlighted/activated.
 ///
 $link-underline-normal-colour-on-dark:
-	rgba($link-normal-colour-on-dark, 0.6)							!default;
+  rgba($link-normal-colour-on-dark, 0.6) !default;
 
 ///
 /// Link underline colour on light backgrounds when hovered/focused.
 ///
-$link-underline-hover-colour-on-light:
-	$link-hover-colour-on-light										!default;
+$link-underline-hover-colour-on-light: $link-hover-colour-on-light !default;
 
 ///
 /// Link underline colour on dark backgrounds when hovered/focused.
 ///
-$link-underline-hover-colour-on-dark:
-	$link-hover-colour-on-dark										!default;
+$link-underline-hover-colour-on-dark: $link-hover-colour-on-dark !default;
 
 ///
 /// Link underline colour on light backgrounds when activated.
 ///
-$link-underline-active-colour-on-light:
-	$link-active-colour-on-light									!default;
+$link-underline-active-colour-on-light: $link-active-colour-on-light !default;
 
 ///
 /// Link underline colour on dark backgrounds when activated.
 ///
-$link-underline-active-colour-on-dark:
-	$link-active-colour-on-dark										!default;
+$link-underline-active-colour-on-dark: $link-active-colour-on-dark !default;

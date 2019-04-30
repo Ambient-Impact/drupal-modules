@@ -1,7 +1,6 @@
 // -----------------------------------------------------------------------------
-//	Ambient.Impact - Core - Link component colour partial
+//   Ambient.Impact - Core - Link component colour partial
 // -----------------------------------------------------------------------------
-
 
 ///
 /// Set link colour properties based on background colour.
@@ -9,41 +8,41 @@
 /// @param {Color} $background [$background-colour]
 ///   The background colour the link is on.
 ///
-/// @require {function}	get-link-colours
-/// @require {mixin}	link-colour-custom-properties
-/// @require {function}	custom-property
+/// @require {function} get-link-colours
+/// @require {mixin}  link-colour-custom-properties
+/// @require {function} custom-property
 ///
 @mixin link-colours($background: $background-colour) {
-	$colours: get-link-colours($background);
+  $colours: get-link-colours($background);
 
-	@include link-colour-custom-properties($background, $colours);
+  @include link-colour-custom-properties($background, $colours);
 
-	color:	map-get($colours, normal);
-	color:	custom-property('link-normal-colour');
+  color:  map-get($colours, normal);
+  color:  custom-property('link-normal-colour');
 
-	// Add underline colour for browsers that support it, though text-
-	// decoration-skip: ink; is not well supported as of November 2017 and fancy
-	// link underlines still give us more control, e.g. underline thickness.
-	text-decoration-color:	map-get($colours, underline-normal);
-	text-decoration-color:
-		custom-property('link-underline-normal-colour');
+  // Add underline colour for browsers that support it, though text-
+  // decoration-skip: ink; is not well supported as of November 2017 and fancy
+  // link underlines still give us more control, e.g. underline thickness.
+  text-decoration-color:  map-get($colours, underline-normal);
+  text-decoration-color:
+    custom-property('link-underline-normal-colour');
 
-	@include link-hover {
-		color:	map-get($colours, hover);
-		color:	custom-property('link-hover-colour');
+  @include link-hover {
+    color:  map-get($colours, hover);
+    color:  custom-property('link-hover-colour');
 
-		text-decoration-color: map-get($colours, underline-hover);
-		text-decoration-color:
-			custom-property('link-underline-hover-colour');
-	}
-	@include link-active {
-		color:	map-get($colours, active)				!important;
-		color:	custom-property('link-active-colour')	!important;
+    text-decoration-color: map-get($colours, underline-hover);
+    text-decoration-color:
+      custom-property('link-underline-hover-colour');
+  }
+  @include link-active {
+    color:  map-get($colours, active)       !important;
+    color:  custom-property('link-active-colour') !important;
 
-		text-decoration-color:	map-get($colours, underline-active);
-		text-decoration-color:
-			custom-property('link-underline-active-colour');
-	}
+    text-decoration-color:  map-get($colours, underline-active);
+    text-decoration-color:
+      custom-property('link-underline-active-colour');
+  }
 }
 
 ///
@@ -59,36 +58,36 @@
 /// @require {mixin} get-contrasting-colour
 ///
 @function get-link-colours($background: $background-colour) {
-	$colours: ();
+  $colours: ();
 
-	$contrasting-colour: get-contrasting-colour(
-		$background:			$background,
-		$foreground-on-light:	$link-normal-colour-on-light,
-		$foreground-on-dark:	$link-normal-colour-on-dark
-	);
+  $contrasting-colour: get-contrasting-colour(
+    $background:      $background,
+    $foreground-on-light: $link-normal-colour-on-light,
+    $foreground-on-dark:  $link-normal-colour-on-dark
+  );
 
-	@if ($contrasting-colour == $link-normal-colour-on-light) {
-		$colours: (
-			normal:					$link-normal-colour-on-light,
-			hover:					$link-hover-colour-on-light,
-			active:					$link-active-colour-on-light,
+  @if ($contrasting-colour == $link-normal-colour-on-light) {
+    $colours: (
+      normal:         $link-normal-colour-on-light,
+      hover:          $link-hover-colour-on-light,
+      active:         $link-active-colour-on-light,
 
-			underline-normal:		$link-underline-normal-colour-on-light,
-			underline-hover:		$link-underline-hover-colour-on-light,
-			underline-active:		$link-underline-active-colour-on-light
-		);
+      underline-normal:   $link-underline-normal-colour-on-light,
+      underline-hover:    $link-underline-hover-colour-on-light,
+      underline-active:   $link-underline-active-colour-on-light
+    );
 
-	} @else if ($contrasting-colour == $link-normal-colour-on-dark) {
-		$colours: (
-			normal:					$link-normal-colour-on-dark,
-			hover:					$link-hover-colour-on-dark,
-			active:					$link-active-colour-on-dark,
+  } @else if ($contrasting-colour == $link-normal-colour-on-dark) {
+    $colours: (
+      normal:         $link-normal-colour-on-dark,
+      hover:          $link-hover-colour-on-dark,
+      active:         $link-active-colour-on-dark,
 
-			underline-normal:		$link-underline-normal-colour-on-dark,
-			underline-hover:		$link-underline-hover-colour-on-dark,
-			underline-active:		$link-underline-active-colour-on-dark
-		);
-	}
+      underline-normal:   $link-underline-normal-colour-on-dark,
+      underline-hover:    $link-underline-hover-colour-on-dark,
+      underline-active:   $link-underline-active-colour-on-dark
+    );
+  }
 
-	@return $colours;
+  @return $colours;
 }

@@ -1,13 +1,11 @@
 // -----------------------------------------------------------------------------
-//	Ambient.Impact - Core - Link component partial
+//   Ambient.Impact - Core - Link component partial
 // -----------------------------------------------------------------------------
-
 
 @import '_link.var.scss';
 @import '_link.colour.scss';
 @import '_link.custom_property.scss';
 @import '_link.state.scss';
-
 
 ///
 /// Set link properties and effects.
@@ -18,28 +16,28 @@
 /// @param {Color} $background [$background-colour]
 ///   The background colour the link is on.
 ///
-/// @require {mixin}	transition-fade-normal
-/// @require {mixin}	transition-fade-hover
-/// @require {mixin}	link-hover
-/// @require {mixin}	link-colours
+/// @require {mixin}  transition-fade-normal
+/// @require {mixin}  transition-fade-hover
+/// @require {mixin}  link-hover
+/// @require {mixin}  link-colours
 ///
 @mixin link($background: $background-colour) {
-	@include transition-fade-normal();
+  @include transition-fade-normal();
 
-	// Override AdaptiveTheme so that underlines are always visible, not just
-	// on hover, making them more obvious on mobile.
-	text-decoration:		underline;
+  // Override AdaptiveTheme so that underlines are always visible, not just
+  // on hover, making them more obvious on mobile.
+  text-decoration:    underline;
 
-	// For browsers that support it, clear descenders. First declaration is
-	// better supported (at least in Blink as of May 2018), and second is the
-	// new proposed standard:
-	// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-skip-ink
-	text-decoration-skip:		ink;
-	text-decoration-skip-ink:	auto;
+  // For browsers that support it, clear descenders. First declaration is
+  // better supported (at least in Blink as of May 2018), and second is the
+  // new proposed standard:
+  // https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-skip-ink
+  text-decoration-skip:   ink;
+  text-decoration-skip-ink: auto;
 
-	@include link-hover {
-		@include transition-fade-hover();
-	}
+  @include link-hover {
+    @include transition-fade-hover();
+  }
 
-	@include link-colours($background);
+  @include link-colours($background);
 }

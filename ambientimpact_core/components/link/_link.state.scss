@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-//	Ambient.Impact - Core - Link component state partial
+//   Ambient.Impact - Core - Link component state partial
 // -----------------------------------------------------------------------------
 
 ///
@@ -15,22 +15,22 @@
 /// @content
 ///   The styles to apply on hover and focus (if indicated).
 ///
-/// @require {mixin}	yep
-/// @require {mixin}	not-pointer-focus
+/// @require {mixin}  yep
+/// @require {mixin}  not-pointer-focus
 ///
 @mixin link-hover($focus: true) {
-	@include yep('ambientimpact-global-hover') {
-		&:hover,
-		&.proxy-hover {
-			@content;
-		}
-	}
+  @include yep('ambientimpact-global-hover') {
+    &:hover,
+    &.proxy-hover {
+      @content;
+    }
+  }
 
-	@if ($focus == true) {
-		@include not-pointer-focus {
-			@content;
-		}
-	}
+  @if ($focus == true) {
+    @include not-pointer-focus {
+      @content;
+    }
+  }
 }
 
 ///
@@ -44,10 +44,10 @@
 ///   The styles to apply on active state.
 ///
 @mixin link-active {
-	&:not(.material-ripple-container) {
-		&:active,
-		&.proxy-active {
-			@content;
-		}
-	}
+  &:not(.material-ripple-container) {
+    &:active,
+    &.proxy-active {
+      @content;
+    }
+  }
 }
