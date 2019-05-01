@@ -46,12 +46,22 @@ $link-hover-colour-on-dark:
 ///
 /// Link colour on light backgrounds when activated.
 ///
-$link-active-colour-on-light: #EE0000 !default;
+/// A value of auto indicates that the active colour should be automatically
+/// generated based on the highlighted colour.
+///
+/// @see {function} get-link-active-colour
+///
+$link-active-colour-on-light: auto !default;
 
 ///
 /// Link colour on dark backgrounds when activated.
 ///
-$link-active-colour-on-dark: #EE0000 !default;
+/// A value of auto indicates that the active colour should be automatically
+/// generated based on the highlighted colour.
+///
+/// @see {function} get-link-active-colour
+///
+$link-active-colour-on-dark: auto !default;
 
 ///
 /// Link underline colour on light backgrounds when not highlighted/activated.
@@ -78,9 +88,19 @@ $link-underline-hover-colour-on-dark: $link-hover-colour-on-dark !default;
 ///
 /// Link underline colour on light backgrounds when activated.
 ///
+/// A value of auto indicates that the active colour should be automatically
+/// generated based on the highlighted colour.
+///
+/// @see {function} get-link-active-colour
+///
 $link-underline-active-colour-on-light: $link-active-colour-on-light !default;
 
 ///
 /// Link underline colour on dark backgrounds when activated.
+///
+/// A value of auto indicates that the active colour should be automatically
+/// generated based on the highlighted colour.
+///
+/// @see {function} get-link-active-colour
 ///
 $link-underline-active-colour-on-dark: $link-active-colour-on-dark !default;
