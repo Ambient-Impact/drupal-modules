@@ -1,26 +1,26 @@
 // -----------------------------------------------------------------------------
-//	Helpers master file
+//   Helpers master file
 // -----------------------------------------------------------------------------
 
-@import 'selector';
-@import 'math';
-@import 'string';
-@import 'colour';
-@import 'value';
-@import 'custom_property';
-@import 'responsive';
-@import 'breakpoint';
-@import 'z-index';
+@import '_selector.scss';
+@import '_math.scss';
+@import '_string.scss';
+@import '_colour.scss';
+@import '_value.scss';
+@import '_custom_property.scss';
+@import '_responsive.scss';
+@import '_breakpoint.scss';
+@import '_z-index.scss';
 
-@import 'hide';
-@import 'layout';
+@import '_hide.scss';
+@import '_layout.scss';
 
-@import 'typography.responsive';
-@import 'typography.heading';
-@import 'typography.selection';
-@import 'typography.underline';
+@import '_typography.responsive.scss';
+@import '_typography.heading.scss';
+@import '_typography.selection.scss';
+@import '_typography.underline.scss';
 
-@import 'outline';
-@import 'clipping';
-@import 'shadow';
-@import 'transition';
+@import '_outline.scss';
+@import '_clipping.scss';
+@import '_shadow.scss';
+@import '_transition.scss';
