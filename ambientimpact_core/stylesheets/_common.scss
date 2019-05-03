@@ -1,23 +1,39 @@
 // -----------------------------------------------------------------------------
-//	Common master file
+//   Common master file
 // -----------------------------------------------------------------------------
 
-// Include this in your theme to take advantage of all the mixins and variables.
+// Include this in your stylesheets to take advantage of all the mixins and
+// variables included here.
 
-
-@import '../assets/vendor/SassyLists/stylesheets/SassyLists';
+// SassyLists: advanced list functions.
+// @see http://at-import.github.io/SassyLists/
+@import '../assets/vendor/SassyLists/stylesheets/_SassyLists.scss';
 
 // Recursive map merge.
 // @see https://github.com/pentzzsolt/sass-recursive-map-merge
 @import '../assets/vendor/sass-recursive-map-merge/_recursive-map-merge.scss';
 
-@import '../assets/vendor/sassy-math/compass/stylesheets/math';
-@import '../assets/vendor/SassyCast/dist/SassyCast';
-@import '../assets/vendor/sass-toolkit/stylesheets/toolkit';
-@import '../assets/vendor/jacket/stylesheets/jacket';
-@import '../assets/vendor/include-media/dist/include-media';
+// Sassy Math: Complex math functions.
+// @see https://github.com/at-import/Sassy-math
+@import '../assets/vendor/sassy-math/compass/stylesheets/_math.scss';
 
-@import 'variables/variables';
-@import 'helpers/helpers';
-@import 'patterns/patterns';
-@import '../components/_components';
+// Sassy Cast: Type conversion functions.
+// @see https://github.com/HugoGiraudel/SassyCast
+@import '../assets/vendor/SassyCast/dist/_SassyCast.scss';
+
+// Toolkit for Responsive Web Design and Progressive Enhancement.
+// @see https://github.com/at-import/toolkit
+@import '../assets/vendor/sass-toolkit/stylesheets/_toolkit.scss';
+
+// Conditional Styles with Sass.
+// @see https://github.com/at-import/jacket
+@import '../assets/vendor/jacket/stylesheets/_jacket.scss';
+
+// Simple, elegant and maintainable media queries in Sass.
+// @see https://include-media.com/
+@import '../assets/vendor/include-media/dist/_include-media.scss';
+
+@import 'variables/_variables.scss';
+@import 'helpers/_helpers.scss';
+@import 'patterns/_patterns.scss';
+@import '../components/_components.scss';
