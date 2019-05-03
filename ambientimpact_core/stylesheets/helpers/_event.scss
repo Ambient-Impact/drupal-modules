@@ -1,0 +1,120 @@
+// -----------------------------------------------------------------------------
+//   Event system helpers
+// -----------------------------------------------------------------------------
+
+// This creates a basic event system that can be used to listen to and trigger
+// arbitrary events.
+
+// This currently only allows functions to be used, as dynamic
+// mixin name interpolation isn't yet supported in Sass:
+// @see https://github.com/sass/sass/issues/626
+
+// Note that lists in Sass are overly permissive compared to other languages,
+// leading to all sorts of headaches and baffling implicit type conversions if
+// one is not familiar with how they operate. When making changes to any of
+// this, extra care must be taken to avoid these issues.
+// @see https://hugogiraudel.com/2013/07/15/understanding-sass-lists/
+
+///
+/// Global map of events and handlers.
+///
+/// The structure of each event key/value is:
+///
+/// 'event-name1': (
+///   (
+///     'property-name':  <a CSS property name to map callback @return to>,
+///     'callback':       <a Sass function object>
+///   ),
+///   (
+///     'property-name':  <...>,
+///     'callback':       <...>
+///   )
+///   // etc.
+/// ),
+/// 'event-name2': (
+///   (
+///     'property-name':  <...>,
+///     'callback':       <...>
+///   ),
+///   (
+///     'property-name':  <...>,
+///     'callback':       <...>
+///   )
+///   // etc.
+/// )
+///
+/// ...and so on.
+///
+/// @see {mixin} on-event
+///   Registers event callbacks with an event.
+///
+/// @see {mixin} trigger-event
+///   Triggers the callbacks for a given event name with
+///
+$events: ();
+
+///
+/// Register a callback function to run on a given event.
+///
+/// @param {String} $event-name
+///   The name of the event to register to.
+///
+/// @param {String} $property-name
+///   The name of the CSS property that $callback's @return maps to.
+///
+/// @param {String|Function} $callback
+///   The callback function that will be registered to the event $property-name.
+///   If this is a string, will attempt to fetch a global function with that
+///   name via get-function(). If this is a function, will be used as-is.
+///
+@mixin on-event($event-name, $property-name, $callback) {
+  @if type-of($callback) == string and function-exists($callback) {
+    $callback: get-function($callback);
+  } @else if type-of($callback) != function {
+    @error 'on-event() expects $callback as a string function name or a function object, is #{type-of($callback)}';
+  }
+
+  @if type-of($callback) == function {
+    $event-items: ();
+    $new-item: (
+      'property-name':  $property-name,
+      'callback':       $callback
+    );
+
+    // Grab the existing event items (if any) or create a new list containing
+    // the new item. Note the explicit list format when creating a new list.
+    @if map-has-key($events, $event-name) {
+      $event-items: append(map-get($events, $event-name), $new-item, comma);
+    } @else {
+      $event-items: ($new-item,);
+    }
+
+    $events: map-merge($events, (
+      $event-name: $event-items
+    )) !global;
+  }
+}
+
+///
+/// Trigger a given event with parameters.
+///
+/// This will trigger all registered callback functions for the given event and
+/// output their return values as properties, defined by each callback when they
+/// were registered.
+///
+/// @param {String} $event-name
+///   The name of the event to trigger.
+///
+/// @param {ArgList} $parameters
+///   One or more paramters to pass to each registered callback function.
+///
+@mixin trigger-event($event-name, $parameters...) {
+  @if map-has-key($events, $event-name) {
+    $event-items: map-get($events, $event-name);
+
+    @each $event-item in $event-items {
+      #{map-get($event-item, 'property-name')}:
+        call(map-get($event-item, 'callback'), $parameters...);
+    }
+  }
+}
