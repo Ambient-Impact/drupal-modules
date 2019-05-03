@@ -106,7 +106,7 @@ $events: ();
 ///   The name of the event to trigger.
 ///
 /// @param {ArgList} $parameters
-///   One or more paramters to pass to each registered callback function.
+///   One or more parameters to pass to each registered callback function.
 ///
 @mixin trigger-event($event-name, $parameters...) {
   @if map-has-key($events, $event-name) {
