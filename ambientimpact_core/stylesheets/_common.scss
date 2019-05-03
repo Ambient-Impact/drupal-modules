@@ -6,6 +6,11 @@
 
 
 @import '../assets/vendor/SassyLists/stylesheets/SassyLists';
+
+// Recursive map merge.
+// @see https://github.com/pentzzsolt/sass-recursive-map-merge
+@import '../assets/vendor/sass-recursive-map-merge/_recursive-map-merge.scss';
+
 @import '../assets/vendor/sassy-math/compass/stylesheets/math';
 @import '../assets/vendor/SassyCast/dist/SassyCast';
 @import '../assets/vendor/sass-toolkit/stylesheets/toolkit';

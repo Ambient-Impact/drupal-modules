@@ -37,6 +37,7 @@
     "sassy-math": "~1.5.1",
     "include-media": "^1.4.9",
     "SassyCast": "sassy-cast#^2.0.0",
+    "sass-recursive-map-merge": "https://github.com/pentzzsolt/sass-recursive-map-merge.git",
     "tippy.js-source": "https://github.com/atomiks/tippyjs/archive/v2.6.0.zip"
   },
   "resolutions": {
