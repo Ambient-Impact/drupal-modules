@@ -1,9 +1,1 @@
-{
-	"version": 3,
-	"file": "material.ripple.css",
-	"sources": [
-		"material.ripple.scss"
-	],
-	"names": [],
-	"mappings": ""
-}
+{"version":3,"sources":["_material.ripple.scss","material.ripple.scss"],"names":[],"mappings":"AAqBY,2BCbZ,iBDcI,uBAAkB,CCdtB,8GDmBQ,gPAUA,AAVA,yOAUA,yBACA,4BACA,6BACA,iEAAyD,AAAzD,wDAAyD,CChCjE,8BDsCM,kCAA0B,AAA1B,yBAA0B,CAC3B,CCnCL,mCAEE,GACE,yBACA,+JAGK,CAGP,IACE,qGAIA,yEAGA,+JAGK,CAGP,MACE,+BAAgC,CAGlC,KACE,gCACA,+BAAgC,CAAA,CAAA,AA9BpC,2BAEE,GACE,yBACA,+JAGK,CAGP,IACE,qGAIA,yEAGA,+JAGK,CAGP,MACE,+BAAgC,CAGlC,KACE,gCACA,+BAAgC,CAAA,CAAA","file":"material.ripple.css"}

@@ -1,0 +1,68 @@
+// -----------------------------------------------------------------------------
+//  Ambient.Impact - Core - Material Design ripple component partial
+// -----------------------------------------------------------------------------
+
+// @see https://codepen.io/jproffitt71/pen/PBPKmw
+
+///
+/// The Material ripple fallback radius if rippling from the centre.
+///
+/// From the linked Pen:
+/// > the radius of circle that would encompass the corners of a 1:1 square
+/// > button as the worst case when rippling from the center.
+///
+/// @require {function} sqrt
+///
+/// @see https://codepen.io/jproffitt71/pen/PBPKmw
+///   Based on this.
+///
+$material-ripple-fallback-radius: 100% * sqrt(2) / 2 !default;
+
+@mixin material-ripple {
+  @supports #{'(--test: orange)'} {
+    --ripple-duration: 0.8s;
+
+    &:active,
+    &.click-fx {
+      &:not(:disabled):not(.disabled) {
+        background-image:
+          // This is the ripple itself.
+          radial-gradient(
+            circle closest-side at center,
+            var(--ripple-colour) 0%,
+            var(--ripple-colour) calc(100% - var(--ripple-fuzz, 0px)),
+            transparent 100%
+          ),
+          // This is used for simulating a fade out.
+          linear-gradient(180deg, var(--ripple-colour) 10%, transparent 90%);
+        background-size: 0 0, 0 0;
+        background-repeat: no-repeat;
+        background-origin: border-box;
+        animation: material-ripple var(--ripple-duration) ease-in;
+      }
+    }
+
+    &.pre-click-fx {
+      // Reset the animation.
+      animation: none !important;
+    }
+  }
+}
+
+///
+/// Fade out the foreground colour for use as the Material ripple colour.
+///
+/// @param {Color} $background
+///   The background colour of the current element.
+///
+/// @param {Color} $foreground
+///   The foreground colour of the current element.
+///
+@function material-ripple-set-colours-callback($background, $foreground) {
+  @return transparentize($foreground, 0.6);
+}
+
+// material-ripple-set-colours-callback() event callback registration.
+@include on-event(
+  'set-colours', '--ripple-colour', 'material-ripple-set-colours-callback'
+);
