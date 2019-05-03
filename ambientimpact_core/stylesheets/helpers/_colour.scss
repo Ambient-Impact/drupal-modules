@@ -179,6 +179,8 @@ $foreground-colour:	get-contrasting-colour(
 		$foreground
 	);
 
+	@include trigger-event('set-colours', $background, $foreground);
+
 	background-color:	$background;
 	color:				$foreground;
 }
