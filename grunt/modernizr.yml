@@ -9,6 +9,7 @@ dist:
     # Currently needed by the ambientimpact_site theme but can be useful for
     # other things as well.
     - canvas
+    - canvastext
 
     - requestanimationframe
     - customproperties
