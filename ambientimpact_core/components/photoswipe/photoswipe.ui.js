@@ -47,15 +47,5 @@ AmbientImpact.addComponent('photoswipe.ui', function(aiPhotoSwipeUI, $) {
       )).html();
     });
   });
-
-  AmbientImpact.on('material.ripple', function() {
-    // Most buttons, dark background on the default theme.
-    this.add({
-      selector: '.' + $.PhotoSwipe.baseClass + ' button',
-      isDark:   true
-    });
-    // Share menu links, light background.
-    // this.add('.' + $.PhotoSwipe.baseClass + '__share-tooltip a');
-  });
 });
 });

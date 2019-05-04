@@ -64,15 +64,6 @@ AmbientImpact.addComponent('toTop', function(aiToTop, $) {
       bundle:       'core',
       textDisplay:  'visuallyHidden'
     });
-
-    // Add Material ripple. This has to be here to not get trashed by the text
-    // wrapping above.
-    AmbientImpact.on('material.ripple', function() {
-      this.add({
-        selector: '.' + aiToTop.baseClass + ' a',
-        isDark:   true
-      });
-    });
   });
 
   // Scroll to top on link click.
