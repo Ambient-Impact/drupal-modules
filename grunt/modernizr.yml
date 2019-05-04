@@ -5,15 +5,22 @@ dist:
   tests:
     # Used by several things, including icons.
     - svg
+
     # Currently needed by the ambientimpact_site theme but can be useful for
     # other things as well.
     - canvas
+
+    - requestanimationframe
+    - customproperties
+
     # This is needed to know if we can afford to bind to
     # transitionend events. If these don't fire, we could end
     # up with various stuff in unusable states.
     - csstransitions
+
     # Used by the material.ripple component.
     - cssanimations
+
     # These are required by Drupal core.
     - details
     - inputtypes
