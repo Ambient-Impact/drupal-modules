@@ -17,12 +17,12 @@
 
 // TO DO: should this be moved to the typography underline component?
 
-AmbientImpact.on('environment', function(aiEnvironment) {
+AmbientImpact.onGlobals(['Modernizr.customproperties'], function() {
 
 // Don't register the component if the browser doesn't support CSS custom
 // properties. These are used by the CSS to inherit the background colour for
 // the text-shadow that crops the underlines.
-if (!aiEnvironment.cssSupports('--test', 'orange')) {
+if (Modernizr.customproperties !== true) {
   return;
 }
 

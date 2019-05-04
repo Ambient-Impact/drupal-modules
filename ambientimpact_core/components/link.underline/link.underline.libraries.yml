@@ -6,5 +6,4 @@ component.link.underline:
   dependencies:
     - ambientimpact_core/ally.js
     - ambientimpact_core/gsap.tweenmax
-    - ambientimpact_core/component.environment
     - ambientimpact_core/component.link.image
