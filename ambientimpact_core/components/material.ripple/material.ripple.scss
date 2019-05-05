@@ -15,22 +15,40 @@
   0% {
     background-size: 0 0, 0 0;
     background-position:
-      calc(50% - var(--click-el-w, 0px) / 2 + var(--click-offset-x, 0px))
-      calc(50% - var(--click-el-h, 0px) / 2 + var(--click-offset-y, 0px)),
+      calc(
+        50% - var(--material-ripple-element-width, 0px) / 2 +
+        var(--material-ripple-pointer-offset-x, 0px)
+      )
+      calc(
+        50% - var(--material-ripple-element-height, 0px) / 2 +
+        var(--material-ripple-pointer-offset-y, 0px)
+      ),
       0 0;
   }
   // End frame for the ripple expanding - it should now cover the whole element.
   33% {
     background-size:
-      calc(2 * var(--click-max-r, #{$material-ripple-fallback-radius}))
-      calc(2 * var(--click-max-r, 200vw)),
+      calc(
+        2 * var(--material-ripple-max-radius,
+          #{$material-ripple-fallback-radius}
+        )
+      )
+      calc(2 * var(--material-ripple-max-radius, 200vw)),
       0 0;
     background-size:
-      calc(2 * var(--click-max-r, #{$material-ripple-fallback-radius})) 100vmax,
+      calc(2 * var(--material-ripple-max-radius,
+        #{$material-ripple-fallback-radius})
+      ) 100vmax,
       0 0;
     background-position:
-      calc(50% - var(--click-el-w, 0px) / 2 + var(--click-offset-x, 0px))
-      calc(50% - var(--click-el-h, 0px) / 2 + var(--click-offset-y, 0px)),
+      calc(
+        50% - var(--material-ripple-element-width, 0px) / 2 +
+        var(--material-ripple-pointer-offset-x, 0px)
+      )
+      calc(
+        50% - var(--material-ripple-element-height, 0px) / 2 +
+        var(--material-ripple-pointer-offset-y, 0px)
+      ),
       0 0;
   }
   // Switch to the linear gradient that's used to simulate a fade out.
