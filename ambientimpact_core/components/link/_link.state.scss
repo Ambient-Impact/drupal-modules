@@ -36,9 +36,9 @@
 ///
 /// Apply styles to link active state.
 ///
-/// This applies the given styles to the element if it is not a
-/// .material-ripple-container, on both the native active and the .proxy-active
-/// class.
+/// This applies the given styles to the element if it does not have the
+/// .disable-default-active-state, on both the native active and the
+/// .proxy-active class.
 ///
 /// @content
 ///   The styles to apply on active state.

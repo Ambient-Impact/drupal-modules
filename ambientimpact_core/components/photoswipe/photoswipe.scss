@@ -103,13 +103,6 @@
     // Left and right arrow buttons with icons.
     &--arrow--left,
     &--arrow--right {
-      // We need to set this here because the Material ripple class may
-      // override the position set in the PhotoSwipe styles, so use two
-      // classes to have higher specificity.
-      &.material-ripple-container {
-        position: absolute;
-      }
-
       // Don't hide arrows on touch detection - this removes a cue to the
       // user that they can view other, adjacent images. Tapping the image
       // hides the UI anyways, so this way it's up to the user.
