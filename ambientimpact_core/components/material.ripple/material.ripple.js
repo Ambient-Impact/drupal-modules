@@ -43,24 +43,27 @@ AmbientImpact.addComponent('material.ripple', function(
 
   // The base class to add to the element that has a Material ripple and also
   // the class to derive BEM modifier classes from.
-  baseClass         = 'material-ripple',
+  baseClass           = 'material-ripple',
 
   // The class added to elements to reset their ripple animation to the starting
   // frame. This equates to the 'pre-click-fx' class from the original Pen.
-  resetClass        = baseClass + '--ripple-reset',
+  resetClass          = baseClass + '--ripple-reset',
 
   // The class added to elements to animate the ripple to completion even if
   // it's no longer the active element. This equates to the 'click-fx' from the
   // original Pen.
-  activeClass       = baseClass + '--ripple-active',
+  activeClass         = baseClass + '--ripple-active',
 
   // The class added to inputs once they've been focused, to avoid triggering
   // the ripple more than once. This equates to the 'post-click-fx' class from
   // the original Pen.
-  inputActiveClass  = baseClass + '--input-active',
+  inputActiveClass    = baseClass + '--input-active',
 
-  // The class added elements to to disable the ripple, if needed.
-  noRippleClass     = baseClass + '--no-ripple';
+  // The class added to elements to disable the ripple, if needed.
+  noRippleClass       = baseClass + '--no-ripple',
+
+  // The class added to elements to disable their default active state styles.
+  noActiveStateClass  = 'disable-default-active-state';
 
   /**
    * Find an element with a Material ripple given an event target.
@@ -248,9 +251,12 @@ AmbientImpact.addComponent('material.ripple', function(
 
         var element = $element[0];
 
-        // Add a class to make detaching simpler.
+        // Add classes to make detaching simpler and to disable any existing
+        // active state styles.
         if (!$element.hasClass(baseClass)) {
-          $element.addClass(baseClass);
+          $element
+            .addClass(baseClass)
+            .addClass(noActiveStateClass);
         }
 
         if (!('aiMaterialRipple' in element)) {
@@ -344,6 +350,7 @@ AmbientImpact.addComponent('material.ripple', function(
 
       $rippleElements
         .removeClass(baseClass)
+        .removeClass(noActiveStateClass)
         .off(animationEventNames.join(' '));
     }
   );
