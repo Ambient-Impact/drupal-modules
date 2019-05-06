@@ -44,7 +44,7 @@
 ///   The styles to apply on active state.
 ///
 @mixin link-active {
-  &:not(.material-ripple-container) {
+  &:not(.disable-default-active-state) {
     &:active,
     &.proxy-active {
       @content;
