@@ -83,12 +83,12 @@
       @include hide-text;
     }
 
-    &--has-ambientimpact-icon {
+    &--has-ambientimpact-icon#{&} { // Specificity.
       // Remove the CSS sprite icons that ship with PhotoSwipe when we've
       // added ours. Note that we have to override the media query for
       // higher density displays in default-skin.scss/css, as that can
       // still add the background SVG file as it has higher specificity.
-      background-image: none  !important;
+      background-image: none;
 
       // The left/right icons use this for the icons, so just remove it
       // altogether.
