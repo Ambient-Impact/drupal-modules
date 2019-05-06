@@ -14,19 +14,46 @@
 /// @require {function} sqrt
 ///
 /// @see https://codepen.io/jproffitt71/pen/PBPKmw
-///   Based on this.
+///   Based on this Pen by Jessie Proffitt.
 ///
 $material-ripple-fallback-radius: 100% * sqrt(2) / 2 !default;
 
+///
+/// The Material ripple base class.
+///
+/// This is added via JavaScript and is used to derive BEM modifier classes.
+/// This is only provided to use so that hard-coding the class is not necessary,
+/// so overriding this is not recommended.
+///
 $material-ripple-base-class: 'material-ripple';
 
+///
+/// Apply a Material Design ripple to an element.
+///
+/// Requires the 'material-ripple' keyframes found in material.ripple.scss.
+///
+/// Can work without JavaScript, but has the following limitations that the
+/// JavaScript provides:
+///
+///   - Cannot use pointer event coordinates, ripple is always centred.
+///
+///   - Cannot continue playing the ripple animation if the element is no longer
+///     focused before the animation ends; the animation simply resets to the
+///     start state.
+///
+/// @see https://codepen.io/jproffitt71/pen/PBPKmw
+///   Based on this Pen by Jessie Proffitt.
+///
+/// @require $material-ripple-base-class
+///   Used to derive BEM modifier classes.
+///
 @mixin material-ripple {
   @supports #{'(--test: orange)'} {
     --material-ripple-duration: 0.8s;
 
     &:active,
     &.#{$material-ripple-base-class}--ripple-active {
-      &:not(:disabled):not(.disabled) {
+      &:not(:disabled) {
         background-image:
           // This is the ripple itself.
           radial-gradient(
