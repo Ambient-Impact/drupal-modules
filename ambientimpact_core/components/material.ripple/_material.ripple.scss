@@ -2,7 +2,7 @@
 //  Ambient.Impact - Core - Material Design ripple component partial
 // -----------------------------------------------------------------------------
 
-// @see https://codepen.io/jproffitt71/pen/PBPKmw
+// @link https://codepen.io/jproffitt71/pen/PBPKmw
 
 ///
 /// The Material ripple fallback radius if rippling from the centre.
@@ -13,7 +13,7 @@
 ///
 /// @require {function} sqrt
 ///
-/// @see https://codepen.io/jproffitt71/pen/PBPKmw
+/// @link https://codepen.io/jproffitt71/pen/PBPKmw
 ///   Based on this Pen by Jessie Proffitt.
 ///
 $material-ripple-fallback-radius: 100% * sqrt(2) / 2 !default;
@@ -41,7 +41,7 @@ $material-ripple-base-class: 'material-ripple';
 ///     focused before the animation ends; the animation simply resets to the
 ///     start state.
 ///
-/// @see https://codepen.io/jproffitt71/pen/PBPKmw
+/// @link https://codepen.io/jproffitt71/pen/PBPKmw
 ///   Based on this Pen by Jessie Proffitt.
 ///
 /// @require $material-ripple-base-class
