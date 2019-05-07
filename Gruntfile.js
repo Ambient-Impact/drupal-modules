@@ -22,6 +22,7 @@ module.exports = function(grunt) {
   }));
 
   grunt.loadNpmTasks('grunt-sass');
+  grunt.loadNpmTasks('grunt-sassdoc');
   grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-modernizr');
   grunt.loadNpmTasks('grunt-svgstore');
@@ -29,6 +30,7 @@ module.exports = function(grunt) {
   grunt.registerTask('all', [
     'sass',
     'autoprefixer',
+    'sassdoc',
     'svgstore',
   ]);
 
