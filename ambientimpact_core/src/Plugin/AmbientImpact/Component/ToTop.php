@@ -27,7 +27,7 @@ class ToTop extends ComponentBase {
   /**
    * {@inheritdoc}
    */
-  public function getJSSettings() {
+  public function getJSSettings(): array {
     $config = $this->configuration;
 
     return [

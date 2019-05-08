@@ -54,7 +54,7 @@ class PhotoSwipe extends ComponentBase {
   /**
    * {@inheritdoc}
    */
-  public function getJSSettings() {
+  public function getJSSettings(): array {
     return [
       'icons'                 => $this->configuration['icons'],
       'linkedImageAttributes' => $this->configuration['linkedImageAttributes'],

@@ -21,5 +21,5 @@ interface ComponentJSSettingsInterface {
    *
    * @see ambientimpact_core_page_attachments()
    */
-  public function getJSSettings();
+  public function getJSSettings(): array;
 }

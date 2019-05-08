@@ -9,7 +9,7 @@ trait ComponentLibrariesTrait {
   /**
    * {@inheritdoc}
    */
-  public function getLibraries() {
+  public function getLibraries(): array {
     // This component libraries, if any are found.
     $libraries      = [];
     // An array of file array references for ease of manipulation: one index for

@@ -11,5 +11,5 @@ interface ComponentInterface {
 	 *
 	 * @return string
 	 */
-	public function getPath();
+	public function getPath(): string;
 }

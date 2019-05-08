@@ -19,5 +19,5 @@ interface ComponentLibrariesInterface {
    *
    * @see https://www.drupal.org/docs/8/creating-custom-modules/adding-stylesheets-css-and-javascript-js-to-a-drupal-8-module
    */
-  public function getLibraries();
+  public function getLibraries(): array;
 }

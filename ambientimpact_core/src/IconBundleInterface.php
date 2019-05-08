@@ -18,7 +18,7 @@ interface IconBundleInterface {
    *   The path to the Icon Bundle. If $absolute is true (the default), this
    *   includes the path to the module providing the Icon Bundle plugin.
    */
-  public function getPath(bool $absolute);
+  public function getPath(bool $absolute): string;
 
   /**
    * Get the URL to this bundle's SVG file.
@@ -33,7 +33,7 @@ interface IconBundleInterface {
    *
    * @see https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Url.php/function/Url%3A%3AfromUri
    */
-  public function getURL(bool $absolute);
+  public function getURL(bool $absolute): string;
 
   /**
    * Mark this bundle as being in use in the current request.
@@ -47,5 +47,5 @@ interface IconBundleInterface {
    *   True if at least one Drupal\ambientimpact_core\Element\Icon element
    *   has been rendered with this bundle, false otherwise.
    */
-  public function isUsed();
+  public function isUsed(): bool;
 }

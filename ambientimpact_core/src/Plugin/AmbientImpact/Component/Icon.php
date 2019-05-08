@@ -83,7 +83,7 @@ class Icon extends ComponentBase {
 	 * @see https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Render%21Renderer.php/function/Renderer%3A%3ArenderPlain
 	 *   Renders the template without attaching assets or cache metadata.
 	 */
-	public function getJSSettings() {
+	public function getJSSettings(): array {
 		$config		= $this->configuration;
 		$jsSettings	= [
 			'containerBaseClass'	=> $config['containerBaseClass'],

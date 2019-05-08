@@ -9,7 +9,7 @@ trait ComponentJSSettingsTrait {
   /**
    * {@inheritdoc}
    */
-  public function getJSSettings() {
+  public function getJSSettings(): array {
     return [];
   }
 }

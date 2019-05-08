@@ -84,7 +84,7 @@ implements IconBundleInterface, ContainerFactoryPluginInterface {
   /**
    * {@inheritdoc}
    */
-  public function getPath(bool $absolute = true) {
+  public function getPath(bool $absolute = true): string {
     $path = $this->path . '/' . $this->pluginDefinition['id'] . '.svg';
 
     if ($absolute === true) {
@@ -99,7 +99,7 @@ implements IconBundleInterface, ContainerFactoryPluginInterface {
   /**
    * {@inheritdoc}
    */
-  public function getURL(bool $absolute = false) {
+  public function getURL(bool $absolute = false): string {
     $urlObject    = Url::fromUri('base:' . $this->getPath());
     // Get the CSS/JS query string so that we can force browsers to re-
     // download the bundle when the cache is cleared.
@@ -127,7 +127,7 @@ implements IconBundleInterface, ContainerFactoryPluginInterface {
   /**
    * {@inheritdoc}
    */
-  public function isUsed() {
+  public function isUsed(): bool {
     return $this->used;
   }
 }
