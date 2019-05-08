@@ -11,6 +11,7 @@ use Drupal\ambientimpact_core\ComponentLibrariesInterface;
 use Drupal\ambientimpact_core\ComponentLibrariesTrait;
 use Drupal\ambientimpact_core\ComponentJSSettingsInterface;
 use Drupal\ambientimpact_core\ComponentJSSettingsTrait;
+use Drupal\ambientimpact_core\ComponentHTMLInterface;
 use Drupal\ambientimpact_core\ComponentHTMLTrait;
 
 /**
@@ -18,7 +19,8 @@ use Drupal\ambientimpact_core\ComponentHTMLTrait;
  */
 class ComponentBase extends PluginBase implements
 ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface,
-ComponentLibrariesInterface, ComponentJSSettingsInterface {
+ComponentLibrariesInterface, ComponentJSSettingsInterface,
+ComponentHTMLInterface {
   use ComponentConfigurableTrait;
   use ComponentLibrariesTrait;
   use ComponentJSSettingsTrait;

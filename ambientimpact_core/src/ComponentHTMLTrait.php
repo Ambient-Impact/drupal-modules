@@ -3,7 +3,7 @@
 namespace Drupal\ambientimpact_core;
 
 /**
- * A trait for returning Component HTML for Ambient.Impact Component plugins.
+ * A trait for returning HTML from Ambient.Impact Component plugins.
  */
 trait ComponentHTMLTrait {
   /**
@@ -28,21 +28,14 @@ trait ComponentHTMLTrait {
   }
 
   /**
-   * Determine if this Component has HTML available.
-   *
-   * @return boolean
-   *   True if the <component name>.html.twig file exists, false otherwise.
+   * {@inheritdoc}
    */
-  public function hasHTML() {
+  public function hasHTML(): bool {
     return file_exists($this->getHTMLPath());
   }
 
   /**
-   * Get any HTML this Component may have available for the front-end.
-   *
-   * @return string|bool
-   *   If the component has a <component name>.html.twig file in its directory,
-   *   it will be rendered and returned, otherwise false is returned.
+   * {@inheritdoc}
    */
   public function getHTML() {
     // Don't proceed if the file doesn't exist.
