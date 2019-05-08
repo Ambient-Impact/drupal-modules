@@ -13,21 +13,21 @@ use Drupal\Component\Annotation\Plugin;
  * @Annotation
  */
 class Component extends Plugin {
-	/**
-	 * The human readable title of the component.
-	 *
-	 * @var \Drupal\Core\Annotation\Translation
-	 *
-	 * @ingroup plugin_translatable
-	 */
-	public $title;
+  /**
+   * The human readable title of the component.
+   *
+   * @var \Drupal\Core\Annotation\Translation
+   *
+   * @ingroup plugin_translatable
+   */
+  public $title;
 
-	/**
-	 * A brief human readable description of the component.
-	 *
-	 * @var \Drupal\Core\Annotation\Translation
-	 *
-	 * @ingroup plugin_translatable
-	 */
-	public $description;
+  /**
+   * A brief human readable description of the component.
+   *
+   * @var \Drupal\Core\Annotation\Translation
+   *
+   * @ingroup plugin_translatable
+   */
+  public $description;
 }

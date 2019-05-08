@@ -13,40 +13,40 @@ use Drupal\Component\Annotation\Plugin;
  * @Annotation
  */
 class IconBundle extends Plugin {
-	/**
-	 * The human readable title of the Icon Bundle.
-	 *
-	 * @var \Drupal\Core\Annotation\Translation
-	 *
-	 * @ingroup plugin_translatable
-	 */
-	public $title;
+  /**
+   * The human readable title of the Icon Bundle.
+   *
+   * @var \Drupal\Core\Annotation\Translation
+   *
+   * @ingroup plugin_translatable
+   */
+  public $title;
 
-	/**
-	 * A brief human readable description of the Icon Bundle.
-	 *
-	 * @var \Drupal\Core\Annotation\Translation
-	 *
-	 * @ingroup plugin_translatable
-	 */
-	public $description;
+  /**
+   * A brief human readable description of the Icon Bundle.
+   *
+   * @var \Drupal\Core\Annotation\Translation
+   *
+   * @ingroup plugin_translatable
+   */
+  public $description;
 
-	/**
-	 * The type of license this bundle is provided under.
-	 *
-	 * This is usually a human-readable name, such as "GPLv2" or "MIT", but can
-	 * also be a URL to the license.
-	 *
-	 * @var \Drupal\Core\Annotation\Translation
-	 *
-	 * @ingroup plugin_translatable
-	 */
-	public $license;
+  /**
+   * The type of license this bundle is provided under.
+   *
+   * This is usually a human-readable name, such as "GPLv2" or "MIT", but can
+   * also be a URL to the license.
+   *
+   * @var \Drupal\Core\Annotation\Translation
+   *
+   * @ingroup plugin_translatable
+   */
+  public $license;
 
-	/**
-	 * The URL where this icon bundle can be downloaded from.
-	 *
-	 * @var string
-	 */
-	public $url;
+  /**
+   * The URL where this icon bundle can be downloaded from.
+   *
+   * @var string
+   */
+  public $url;
 }
