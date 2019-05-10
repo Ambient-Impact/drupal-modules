@@ -13,6 +13,10 @@ use of most of the benefits of that system; for example, they can be defined by
 any installed module and Drupal can automatically discover them. That said, the
 component plug-in manager explicitly instantiates each component only once by
 design and will fetch an existing instance if one exists for a given component.
+Since components are intended primarily to package front-end assets and have a
+1:1 relationship with their assets, there isn't a compelling reason to have more
+than one instance per request; if such a need arises, other plug-in types can be
+defined and used from within a component's methods.
 
 # Structure
 
