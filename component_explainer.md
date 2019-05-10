@@ -1,15 +1,16 @@
 The ```ambientimpact_core``` module provides a component system whose purpose is
 to organize code into discrete packages that specialize in one thing or a
 collection of tightly related things. The component system is primarily intended
-for front-end CSS, JavaScript, HTML (by way of Twig templates), and other
-assets, but component plug-ins can provide back-end functionality via their
-plug-in classes.
+for front-end CSS, JavaScript, HTML (by way of [Twig
+templates](https://www.drupal.org/docs/8/theming/twig)), and other assets, but
+component plug-ins can provide back-end functionality via their plug-in classes.
 
 # Architecture
 
-Components are implemented as Drupal plug-ins, and as such, can make use of most
-of the benefits of that system; for example, they can be defined by any
-installed module and Drupal can automatically discover them. That said, the
+Components are implemented as [Drupal
+plug-ins](https://www.drupal.org/docs/8/api/plugin-api), and as such, can make
+use of most of the benefits of that system; for example, they can be defined by
+any installed module and Drupal can automatically discover them. That said, the
 component plug-in manager explicitly instantiates each component only once by
 design and will fetch an existing instance if one exists for a given component.
 
