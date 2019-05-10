@@ -9,6 +9,14 @@ services:
     class: Drupal\ambientimpact_core\IconBundlePluginManager
     parent: default_plugin_manager
 
+  # The Component HTML cache bin.
+  cache.ambientimpact_component_html:
+    class: Drupal\Core\Cache\CacheBackendInterface
+    tags:
+      - { name: cache.bin }
+    factory: cache_factory:get
+    arguments: [ambientimpact_component_html]
+
   # Description list hook_theme() event subscriber.
   ambientimpact_core.hook_theme_description_list_event_subscriber:
     class: \Drupal\ambientimpact_core\EventSubscriber\HookThemeDescriptionListEventSubscriber
