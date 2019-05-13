@@ -1,7 +1,14 @@
-ambientimpact_web.new_web_snippet:
-  route_name: node.add
-  route_parameters:
-    node_type: 'web_snippet'
-  title: 'New snippet'
-  appears_on:
-    - view.web_snippets.page
+# ambientimpact_web.new_web_snippet:
+#   route_name: node.add
+#   route_parameters:
+#     node_type: 'web_snippet'
+#   title: 'New snippet'
+#   # @todo Get this working.
+#   requirements:
+#     _custom_access: '\Drupal\ambientimpact_web\Plugin\Menu\LocalAction\AddWebSnippetLocalAction::access'
+#   appears_on:
+#     - view.web_snippets.page
+#     - entity.node.canonical
+
+ambientimpact_web.actions:
+  deriver: 'Drupal\ambientimpact_web\Plugin\Derivative\DynamicLocalTasks'
