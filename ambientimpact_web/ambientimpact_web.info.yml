@@ -1,0 +1,8 @@
+name: Ambient.Impact - Web
+type: module
+description: Web snippets, web development tags, and related code.
+package: Ambient.Impact
+core: 8.x
+
+dependencies:
+  - ambientimpact_core:ambientimpact_core
