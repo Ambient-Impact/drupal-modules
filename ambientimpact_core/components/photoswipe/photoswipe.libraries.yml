@@ -3,6 +3,7 @@ component.photoswipe:
     component:
       photoswipe.css: {}
       photoswipe.colour.css: {}
+      photoswipe.motion.css: {}
   js:
     photoswipe.js: {}
     photoswipe.event.js: {}
