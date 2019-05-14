@@ -5,4 +5,6 @@ package: Ambient.Impact
 core: 8.x
 
 dependencies:
+  - drupal:views
+  - hook_event_dispatcher:hook_event_dispatcher
   - ambientimpact_core:ambientimpact_core
