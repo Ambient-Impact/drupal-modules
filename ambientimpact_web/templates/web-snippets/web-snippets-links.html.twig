@@ -1,0 +1,43 @@
+{#
+/**
+ * @file
+ * Default theme implementation for 'web_snippets_links' #theme element.
+ *
+ * Available variables
+ * - items: An array of items, keyed by a machine name; each item contains:
+ *   - linkAttributes: An Attribute() object for the item's link.
+ *   - content: The item's renderable content to be placed in the item's link.
+ *
+ * @see ambientimpact_site_preprocess_views_view__web_snippets()
+ *   Currently the only use of this.
+ *
+ * @ingroup themeable
+ */
+#}
+{% set baseClass = 'view-web-snippets__links' %}
+
+<div{{ create_attribute({'class': [baseClass]}) }}>
+  <h2{{ create_attribute({'class': [
+    baseClass ~ '-heading',
+    'visually-hidden'
+  ]}) }}>{{
+    'Web snippet links'|trans
+  }}</h2>
+
+  <ul{{ create_attribute({'class': [
+    baseClass ~ '-list',
+    'links',
+    'inline'
+  ]}) }}>
+    {%- for key, item in items -%}
+      <li{{ create_attribute({'class': [
+        baseClass ~ '-list-item',
+        baseClass ~ '-list-item--' ~ key
+      ]}) }}>
+        <a{{ item.linkAttributes.addClass(baseClass ~ '-list-item-link') }}>{{
+          item.content
+        }}</a>
+      </li>
+    {%- endfor -%}
+  </ul>
+</div>
