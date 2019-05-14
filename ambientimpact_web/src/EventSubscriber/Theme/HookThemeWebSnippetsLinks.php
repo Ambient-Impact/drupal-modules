@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_web\EventSubscriber;
+namespace Drupal\ambientimpact_web\EventSubscriber\Theme;
 
 use Drupal\ambientimpact_core\EventSubscriber\ContainerAwareEventSubscriber;
 
@@ -36,7 +36,8 @@ class HookThemeWebSnippetsLinks extends ContainerAwareEventSubscriber {
       // @see https://www.drupal.org/project/hook_event_dispatcher/issues/3038311
       'path'      =>
         $this->container->get('module_handler')
-          ->getModule('ambientimpact_web')->getPath() . '/templates/web-snippets',
+          ->getModule('ambientimpact_web')->getPath() .
+            '/templates/web-snippets',
     ]);
   }
 }
