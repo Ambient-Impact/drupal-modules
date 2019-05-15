@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_images
+    - paragraphs.paragraphs_type.images
+id: paragraph.images.field_images
+field_name: field_images
+entity_type: paragraph
+bundle: images
+label: Images
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings: {  }
+field_type: entity_reference

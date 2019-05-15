@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+id: video
+label: Video
+icon_uuid: null
+description: 'Link to YouTube or Vimeo videos.'
+behavior_plugins: {  }

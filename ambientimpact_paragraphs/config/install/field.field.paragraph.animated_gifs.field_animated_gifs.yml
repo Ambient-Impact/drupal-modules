@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_animated_gifs
+    - paragraphs.paragraphs_type.animated_gifs
+id: paragraph.animated_gifs.field_animated_gifs
+field_name: field_animated_gifs
+entity_type: paragraph
+bundle: animated_gifs
+label: 'Animated GIFs'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings: {  }
+field_type: entity_reference

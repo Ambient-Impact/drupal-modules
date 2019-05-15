@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+id: animated_gifs
+label: 'Animated GIFs'
+icon_uuid: null
+description: 'Upload one or more animated GIFs.'
+behavior_plugins: {  }

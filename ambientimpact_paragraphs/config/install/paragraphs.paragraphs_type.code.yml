@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+id: code
+label: Code
+icon_uuid: null
+description: 'Provide syntax-highlighted code.'
+behavior_plugins: {  }

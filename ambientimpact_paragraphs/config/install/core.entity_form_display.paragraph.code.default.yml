@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.code.field_code
+    - field.field.paragraph.code.field_code_tab_size
+    - paragraphs.paragraphs_type.code
+  module:
+    - geshifield
+id: paragraph.code.default
+targetEntityType: paragraph
+bundle: code
+mode: default
+content:
+  field_code:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    type: geshifield_default
+    region: content
+hidden:
+  created: true
+  field_code_tab_size: true
+  status: true

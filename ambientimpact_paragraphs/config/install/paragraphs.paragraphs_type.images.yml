@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+id: images
+label: Images
+icon_uuid: null
+description: 'Upload one or more images.'
+behavior_plugins: {  }
