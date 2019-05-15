@@ -75,7 +75,7 @@ class ViewPreprocessWebSnippetsLinks extends ContainerAwareEventSubscriber {
       ],
       // View all tags.
       'view-all-tags' => [
-        'route'     => 'view.tags.page_web_tags',
+        'route'     => 'view.web_tags.page',
         'icon'      => 'bookmark_outline',
         'text'      => t('Tags<span class="visually-hidden"> (view all web development tags)</span>'),
         'titleAttr' => t('View all web development tags.'),

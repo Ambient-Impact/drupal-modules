@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'Web tags'
+vid: web_tags
+description: ''
+weight: 0

@@ -5,6 +5,13 @@ package: Ambient.Impact
 core: 8.x
 
 dependencies:
+  - drupal:node
+  - drupal:taxonomy
+  - drupal:user
   - drupal:views
   - hook_event_dispatcher:hook_event_dispatcher
+  - paragraphs:paragraphs
+  - search_api:search_api
+  - search_api_db:search_api_db
   - ambientimpact_core:ambientimpact_core
+  - ambientimpact_paragraphs:ambientimpact_paragraphs
