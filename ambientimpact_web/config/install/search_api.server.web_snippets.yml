@@ -1,6 +1,9 @@
 langcode: en
 status: true
 dependencies:
+  enforced:
+    module:
+      - ambientimpact_web
   module:
     - search_api_db
 id: web_snippets

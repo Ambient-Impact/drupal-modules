@@ -3,6 +3,9 @@ status: true
 dependencies:
   config:
     - search_api.index.web_snippets
+  enforced:
+    module:
+      - ambientimpact_web
   module:
     - search_api
     - user

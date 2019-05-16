@@ -5,6 +5,9 @@ dependencies:
     - core.entity_view_mode.node.full
     - node.type.web_snippet
     - system.menu.main
+  enforced:
+    module:
+      - ambientimpact_web
   module:
     - node
     - user

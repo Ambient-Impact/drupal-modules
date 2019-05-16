@@ -3,6 +3,9 @@ status: true
 dependencies:
   config:
     - taxonomy.vocabulary.web_tags
+  enforced:
+    module:
+      - ambientimpact_web
   module:
     - taxonomy
     - user

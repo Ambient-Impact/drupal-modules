@@ -1,6 +1,9 @@
 langcode: en
 status: true
 dependencies:
+  enforced:
+    module:
+      - ambientimpact_web
   config:
     - field.storage.node.field_paragraphs
     - field.storage.paragraph.field_text
