@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - ambientimpact_web
+  module:
+    - node
+id: node_web_snippet
+label: 'Content - Web snippet'
+type: 'canonical_entities:node'
+pattern: 'web/snippets/[node:title]'
+selection_criteria:
+  -
+    id: node_type
+    bundles:
+      web_snippet: web_snippet
+    negate: false
+    context_mapping:
+      node: node
+selection_logic: and
+weight: -8
+relationships: {  }

@@ -1,0 +1,52 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.web_snippet.field_paragraphs
+    - field.field.node.web_snippet.field_source_link
+    - field.field.node.web_snippet.field_web_tags
+    - node.type.web_snippet
+  module:
+    - entity_reference_revisions
+    - link
+    - user
+id: node.web_snippet.default
+targetEntityType: node
+bundle: web_snippet
+mode: default
+content:
+  field_paragraphs:
+    label: hidden
+    weight: 0
+    type: entity_reference_revisions_entity_view
+    settings:
+      view_mode: full
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_source_link:
+    label: inline
+    weight: 1
+    type: link
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    region: content
+  field_web_tags:
+    label: inline
+    weight: 2
+    type: entity_reference_label
+    settings:
+      link: true
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

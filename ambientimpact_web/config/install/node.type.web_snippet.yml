@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - ambientimpact_web
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main-menu:0:'
+name: 'Web snippet'
+type: web_snippet
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

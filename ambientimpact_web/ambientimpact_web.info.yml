@@ -5,10 +5,12 @@ package: Ambient.Impact
 core: 8.x
 
 dependencies:
+  - drupal:link
   - drupal:node
   - drupal:taxonomy
   - drupal:user
   - drupal:views
+  - entity_reference_revisions:entity_reference_revisions
   - hook_event_dispatcher:hook_event_dispatcher
   - paragraphs:paragraphs
   - search_api:search_api

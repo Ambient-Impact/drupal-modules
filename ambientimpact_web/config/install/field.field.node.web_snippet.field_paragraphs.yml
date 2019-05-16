@@ -1,0 +1,40 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_paragraphs
+    - node.type.web_snippet
+  module:
+    - entity_reference_revisions
+id: node.web_snippet.field_paragraphs
+field_name: field_paragraphs
+entity_type: node
+bundle: web_snippet
+label: Paragraphs
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler_settings:
+    negate: 0
+    target_bundles: null
+    target_bundles_drag_drop:
+      code:
+        enabled: false
+        weight: 4
+      images:
+        enabled: false
+        weight: 5
+      text:
+        enabled: false
+        weight: 2
+      video:
+        enabled: false
+        weight: 7
+      animated_gifs:
+        enabled: false
+        weight: 8
+  handler: 'default:paragraph'
+field_type: entity_reference_revisions
