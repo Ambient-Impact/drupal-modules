@@ -3,6 +3,7 @@ status: true
 dependencies:
   config:
     - field.storage.paragraph.field_animated_gifs
+    - media.type.gif
     - paragraphs.paragraphs_type.animated_gifs
 id: paragraph.animated_gifs.field_animated_gifs
 field_name: field_animated_gifs
@@ -16,5 +17,11 @@ default_value: {  }
 default_value_callback: ''
 settings:
   handler: 'default:media'
-  handler_settings: {  }
+  handler_settings:
+    target_bundles:
+      gif: gif
+    sort:
+      field: _none
+    auto_create: true
+    auto_create_bundle: ''
 field_type: entity_reference
