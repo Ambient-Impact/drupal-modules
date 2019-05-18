@@ -48,8 +48,6 @@ class ViewPreprocessWebSnippetsLinks extends ContainerAwareEventSubscriber {
     $variables = $event->getVariables();
     $view = $variables->getView();
 
-    // dpm($view->id());
-
     if ($view->id() !== 'web_snippets') {
       return;
     }
