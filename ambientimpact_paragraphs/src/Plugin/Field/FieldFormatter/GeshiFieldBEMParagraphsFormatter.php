@@ -126,8 +126,12 @@ class GeshiFieldBEMParagraphsFormatter extends GeshiFieldBEMFormatter {
 
       // Rename HTML5 to just HTML, as that's the default standard nowadays.
       if ($languageHumanName === 'HTML5') {
-        $languageHumanName = 'HTML';
+        $languageHumanName = $this->t('HTML');
       }
+
+      // Update the data attribute in case we've changed the name.
+      $element['pre']['#attributes']['data-code-language-human-name'] =
+        $languageHumanName;
 
       $element['heading'] = [
         '#type'       => 'html_tag',
