@@ -2,8 +2,11 @@
 
 namespace Drupal\ambientimpact_web\EventSubscriber\Preprocess;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\ambientimpact_core\EventSubscriber\ContainerAwareEventSubscriber;
 use Drupal\hook_event_dispatcher\Event\Preprocess\ViewPreprocessEvent;
 
@@ -16,6 +19,33 @@ use Drupal\hook_event_dispatcher\Event\Preprocess\ViewPreprocessEvent;
  * @see \Drupal\hook_event_dispatcher\Event\Preprocess\ViewPreprocessEvent
  */
 class ViewPreprocessWebSnippetsLinks extends ContainerAwareEventSubscriber {
+  use StringTranslationTrait;
+
+  /**
+   * The string translation service.
+   *
+   * @var \Drupal\Core\StringTranslation\TranslationManager
+   */
+  protected $stringTranslation;
+
+  /**
+   * Event subscriber constructor; sets $this->stringTranslation.
+   *
+   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+   *   The Drupal services container.
+   *
+   * @param \Drupal\Core\StringTranslation\TranslationInterface $stringTranslation
+   *   The Drupal string translation service.
+   */
+  public function __construct(
+    ContainerInterface $container,
+    TranslationInterface $stringTranslation
+  ) {
+    parent::__construct($container);
+
+    $this->stringTranslation = $stringTranslation;
+  }
+
   /**
    * {@inheritdoc}
    */
@@ -68,22 +98,22 @@ class ViewPreprocessWebSnippetsLinks extends ContainerAwareEventSubscriber {
       'search' => [
         'route'     => 'view.web_snippets_search.page_results',
         'icon'      => 'search',
-        'text'      => t('Search<span class="visually-hidden"> web snippets</span>'),
-        'titleAttr' => t('Search web snippets.'),
+        'text'      => $this->t('Search<span class="visually-hidden"> web snippets</span>'),
+        'titleAttr' => $this->t('Search web snippets.'),
       ],
       // View all tags.
       'view-all-tags' => [
         'route'     => 'view.web_tags.page',
         'icon'      => 'bookmark_outline',
-        'text'      => t('Tags<span class="visually-hidden"> (view all web development tags)</span>'),
-        'titleAttr' => t('View all web development tags.'),
+        'text'      => $this->t('Tags<span class="visually-hidden"> (view all web development tags)</span>'),
+        'titleAttr' => $this->t('View all web development tags.'),
       ],
       // RSS feed.
       'feed' => [
         'route'     => 'view.web_snippets.feed',
         'icon'      => 'rss',
-        'text'      => t('Subscribe<span class="visually-hidden"> to the web snippets RSS feed</span>'),
-        'titleAttr' => t('View the web snippets RSS feed.'),
+        'text'      => $this->t('Subscribe<span class="visually-hidden"> to the web snippets RSS feed</span>'),
+        'titleAttr' => $this->t('View the web snippets RSS feed.'),
       ],
     ] as $key => $data) {
       $items[$key] = [
