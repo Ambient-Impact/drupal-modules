@@ -6,7 +6,7 @@ dependencies:
     - field.field.paragraph.code.field_code_tab_size
     - paragraphs.paragraphs_type.code
   module:
-    - geshifield
+    - ambientimpact_paragraphs
 id: paragraph.code.default
 targetEntityType: paragraph
 bundle: code
@@ -14,10 +14,10 @@ mode: default
 content:
   field_code:
     weight: 0
-    label: above
+    label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: geshifield_default
+    type: geshifield_bem_paragraphs
     region: content
 hidden:
   field_code_tab_size: true
