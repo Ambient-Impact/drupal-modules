@@ -1,0 +1,11 @@
+name: Ambient.Impact - Paragraphs migrate
+type: module
+description: Paragraph item migration from Drupal 7.
+package: Ambient.Impact
+core: 8.x
+
+dependencies:
+  - drupal:migrate
+  - migrate_plus:migrate_plus
+  - ambientimpact_migrate:ambientimpact_migrate
+  - ambientimpact_paragraphs:ambientimpact_paragraphs

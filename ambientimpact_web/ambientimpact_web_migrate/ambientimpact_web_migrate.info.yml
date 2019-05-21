@@ -9,3 +9,4 @@ dependencies:
   - drupal:taxonomy
   - drupal:migrate
   - migrate_plus:migrate_plus
+  - ambientimpact_paragraphs_migrate:ambientimpact_paragraphs_migrate
