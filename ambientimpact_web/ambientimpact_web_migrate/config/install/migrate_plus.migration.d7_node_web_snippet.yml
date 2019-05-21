@@ -1,0 +1,63 @@
+id: d7_node_web_snippet
+label: 'Nodes (web snippets)'
+migration_tags:
+  - 'Drupal 7'
+  - Content
+migration_group: d7_ambientimpact_web
+
+audit: true
+deriver: Drupal\node\Plugin\migrate\D7NodeDeriver
+
+source:
+  plugin: d7_node
+  node_type: web_snippet
+
+process:
+  nid: tnid
+  vid: vid
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: 'und'
+  title: title
+  uid: node_uid
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+  revision_uid: revision_uid
+  revision_log: log
+  revision_timestamp: timestamp
+
+  # The core Link module seems to provide a 'field_link' process plugin:
+  # @see \Drupal\link\Plugin\migrate\process\FieldLink
+  # ...but it doesn't seem to work for us, so we're using this method:
+  # @see https://drupal.stackexchange.com/a/197850
+  field_source_link:
+    plugin: iterator
+    source: field_source_link
+    process:
+      uri: url
+      title: title
+      options: attributes
+
+  field_web_tags:
+    plugin: migration_lookup
+    migration: 'd7_taxonomy_term:web_tags'
+    source: field_web_tags
+
+destination:
+  plugin: 'entity:node'
+  default_bundle: web_snippet
+
+migration_dependencies:
+  required:
+    - 'd7_taxonomy_term:web_tags'
+  # optional:
+  #   - d7_field_instance
+
+dependencies:
+  enforced:
+    module:
+      - ambientimpact_web_migrate

@@ -1,0 +1,11 @@
+name: Ambient.Impact - Web migrate
+type: module
+description: Web snippets migration from Drupal 7.
+package: Ambient.Impact
+core: 8.x
+
+dependencies:
+  - drupal:link
+  - drupal:taxonomy
+  - drupal:migrate
+  - migrate_plus:migrate_plus
