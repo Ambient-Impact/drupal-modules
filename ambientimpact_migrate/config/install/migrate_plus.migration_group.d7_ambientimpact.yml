@@ -1,0 +1,16 @@
+id: d7_ambientimpact
+label: 'Ambient.Impact Drupal 7 migration'
+description: 'Migration from the Drupal 7 Ambient.Impact website.'
+source_type: 'Drupal 7'
+
+shared_configuration:
+  source:
+    # This is the database connection to use for this migration group. Make sure
+    # this is defined in settings.php or a file included by settings.php. You'll
+    # get an error if this database connection isn't defined.
+    key: migrate_drupal7
+
+dependencies:
+  enforced:
+    module:
+      - ambientimpact_migrate
