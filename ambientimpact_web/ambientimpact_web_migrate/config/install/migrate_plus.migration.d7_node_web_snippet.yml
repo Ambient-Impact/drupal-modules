@@ -3,7 +3,7 @@ label: 'Nodes (web snippets)'
 migration_tags:
   - 'Drupal 7'
   - Content
-migration_group: d7_ambientimpact_web
+migration_group: d7_ambientimpact
 
 audit: true
 deriver: Drupal\node\Plugin\migrate\D7NodeDeriver
