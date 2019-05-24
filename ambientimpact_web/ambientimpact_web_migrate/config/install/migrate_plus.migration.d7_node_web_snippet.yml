@@ -30,6 +30,85 @@ process:
   revision_log: log
   revision_timestamp: timestamp
 
+  # Paragraph type psuedo-fields that we can use as sources for the
+  # field_paragraphs iterator.
+  # paragraph_source_animated_gifs:
+  #   plugin: migration_lookup
+  #   migration: d7_paragraph_animated_gifs
+  #   source: nid
+  # paragraph_source_code:
+  #   plugin: migration_lookup
+  #   migration: d7_paragraph_code
+  #   source: nid
+  # paragraph_source_images:
+  #   plugin: migration_lookup
+  #   migration: d7_paragraph_images
+  #   source: nid
+  paragraph_source_text:
+    plugin: migration_lookup
+    migration: d7_paragraph_text
+    source: entity_id
+  # paragraph_process_text_target_id:
+  #   plugin: migration_lookup
+  #   migration: d7_paragraph_text
+  #   source: field_paragraphs
+  # paragraph_process_text_target_revision_id:
+  #   plugin: migration_lookup
+  #   migration: d7_paragraph_text
+  #   source: field_paragraphs
+  # paragraph_source_video:
+  #   plugin: migration_lookup
+  #   migration: d7_paragraph_video
+  #   source: nid
+
+  # paragraphs_sources:
+  #   plugin: iterator
+  #   source:
+  # #     - '@paragraph_source_animated_gifs'
+  # #     - '@paragraph_source_code'
+  # #     - '@paragraph_source_images'
+  #     - '@paragraph_source_text'
+  # #     - '@paragraph_source_video'
+
+  field_paragraphs:
+    plugin: migration_lookup
+    migration: d7_paragraph_text
+    source: field_paragraphs
+    # plugin: iterator
+    # source: '@paragraphs_sources'
+    # process:
+    #   # target_id: value
+    #   # target_revision_id: revision_id
+    #   target_id:
+    #     plugin: extract
+    #     source: '@paragraphs_sources'
+    #     index:
+    #       - value
+    #   target_revision_id:
+    #     plugin: extract
+    #     source: '@paragraphs_sources'
+    #     index:
+    #       - revision_id
+      # target_id:
+      #   plugin: iterator
+      #   source:
+      # #     - '@paragraph_source_animated_gifs'
+      # #     - '@paragraph_source_code'
+      # #     - '@paragraph_source_images'
+      #     - '@paragraph_process_text_target_id'
+      # #     - '@paragraph_source_video'
+      # target_revision_id:
+      #   plugin: iterator
+      #   source:
+      # #     - '@paragraph_source_animated_gifs'
+      # #     - '@paragraph_source_code'
+      # #     - '@paragraph_source_images'
+      #     - '@paragraph_process_text_target_revision_id'
+      # #     - '@paragraph_source_video'
+
+      # target_id: '0'
+      # target_revision_id: '1'
+
   # The core Link module seems to provide a 'field_link' process plugin:
   # @see \Drupal\link\Plugin\migrate\process\FieldLink
   # ...but it doesn't seem to work for us, so we're using this method:
@@ -54,6 +133,11 @@ destination:
 migration_dependencies:
   required:
     - 'd7_taxonomy_term:web_tags'
+  #   - d7_paragraph_animated_gifs
+  #   - d7_paragraph_code
+  #   - d7_paragraph_images
+    - d7_paragraph_text
+  #   - d7_paragraph_video
   # optional:
   #   - d7_field_instance
 

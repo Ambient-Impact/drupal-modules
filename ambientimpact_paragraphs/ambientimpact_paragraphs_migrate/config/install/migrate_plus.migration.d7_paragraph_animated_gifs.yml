@@ -1,0 +1,42 @@
+id: d7_paragraph_animated_gifs
+label: Paragraph items (Animated GIFs bundle)
+migration_tags:
+  - 'Drupal 7'
+migration_group: d7_ambientimpact
+
+source:
+  plugin: d7_paragraphs_item
+  bundle: animated_gifs
+  # field_name is the machine name of the field on the corresponding node type
+  # that references this paragraph.
+  field_name: field_paragraphs
+
+process:
+  field_animated_gifs:
+    plugin: iterator
+    source: field_animated_gifs
+    process:
+      target_id:
+        plugin: migration_lookup
+        migration: d7_file
+        source: fid
+      alt: field_file_image_alt_text
+      title: field_file_image_title_text
+      # alt: alt
+      # title: title
+      height: height
+      width: width
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: animated_gifs
+
+migration_dependencies:
+  required:
+    - d7_file
+  optional: {}
+
+dependencies:
+  enforced:
+    module:
+      - ambientimpact_paragraphs_migrate

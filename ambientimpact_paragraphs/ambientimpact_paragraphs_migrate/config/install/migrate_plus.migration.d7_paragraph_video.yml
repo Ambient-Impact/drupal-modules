@@ -1,0 +1,12 @@
+id: d7_paragraph_video
+label: Paragraph items (Video bundle)
+migration_tags:
+  - 'Drupal 7'
+migration_group: d7_ambientimpact
+
+source:
+  plugin: d7_paragraphs_item
+  bundle: video
+  # field_name is the machine name of the field on the corresponding node type
+  # that references this paragraph.
+  field_name: field_paragraphs
