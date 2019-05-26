@@ -12,7 +12,8 @@
     "grunt-svgstore": "^2.0.0",
     "load-grunt-configs": "^1.0.0",
     "modernizr": "^3.7.0",
-    "node-sass": "^4.11.0"
+    "node-sass": "^4.11.0",
+    "tar": ">=2.2.2"
   },
   "dependencies": {}
 }
