@@ -1,0 +1,11 @@
+name: Ambient.Impact - Portfolio migrate
+type: module
+description: Migration from Drupal 7.
+package: Ambient.Impact
+core: 8.x
+
+dependencies:
+  - drupal:migrate
+  - ambientimpact_migrate:ambientimpact_migrate
+  - ambientimpact_portfolio:ambientimpact_portfolio
+  - migrate_plus:migrate_plus
