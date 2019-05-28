@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: project_image_small
+label: 'Project image (small)'
+effects:
+  e8e3df44-0376-4131-888e-c8849c584d4a:
+    uuid: e8e3df44-0376-4131-888e-c8849c584d4a
+    id: image_scale
+    weight: 1
+    data:
+      width: 800
+      height: null
+      upscale: false
