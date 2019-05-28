@@ -1,0 +1,7 @@
+services:
+  # field_project_images template_preprocess_field() event subscriber.
+  ambientimpact_portfolio.preprocess_field_project_images_event_subscriber:
+    class: \Drupal\ambientimpact_portfolio\EventSubscriber\Preprocess\PreprocessFieldProjectImagesEventSubscriber
+    arguments: ['@service_container', '@plugin.manager.ambientimpact_component']
+    tags:
+      - { name: 'event_subscriber' }

@@ -13,4 +13,6 @@ dependencies:
   - drupal:taxonomy
   - drupal:user
   - drupal:views
+  - ambientimpact_core:ambientimpact_core
   - draggableviews:draggableviews
+  - hook_event_dispatcher:hook_event_dispatcher
