@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: project_image_linked
+label: 'Project image (linked)'
+effects:
+  bc529842-b82e-482a-a8d5-94e5cdd19d94:
+    uuid: bc529842-b82e-482a-a8d5-94e5cdd19d94
+    id: image_scale
+    weight: 1
+    data:
+      width: 1600
+      height: 1600
+      upscale: false
