@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_web_tags
+    - node.type.web_snippet
+    - taxonomy.vocabulary.web_tags
+id: node.web_snippet.field_web_tags
+field_name: field_web_tags
+entity_type: node
+bundle: web_snippet
+label: Tags
+description: '<a href="/web/tags" target="_blank">View all tags</a>'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      web_tags: web_tags
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

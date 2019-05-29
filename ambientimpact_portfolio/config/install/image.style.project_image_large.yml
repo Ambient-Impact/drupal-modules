@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: project_image_large
+label: 'Project image (large)'
+effects:
+  bea1a6a7-e96a-4919-865a-290d8899bfa6:
+    uuid: bea1a6a7-e96a-4919-865a-290d8899bfa6
+    id: image_scale
+    weight: 1
+    data:
+      width: 1440
+      height: 1440
+      upscale: false

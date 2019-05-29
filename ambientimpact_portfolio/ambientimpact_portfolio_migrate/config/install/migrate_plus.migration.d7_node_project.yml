@@ -1,0 +1,74 @@
+id: d7_node_project
+label: 'Nodes (project)'
+migration_tags:
+  - 'Drupal 7'
+  - Content
+migration_group: d7_ambientimpact
+
+audit: true
+deriver: Drupal\node\Plugin\migrate\D7NodeDeriver
+
+source:
+  plugin: d7_node
+  node_type: project
+
+process:
+  nid: tnid
+  vid: vid
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: 'und'
+  title: title
+  uid: node_uid
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+  revision_uid: revision_uid
+  revision_log: log
+  revision_timestamp: timestamp
+
+  # In Drupal 7, this was a simple text field, so we just grab the value and use
+  # that as the 'uri'.
+  field_project_link:
+    plugin: iterator
+    source: field_project_link
+    process:
+      uri: value
+
+  field_project_images:
+    plugin: iterator
+    source: field_project_images
+    process:
+      target_id:
+        plugin: migration_lookup
+        migration: d7_file_ambientimpact
+        source: fid
+      alt: alt
+      title: title
+      height: height
+      width: width
+
+  # Drupal knows what to do.
+  body: body
+
+  field_project_categories:
+    plugin: migration_lookup
+    migration: 'd7_taxonomy_term:project_categories'
+    source: field_project_categories
+
+destination:
+  plugin: 'entity:node'
+  default_bundle: project
+
+migration_dependencies:
+  required:
+    - d7_file_ambientimpact
+    - 'd7_taxonomy_term:project_categories'
+
+dependencies:
+  enforced:
+    module:
+      - ambientimpact_portfolio_migrate

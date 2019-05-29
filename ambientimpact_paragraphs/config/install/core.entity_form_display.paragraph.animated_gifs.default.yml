@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.animated_gifs.field_animated_gifs
+    - paragraphs.paragraphs_type.animated_gifs
+  module:
+    - media_library
+id: paragraph.animated_gifs.default
+targetEntityType: paragraph
+bundle: animated_gifs
+mode: default
+content:
+  field_animated_gifs:
+    type: media_library_widget
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  created: true
+  status: true

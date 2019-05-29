@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.video.field_remote_video
+    - image.style.content_image_large
+    - paragraphs.paragraphs_type.video
+  module:
+    - ambientimpact_core
+id: paragraph.video.default
+targetEntityType: paragraph
+bundle: video
+mode: default
+content:
+  field_remote_video:
+    weight: 0
+    label: hidden
+    settings:
+      image_style: content_image_large
+      link_image_to: provider
+    third_party_settings:
+      ambientimpact_core:
+        play_icon: true
+    type: video_embed_field_thumbnail
+    region: content
+hidden: {  }

@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'Project categories'
+vid: project_categories
+description: ''
+weight: 0

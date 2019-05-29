@@ -161,6 +161,33 @@ class VideoEmbedFieldThumbnail extends Thumbnail {
         }
       }
 
+      // If a provider is present and the image is to be linked to its provider,
+      // set a few variables and give the link a title attribute including the
+      // video title.
+      if (
+        $provider &&
+        $this->getSetting('link_image_to') === static::LINK_PROVIDER
+      ) {
+        $pluginID       = $provider->getPluginId();
+        $providerTitle  = $provider->getPluginDefinition()['title'];
+        $videoTitle     = $provider->getName();
+
+        switch ($pluginID) {
+          case 'youtube':
+          case 'vimeo':
+            $element['#attributes']['title'] = $this->t(
+              'Watch @videoTitle on @providerTitle',
+              [
+                '@videoTitle'     => $videoTitle,
+                '@providerTitle'  => $providerTitle
+              ]
+            );
+
+            break;
+        }
+      }
+
+
       // Skip items where the provider is missing, the image is not linked to
       // its provider, or we're not set to add the play icon.
       if (
@@ -171,8 +198,6 @@ class VideoEmbedFieldThumbnail extends Thumbnail {
         continue;
       }
 
-      $pluginID = $provider->getPluginId();
-
       // Determine what icon and text to use based on provider.
       switch ($pluginID) {
         // These have their own brand icons.
@@ -181,7 +206,15 @@ class VideoEmbedFieldThumbnail extends Thumbnail {
           $iconName   = $pluginID;
           $iconBundle = 'brands';
 
-          $text       = $provider->getPluginDefinition()['title'];
+          // Include the video title in a visually hidden element for
+          // accessibility.
+          $text       = $this->t(
+            '<span class="visually-hidden">Watch @videoTitle on </span>@providerTitle',
+            [
+              '@videoTitle'     => $videoTitle,
+              '@providerTitle'  => $providerTitle
+            ]
+          );
 
           break;
 

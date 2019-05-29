@@ -4,15 +4,17 @@
   "license": "GPL-2.0",
   "repository": "gitlab:Ambient.Impact/drupal-modules",
   "devDependencies": {
-    "grunt": "^1.0.3",
+    "grunt": "^1.0.4",
     "grunt-autoprefixer": "^3.0.4",
     "grunt-modernizr": "^1.0.3",
     "grunt-sass": "^3.0.2",
     "grunt-sassdoc": "^2.0.3",
     "grunt-svgstore": "^2.0.0",
     "load-grunt-configs": "^1.0.0",
-    "modernizr": "^3.7.0",
-    "node-sass": "^4.11.0"
+    "lodash": ">=4.17.11",
+    "modernizr": "^3.7.1",
+    "node-sass": "^4.11.0",
+    "tar": ">=2.2.2"
   },
   "dependencies": {}
 }

@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - ambientimpact_web
+name: 'Web tags'
+vid: web_tags
+description: ''
+weight: 0

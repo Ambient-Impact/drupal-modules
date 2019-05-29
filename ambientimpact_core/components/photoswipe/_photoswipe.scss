@@ -136,3 +136,17 @@ $photoswipe-themes: (
     @include set-photoswipe-colours(map-get($photoswipe-themes, $theme));
   }
 }
+
+///
+/// Target styles at PhotoSwipe when the UI is hidden.
+///
+/// @content
+///   The styles to apply when the UI is hidden.
+///
+@mixin on-photoswipe-ui-hidden {
+  .#{$photoswipe-root-class}__ui--idle &,
+  .#{$photoswipe-root-class}__ui--hidden & {
+    @content;
+  }
+}
+
