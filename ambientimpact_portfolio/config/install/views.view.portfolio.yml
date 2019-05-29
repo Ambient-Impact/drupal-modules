@@ -3,9 +3,11 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.full
+    - entityqueue.entity_queue.portfolio
     - node.type.project
     - system.menu.main
   module:
+    - entityqueue
     - node
     - user
 id: portfolio
@@ -155,7 +157,20 @@ display:
           entity_field: type
           plugin_id: bundle
           group: 1
-      sorts: {  }
+      sorts:
+        entityqueue_relationship:
+          id: entityqueue_relationship
+          table: node_field_data
+          field: entityqueue_relationship
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: ''
+          entity_type: node
+          plugin_id: entity_queue_position
       title: Portfolio
       header:
         area:
@@ -173,7 +188,18 @@ display:
           plugin_id: text
       footer: {  }
       empty: {  }
-      relationships: {  }
+      relationships:
+        entityqueue_relationship:
+          id: entityqueue_relationship
+          table: node_field_data
+          field: entityqueue_relationship
+          relationship: none
+          group_type: group
+          admin_label: 'Content queue'
+          required: false
+          limit_queue: portfolio
+          entity_type: node
+          plugin_id: entity_queue
       arguments: {  }
       display_extenders: {  }
       filter_groups:
@@ -187,7 +213,10 @@ display:
         - 'languages:language_interface'
         - 'user.node_grants:view'
         - user.permissions
-      tags: {  }
+      tags:
+        - 'config:entityqueue.entity_queue.portfolio'
+        - entity_field_info
+        - views_data
   page:
     display_plugin: page
     id: page
@@ -212,4 +241,7 @@ display:
         - 'languages:language_interface'
         - 'user.node_grants:view'
         - user.permissions
-      tags: {  }
+      tags:
+        - 'config:entityqueue.entity_queue.portfolio'
+        - entity_field_info
+        - views_data
