@@ -5,9 +5,8 @@ dependencies:
     - menu_ui
 third_party_settings:
   menu_ui:
-    available_menus:
-      - menu-projects-menu
-    parent: 'menu-projects-menu:0:'
+    available_menus: {  }
+    parent: ''
 name: Project
 type: project
 description: ''
