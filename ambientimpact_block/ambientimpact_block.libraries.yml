@@ -3,6 +3,14 @@ social_links:
     component:
       stylesheets/social_links.css: {}
 
+# This is not attached by default by this module, but the ambientimpact_base
+# theme does attach this by default.
+social_links.tooltips:
+  js:
+    javascript/social_links.tooltips.js: {}
+  dependencies:
+    - ambientimpact_core/component.tooltip
+
 social_links.admin:
   css:
     component:
