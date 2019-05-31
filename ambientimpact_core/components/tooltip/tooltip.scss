@@ -1,0 +1,108 @@
+// -----------------------------------------------------------------------------
+//  Ambient.Impact - Core - Tooltip component
+// -----------------------------------------------------------------------------
+
+@import '../../stylesheets/_common.scss';
+
+// We need the Tippy.js partials for the arrow stuff.
+@import '../../assets/vendor/tippy.js-source/src/scss/_mixins.scss';
+@import '../../assets/vendor/tippy.js-source/src/scss/_vars.scss';
+
+///
+/// The padding of tooltips.
+///
+$tooltip-padding: 0.4em 0.8em !default;
+
+///
+/// The tooltip shadow depth to pass to the material-panel mixin.
+///
+$tooltip-shadow-depth: 2 !default;
+
+///
+/// The tooltip max width.
+///
+$tooltip-max-width: 25em !default;
+
+///
+/// Tooltip Material dark and light themes.
+///
+$tooltip-themes: (
+  material-dark:  (
+    background-colour:  $material-panel-background-colour-dark,
+  ),
+  material-light: (
+    // This is slightly darker than the default which is usually white so
+    // that it contrasts a bit against any white background.
+    background-colour:  darken($material-panel-background-colour-light, 5%),
+  ),
+);
+
+@each $theme-name, $theme-settings in $tooltip-themes {
+  .tippy-popper {
+    @each $placement in $placements {
+      &[x-placement^='#{$placement}'] {
+        .tippy-tooltip.#{$theme-name}-theme {
+          .tippy-arrow {
+            @include arrow(
+              $placement, 7px,
+              map-get($theme-settings, background-colour)
+            );
+          }
+        }
+      }
+    }
+  }
+
+  .tippy-tooltip.#{$theme-name}-theme {
+    @include material-panel(
+      $padding-small:     $tooltip-padding,
+      $padding-large:     $tooltip-padding,
+      $background-colour:   map-get($theme-settings, background-colour),
+      $shadow-depth:      $tooltip-shadow-depth
+    );
+
+    .tippy-backdrop {
+      background-color:   map-get($theme-settings, background-colour);
+    }
+
+    .tippy-roundarrow {
+      fill:               map-get($theme-settings, background-colour);
+    }
+
+    &[data-animatefill] {
+      background-color:   transparent;
+    }
+  }
+}
+
+.tippy-tooltip {
+  // Set a max-width for the tooltips so they don't get uncomfortably wide.
+  // Note that applying this to .tippy-popper will not work, as it gets
+  // overridden.
+  max-width: $tooltip-max-width;
+
+  // Hide the shadow while the tooltip is marked as hidden. This reduces the
+  // flash of a shadow outline before the clip-path transition has finished,
+  // but does not fully solve the issue. See:
+  // https://github.com/atomiks/tippyjs/issues/281#issuecomment-435583721
+  &[data-state=hidden] {
+    box-shadow: none;
+  }
+
+  // This allows the tooltip to inherit the document's font size if the 'size'
+  // option is set, which is our default.
+  &[data-size=inherit] {
+    font-size:  inherit;
+  }
+
+  // Align text to the left in LTR and right in RTL directions, as that's more
+  // visually pleasing if or when text wraps to additional lines. Regardless
+  // of text alignment, the tooltip container itself will usually be centre-
+  // aligned by Tippy and/or Popper, so that's not affected.
+  @include root-conditions(('[dir=ltr]'), 'html') {
+    text-align: left;
+  }
+  @include root-conditions(('[dir=rtl]'), 'html') {
+    text-align: right;
+  }
+}

@@ -1,0 +1,9 @@
+component.tooltip:
+  css:
+    component:
+      tooltip.css: {}
+  js:
+    tooltip.js: {}
+  dependencies:
+    - ambientimpact_core/ally.js
+    - ambientimpact_core/tippy.js
