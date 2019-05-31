@@ -1,11 +1,9 @@
 social_links:
-  version: 1.0
   css:
     component:
       stylesheets/social_links.css: {}
 
 social_links.admin:
-  version: 1.0
   css:
     component:
       stylesheets/social_links.admin.css: {}
