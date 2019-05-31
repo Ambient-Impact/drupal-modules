@@ -73,7 +73,7 @@ class SocialLinks extends BlockBase implements BlockPluginInterface {
 
 			// Attach assets.
 			'#attached'		=> [
-				'library'		=> ['ambientimpact_block/social_links'],
+				'library'		=> ['ambientimpact_block/component.social_links'],
 			],
 		];
 
@@ -173,7 +173,7 @@ class SocialLinks extends BlockBase implements BlockPluginInterface {
 
 		// Attach the admin assets.
 		$form['#attached']['library'][] =
-			'ambientimpact_block/social_links.admin';
+			'ambientimpact_block/component.social_links.admin';
 
 		// The link settings fieldset.
 		$form['link_settings'] = [
