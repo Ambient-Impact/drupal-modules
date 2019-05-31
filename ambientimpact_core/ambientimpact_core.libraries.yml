@@ -119,6 +119,16 @@ photoswipe:
     assets/vendor/photoswipe/dist/photoswipe.min.js: { minified: true }
     assets/vendor/photoswipe/dist/photoswipe-ui-default.min.js: { minified: true }
 
+popper.js:
+  remote: https://popper.js.org/
+  version: 1.14.4
+  license:
+    name: MIT
+    url: https://github.com/FezVrasta/popper.js/blob/master/LICENSE.md
+    gpl-compatible: true
+  js:
+    assets/vendor/popper.js/dist/umd/popper.min.js: { minified: true }
+
 smoothscroll:
   remote: https://github.com/iamdustan/smoothscroll
   version: 0.4.4
@@ -128,3 +138,18 @@ smoothscroll:
     gpl-compatible: true
   js:
     assets/vendor/smoothscroll/src/smoothscroll.js: {}
+
+tippy.js:
+  remote: https://atomiks.github.io/tippyjs/
+  version: 2.6.0
+  license:
+    name: MIT
+    url: https://github.com/atomiks/tippyjs/blob/v2.6.0/LICENSE
+    gpl-compatible: true
+  css:
+    component:
+      assets/vendor/tippy.js/dist/tippy.css: {}
+  js:
+    assets/vendor/tippy.js/dist/tippy.standalone.js: { minified: true }
+  dependencies:
+    - ambientimpact_core/popper.js
