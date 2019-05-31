@@ -128,7 +128,7 @@ class GeshiFieldBEMFormatter extends FormatterBase implements ContainerFactoryPl
         'replace' => [],
       ];
 
-      // Code highlight classes that have numberical variations.
+      // Code highlight classes that have numerical variations.
       foreach ([
         're'  => 'reserved-word',
         'kw'  => 'keyword',
@@ -148,7 +148,7 @@ class GeshiFieldBEMFormatter extends FormatterBase implements ContainerFactoryPl
         }
       }
 
-      // Code highlight classes that do *not* have numberical variations.
+      // Code highlight classes that do *not* have numerical variations.
       foreach ([
         'st_h'    => 'string',
       ] as $old => $new) {
