@@ -1,5 +1,5 @@
 id: d7_paragraph_images
-label: Paragraph items (Images bundle)
+label: 'Paragraph items (Images bundle)'
 migration_tags:
   - 'Drupal 7'
 migration_group: d7_ambientimpact
