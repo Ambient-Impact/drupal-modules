@@ -12,23 +12,9 @@ source:
   field_name: field_paragraphs
 
 process:
-  id: item_id
-  revision_id: revision_id
-  type: bundle
-
+  # We can just use the simple 'get' plugin for this field, because Migrate
+  # understands basic text fields and thus handles the details for us.
   field_text: field_text
-  # field_text:
-  #   plugin: iterator
-  #   source: field_text
-  #   process:
-  #     bundle: bundle
-  #     deleted: deleted
-  #     entity_id: entity_id
-  #     revision_id: revision_id
-  #     language: langcode
-  #     delta: delta
-  #     value: value
-  #     format: format
 
 destination:
   plugin: 'entity_reference_revisions:paragraph'

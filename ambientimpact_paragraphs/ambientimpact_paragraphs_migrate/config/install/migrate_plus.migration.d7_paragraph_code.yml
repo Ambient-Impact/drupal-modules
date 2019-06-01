@@ -1,5 +1,5 @@
 id: d7_paragraph_code
-label: Paragraph items (Code bundle)
+label: 'Paragraph items (Code bundle)'
 migration_tags:
   - 'Drupal 7'
 migration_group: d7_ambientimpact
@@ -12,12 +12,9 @@ source:
   field_name: field_paragraphs
 
 process:
+  # We can just use the simple 'get' plugin for these fields, because Migrate
+  # understands basic text/number fields and thus handles the details for us.
   field_code: field_code
-    # plugin: iterator
-    # source: field_code
-    # process:
-    #   value: value
-    # revision_id: revision_id
   field_code_tab_size: field_code_tab_size
 
 destination:
