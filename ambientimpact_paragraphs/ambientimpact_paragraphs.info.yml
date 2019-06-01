@@ -5,9 +5,11 @@ package: Ambient.Impact
 core: 8.x
 
 dependencies:
-  - paragraphs:paragraphs
-  - drupal:text
   - drupal:media
   - drupal:media_library
+  - drupal:node
+  - drupal:text
+  - drupal:user
+  - paragraphs:paragraphs
   - geshifield:geshifield
   - video_embed_field:video_embed_field
