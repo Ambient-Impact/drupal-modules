@@ -16,6 +16,10 @@ process:
     plugin: sub_process
     source: field_images
     process:
+      # We can't directly use the fid from the Drupal 7 site as the fids of the
+      # migrated files in Drupal 8 are likely different, so that would give us
+      # the wrong files. To get the correct files for this field, we have to use
+      # the 'migration_lookup' plugin, which will translate the fids for us.
       target_id:
         plugin: migration_lookup
         migration: d7_file_ambientimpact
