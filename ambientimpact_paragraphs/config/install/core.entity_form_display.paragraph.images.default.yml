@@ -3,8 +3,11 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.images.field_images
+    - field.field.paragraph.images.field_images_migrated
+    - image.style.thumbnail
     - paragraphs.paragraphs_type.images
   module:
+    - image
     - media_library
 id: paragraph.images.default
 targetEntityType: paragraph
@@ -16,6 +19,14 @@ content:
     weight: 0
     settings: {  }
     third_party_settings: {  }
+    region: content
+  field_images_migrated:
+    weight: 1
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
     region: content
 hidden:
   created: true

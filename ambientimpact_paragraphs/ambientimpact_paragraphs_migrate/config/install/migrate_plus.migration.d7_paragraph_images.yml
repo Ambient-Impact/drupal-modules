@@ -12,7 +12,7 @@ source:
   field_name: field_paragraphs
 
 process:
-  field_images:
+  field_images_migrated:
     plugin: iterator
     source: field_images
     process:
