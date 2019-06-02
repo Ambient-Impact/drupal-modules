@@ -20,10 +20,8 @@ process:
         plugin: migration_lookup
         migration: d7_file_ambientimpact
         source: fid
-      alt: field_file_image_alt_text
-      title: field_file_image_title_text
-      # alt: alt
-      # title: title
+      alt: alt
+      title: title
       height: height
       width: width
 
