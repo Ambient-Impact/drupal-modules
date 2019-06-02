@@ -13,7 +13,7 @@ source:
 
 process:
   field_images_migrated:
-    plugin: iterator
+    plugin: sub_process
     source: field_images
     process:
       target_id:
