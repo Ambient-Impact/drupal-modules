@@ -17,3 +17,4 @@ Note that this requires [Drush 9 or higher](https://docs.drush.org/en/master/ins
 1. Detect duplicate files: ```drush migrate:duplicate-file-detection ambientimpact_paragraph_images_to_media_step1```
 2. Create media entities: ```drush migrate:import ambientimpact_paragraph_images_to_media_step1```
 3. Map created media entities to Paragraph items: ```drush migrate:import ambientimpact_paragraph_images_to_media_step2```
+4. Check that the media fields on the Images Paragraph items have been populated correctly; if they have, you can safely delete the ```field_images_migrated``` field on that bundle.
