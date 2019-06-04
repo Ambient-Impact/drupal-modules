@@ -1,0 +1,19 @@
+id: d8_ambientimpact_paragraphs_migrate_to_media
+label: 'Ambient.Impact Drupal 8 Paragraphs files to media migration'
+description: 'Migration from the migrated files to media entities.'
+source_type: 'Drupal 8'
+
+shared_configuration:
+  source:
+    # This is the database connection to use for this migration group. Make sure
+    # this is defined in settings.php or a file included by settings.php. You'll
+    # get an error if this database connection isn't defined. Also note that
+    # 'target' refers to the top-level database, while 'key' refers to the
+    # second level, replica database. To clarify: $databases['target']['key'] in
+    # settings.php
+    target: default
+
+dependencies:
+  enforced:
+    module:
+      - ambientimpact_paragraphs_migrate_to_media

@@ -1,0 +1,58 @@
+# This creates media entities for every unique image file found in the
+# 'field_images_migrated' field on Images Paragraph items.
+
+id: ambientimpact_paragraph_images_to_media_step1
+label: 'Ambient.Impact Paragraph items (Images bundle) files to media migration'
+migration_group: d8_ambientimpact_paragraphs_migrate_to_media
+source:
+  plugin: media_entity_generator
+  entity_type: paragraph
+  bundle: images
+  langcode: en
+  # These are the source image/file fields on the Paragraph items to create
+  # media entities from.
+  field_names:
+    - field_images_migrated
+
+destination:
+  plugin: entity:media
+
+process:
+  # This is the media entity bundle type to create.
+  bundle:
+    plugin: default_value
+    default_value: image
+
+  # Using the alt tag for the media entity name if available, falling back to
+  # the file name if not.
+  name:
+    plugin: media_name
+    source: file_name
+
+  # This process plugin will skip the whole row if an existing media entity is
+  # found.
+  existing_media_file:
+    plugin: check_media_duplicate
+    source: target_id
+
+  # This process plugin will skip the whole row if a duplicate image file is
+  # found.
+  unique_file_id:
+    plugin: check_duplicate
+    source: target_id
+
+  # Map the field image. Note that the name of this field is the field on the
+  # media entity itself, i.e. the 'image' media entity, **not** the field on the
+  # Paragraph item.
+  # @see https://www.drupal.org/project/migrate_file_to_media/issues/3031655#comment-13041350
+  field_media_image/target_id: target_id
+  field_media_image/alt: alt
+  field_media_image/title: title
+
+  langcode: langcode
+
+
+dependencies:
+  enforced:
+    module:
+      - ambientimpact_paragraphs_migrate_to_media
