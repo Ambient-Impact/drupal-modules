@@ -12,7 +12,7 @@ field_name: field_images_migrated
 entity_type: paragraph
 bundle: images
 label: 'Images (migrated)'
-description: ''
+description: 'Temporary migration field to hold legacy image files before being migrated to media entities. Once the images have been successfully migrated to media entities, this field can be safely deleted.'
 required: false
 translatable: false
 default_value: {  }
