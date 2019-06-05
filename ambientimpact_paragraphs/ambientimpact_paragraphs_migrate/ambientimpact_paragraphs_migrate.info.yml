@@ -5,7 +5,9 @@ package: Ambient.Impact
 core: 8.x
 
 dependencies:
+  - drupal:media
   - drupal:migrate
-  - migrate_plus:migrate_plus
   - ambientimpact_migrate:ambientimpact_migrate
   - ambientimpact_paragraphs:ambientimpact_paragraphs
+  - migrate_file_to_media:migrate_file_to_media
+  - migrate_plus:migrate_plus

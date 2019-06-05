@@ -1,9 +1,9 @@
 # This creates media entities for every unique image file found in the
 # 'field_images_migrated' field on Images Paragraph items.
 
-id: ambientimpact_paragraph_images_to_media_step1
+id: d8_paragraph_images_media_step1
 label: 'Ambient.Impact Paragraph items (Images bundle) files to media migration'
-migration_group: d8_ambientimpact_paragraphs_migrate_to_media
+migration_group: d8_ambientimpact_paragraphs_media
 source:
   plugin: media_entity_generator
   entity_type: paragraph
@@ -54,4 +54,4 @@ process:
 dependencies:
   enforced:
     module:
-      - ambientimpact_paragraphs_migrate_to_media
+      - ambientimpact_paragraphs_migrate

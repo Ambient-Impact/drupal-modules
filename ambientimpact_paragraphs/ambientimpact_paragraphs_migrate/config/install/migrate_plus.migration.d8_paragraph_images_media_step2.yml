@@ -1,9 +1,9 @@
 # This migration links the newly created media entities with entity reference
 # fields on the target bundle.
 
-id: ambientimpact_paragraph_images_to_media_step2
+id: d8_paragraph_images_media_step2
 label: 'Ambient.Impact Paragraph items (Images bundle) files to media mapping'
-migration_group: d8_ambientimpact_paragraphs_migrate_to_media
+migration_group: d8_ambientimpact_paragraphs_media
 source:
   plugin: content_entity:paragraph
   bundle: images
@@ -22,14 +22,14 @@ process:
   field_images:
     plugin: file_id_lookup
     source: field_images_migrated
-    migration: ambientimpact_paragraph_images_to_media_step1
+    migration: d8_paragraph_images_media_step1
     no_stub: true
 
 migration_dependencies:
   optional:
-  - ambientimpact_paragraph_images_to_media_step1
+  - d8_paragraph_images_media_step1
 
 dependencies:
   enforced:
     module:
-      - ambientimpact_paragraphs_migrate_to_media
+      - ambientimpact_paragraphs_migrate

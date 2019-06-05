@@ -1,11 +1,9 @@
 # This creates media entities for every unique image file found in the
-# 'field_animated_gifs_migrated' field on Images Paragraph items. Note that the
-# singular 'gif' is used in this migration name as this file name just hits
-# Windows' file name character limit.
+# 'field_animated_gifs_migrated' field on Images Paragraph items.
 
-id: ambientimpact_paragraph_animated_gif_to_media_step1
+id: d8_paragraph_animated_gifs_media_step1
 label: 'Ambient.Impact Paragraph items (Animated GIFs bundle) files to media migration'
-migration_group: d8_ambientimpact_paragraphs_migrate_to_media
+migration_group: d8_ambientimpact_paragraphs_media
 source:
   plugin: media_entity_generator
   entity_type: paragraph
@@ -56,4 +54,4 @@ process:
 dependencies:
   enforced:
     module:
-      - ambientimpact_paragraphs_migrate_to_media
+      - ambientimpact_paragraphs_migrate

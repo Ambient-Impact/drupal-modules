@@ -1,4 +1,4 @@
-id: d8_ambientimpact_paragraphs_migrate_to_media
+id: d8_ambientimpact_paragraphs_media
 label: 'Ambient.Impact Drupal 8 Paragraphs files to media migration'
 description: 'Migration from the migrated files to media entities.'
 source_type: 'Drupal 8'
@@ -16,4 +16,4 @@ shared_configuration:
 dependencies:
   enforced:
     module:
-      - ambientimpact_paragraphs_migrate_to_media
+      - ambientimpact_paragraphs_migrate
