@@ -76,10 +76,9 @@ class PhotoSwipeImageFormatter extends ImageFormatter {
 
     $this->componentManager = $componentManager;
 
-    // Set default for the gallery setting to true.
-    $this->setThirdPartySettingDefault(
-      'ambientimpact_core', 'use_photoswipe_gallery', true
-    );
+    // Set our default third party settings.
+    $this->componentManager->getComponentInstance('photoswipe')
+      ->setImageFormatterDefaults($this);
   }
 
   /**
