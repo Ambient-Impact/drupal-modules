@@ -1,0 +1,38 @@
+uuid: 5c1538fa-107d-405b-a294-2132d54696d1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_media_image
+    - media.type.gif
+  module:
+    - image
+id: media.gif.field_media_image
+field_name: field_media_image
+entity_type: media
+bundle: gif
+label: Image
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: media/gifs
+  file_extensions: gif
+  max_filesize: ''
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: true
+  alt_field_required: true
+  title_field: false
+  title_field_required: false
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: image
