@@ -51,7 +51,6 @@ process:
 
   langcode: langcode
 
-
 dependencies:
   enforced:
     module:
