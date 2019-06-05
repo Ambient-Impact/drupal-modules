@@ -12,18 +12,16 @@ source:
   field_name: field_paragraphs
 
 process:
-  field_animated_gifs:
-    plugin: iterator
+  field_animated_gifs_migrated:
+    plugin: sub_process
     source: field_animated_gifs
     process:
       target_id:
         plugin: migration_lookup
-        migration: d7_file
+        migration: d7_file_ambientimpact
         source: fid
-      alt: field_file_image_alt_text
-      title: field_file_image_title_text
-      # alt: alt
-      # title: title
+      alt: alt
+      title: title
       height: height
       width: width
 
@@ -33,7 +31,7 @@ destination:
 
 migration_dependencies:
   required:
-    - d7_file
+    - d7_file_ambientimpact
   optional: {}
 
 dependencies:
