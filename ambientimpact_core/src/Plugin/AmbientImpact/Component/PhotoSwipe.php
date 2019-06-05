@@ -169,6 +169,11 @@ class PhotoSwipe extends ComponentBase {
    *   An image field formatter instance to apply the settings to.
    */
   public function setImageFormatterDefaults($formatterInstance) {
+    // PhotoSwipe is not used by default. This may be changed later.
+    $formatterInstance->setThirdPartySettingDefault(
+      'ambientimpact_core', 'use_photoswipe', false
+    );
+
     // Set default for the gallery setting to true.
     $formatterInstance->setThirdPartySettingDefault(
       'ambientimpact_core', 'use_photoswipe_gallery', true
