@@ -3,8 +3,11 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.animated_gifs.field_animated_gifs
+    - field.field.paragraph.animated_gifs.field_animated_gifs_migrated
+    - image.style.thumbnail
     - paragraphs.paragraphs_type.animated_gifs
   module:
+    - image
     - media_library
 id: paragraph.animated_gifs.default
 targetEntityType: paragraph
@@ -16,6 +19,14 @@ content:
     weight: 0
     settings: {  }
     third_party_settings: {  }
+    region: content
+  field_animated_gifs_migrated:
+    weight: 1
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
     region: content
 hidden:
   created: true
