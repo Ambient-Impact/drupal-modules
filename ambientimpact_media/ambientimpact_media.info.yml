@@ -1,0 +1,10 @@
+name: Ambient.Impact - Media
+type: module
+description: Media (images, video, etc.) and related code.
+package: Ambient.Impact
+core: 8.x
+
+dependencies:
+  - drupal:image
+  - drupal:media
+  - drupal:media_library
