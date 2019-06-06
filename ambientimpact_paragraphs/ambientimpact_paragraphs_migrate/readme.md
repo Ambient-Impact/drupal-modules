@@ -1,4 +1,8 @@
 # Requirements
+## ```d7_paragraph_images``` migration
+This requires the ```d7_file_ambientimpact``` migration to have been run
+beforehand.
+
 ## ```d7_paragraph_video``` migration
 This requires the ```d7_file_entity_youtube``` migration from the
 ```ambientimpact_media``` module to have been run beforehand and the [LoadEntity
