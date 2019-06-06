@@ -10,3 +10,43 @@ source:
   # field_name is the machine name of the field on the corresponding node type
   # that references this paragraph.
   field_name: field_paragraphs
+
+process:
+  field_remote_video:
+    plugin: sub_process
+    source: field_remote_video
+    process:
+      # Look up the ID of the media entity created by the
+      # 'd7_file_entity_youtube' migration and store it as a pseudo-field, which
+      # we'll need to load the media entity in the next psuedo-field.
+      media_id:
+        plugin: migration_lookup
+        migration: d7_file_entity_youtube
+        source: fid
+
+      # Load the media entity created by the 'd7_file_entity_youtube' migration
+      # and store it as a pseudo-field. Note that the 'entity_load' plug-in is
+      # not in Migrate Plus at the time of writing this migration (2019-06-06),
+      # so requires the following patch:
+      # https://www.drupal.org/project/migrate_plus/issues/3018849#comment-12928073
+      media_entity:
+        plugin: entity_load
+        entity_type: media
+        source: '@media_id'
+
+      # Finally, store the media entity's video URL as this field's value.
+      value: '@media_entity/field_media_oembed_video/0/value'
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: video
+
+migration_dependencies:
+  required:
+    - d7_file_entity_youtube
+  optional: {}
+
+dependencies:
+  enforced:
+    module:
+      - ambientimpact_paragraphs_migrate
