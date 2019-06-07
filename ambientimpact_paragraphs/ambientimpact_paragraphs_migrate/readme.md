@@ -1,15 +1,20 @@
 # Requirements
+
 ## ```d7_paragraph_images``` migration
+
 This requires the ```d7_file_ambientimpact``` migration to have been run
 beforehand.
 
 ## ```d7_paragraph_video``` migration
-This requires the ```d7_file_entity_youtube``` migration from the
-```ambientimpact_media``` module to have been run beforehand and the [LoadEntity
-process plug-in patch for Migrate Plus](https://www.drupal.org/project/migrate_plus/issues/3018849#comment-12928073)
+
+This requires the ```d7_file_entity_vimeo``` and ```d7_file_entity_youtube```
+migrations from the ```ambientimpact_media``` module to have been run beforehand
+and the [LoadEntity process plug-in patch for Migrate
+Plus](https://www.drupal.org/project/migrate_plus/issues/3018849#comment-12928073)
 applied. Once the Paragraph items have been migrated, you can safely delete/roll
-back the ```d7_file_entity_youtube``` migration, as those media entities are no
-longer needed (Video Embed Field stores the video URL directly in the field).
+back the ```d7_file_entity_vimeo``` and ```d7_file_entity_youtube``` migrations,
+as those media entities are no longer needed (Video Embed Field stores the video
+URL directly in the field).
 
 # File field to media field migration
 

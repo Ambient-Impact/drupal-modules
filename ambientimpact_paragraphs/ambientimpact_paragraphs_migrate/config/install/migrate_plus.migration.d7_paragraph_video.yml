@@ -16,18 +16,22 @@ process:
     plugin: sub_process
     source: field_remote_video
     process:
-      # Look up the ID of the media entity created by the
-      # 'd7_file_entity_youtube' migration and store it as a pseudo-field, which
-      # we'll need to load the media entity in the next psuedo-field.
+      # Look up the ID of the media entity created by the 'd7_file_entity_vimeo'
+      # and 'd7_file_entity_youtube' migrations and store them as pseudo-fields,
+      # which we'll need to load the media entity in the 'media_entity'
+      # psuedo-field.
       media_id:
         plugin: migration_lookup
-        migration: d7_file_entity_youtube
+        migration:
+          - d7_file_entity_vimeo
+          - d7_file_entity_youtube
+        no_stub: true
         source: fid
 
-      # Load the media entity created by the 'd7_file_entity_youtube' migration
-      # and store it as a pseudo-field. Note that the 'entity_load' plug-in is
-      # not in Migrate Plus at the time of writing this migration (2019-06-06),
-      # so requires the following patch:
+      # Load the media entity created by either the 'd7_file_entity_vimeo' or
+      # the 'd7_file_entity_youtube' migrations and store it as a pseudo-field.
+      # Note that the 'entity_load' plug-in is not in Migrate Plus at the time
+      # of writing this migration (2019-06-07), so requires the following patch:
       # https://www.drupal.org/project/migrate_plus/issues/3018849#comment-12928073
       media_entity:
         plugin: entity_load
@@ -43,6 +47,7 @@ destination:
 
 migration_dependencies:
   required:
+    - d7_file_entity_vimeo
     - d7_file_entity_youtube
   optional: {}
 
