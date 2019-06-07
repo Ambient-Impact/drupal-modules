@@ -28,7 +28,8 @@ more information, see:
 
 ## Steps
 
-Note that this requires [Drush 9 or higher](https://docs.drush.org/en/master/install/).
+Note that these require [Drush 9 or
+higher](https://docs.drush.org/en/master/install/).
 
 ### Animated GIFs Paragraph type
 
