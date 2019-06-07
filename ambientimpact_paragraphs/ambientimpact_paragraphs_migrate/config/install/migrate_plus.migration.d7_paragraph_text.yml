@@ -12,6 +12,12 @@ source:
   field_name: field_paragraphs
 
 process:
+  # We use the original ID and revision ID from Drupal 7 to avoid any headaches
+  # trying to use migrate_lookup in the d7_node_web_snippet migration - see that
+  # migration for details.
+  id: item_id
+  revision_id: revision_id
+
   # We can just use the simple 'get' plugin for this field, because Migrate
   # understands basic text fields and thus handles the details for us.
   field_text: field_text
