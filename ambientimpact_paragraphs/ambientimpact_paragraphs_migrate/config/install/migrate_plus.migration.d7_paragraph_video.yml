@@ -25,6 +25,9 @@ process:
         migration:
           - d7_file_entity_vimeo
           - d7_file_entity_youtube
+        # We have to make sure to tell the Migrate process not to create stubs
+        # for non-existent media entities; without this, we'd get a fatal error
+        # in the 'entity_load' plug-in when it tries to load it.
         no_stub: true
         source: fid
 
