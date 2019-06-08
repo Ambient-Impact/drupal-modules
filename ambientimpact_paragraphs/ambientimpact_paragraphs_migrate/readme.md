@@ -1,20 +1,26 @@
 # Requirements
 
-## ```d7_paragraph_images``` migration
+## [```d7_paragraph_images```](config/install/migrate_plus.migration.d7_paragraph_images.yml) migration
 
-This requires the ```d7_file_ambientimpact``` migration to have been run
-beforehand.
+This requires the
+[```d7_file_ambientimpact```](../../ambientimpact_migrate/config/install/migrate_plus.migration.d7_file_ambientimpact.yml)
+migration to have been run beforehand.
 
-## ```d7_paragraph_video``` migration
+## [```d7_paragraph_video```](config/install/migrate_plus.migration.d7_paragraph_video.yml) migration
 
-This requires the ```d7_file_entity_vimeo``` and ```d7_file_entity_youtube```
-migrations from the ```ambientimpact_media``` module to have been run beforehand
-and the [LoadEntity process plug-in patch for Migrate
+This requires the
+[```d7_file_entity_vimeo```](../../ambientimpact_media/config/optional/migrate_plus.migration.d7_file_entity_vimeo.yml)
+and
+[```d7_file_entity_youtube```](../../ambientimpact_media/config/optional/migrate_plus.migration.d7_file_entity_youtube.yml)
+migrations from the [```ambientimpact_media```](../../ambientimpact_media)
+module to have been run beforehand and the [LoadEntity process plug-in patch for
+Migrate
 Plus](https://www.drupal.org/project/migrate_plus/issues/3018849#comment-12928073)
 applied. Once the Paragraph items have been migrated, you can safely delete/roll
 back the ```d7_file_entity_vimeo``` and ```d7_file_entity_youtube``` migrations,
-as those media entities are no longer needed (Video Embed Field stores the video
-URL directly in the field).
+as those media entities are no longer needed ([Video Embed
+Field](https://www.drupal.org/project/video_embed_field) stores the video URL
+directly in the field).
 
 # File field to media field migration
 
