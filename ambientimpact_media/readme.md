@@ -1,7 +1,7 @@
 This module provides functionality relating to various media types, i.e. images,
 video, etc.
 
-# Migrate
+# Migration
 
 In Drupal 7, the [Embedded Media Field
 module](https://www.drupal.org/project/emfield) was used to embed videos in web
