@@ -6,4 +6,5 @@ core: 8.x
 
 dependencies:
   - drupal:migrate
+  - drupal:migrate_drupal
   - migrate_plus:migrate_plus

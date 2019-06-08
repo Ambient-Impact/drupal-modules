@@ -8,6 +8,7 @@ dependencies:
   - drupal:link
   - drupal:taxonomy
   - drupal:migrate
+  - drupal:migrate_drupal
   - migrate_plus:migrate_plus
   - ambientimpact_paragraphs_migrate:ambientimpact_paragraphs_migrate
   - ambientimpact_web:ambientimpact_web
