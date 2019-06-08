@@ -1,3 +1,16 @@
+This module provides [Paragraphs](https://www.drupal.org/project/paragraphs)
+migrations from Drupal 7 to Drupal 8. The migrations for specific Paragraph
+types provided by the [```ambientimpact_paragraphs module```](../) can be found
+in [```config/install```](config/install). Note that enabling this module will
+add
+[```field_animated_gifs_migrated```](config/install/field.field.paragraph.animated_gifs.field_animated_gifs_migrated.yml)
+to the
+[```animated_gifs```](../config/install/paragraphs.paragraphs_type.animated_gifs.yml)
+Paragraph type and
+[```field_images_migrated```](config/install/field.field.paragraph.images.field_images_migrated.yml)
+to the [```images```](../config/install/paragraphs.paragraphs_type.images.yml)
+Paragraph type.
+
 # Requirements
 
 ## [```d7_paragraph_images```](config/install/migrate_plus.migration.d7_paragraph_images.yml) migration
