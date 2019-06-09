@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_core\EventSubscriber;
+namespace Drupal\ambientimpact_core\EventSubscriber\Preprocess;
 
 use Drupal\hook_event_dispatcher\Event\Preprocess\HtmlPreprocessEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

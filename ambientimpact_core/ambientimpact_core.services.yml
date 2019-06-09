@@ -19,49 +19,49 @@ services:
 
   # Description list hook_theme() event subscriber.
   ambientimpact_core.hook_theme_description_list_event_subscriber:
-    class: \Drupal\ambientimpact_core\EventSubscriber\HookThemeDescriptionListEventSubscriber
+    class: \Drupal\ambientimpact_core\EventSubscriber\Theme\HookThemeDescriptionListEventSubscriber
     arguments: ['@module_handler']
     tags:
       - { name: 'event_subscriber' }
 
   # Icon hook_theme() event subscriber.
   ambientimpact_core.hook_theme_icon_event_subscriber:
-    class: \Drupal\ambientimpact_core\EventSubscriber\HookThemeIconEventSubscriber
+    class: \Drupal\ambientimpact_core\EventSubscriber\Theme\HookThemeIconEventSubscriber
     arguments: ['@plugin.manager.ambientimpact_component', '@module_handler']
     tags:
       - { name: 'event_subscriber' }
 
   # Component libraries hook_library_info_alter() event subscriber.
   ambientimpact_core.hook_library_info_alter_component_libraries_event_subscriber:
-    class: \Drupal\ambientimpact_core\EventSubscriber\HookLibraryInfoAlterComponentLibrariesEventSubscriber
+    class: \Drupal\ambientimpact_core\EventSubscriber\Theme\HookLibraryInfoAlterComponentLibrariesEventSubscriber
     arguments: ['@plugin.manager.ambientimpact_component']
     tags:
       - { name: 'event_subscriber' }
 
   # Modernizr hook_library_info_alter() event subscriber.
   ambientimpact_core.hook_library_info_alter_modernizr_event_subscriber:
-    class: \Drupal\ambientimpact_core\EventSubscriber\HookLibraryInfoAlterModernizrEventSubscriber
+    class: \Drupal\ambientimpact_core\EventSubscriber\Theme\HookLibraryInfoAlterModernizrEventSubscriber
     arguments: ['@module_handler']
     tags:
       - { name: 'event_subscriber' }
 
   # hook_form_alter() event subscriber.
   ambientimpact_core.hook_form_alter_event_subscriber:
-    class: \Drupal\ambientimpact_core\EventSubscriber\HookFormAlterEventSubscriber
+    class: \Drupal\ambientimpact_core\EventSubscriber\Form\HookFormAlterEventSubscriber
     arguments: []
     tags:
       - { name: 'event_subscriber' }
 
   # hook_page_top() event subscriber.
   ambientimpact_core.hook_page_top_event_subscriber:
-    class: \Drupal\ambientimpact_core\EventSubscriber\HookPageTopEventSubscriber
+    class: \Drupal\ambientimpact_core\EventSubscriber\Page\HookPageTopEventSubscriber
     arguments: ['@plugin.manager.ambientimpact_component']
     tags:
       - { name: 'event_subscriber' }
 
   # hook_page_attachments() event subscriber.
   ambientimpact_core.hook_page_attachments_event_subscriber:
-    class: \Drupal\ambientimpact_core\EventSubscriber\HookPageAttachmentsEventSubscriber
+    class: \Drupal\ambientimpact_core\EventSubscriber\Page\HookPageAttachmentsEventSubscriber
     arguments:
       - '@plugin.manager.ambientimpact_component'
       - '@theme.manager'
@@ -71,14 +71,14 @@ services:
 
   # template_preprocess_html() event subscriber.
   ambientimpact_core.preprocess_html_event_subscriber:
-    class: \Drupal\ambientimpact_core\EventSubscriber\PreprocessHTMLEventSubscriber
+    class: \Drupal\ambientimpact_core\EventSubscriber\Preprocess\PreprocessHTMLEventSubscriber
     arguments: ['@request_stack']
     tags:
       - { name: 'event_subscriber' }
 
   # PhotoSwipe template_preprocess_field() event subscriber.
   ambientimpact_core.preprocess_field_photoswipe_event_subscriber:
-    class: \Drupal\ambientimpact_core\EventSubscriber\PreprocessFieldPhotoSwipeEventSubscriber
+    class: \Drupal\ambientimpact_core\EventSubscriber\Preprocess\PreprocessFieldPhotoSwipeEventSubscriber
     arguments: ['@plugin.manager.ambientimpact_component']
     tags:
       - { name: 'event_subscriber' }
