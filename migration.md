@@ -11,8 +11,8 @@ The following modules are required:
 # Migrations
 
 The migrations are broken down into several discrete groups requiring their own
-workflows. Note that commands are in the [Drush 9
-format](https://docs.drush.org/en/master/install/), i.e. with colon (```:```)
+workflows. Note that commands are in the [Drush
+9+](https://docs.drush.org/en/master/install/) format, i.e. with colon (```:```)
 characters; most can be run in Drush 8 by replacing the colon with a dash
 (```-```).
 
