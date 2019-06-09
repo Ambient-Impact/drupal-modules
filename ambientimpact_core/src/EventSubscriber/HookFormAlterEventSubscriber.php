@@ -2,15 +2,14 @@
 
 namespace Drupal\ambientimpact_core\EventSubscriber;
 
-use Drupal\ambientimpact_core\EventSubscriber\ContainerAwareEventSubscriber;
-
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\hook_event_dispatcher\Event\Form\FormAlterEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * hook_form_alter() event subscriber class.
  */
-class HookFormAlterEventSubscriber extends ContainerAwareEventSubscriber {
+class HookFormAlterEventSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */

@@ -2,9 +2,9 @@
 
 namespace Drupal\ambientimpact_core\EventSubscriber;
 
-use Drupal\ambientimpact_core\EventSubscriber\ContainerAwareEventSubscriber;
-
+use Drupal\ambientimpact_core\ComponentPluginManager;
 use Drupal\hook_event_dispatcher\Event\Preprocess\FieldPreprocessEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * PhotoSwipe template_preprocess_field() event subscriber service class.
@@ -12,7 +12,26 @@ use Drupal\hook_event_dispatcher\Event\Preprocess\FieldPreprocessEvent;
  * @see \Drupal\hook_event_dispatcher\Event\Preprocess\FieldPreprocessEvent
  */
 class PreprocessFieldPhotoSwipeEventSubscriber
-extends ContainerAwareEventSubscriber {
+implements EventSubscriberInterface {
+  /**
+   * The Ambient.Impact Component plugin manager service.
+   *
+   * @var \Drupal\ambientimpact_core\ComponentPluginManager
+   */
+  protected $componentManager;
+
+  /**
+   * Event subscriber constructor; saves dependencies.
+   *
+   * @param \Drupal\ambientimpact_core\ComponentPluginManager $componentManager
+   *   The Ambient.Impact Component plugin manager service.
+   */
+  public function __construct(
+    ComponentPluginManager $componentManager
+  ) {
+    $this->componentManager = $componentManager;
+  }
+
   /**
    * {@inheritdoc}
    */
@@ -46,10 +65,9 @@ extends ContainerAwareEventSubscriber {
       return;
     }
 
-    $componentManager =
-      $this->container->get('plugin.manager.ambientimpact_component');
-    $config = $componentManager->getComponentConfiguration('photoswipe');
-    $fieldAttributeMap  = $config['fieldAttributes'];
+    $config = $this->componentManager->getComponentConfiguration('photoswipe');
+
+    $fieldAttributeMap = $config['fieldAttributes'];
 
     $firstItem  = &$items[0]['content'];
     $attributes = $variables->get('attributes');

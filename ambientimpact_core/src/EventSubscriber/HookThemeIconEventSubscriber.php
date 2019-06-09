@@ -2,16 +2,47 @@
 
 namespace Drupal\ambientimpact_core\EventSubscriber;
 
-use Drupal\ambientimpact_core\EventSubscriber\ContainerAwareEventSubscriber;
-
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\ambientimpact_core\ComponentPluginManager;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\hook_event_dispatcher\Event\Theme\ThemeEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * hook_theme() event subscriber class to define 'ambientimpact_icon' element.
  */
-class HookThemeIconEventSubscriber
-extends ContainerAwareEventSubscriber {
+class HookThemeIconEventSubscriber implements EventSubscriberInterface {
+  /**
+   * The Ambient.Impact Component plugin manager service.
+   *
+   * @var \Drupal\ambientimpact_core\ComponentPluginManager
+   */
+  protected $componentManager;
+
+  /**
+   * The Drupal module handler service.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
+   * Event subscriber constructor; saves dependencies.
+   *
+   * @param \Drupal\ambientimpact_core\ComponentPluginManager $componentManager
+   *   The Ambient.Impact Component plugin manager service.
+   *
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
+   *   The Drupal module handler service.
+   */
+  public function __construct(
+    ComponentPluginManager $componentManager,
+    ModuleHandlerInterface $moduleHandler
+  ) {
+    $this->componentManager = $componentManager;
+    $this->moduleHandler = $moduleHandler;
+  }
+
   /**
    * {@inheritdoc}
    */
@@ -28,11 +59,7 @@ extends ContainerAwareEventSubscriber {
    *   The event object.
    */
   public function theme(ThemeEvent $event) {
-    $componentManager =
-      $this->container->get('plugin.manager.ambientimpact_component');
-
-    $iconInstance = $componentManager->getComponentInstance('icon');
-    $iconConfig   = $iconInstance->getConfiguration();
+    $iconConfig = $this->componentManager->getComponentConfiguration('icon');
 
     $event->addNewTheme('ambientimpact_icon', [
       'variables' => [
@@ -59,9 +86,8 @@ extends ContainerAwareEventSubscriber {
       'template'  => 'ambientimpact-icon',
       // Path is required.
       // @see https://www.drupal.org/project/hook_event_dispatcher/issues/3038311
-      'path'      =>
-        $this->container->get('module_handler')
-          ->getModule('ambientimpact_core')->getPath() . '/templates',
+      'path'      => $this->moduleHandler->getModule('ambientimpact_core')
+                     ->getPath() . '/templates',
     ]);
   }
 }

@@ -2,10 +2,11 @@
 
 namespace Drupal\ambientimpact_core\EventSubscriber;
 
-use Drupal\ambientimpact_core\EventSubscriber\ContainerAwareEventSubscriber;
-
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\ambientimpact_core\ComponentPluginManager;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\hook_event_dispatcher\Event\Theme\LibraryInfoAlterEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * hook_library_info_alter() Modernizr event subscriber class.
@@ -15,8 +16,27 @@ use Drupal\hook_event_dispatcher\Event\Theme\LibraryInfoAlterEvent;
  * Modernizr path is used, so as not to replace another module's override.
  */
 class HookLibraryInfoAlterModernizrEventSubscriber
-extends ContainerAwareEventSubscriber {
+implements EventSubscriberInterface {
   /**
+   * The Drupal module handler service.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
+   * Event subscriber constructor; saves dependencies.
+   *
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
+   *   The Drupal module handler service.
+   */
+  public function __construct(
+    ModuleHandlerInterface $moduleHandler
+  ) {
+    $this->moduleHandler = $moduleHandler;
+  }
+
+   /**
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
@@ -48,8 +68,7 @@ extends ContainerAwareEventSubscriber {
       return;
     }
 
-    $moduleHandler    = $this->container->get('module_handler');
-    $ourModernizrPath = '../' . $moduleHandler
+    $ourModernizrPath = '../' . $this->moduleHandler
       ->getModule('ambientimpact_core')->getPath() . '/' . $coreModernizrPath;
 
     // Save the settings core's uses.

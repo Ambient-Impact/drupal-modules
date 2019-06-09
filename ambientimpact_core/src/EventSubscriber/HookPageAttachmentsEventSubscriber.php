@@ -2,16 +2,60 @@
 
 namespace Drupal\ambientimpact_core\EventSubscriber;
 
-use Drupal\ambientimpact_core\EventSubscriber\ContainerAwareEventSubscriber;
-
+use Drupal\ambientimpact_core\ComponentPluginManager;
+use Drupal\Core\State\StateInterface;
+use Drupal\Core\Theme\ThemeManagerInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\hook_event_dispatcher\Event\Page\PageAttachmentsEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * hook_page_attachments() event subscriber class.
  */
-class HookPageAttachmentsEventSubscriber
-extends ContainerAwareEventSubscriber {
+class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
+  /**
+   * The Ambient.Impact Component plugin manager service.
+   *
+   * @var \Drupal\ambientimpact_core\ComponentPluginManager
+   */
+  protected $componentManager;
+
+  /**
+   * The Drupal theme manager service.
+   *
+   * @var \Drupal\Core\Theme\ThemeManagerInterface
+   */
+  protected $themeManager;
+
+  /**
+   * The Drupal state system manager.
+   *
+   * @var \Drupal\Core\State\StateInterface
+   */
+  protected $stateManager;
+
+  /**
+   * Event subscriber constructor; saves dependencies.
+   *
+   * @param \Drupal\ambientimpact_core\ComponentPluginManager $componentManager
+   *   The Ambient.Impact Component plugin manager service.
+   *
+   * @param \Drupal\Core\Theme\ThemeManagerInterface $themeManager
+   *   The Drupal theme manager service.
+   *
+   * @param \Drupal\Core\State\StateInterface $stateManager
+   *   The Drupal state system manager.
+   */
+  public function __construct(
+    ComponentPluginManager $componentManager,
+    ThemeManagerInterface $themeManager,
+    StateInterface $stateManager
+  ) {
+    $this->componentManager = $componentManager;
+    $this->themeManager = $themeManager;
+    $this->stateManager = $stateManager;
+  }
+
   /**
    * {@inheritdoc}
    */
@@ -45,29 +89,26 @@ extends ContainerAwareEventSubscriber {
    *   The event object.
    */
   public function pageAttachments(PageAttachmentsEvent $event) {
-    $attached     = &$event->getAttachments()['#attached'];
-    $activeTheme  = $this->container->get('theme.manager')->getActiveTheme();
-    $componentManager =
-      $this->container->get('plugin.manager.ambientimpact_component');
+    $attached = &$event->getAttachments()['#attached'];
 
     $attached['drupalSettings']['AmbientImpact'] = [
       'framework' => [
         'cache'   => [
-          'assetKey'  =>
-            $this->container->get('state')->get('system.css_js_query_string'),
+          'assetKey'  => $this->stateManager->get('system.css_js_query_string'),
         ],
         'html'    => [
-          'endpointPath'  => $componentManager->getHTMLEndpointPath(),
-          'haveHTML'      => $componentManager->getComponentNamesWithHTML(),
+          'endpointPath'  => $this->componentManager->getHTMLEndpointPath(),
+          'haveHTML'      => $this->componentManager
+                              ->getComponentNamesWithHTML(),
         ],
       ],
-      'components'  => $componentManager->getComponentJSSettings(),
+      'components'  => $this->componentManager->getComponentJSSettings(),
     ];
 
     $attached['library'][] = 'ambientimpact_core/core';
     $attached['library'][] = 'ambientimpact_core/component.to_top';
 
-    if ($activeTheme->getName() === 'seven') {
+    if ($this->themeManager->getActiveTheme()->getName() === 'seven') {
       $attached['library'][] = 'ambientimpact_core/component.seven';
     }
   }

@@ -2,15 +2,34 @@
 
 namespace Drupal\ambientimpact_core\EventSubscriber;
 
-use Drupal\ambientimpact_core\EventSubscriber\ContainerAwareEventSubscriber;
-
+use Drupal\ambientimpact_core\ComponentPluginManager;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\hook_event_dispatcher\Event\Page\PageTopEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * hook_page_top() event subscriber class.
  */
-class HookPageTopEventSubscriber extends ContainerAwareEventSubscriber {
+class HookPageTopEventSubscriber implements EventSubscriberInterface {
+  /**
+   * The Ambient.Impact Component plugin manager service.
+   *
+   * @var \Drupal\ambientimpact_core\ComponentPluginManager
+   */
+  protected $componentManager;
+
+  /**
+   * Event subscriber constructor; saves dependencies.
+   *
+   * @param \Drupal\ambientimpact_core\ComponentPluginManager $componentManager
+   *   The Ambient.Impact Component plugin manager service.
+   */
+  public function __construct(
+    ComponentPluginManager $componentManager
+  ) {
+    $this->componentManager = $componentManager;
+  }
+
   /**
    * {@inheritdoc}
    */
@@ -32,10 +51,9 @@ class HookPageTopEventSubscriber extends ContainerAwareEventSubscriber {
    *   The event object.
    */
   public function pageTop(PageTopEvent $event) {
-    $build = &$event->getBuild();
-    $toTopConfig =
-      $this->container->get('plugin.manager.ambientimpact_component')
-        ->getComponentConfiguration('to_top');
+    $build        = &$event->getBuild();
+    $toTopConfig  = $this->componentManager
+                      ->getComponentConfiguration('to_top');
 
     $build['top_anchor'] = [
       '#type'       => 'html_tag',

@@ -2,16 +2,35 @@
 
 namespace Drupal\ambientimpact_core\EventSubscriber;
 
-use Drupal\ambientimpact_core\EventSubscriber\ContainerAwareEventSubscriber;
-
 use Drupal\hook_event_dispatcher\Event\Preprocess\HtmlPreprocessEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * template_preprocess_html() event subscriber service class.
  *
  * @see \Drupal\hook_event_dispatcher\Event\Preprocess\HtmlPreprocessEvent
  */
-class PreprocessHTMLEventSubscriber extends ContainerAwareEventSubscriber {
+class PreprocessHTMLEventSubscriber implements EventSubscriberInterface {
+  /**
+   * The Symfony request stack.
+   *
+   * @var \Symfony\Component\HttpFoundation\RequestStack
+   */
+  protected $requestStack;
+
+  /**
+   * Event subscriber constructor; saves dependencies.
+   *
+   * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
+   *          The Symfony request stack.
+   */
+  public function __construct(
+    RequestStack $requestStack
+  ) {
+    $this->requestStack = $requestStack;
+  }
+
   /**
    * {@inheritdoc}
    */
@@ -34,8 +53,7 @@ class PreprocessHTMLEventSubscriber extends ContainerAwareEventSubscriber {
     /* @var \Drupal\hook_event_dispatcher\Event\Preprocess\Variables\HtmlEventVariables $variables */
     $variables = $event->getVariables();
 
-    $requestStack = $this->container->get('request_stack');
-    $requestQuery = $requestStack->getCurrentRequest()->query;
+    $requestQuery = $this->requestStack->getCurrentRequest()->query;
 
     // If the query parameter is not present, this will return null. If the
     // parameter is present, it will be a string, either empty or not.

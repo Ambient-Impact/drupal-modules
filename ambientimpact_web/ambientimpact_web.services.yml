@@ -2,13 +2,13 @@ services:
   # Web snippets links hook_theme() event subscriber.
   ambientimpact_web.hook_theme_web_snippets_links_event_subscriber:
     class: \Drupal\ambientimpact_web\EventSubscriber\Theme\HookThemeWebSnippetsLinks
-    arguments: ['@service_container']
+    arguments: ['@module_handler']
     tags:
       - { name: 'event_subscriber' }
 
   # Web snippets links template_preprocess_views_view() event subscriber.
   ambientimpact_web.preprocess_view_web_snippets_links_event_subscriber:
     class: \Drupal\ambientimpact_web\EventSubscriber\Preprocess\ViewPreprocessWebSnippetsLinks
-    arguments: ['@service_container', '@string_translation']
+    arguments: ['@string_translation']
     tags:
       - { name: 'event_subscriber' }
