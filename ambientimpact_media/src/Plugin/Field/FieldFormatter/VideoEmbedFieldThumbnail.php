@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_core\Plugin\Field\FieldFormatter;
+namespace Drupal\ambientimpact_media\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
@@ -71,7 +71,7 @@ class VideoEmbedFieldThumbnail extends Thumbnail {
 
     // Set default for the play icon setting to true.
     $this->setThirdPartySettingDefault(
-      'ambientimpact_core', 'play_icon', true
+      'ambientimpact_media', 'play_icon', true
     );
   }
 
@@ -110,7 +110,7 @@ class VideoEmbedFieldThumbnail extends Thumbnail {
    *   is readable), as Thumbnail::viewElements() does not and we need those for
    *   the intrinsic ratio wrapper to be able to calculate the aspect ratio.
    *
-   * @see \ambientimpact_core_field_formatter_third_party_settings_form()
+   * @see \ambientimpact_media_field_formatter_third_party_settings_form()
    *   Provides the third party setting form element to enable or disable the
    *   play icon on the field formatter form.
    *
@@ -122,7 +122,7 @@ class VideoEmbedFieldThumbnail extends Thumbnail {
    */
   public function viewElements(FieldItemListInterface $items, $langCode) {
     $elements = parent::viewElements($items, $langCode);
-    $settings = $this->getThirdPartySettings('ambientimpact_core');
+    $settings = $this->getThirdPartySettings('ambientimpact_media');
 
     foreach ($items as $delta => $item) {
       $element  = &$elements[$delta];

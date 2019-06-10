@@ -1,9 +1,9 @@
-# Schema for ambientimpact_core.
+# Schema for ambientimpact_media.
 
-# ambientimpact_core field formatter third-party settings schema.
-field.formatter.third_party.ambientimpact_core:
+# ambientimpact_media field formatter third-party settings schema.
+field.formatter.third_party.ambientimpact_media:
   type: mapping
-  label: 'Ambient.Impact: Core third party field formatter settings'
+  label: 'Ambient.Impact - Media third party field formatter settings'
   mapping:
     play_icon:
       type: boolean

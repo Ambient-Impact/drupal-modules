@@ -171,12 +171,12 @@ class PhotoSwipe extends ComponentBase {
   public function setImageFormatterDefaults($formatterInstance) {
     // PhotoSwipe is not used by default. This may be changed later.
     $formatterInstance->setThirdPartySettingDefault(
-      'ambientimpact_core', 'use_photoswipe', false
+      'ambientimpact_media', 'use_photoswipe', false
     );
 
     // Set default for the gallery setting to true.
     $formatterInstance->setThirdPartySettingDefault(
-      'ambientimpact_core', 'use_photoswipe_gallery', true
+      'ambientimpact_media', 'use_photoswipe_gallery', true
     );
   }
 }
