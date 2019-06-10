@@ -48,7 +48,7 @@ additional data to the front-end (via
 it can override several methods from ```ComponentBase``` and even define its own
 custom methods; an example of these can be found in the [```PhotoSwipe```
 component
-class](ambientimpact_core/src/Plugin/AmbientImpact/Component/PhotoSwipe.php).
+class](ambientimpact_media/src/Plugin/AmbientImpact/Component/PhotoSwipe.php).
 
 ## Component libraries
 
@@ -62,4 +62,4 @@ file are relative to the component's directory, not the implementing module's
 directory. A very simple example can be found in
 [```intrinsic_ratio.libraries.yml```](ambientimpact_core/components/intrinsic_ratio/intrinsic_ratio.libraries.yml),
 while a more complex example can be found in
-[```photoswipe.libraries.yml```](ambientimpact_core/components/photoswipe/photoswipe.libraries.yml).
+[```photoswipe.libraries.yml```](ambientimpact_media/components/photoswipe/photoswipe.libraries.yml).
