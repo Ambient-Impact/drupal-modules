@@ -17,7 +17,7 @@ content:
     label: visually_hidden
     settings:
       image_style: content_image_large
-      image_link: content
+      image_link: file
     third_party_settings:
       ambientimpact_media:
         use_photoswipe_gallery: true
