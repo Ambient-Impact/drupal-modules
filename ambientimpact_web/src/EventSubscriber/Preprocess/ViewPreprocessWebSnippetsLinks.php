@@ -2,13 +2,12 @@
 
 namespace Drupal\ambientimpact_web\EventSubscriber\Preprocess;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
-use Drupal\ambientimpact_core\EventSubscriber\ContainerAwareEventSubscriber;
 use Drupal\hook_event_dispatcher\Event\Preprocess\ViewPreprocessEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Preprocess variables for the 'web_snippets' view.
@@ -18,7 +17,7 @@ use Drupal\hook_event_dispatcher\Event\Preprocess\ViewPreprocessEvent;
  *
  * @see \Drupal\hook_event_dispatcher\Event\Preprocess\ViewPreprocessEvent
  */
-class ViewPreprocessWebSnippetsLinks extends ContainerAwareEventSubscriber {
+class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
   use StringTranslationTrait;
 
   /**
@@ -29,20 +28,14 @@ class ViewPreprocessWebSnippetsLinks extends ContainerAwareEventSubscriber {
   protected $stringTranslation;
 
   /**
-   * Event subscriber constructor; sets $this->stringTranslation.
-   *
-   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-   *   The Drupal services container.
+   * Event subscriber constructor; saves dependencies.
    *
    * @param \Drupal\Core\StringTranslation\TranslationInterface $stringTranslation
    *   The Drupal string translation service.
    */
   public function __construct(
-    ContainerInterface $container,
     TranslationInterface $stringTranslation
   ) {
-    parent::__construct($container);
-
     $this->stringTranslation = $stringTranslation;
   }
 

@@ -2,12 +2,9 @@
 
 namespace Drupal\ambientimpact_portfolio\EventSubscriber\Preprocess;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
-use Drupal\ambientimpact_core\EventSubscriber\ContainerAwareEventSubscriber;
 use Drupal\ambientimpact_core\ComponentPluginManager;
-
 use Drupal\hook_event_dispatcher\Event\Preprocess\FieldPreprocessEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Project images template_preprocess_field() event subscriber service class.
@@ -15,29 +12,23 @@ use Drupal\hook_event_dispatcher\Event\Preprocess\FieldPreprocessEvent;
  * @see \Drupal\hook_event_dispatcher\Event\Preprocess\FieldPreprocessEvent
  */
 class PreprocessFieldProjectImagesEventSubscriber
-extends ContainerAwareEventSubscriber {
+implements EventSubscriberInterface {
   /**
-   * The Ambient.Impact Component plugin manager instance.
+   * The Ambient.Impact Component plugin manager service.
    *
    * @var \Drupal\ambientimpact_core\ComponentPluginManager
    */
   protected $componentManager;
 
   /**
-   * Event subscriber constructor; sets $this->componentManager.
-   *
-   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-   *   The Drupal services container.
+   * Event subscriber constructor; saves dependencies.
    *
    * @param \Drupal\ambientimpact_core\ComponentPluginManager $componentManager
    *   The Ambient.Impact Component plugin manager service.
    */
   public function __construct(
-    ContainerInterface $container,
     ComponentPluginManager $componentManager
   ) {
-    parent::__construct($container);
-
     $this->componentManager = $componentManager;
   }
 
