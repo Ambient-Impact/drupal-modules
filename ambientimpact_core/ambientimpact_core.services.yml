@@ -76,13 +76,6 @@ services:
     tags:
       - { name: 'event_subscriber' }
 
-  # PhotoSwipe template_preprocess_field() event subscriber.
-  ambientimpact_core.preprocess_field_photoswipe_event_subscriber:
-    class: \Drupal\ambientimpact_core\EventSubscriber\Preprocess\PreprocessFieldPhotoSwipeEventSubscriber
-    arguments: ['@plugin.manager.ambientimpact_component']
-    tags:
-      - { name: 'event_subscriber' }
-
   # ambientimpact_icon() Twig function.
   ambientimpact_core.twig.IconTwigExtension:
     class: Drupal\ambientimpact_core\Template\IconTwigExtension

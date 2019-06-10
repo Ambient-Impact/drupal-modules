@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_core\EventSubscriber\Preprocess;
+namespace Drupal\ambientimpact_media\EventSubscriber\Preprocess;
 
 use Drupal\ambientimpact_core\ComponentPluginManager;
 use Drupal\hook_event_dispatcher\Event\Preprocess\FieldPreprocessEvent;
@@ -44,7 +44,7 @@ implements EventSubscriberInterface {
   /**
    * Prepare variables for field templates.
    *
-   * This attaches the 'ambientimpact_core/component.photoswipe.field' library
+   * This attaches the 'ambientimpact_media/component.photoswipe.field' library
    * and required attributes to fields that have PhotoSwipe enabled via the
    * field formatter settings.
    *
@@ -82,7 +82,7 @@ implements EventSubscriberInterface {
     unset($firstItem['#use_photoswipe_gallery']);
 
     // Attach the field library.
-    $attached['library'][] = 'ambientimpact_core/component.photoswipe.field';
+    $attached['library'][] = 'ambientimpact_media/component.photoswipe.field';
 
     $variables->set('attributes', $attributes);
     $variables->set('#attached',  $attached);

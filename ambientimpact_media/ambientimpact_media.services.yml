@@ -1,0 +1,8 @@
+services:
+  # PhotoSwipe template_preprocess_field() event subscriber.
+  ambientimpact_media.preprocess_field_photoswipe_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Preprocess\PreprocessFieldPhotoSwipeEventSubscriber
+    arguments: ['@plugin.manager.ambientimpact_component']
+    tags:
+      - { name: 'event_subscriber' }
+

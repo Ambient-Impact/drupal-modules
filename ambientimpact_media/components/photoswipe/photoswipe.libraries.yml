@@ -27,4 +27,4 @@ component.photoswipe.field:
   js:
     photoswipe.field.js: {}
   dependencies:
-    - ambientimpact_core/component.photoswipe
+    - ambientimpact_media/component.photoswipe

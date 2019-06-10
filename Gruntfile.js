@@ -13,8 +13,12 @@ module.exports = function(grunt) {
   grunt.initConfig(Object.assign(configs, {
     pkg:              grunt.file.readJSON('package.json'),
 
-    modulePaths:      'ambientimpact_core,' +
-                      'ambientimpact_block',
+    modulePaths:      [
+      'ambientimpact_core',
+      'ambientimpact_block',
+      'ambientimpact_media',
+    ].join(','),
+
     stylesheetPaths:  'stylesheets,components',
     javascriptPaths:  'javascript,components',
 

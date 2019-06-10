@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_core\Plugin\AmbientImpact\Icon\Bundle;
+namespace Drupal\ambientimpact_media\Plugin\AmbientImpact\Icon\Bundle;
 
 use Drupal\ambientimpact_core\IconBundleBase;
 

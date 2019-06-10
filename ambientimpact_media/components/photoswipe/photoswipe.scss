@@ -2,7 +2,7 @@
 //   Ambient.Impact - Core - PhotoSwipe component
 // -----------------------------------------------------------------------------
 
-@import '../../stylesheets/_common.scss';
+@import '../../../ambientimpact_core/stylesheets/_common.scss';
 
 .#{$photoswipe-root-class} {
   // Place this in the floating z-index. This ensures we're above most page

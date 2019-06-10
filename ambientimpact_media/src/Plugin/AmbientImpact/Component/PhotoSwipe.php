@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_core\Plugin\AmbientImpact\Component;
+namespace Drupal\ambientimpact_media\Plugin\AmbientImpact\Component;
 
 use Drupal\ambientimpact_core\ComponentBase;
 use Drupal\Core\Field\FieldItemListInterface;
@@ -105,6 +105,9 @@ class PhotoSwipe extends ComponentBase {
    *
    * @param array $settings
    *   Our third-party settings for the field.
+   *
+   * @see \Drupal\ambientimpact_media\EventSubscriber\Preprocess\PreprocessFieldPhotoSwipeEventSubscriber
+   *   Attaches the PhotoSwipe attributes and field library to fields.
    */
   public function alterImageFormatterElements(
     array &$elements,
@@ -127,12 +130,12 @@ class PhotoSwipe extends ComponentBase {
       $gallery = true;
     }
 
-    // Pass this flag to ambientimpact_core_preprocess_field() so that it knows
-    // to add PhotoSwipe attributes on this and to attach the library.
+    // Pass this flag to PreprocessFieldPhotoSwipeEventSubscriber so that it
+    // knows to add PhotoSwipe attributes on this and to attach the library.
     $elements[0]['#use_photoswipe'] = true;
 
-    // Indicate to ambientimpact_core_preprocess_field() whether this item is to
-    // be grouped into a gallery with the other items in this field.
+    // Indicate to PreprocessFieldPhotoSwipeEventSubscriber whether this item is
+    // to be grouped into a gallery with the other items in this field.
     $elements[0]['#use_photoswipe_gallery'] = $gallery;
 
     foreach ($items as $delta => $item) {
