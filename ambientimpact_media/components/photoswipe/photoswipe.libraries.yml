@@ -16,7 +16,7 @@ component.photoswipe:
     photoswipe.icon.js: {}
     photoswipe.ui.js: {}
   dependencies:
-    - ambientimpact_core/photoswipe
+    - ambientimpact_media/photoswipe
     - ambientimpact_core/ally.js
     - ambientimpact_core/component.media_query
     - ambientimpact_core/component.link.image

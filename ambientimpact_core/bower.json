@@ -11,7 +11,6 @@
     "fitter-happier-text": "https://github.com/jxnblk/fitter-happier-text.git#0.0.7",
     "fontloader": "https://github.com/smnh/FontLoader.git#fe26f35e2e",
     "socialcount": "0.1.6",
-    "photoswipe": "~4.1.1",
     "Stickyfill": "~1.1.4",
     "gsap": "^2.0.1",
     "textfit": "~2.3.1",
