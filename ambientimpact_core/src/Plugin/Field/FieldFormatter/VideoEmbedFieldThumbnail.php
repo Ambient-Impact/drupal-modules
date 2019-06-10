@@ -236,7 +236,7 @@ class VideoEmbedFieldThumbnail extends Thumbnail {
           ],
           '#attached' => [
             'library'   => [
-              'ambientimpact_core/component.media.thumbnail.play',
+              'ambientimpact_media/component.media_play_overlay',
             ],
           ],
           'icon'      => [

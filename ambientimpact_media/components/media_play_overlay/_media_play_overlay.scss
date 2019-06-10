@@ -1,16 +1,20 @@
 // -----------------------------------------------------------------------------
-//  Ambient.Impact - Core - Media component partial
+//  Ambient.Impact - Media - Media Play Overlay component partial
 // -----------------------------------------------------------------------------
 
 ///
-/// Media field play icon background colour.
+/// Media Play Overlay indicator background colour.
 ///
-$media-play-icon-background-colour: rgba(0, 0, 0, 0.75) !default;
+/// This is the background colour of the floating indicator which contains an
+/// icon and a word or two indicating that activating the overlay will play the
+/// media.
+///
+$media-play-overlay-indicator-background-colour: rgba(0, 0, 0, 0.75) !default;
 
 ///
-/// Media field play icon styles.
+/// Media Play Overlay styles.
 ///
-@mixin media-field-play {
+@mixin media-play-overlay {
   // This excludes the field form wrapper so that we only target the output.
   &:not(.form-wrapper) .field__item {
     position: relative;
@@ -48,7 +52,7 @@ $media-play-icon-background-colour: rgba(0, 0, 0, 0.75) !default;
         padding:        0.5em 0.8em;
 
         @include set-colours(
-          $background:  $media-play-icon-background-colour
+          $background:  $media-play-overlay-indicator-background-colour
         );
 
         border-radius:  $material-border-radius;

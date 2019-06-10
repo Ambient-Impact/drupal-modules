@@ -1,0 +1,4 @@
+component.media_play_overlay:
+  css:
+    component:
+      media_play_overlay.css: {}
