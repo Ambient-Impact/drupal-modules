@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-   Ambient.Impact - Core - PhotoSwipe pointer component
+   Ambient.Impact - Media - PhotoSwipe pointer component
 ----------------------------------------------------------------------------- */
 
 AmbientImpact.on(

@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-   Ambient.Impact - Core - PhotoSwipe event component
+   Ambient.Impact - Media - PhotoSwipe event component
 ----------------------------------------------------------------------------- */
 
 // The following PhotoSwipe events are fired on the document as a convenience,

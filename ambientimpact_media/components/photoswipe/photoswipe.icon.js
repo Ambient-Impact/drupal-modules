@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-   Ambient.Impact - Core - PhotoSwipe icon component
+   Ambient.Impact - Media - PhotoSwipe icon component
 ----------------------------------------------------------------------------- */
 
 AmbientImpact.on(['photoswipe', 'photoswipe.event', 'icon'], function(

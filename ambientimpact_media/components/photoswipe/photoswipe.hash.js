@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-   Ambient.Impact - Core - PhotoSwipe URL hash component
+   Ambient.Impact - Media - PhotoSwipe URL hash component
 ----------------------------------------------------------------------------- */
 
 AmbientImpact.on(['photoswipe'], function(aiPhotoSwipe) {

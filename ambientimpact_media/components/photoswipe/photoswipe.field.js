@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-   Ambient.Impact - Core - PhotoSwipe Drupal field component
+   Ambient.Impact - Media - PhotoSwipe Drupal field component
 ----------------------------------------------------------------------------- */
 
 // This automatically attaches and configures PhotoSwipe for fields that have

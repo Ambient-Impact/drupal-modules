@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-   Ambient.Impact - Core - PhotoSwipe component
+   Ambient.Impact - Media - PhotoSwipe component
 ----------------------------------------------------------------------------- */
 
 // This component is loosely based the getting started guide of the PhotoSwipe

@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-   Ambient.Impact - Core - PhotoSwipe accessibility component
+   Ambient.Impact - Media - PhotoSwipe accessibility component
 ----------------------------------------------------------------------------- */
 
 // TO DO: this should scroll to the element receiving focus when PhotoSwipe

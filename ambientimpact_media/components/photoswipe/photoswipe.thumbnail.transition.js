@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-   Ambient.Impact - Core - PhotoSwipe transition component
+   Ambient.Impact - Media - PhotoSwipe transition component
 ----------------------------------------------------------------------------- */
 
 // This hides the currently active image's original thumbnail, while PhotoSwipe

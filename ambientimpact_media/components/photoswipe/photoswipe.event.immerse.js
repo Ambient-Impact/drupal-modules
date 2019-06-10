@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-   Ambient.Impact - Core - PhotoSwipe immerse events component
+   Ambient.Impact - Media - PhotoSwipe immerse events component
 ----------------------------------------------------------------------------- */
 
 AmbientImpact.on(['photoswipe', 'photoswipe.event'], function(
