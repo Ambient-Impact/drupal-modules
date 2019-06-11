@@ -2,15 +2,15 @@
 
 namespace Drupal\ambientimpact_media\Plugin\Field\FieldFormatter;
 
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
-use Drupal\Core\Entity\EntityStorageInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\image\Entity\ImageStyle;
 use Drupal\Core\Image\ImageFactory;
 use Drupal\ambientimpact_core\Config\Entity\ThirdPartySettingsDefaultsTrait;
+use Drupal\image\Entity\ImageStyle;
 use Drupal\video_embed_field\ProviderManagerInterface;
 use Drupal\video_embed_field\Plugin\Field\FieldFormatter\Thumbnail;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Plugin implementation of the thumbnail field formatter.
@@ -228,27 +228,11 @@ class VideoEmbedFieldThumbnail extends Thumbnail {
 
       // Restructure the link #title and include our play icon.
       $element['#title'] = [
-        'thumbnail' => $element['#title'],
-        'play'      => [
-          '#type'     => 'container',
-          '#attributes' => [
-            'class'       => ['field__item-play'],
-          ],
-          '#attached' => [
-            'library'   => [
-              'ambientimpact_media/component.media_play_overlay',
-            ],
-          ],
-          'icon'      => [
-            '#type'     => 'ambientimpact_icon',
-            '#icon'     => $iconName,
-            '#bundle'   => $iconBundle,
-            '#text'     => $text,
-            '#containerAttributes'  => [
-              'class'     => ['field__item-play-icon'],
-            ],
-          ],
-        ],
+        '#type'       => 'media_play_overlay',
+        '#text'       => $text,
+        '#iconName'   => $iconName,
+        '#iconBundle' => $iconBundle,
+        '#preview'    => $element['#title'],
       ];
     }
 

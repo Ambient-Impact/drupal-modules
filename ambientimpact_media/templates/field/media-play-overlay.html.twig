@@ -1,0 +1,45 @@
+{#
+/**
+ * @file
+ * Default theme implementation for an 'media_play_overlay' #type.
+ *
+ * Available variables:
+ * - preview: The media preview that the overlay will be rendered on top of.
+ *   This is usually an image element.
+ *
+ * - iconName: The icon name in the given bundle.
+ *
+ * - iconBundle: The icon bundle containing the given icon.
+ *
+ * - text: The text to wrap in an icon, either a string or an object that can be
+ *   rendered, e.g. \Drupal\Core\StringTranslation\TranslatableMarkup.
+ *
+ * - iconOptions: Additional options to pass to the icon.
+ *
+ * @see ambientimpact-icon.html.twig
+ *   Contains information on icon variables/options.
+ *
+ * @ingroup themeable
+ */
+#}
+
+{% set baseClass = 'media-play-overlay' %}
+
+{{ attach_library('ambientimpact_media/component.media_play_overlay') }}
+
+<div{{ create_attribute({ 'class': [baseClass] }) }}>
+  <div{{ create_attribute({ 'class': [baseClass ~ '__preview'] }) }}>{{
+    preview
+  }}</div>
+
+  {% set iconOptions = iconOptions|merge({
+    'containerAttributes': iconOptions.containerAttributes|merge({
+      'class': iconOptions.containerAttributes.class|merge([
+        baseClass ~ '__icon'
+      ])
+    })
+  }) %}
+  <div{{ create_attribute({ 'class': [baseClass ~ '__overlay'] }) }}>{{
+    ambientimpact_icon(iconName, iconBundle, text, iconOptions)
+  }}</div>
+</div>

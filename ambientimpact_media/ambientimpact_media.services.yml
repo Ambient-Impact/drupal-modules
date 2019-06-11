@@ -6,3 +6,9 @@ services:
     tags:
       - { name: 'event_subscriber' }
 
+  # media-play-overlay hook_theme() event subscriber.
+  ambientimpact_media.hook_theme_media_play_overlay_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Theme\HookThemeMediaPlayOverlayEventSubscriber
+    arguments: ['@module_handler']
+    tags:
+      - { name: 'event_subscriber' }

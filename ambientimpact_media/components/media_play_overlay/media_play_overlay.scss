@@ -4,6 +4,57 @@
 
 @import '../../../ambientimpact_core/stylesheets/_common.scss';
 
-.field--type-video-embed-field {
-  @include media-play-overlay;
+.media-play-overlay {
+  $self: &;
+
+  position: relative;
+
+  &__overlay {
+    position:   absolute;
+
+    top:      0;
+    left:     0;
+    right:    0;
+    bottom:   0;
+
+    display:          flex;
+    justify-content:  center;
+    align-items:      center;
+
+    // Even if the browser doesn't support this, it's preferable to have it
+    // overlay the field rather than not, as the design looks odd. Users of
+    // modern browsers can right click/long press to view the image, while
+    // older browsers won't be able to.
+    pointer-events: none;
+
+    transition-property:        opacity;
+    transition-duration:        0.2s;
+    transition-timing-function: linear;
+
+    text-decoration:  none;
+
+    // Make invisible when a field is playing.
+    #{$self}--playing & {
+      opacity: 0;
+    }
+  }
+
+  &__icon {
+    padding:        0.5em 0.8em;
+
+    @include set-colours(
+      $background:  $media-play-overlay-indicator-background-colour
+    );
+
+    border-radius:  $material-border-radius;
+
+    font-size:      150%;
+
+    // Don't indent the icon, as this messes with the background.
+    @include set-icon-text-indent(0);
+
+    // Center this vertically, as we don't have the underline to offset the
+    // vertical alignment.
+    @include set-icon-vertical-alignment(centre);
+  }
 }
