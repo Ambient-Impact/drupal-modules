@@ -3,6 +3,7 @@
 namespace Drupal\ambientimpact_core\Template;
 
 use Drupal\Component\Utility\NestedArray;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * ambientimpact_icon Twig extension.
@@ -11,21 +12,33 @@ use Drupal\Component\Utility\NestedArray;
  *   This class is based on this Stack Exchange answer.
  *
  * @see https://twig.symfony.com/doc/1.x/advanced.html
- *
- * @todo Dependency injection of Drupal container?
  */
 class IconTwigExtension extends \Twig_Extension {
   /**
-   * {@inheritdoc}
+   * The Drupal renderer service.
    *
-   * This function must return the name of the extension. It must be unique.
+   * @var \Drupal\Core\Render\RendererInterface
    */
-  public function getName() {
-    return 'ambientimpact_icon';
+  protected $renderer;
+
+  /**
+   * Event subscriber constructor; saves dependencies.
+   *
+   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+   *   The Symfony service container.
+   *
+   * @see https://stackoverflow.com/a/24938384
+   *   Twig extensions don't seem to correctly pass specific services, so we
+   *   must pass the service container itself for dependency injection to work.
+   */
+  public function __construct(
+    ContainerInterface $container
+  ) {
+    $this->renderer = $container->get('renderer');
   }
 
   /**
-   * In this function we can declare the extension callback.
+   * Returns an array of functions to declare to Twig.
    */
   public function getFunctions() {
     return [
@@ -39,6 +52,21 @@ class IconTwigExtension extends \Twig_Extension {
 
   /**
    * Render an icon for the Twig extension.
+   *
+   * @param string $iconName
+   *   The name of the icon to use from the given bundle.
+   *
+   * @param string $bundle
+   *   The icon bundle containing $iconName.
+   *
+   * @param string $text
+   *   The text content for this icon.
+   *
+   * @param array $options
+   *   Additional options to pass to the icon render element.
+   *
+   * @see ambientimpact-icon.html.twig
+   *   Contains information on icon variables/options.
    */
   public function renderIcon(
     string $iconName, string $bundle, string $text, array $options = []
@@ -66,7 +94,7 @@ class IconTwigExtension extends \Twig_Extension {
       ]
     );
 
-    // Render without attaching any assets or cache metadata.
-    return \Drupal::service('renderer')->renderPlain($renderArray);
+    // Render.
+    return $this->renderer->render($renderArray);
   }
 }
