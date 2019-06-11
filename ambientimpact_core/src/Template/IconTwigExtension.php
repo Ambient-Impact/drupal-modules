@@ -59,8 +59,10 @@ class IconTwigExtension extends \Twig_Extension {
    * @param string $bundle
    *   The icon bundle containing $iconName.
    *
-   * @param string $text
-   *   The text content for this icon.
+   * @param mixed $text
+   *   The text content for this icon. Can be a string or an object that can be
+   *   printed, like \Drupal\Core\StringTranslation\TranslatableMarkup, the
+   *   latter allowing markup to be used inside icons.
    *
    * @param array $options
    *   Additional options to pass to the icon render element.
@@ -69,7 +71,7 @@ class IconTwigExtension extends \Twig_Extension {
    *   Contains information on icon variables/options.
    */
   public function renderIcon(
-    string $iconName, string $bundle, string $text, array $options = []
+    string $iconName, string $bundle, $text, array $options = []
   ) {
     $renderArray = [];
 
