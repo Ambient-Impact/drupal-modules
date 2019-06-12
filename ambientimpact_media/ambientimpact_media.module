@@ -8,14 +8,19 @@
  * icon element. It doesn't seem possible currently to use this hook in a .theme
  * file, so we have to do this at the module level.
  *
- * This replaces the core 'image' formatter with our own, which extends the core
- * formatter with functionality that the PhotoSwipe component requires.
+ * This replaces the core 'image' and contrib
+ * 'image_formatter_link_to_image_style' formatters with our own, which extend
+ * the default formatters with functionality that the PhotoSwipe component
+ * requires.
  *
  * @see \Drupal\ambientimpact_media\Plugin\Field\FieldFormatter\VideoEmbedFieldThumbnail
  *   Our thumbnail field formatter that extends the 'video_embed_field' one.
  *
- * @see \Drupal\ambientimpact_media\Plugin\Field\FieldFormatter\PhotoSwipeImageFormatter
- *   Our 'image' field formatter.
+ * @see \Drupal\ambientimpact_media\Plugin\Field\FieldFormatter\ImageFormatter
+ *   Our 'image' field formatter override class.
+ *
+ * @see \Drupal\ambientimpact_media\Plugin\Field\FieldFormatter\ImageFormatterLinkToImageStyleFormatter
+ *   Our 'image_formatter_link_to_image_style' field formatter override class.
  */
 function ambientimpact_media_field_formatter_info_alter(array &$info) {
   if (isset($info['video_embed_field_thumbnail'])) {
@@ -31,13 +36,13 @@ function ambientimpact_media_field_formatter_info_alter(array &$info) {
       'Drupal\image\Plugin\Field\FieldFormatter\ImageFormatter'
   ) {
     $info['image']['class'] =
-      'Drupal\ambientimpact_media\Plugin\Field\FieldFormatter\PhotoSwipeImageFormatter';
+      'Drupal\ambientimpact_media\Plugin\Field\FieldFormatter\ImageFormatter';
     $info['image']['provider'] = 'ambientimpact_media';
   }
 
   if (isset($info['image_formatter_link_to_image_style'])) {
     $info['image_formatter_link_to_image_style']['class'] =
-      'Drupal\ambientimpact_media\Plugin\Field\FieldFormatter\PhotoSwipeImageFormatterLinkToImageStyleFormatter';
+      'Drupal\ambientimpact_media\Plugin\Field\FieldFormatter\ImageFormatterLinkToImageStyleFormatter';
     $info['image_formatter_link_to_image_style']['provider'] = 'ambientimpact_media';
   }
 }

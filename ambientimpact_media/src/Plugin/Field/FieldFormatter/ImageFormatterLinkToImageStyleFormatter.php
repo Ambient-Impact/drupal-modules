@@ -6,16 +6,32 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Image\ImageFactory;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\image\Plugin\Field\FieldFormatter\ImageFormatter;
+use Drupal\Core\Utility\LinkGeneratorInterface;
+use Drupal\image\Entity\ImageStyle;
+use Drupal\image_formatter_link_to_image_style\Plugin\Field\FieldFormatter\ImageFormatterLinkToImageStyleFormatter as DefaultImageFormatterLinkToImageStyleFormatter;
 use Drupal\ambientimpact_core\Config\Entity\ThirdPartySettingsDefaultsTrait;
 use Drupal\ambientimpact_core\ComponentPluginManager;
 
 /**
- * Plugin implementation of the 'image' formatter with PhotoSwipe data.
+ * Plugin override of the 'image_formatter_link_to_image_style' formatter.
+ *
+ * This extends the default formatter to add PhotoSwipe data.
+ *
+ * @see ambientimpact_media_field_formatter_info_alter()
+ *   Default formatter is replaced in this hook.
  */
-class PhotoSwipeImageFormatter extends ImageFormatter {
+class ImageFormatterLinkToImageStyleFormatter
+extends DefaultImageFormatterLinkToImageStyleFormatter {
   use ThirdPartySettingsDefaultsTrait;
+
+  /**
+   * The Drupal image factory service.
+   *
+   * @var \Drupal\Core\Image\ImageFactory
+   */
+  protected $imageFactory;
 
   /**
    * The Component plugin manager instance.
@@ -25,7 +41,7 @@ class PhotoSwipeImageFormatter extends ImageFormatter {
   protected $componentManager;
 
   /**
-   * Constructs a PhotoSwipeImageFormatter object.
+   * Constructor; saves dependencies and sets default third-party settings.
    *
    * @param string $pluginID
    *   The plugin_id for the formatter.
@@ -51,8 +67,14 @@ class PhotoSwipeImageFormatter extends ImageFormatter {
    * @param \Drupal\Core\Session\AccountInterface $currentUser
    *   The current user.
    *
+   * @param \Drupal\Core\Utility\LinkGeneratorInterface $linkGenerator
+   *   The link generator service.
+   *
    * @param \Drupal\Core\Entity\EntityStorageInterface $imageStyleStorage
    *   The image style storage.
+   *
+   * @param \Drupal\Core\Image\ImageFactory $imageFactory
+   *   The Drupal image factory service.
    *
    * @param \Drupal\ambientimpact_core\ComponentPluginManager $componentManager
    *   The Ambient.Impact Component manager service.
@@ -66,17 +88,21 @@ class PhotoSwipeImageFormatter extends ImageFormatter {
     $viewMode,
     array $thirdPartySettings,
     AccountInterface $currentUser,
+    LinkGeneratorInterface $linkGenerator,
     EntityStorageInterface $imageStyleStorage,
+    ImageFactory $imageFactory,
     ComponentPluginManager $componentManager
   ) {
     parent::__construct(
       $pluginID, $pluginDefinition, $fieldDefinition, $settings, $label,
-      $viewMode, $thirdPartySettings, $currentUser, $imageStyleStorage
+      $viewMode, $thirdPartySettings, $currentUser, $linkGenerator,
+      $imageStyleStorage
     );
 
+    $this->imageFactory     = $imageFactory;
     $this->componentManager = $componentManager;
 
-    // Set our default third party settings.
+    // Set our default PhotoSwipe third-party settings.
     $this->componentManager->getComponentInstance('photoswipe')
       ->setImageFormatterDefaults($this);
   }
@@ -99,11 +125,12 @@ class PhotoSwipeImageFormatter extends ImageFormatter {
       $configuration['view_mode'],
       $configuration['third_party_settings'],
       $container->get('current_user'),
+      $container->get('link_generator'),
       $container->get('entity.manager')->getStorage('image_style'),
+      $container->get('image.factory'),
       $container->get('plugin.manager.ambientimpact_component')
     );
   }
-
   /**
    * {@inheritdoc}
    *
@@ -118,14 +145,45 @@ class PhotoSwipeImageFormatter extends ImageFormatter {
 
     $settings = $this->getThirdPartySettings('ambientimpact_media');
 
-    // Don't do any work if the field is empty, the field is not linked to the
-    // image file, or PhotoSwipe is not to be used.
+    // Don't do any work if the field is empty or PhotoSwipe is not to be used.
     if (
       empty($elements) ||
-      $this->getSetting('image_link') !== 'file' ||
       $settings['use_photoswipe'] !== true
     ) {
       return $elements;
+    }
+
+    // The image style name linked to, if set.
+    $linkedImageStyleName = $this->getSetting('image_link_style');
+
+    // Check if an image style name is available; if no style is chosen in the
+    // field formatter settings, this will be an empty string.
+    if (!empty($linkedImageStyleName)) {
+      $linkedImageStyle = ImageStyle::load($linkedImageStyleName);
+
+      // Check that we've loaded a valid image style; this will be null if
+      // Drupal cannot load the entity.
+      if (!empty($linkedImageStyle)) {
+        $files = $this->getEntitiesToView($items, $langCode);
+
+        foreach ($files as $delta => $file) {
+          $imageStyleURI = $linkedImageStyle->buildUri($file->getFileUri());
+
+          // Create an Image instance.
+          $imageInstance = $this->imageFactory->get($imageStyleURI);
+
+          $width  = $imageInstance->getWidth();
+          $height = $imageInstance->getHeight();
+
+          // If the width and height are numeric (i.e. either integers, floats,
+          // or strings that contain the former two), set them on the image
+          // render array so that intrinsic ratio works correctly.
+          if (is_numeric($width) && is_numeric($height)) {
+            $elements[$delta]['#photoswipe_width']  = $width;
+            $elements[$delta]['#photoswipe_height'] = $height;
+          }
+        }
+      }
     }
 
     $this->componentManager->getComponentInstance('photoswipe')
