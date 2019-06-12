@@ -73,7 +73,7 @@ implements EventSubscriberInterface {
     $attributes = $variables->get('attributes');
     $attached   = $variables->get('#attached', []);
 
-    // Transfer #use_photoswipe and #use_photoswipe_gallery to the the relevant
+    // Transfer #use_photoswipe and #use_photoswipe_gallery to the relevant
     // attributes on the field itself, and remove them from the first item.
     $attributes[$fieldAttributeMap['enabled']] = 'true';
     $attributes[$fieldAttributeMap['gallery']] =
