@@ -51,6 +51,7 @@ class PhotoSwipe extends ComponentBase {
       ],
     ];
   }
+
   /**
    * {@inheritdoc}
    */
