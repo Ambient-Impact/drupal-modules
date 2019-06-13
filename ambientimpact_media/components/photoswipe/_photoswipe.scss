@@ -1,0 +1,152 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Media - PhotoSwipe component partial
+// -----------------------------------------------------------------------------
+
+// The root class name of the PhotoSwipe element. This is used to generate all
+// the BEM-style classes for children and modifiers.
+$photoswipe-root-class:     pswp    !default;
+
+// Icon size.
+$photoswipe-icon-size:      $icon-size  !default;
+// Spacing between icons and other elements, usually margins.
+$photoswipe-icon-spacing:   0.3em   !default;
+$photoswipe-icon-padding:   0.5em   !default;
+
+// The generic button size. Assumes only icon will be displayed with text made
+// invisible. Includes padding.
+$photoswipe-button-size:
+  $photoswipe-icon-size + ($photoswipe-icon-padding * 2)  !default;
+
+// Left/right arrow button sizes. These are larger to have a bigger hitbox.
+$photoswipe-button-arrow-width:   4em   !default;
+$photoswipe-button-arrow-height:  6em   !default;
+
+// The background colour of the main PhotoSwipe interface. This is applied to
+// the background element.
+$photoswipe-background-colour-theme-dark: greyscale(0)    !default;
+$photoswipe-background-colour-theme-light:  greyscale(100%)   !default;
+
+// The foreground colour for PhotoSwipe content. This affects text and icons.
+$photoswipe-foreground-colour-theme-dark:
+  $foreground-colour-on-dark  !default;
+$photoswipe-foreground-colour-theme-light:
+  $foreground-colour-on-light !default;
+
+// A map of predefined themes, used by mixin set-photoswipe-theme.
+$photoswipe-themes: (
+  dark: $photoswipe-background-colour-theme-dark,
+  light:  $photoswipe-background-colour-theme-light
+);
+
+///
+/// Set PhotoSwipe colours.
+///
+/// This enables setting a colour theme for the entire PhotoSwipe component.
+///
+/// @param {Color} $background
+/// - The background colour to apply. This is the only required parameter.
+///
+/// @param {Color} $ui-background
+/// - This is the background colour to apply to various UI elements, such as the
+///   top and bottom bars, and the left/right arrows. Defaults to a partially
+///   transparent version of $background.
+///
+/// @param {Color} $foreground-on-dark
+/// - The foreground colour to apply if $background is found to be more dark
+///   than light. Defaults to $photoswipe-foreground-colour-theme-dark.
+///
+/// @param {Color} $foreground-on-light
+/// - The foreground colour to apply if $background is found to be more light
+///   than dark. Defaults to $photoswipe-foreground-colour-theme-light.
+///
+/// @see {mixin} get-contrasting-colour
+///
+/// @see {mixin} set-colours
+///
+@mixin set-photoswipe-colours(
+  $background,
+  $ui-background:     transparentize($background, 0.3),
+  $foreground-on-dark:  $photoswipe-foreground-colour-theme-dark,
+  $foreground-on-light: $photoswipe-foreground-colour-theme-light
+) {
+  $foreground:  get-contrasting-colour(
+    $background:      $background,
+    $foreground-on-light: $foreground-on-light,
+    $foreground-on-dark:  $foreground-on-dark
+  );
+
+  @include set-colours(
+    $background:      $background,
+    $foreground-on-light: $foreground-on-light,
+    $foreground-on-dark:  $foreground-on-dark
+  );
+  // This tricks the above mixin to set the appropriate foreground colour and
+  // foreground/background custom properties, while only applying the
+  // background colour to the background element for performance reasons.
+  // (Opacity is far more performant to transition.)
+  background-color:   transparent;
+
+  // The actual background colour.
+  &__bg {
+    background-color: $background;
+  }
+
+  // UI bars.
+  &__top-bar,
+  &__caption,
+  &__ui--fit &__top-bar,
+  &__ui--fit &__caption {
+    background-color: $ui-background;
+  }
+
+  // Buttons and their icons.
+  &__button {
+    // Left and right arrow buttons.
+    &--arrow--left,
+    &--arrow--right {
+      .ambientimpact-icon {
+        // Since we've hidden the ::before pseudo element, we need to
+        // add in the background colour it was providing to the icon.
+        background-color: $ui-background;
+      }
+    }
+  }
+
+  // The spinner that's shown when a full image is taking a while to load.
+  &--css_animation &__preloader__donut {
+    border-top-color: $foreground;
+    border-right-color: $foreground;
+  }
+}
+
+///
+/// Set PhotoSwipe colour theme.
+///
+/// This sets the theme colours defined in $photoswipe-themes.
+///
+/// @param {String} $theme
+/// - The colour theme to apply. Default is dark.
+///
+/// @see $photoswipe-themes
+///
+/// @see {mixin} set-photoswipe-colours
+///
+@mixin set-photoswipe-theme($theme: dark) {
+  .#{$photoswipe-root-class} {
+    @include set-photoswipe-colours(map-get($photoswipe-themes, $theme));
+  }
+}
+
+///
+/// Target styles at PhotoSwipe when the UI is hidden.
+///
+/// @content
+///   The styles to apply when the UI is hidden.
+///
+@mixin on-photoswipe-ui-hidden {
+  .#{$photoswipe-root-class}__ui--idle &,
+  .#{$photoswipe-root-class}__ui--hidden & {
+    @content;
+  }
+}
+

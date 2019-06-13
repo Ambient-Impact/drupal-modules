@@ -41,14 +41,14 @@ with the annotation structure defined in
 If the only functionality of a component is to provide front-end assets, the
 class can be empty (but must provide annotation data); an example of this can be
 found in the [```IntrinsicRatio```
-class](ambientimpact_core/src/Plugin/AmbientImpact/Component/IntrinsicRatio.php).
+class](ambientimpact_media/src/Plugin/AmbientImpact/Component/IntrinsicRatio.php).
 If a component needs additional back-end functionality and/or needs to pass
 additional data to the front-end (via
 [```drupalSettings```](https://www.drupal.org/docs/8/creating-custom-modules/adding-stylesheets-css-and-javascript-js-to-a-drupal-8-module#configurable)),
 it can override several methods from ```ComponentBase``` and even define its own
 custom methods; an example of these can be found in the [```PhotoSwipe```
 component
-class](ambientimpact_core/src/Plugin/AmbientImpact/Component/PhotoSwipe.php).
+class](ambientimpact_media/src/Plugin/AmbientImpact/Component/PhotoSwipe.php).
 
 ## Component libraries
 
@@ -60,6 +60,6 @@ file](https://www.drupal.org/docs/8/creating-custom-modules/adding-stylesheets-c
 The one important distinction is that all paths in the component's libraries
 file are relative to the component's directory, not the implementing module's
 directory. A very simple example can be found in
-[```intrinsic_ratio.libraries.yml```](ambientimpact_core/components/intrinsic_ratio/intrinsic_ratio.libraries.yml),
+[```intrinsic_ratio.libraries.yml```](ambientimpact_media/components/intrinsic_ratio/intrinsic_ratio.libraries.yml),
 while a more complex example can be found in
-[```photoswipe.libraries.yml```](ambientimpact_core/components/photoswipe/photoswipe.libraries.yml).
+[```photoswipe.libraries.yml```](ambientimpact_media/components/photoswipe/photoswipe.libraries.yml).

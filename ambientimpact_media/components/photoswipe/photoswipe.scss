@@ -1,0 +1,187 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Media - PhotoSwipe component
+// -----------------------------------------------------------------------------
+
+@import '../../../ambientimpact_core/stylesheets/_common.scss';
+
+.#{$photoswipe-root-class} {
+  // Place this in the floating z-index. This ensures we're above most page
+  // elements but below fixed and sticky elements, which are then handled by the
+  // immerse component, which we trigger the events for.
+  @include z-index('floating');
+
+  &--open {
+    // Override the inline display, which is set to be display: none; by default
+    // to avoid displaying this if stylesheets don't load for whatever reason.
+    display: block !important;
+  }
+
+  &__counter {
+    // This makes the counter text smaller or larger.
+    $multiplier:  0.9;
+
+    font-size:    100% * $multiplier;
+    line-height:  $photoswipe-button-size * (1 / $multiplier);
+  }
+
+  &__caption__center {
+    text-align:   center;
+
+    // Override the default stuff so caption uses ems and inherits the
+    // document's font-size and line-height.
+    max-width:    50em;
+
+    padding:      0.5em;
+
+    font-size:    inherit;
+    line-height:  inherit;
+  }
+
+  // Share menu.
+  &__share-tooltip a {
+    font-size:    100%;
+    line-height:  inherit;
+
+    .ambientimpact-icon {
+      // Since we've removed underlines, align the icon to centre so it
+      // doesn't look misaligned next to the text.
+      @include set-icon-vertical-alignment('center');
+
+      // Align the whole inline icon container to the middle, so we have
+      // more or less the same space above and below the icon + text.
+      vertical-align: middle;
+    }
+  }
+  &__share-tooltip a:not(&__share--facebook):not(&__share--twitter) {
+    @include link-hover {
+      // This contrasts far better with the white icons/text.
+      background-color: greyscale(50%);
+    }
+  }
+
+  // All standalone icons.
+  .ambientimpact-icon--icon-standalone {
+    @include set-icon-size($photoswipe-icon-size);
+
+    padding:  $photoswipe-icon-padding;
+
+    // Make sure we're using content-box box model, so we don't squish the
+    // icon.
+    box-sizing: content-box;
+
+    // Blink won't fire events on the buttons if the icon is clicked/tapped.
+    pointer-events: none;
+  }
+
+  // Buttons and their icons.
+  &__button {
+    // Hide the text contents of all buttons not enhanced with our icons.
+    // We've added text that should help with accessibility, but it's only
+    // there for assistive software, which doesn't always pick up the title
+    // attribute text.
+    &:not(&--has-ambientimpact-icon) {
+      @include hide-text;
+    }
+
+    &--has-ambientimpact-icon#{&} { // Specificity.
+      // Remove the CSS sprite icons that ship with PhotoSwipe when we've
+      // added ours. Note that we have to override the media query for
+      // higher density displays in default-skin.scss/css, as that can
+      // still add the background SVG file as it has higher specificity.
+      background-image: none;
+
+      // The left/right icons use this for the icons, so just remove it
+      // altogether.
+      &::before {
+        display:    none;
+      }
+
+      width:  $photoswipe-button-size;
+      height: $photoswipe-button-size;
+    }
+
+    // Left and right arrow buttons with icons.
+    &--arrow--left,
+    &--arrow--right {
+      // Don't hide arrows on touch detection - this removes a cue to the
+      // user that they can view other, adjacent images. Tapping the image
+      // hides the UI anyways, so this way it's up to the user.
+      .#{$photoswipe-root-class}--touch & {
+        visibility: visible;
+      }
+    }
+
+    // Left and right arrow buttons with icons.
+    &--arrow--left#{&}--has-ambientimpact-icon,
+    &--arrow--right#{&}--has-ambientimpact-icon {
+      // Override the size and position with our own values.
+      width:    $photoswipe-button-arrow-width;
+      height:   $photoswipe-button-arrow-height;
+
+      margin-top: -($photoswipe-button-arrow-height / 2);
+
+      .ambientimpact-icon {
+        position:   absolute;
+        top:        50%;
+
+        // Vertical centring magic. Only works because we know the exact
+        // height of the content. CSS Grid is overkill for this right
+        // now.
+        margin-top:
+          -(($photoswipe-icon-size / 2) + $photoswipe-icon-padding);
+      }
+    }
+    &--arrow--left {
+      .ambientimpact-icon {
+        left: $photoswipe-icon-spacing;
+      }
+    }
+    &--arrow--right {
+      .ambientimpact-icon {
+        right:  $photoswipe-icon-spacing;
+      }
+    }
+  }
+
+  // The spinner shown when an image is taking a while to load. We're resizing
+  // this to the site of our buttons, which is in ems, not px as the original.
+  &--css_animation &__preloader {
+    width:      $photoswipe-button-size;
+    height:     $photoswipe-button-size;
+
+    &__icn {
+      width:      $photoswipe-icon-size;
+      height:     $photoswipe-icon-size;
+
+      top:      50%;
+      left:     50%;
+
+      margin-top:   -($photoswipe-icon-size / 2);
+      margin-left:  -($photoswipe-icon-size / 2);
+    }
+
+    &__cut {
+      width:      $photoswipe-icon-size / 2;
+      height:     $photoswipe-icon-size;
+    }
+
+    &__donut {
+      width:      $photoswipe-icon-size;
+      height:     $photoswipe-icon-size;
+    }
+  }
+}
+
+// PhotoSwipe clones the current thumbnail and uses that as a placeholder, which
+// it transitions to the full size, so hiding the original thumbnail while
+// PhotoSwipe is open makes visual sense, in case its bounding box is visible.
+// We use opacity instead of visibility: hidden; as the former is done on the
+// GPU and thus hardware accelerated, while the latter is far less performant.
+.photoswipe-enabled-thumbnail {
+  opacity:      1;
+  will-change:  opacity;
+
+  &--hidden {
+    opacity:  0;
+  }
+}

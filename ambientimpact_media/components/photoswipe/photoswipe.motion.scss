@@ -1,0 +1,54 @@
+// -----------------------------------------------------------------------------
+//  Ambient.Impact - Media - PhotoSwipe component motion
+// -----------------------------------------------------------------------------
+
+// This gives the PhotoSwipe UI elements transform transitions when they're
+// shown and hidden.
+
+@import '../../../ambientimpact_core/stylesheets/_common.scss';
+
+.#{$photoswipe-root-class} {
+  $self: &;
+
+  &__top-bar,
+  &__button--arrow--left,
+  &__button--arrow--right,
+  &__caption {
+    &, #{$self}--has_mouse & {
+      transition-property: opacity, transform;
+    }
+
+    transition-timing-function: $easing-sharp;
+  }
+
+  &__top-bar,
+  &__caption {
+    transform: translateY(0);
+  }
+  &__top-bar {
+    @include on-photoswipe-ui-hidden {
+      transform: translateY(-100%);
+    }
+  }
+  &__caption {
+    @include on-photoswipe-ui-hidden {
+      transform: translateY(100%);
+    }
+  }
+
+  &__button--arrow--left,
+  &__button--arrow--right {
+    transform: translateX(0);
+  }
+
+  &__button--arrow--left {
+    @include on-photoswipe-ui-hidden {
+      transform: translateX(-100%);
+    }
+  }
+  &__button--arrow--right {
+    @include on-photoswipe-ui-hidden {
+      transform: translateX(100%);
+    }
+  }
+}

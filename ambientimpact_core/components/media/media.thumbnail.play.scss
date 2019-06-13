@@ -1,9 +1,0 @@
-// -----------------------------------------------------------------------------
-//  Ambient.Impact - Core - Media video thumbnail component
-// -----------------------------------------------------------------------------
-
-@import '../../stylesheets/_common.scss';
-
-.field--type-video-embed-field {
-  @include media-field-play;
-}

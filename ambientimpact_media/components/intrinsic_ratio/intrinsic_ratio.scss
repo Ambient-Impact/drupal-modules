@@ -1,0 +1,40 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Media - Intrinsic ratio component
+// -----------------------------------------------------------------------------
+
+// Intrinsic ratio wrapper for images and other content. This contains just the
+// CSS, while the template and preprocess live in the ambientimpact_base theme.
+
+// @see ambientimpact_base/templates/field/image.html.twig
+// @see ambientimpact_base_theme_registry_alter()
+// @see ambientimpact_base_preprocess_image()
+
+.intrinsic-ratio {
+  &__ratio {
+    // Override the inline display: inline, which hides the inline padding-
+    // top if stylesheets fail to load or during printing.
+    display:  block !important;
+
+    position: relative;
+
+    height: 0;
+
+    // 'padding-top' is defined inline with the appropriate proportion.
+  }
+
+  // Target both content and any links, as sometimes links are wrapped around
+  // the content, e.g. image, which can cause the image to collapse to zero
+  // height if we don't do this.
+  &__content,
+  a {
+    position: absolute;
+
+    top:  0;
+    left: 0;
+
+    // Use these rather than bottom/right, as that can have odd effects on
+    // Adminimal (and possibly other themes).
+    width:  100%;
+    height: 100%;
+  }
+}

@@ -1,0 +1,12 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Media - Media Play Overlay component partial
+// -----------------------------------------------------------------------------
+
+///
+/// Media Play Overlay indicator background colour.
+///
+/// This is the background colour of the floating indicator which contains an
+/// icon and a word or two indicating that activating the overlay will play the
+/// media.
+///
+$media-play-overlay-indicator-background-colour: rgba(0, 0, 0, 0.75) !default;

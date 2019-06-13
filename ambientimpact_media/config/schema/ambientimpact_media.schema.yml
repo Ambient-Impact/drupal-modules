@@ -1,0 +1,19 @@
+# Schema for ambientimpact_media.
+
+# ambientimpact_media field formatter third-party settings schema.
+field.formatter.third_party.ambientimpact_media:
+  type: mapping
+  label: 'Ambient.Impact - Media third party field formatter settings'
+  mapping:
+    play_icon:
+      type: boolean
+      label: 'Whether to display a provider/play icon over a video thumbnail.'
+    use_photoswipe:
+      type: boolean
+      label: 'Whether to use PhotoSwipe on an image field.'
+    use_photoswipe_gallery:
+      type: boolean
+      label: 'Whether to group all items in a field as a PhotoSwipe gallery.'
+    use_animated_gif_toggle:
+      type: boolean
+      label: 'Whether to display a toggle overlay on image fields containing an animated GIF.'

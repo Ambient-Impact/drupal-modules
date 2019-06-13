@@ -1,0 +1,8 @@
+{
+  "name": "ambientimpact-media",
+  "dependencies": {
+    "photoswipe": "4.1.3"
+  },
+  "devDependencies": {
+  }
+}

@@ -1,0 +1,23 @@
+services:
+  # PhotoSwipe template_preprocess_field() event subscriber.
+  ambientimpact_media.preprocess_field_photoswipe_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Preprocess\PreprocessFieldPhotoSwipeEventSubscriber
+    arguments: ['@plugin.manager.ambientimpact_component']
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Aniamted GIF toggle template_preprocess_field() event subscriber.
+  ambientimpact_media.preprocess_field_animated_gif_toggle_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Preprocess\PreprocessFieldAnimatedGIFToggleEventSubscriber
+    arguments:
+      - '@plugin.manager.ambientimpact_component'
+      - '@string_translation'
+    tags:
+      - { name: 'event_subscriber' }
+
+  # media-play-overlay hook_theme() event subscriber.
+  ambientimpact_media.hook_theme_media_play_overlay_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Theme\HookThemeMediaPlayOverlayEventSubscriber
+    arguments: ['@module_handler']
+    tags:
+      - { name: 'event_subscriber' }

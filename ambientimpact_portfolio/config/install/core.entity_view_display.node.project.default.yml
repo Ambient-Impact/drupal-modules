@@ -8,7 +8,7 @@ dependencies:
     - field.field.node.project.field_project_link
     - node.type.project
   module:
-    - ambientimpact_core
+    - ambientimpact_media
     - link
     - text
     - user
@@ -35,7 +35,7 @@ content:
       image_link_rel: ''
       image_link_image_class: ''
     third_party_settings:
-      ambientimpact_core:
+      ambientimpact_media:
         use_photoswipe: true
         use_photoswipe_gallery: true
     region: content

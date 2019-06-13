@@ -1,12 +1,12 @@
-uuid: 5ad9150c-1bfe-4534-acac-90f8a3d69ce8
 langcode: en
 status: true
 dependencies:
   config:
     - field.field.media.gif.field_media_image
+    - image.style.content_image_large
     - media.type.gif
   module:
-    - ambientimpact_core
+    - ambientimpact_media
 id: media.gif.default
 targetEntityType: media
 bundle: gif
@@ -16,9 +16,13 @@ content:
     weight: 0
     label: visually_hidden
     settings:
-      image_style: ''
-      image_link: ''
-    third_party_settings: {  }
+      image_style: content_image_large
+      image_link: file
+    third_party_settings:
+      ambientimpact_media:
+        use_photoswipe_gallery: true
+        use_animated_gif_toggle: true
+        use_photoswipe: false
     type: image
     region: content
 hidden:

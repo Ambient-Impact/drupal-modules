@@ -6,7 +6,7 @@ dependencies:
     - image.style.content_image_large
     - paragraphs.paragraphs_type.video
   module:
-    - ambientimpact_core
+    - ambientimpact_media
 id: paragraph.video.default
 targetEntityType: paragraph
 bundle: video
@@ -19,7 +19,7 @@ content:
       image_style: content_image_large
       link_image_to: provider
     third_party_settings:
-      ambientimpact_core:
+      ambientimpact_media:
         play_icon: true
     type: video_embed_field_thumbnail
     region: content
