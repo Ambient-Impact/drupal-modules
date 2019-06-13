@@ -16,17 +16,16 @@ workflows. Note that commands are in the [Drush
 characters; most can be run in Drush 8 by replacing the colon with a dash
 (```-```).
 
-Most of these migrations require the [```ambientimpact_migrate``` module] to be
-enabled. Before you enable it, you have to provide the absolute path to the
-Drupal 7 root directory by editing the ```source_base_path: ''``` line
-in
+Most of these migrations require the [```ambientimpact_migrate```
+module](ambientimpact_migrate) to be enabled. Before you enable it, you have to
+provide the absolute path to the Drupal 7 root directory by editing the
+```source_base_path: ''``` line in
 [```ambientimpact_migrate/config/install/migrate_plus.migration.d7_file_ambientimpact.yml```](ambientimpact_migrate/config/install/migrate_plus.migration.d7_file_ambientimpact.yml).
 Note that this path is the root of the Drupal 7 install, not containing the
-```sites/<site>/files``` path.
-If you've already enabled the module, uninstall it, make the edit, and then
-install it again. Alternatively, you can install ```ambientimpact_migrate``` and
-then edit the configuration manually using the [Devel
-module](https://www.drupal.org/project/devel)'s Config editor.
+```sites/<site>/files``` path. If you've already enabled the module, uninstall
+it, make the edit, and then install it again. Alternatively, you can install
+```ambientimpact_migrate``` and then edit the configuration manually using the
+[Devel module](https://www.drupal.org/project/devel)'s Config editor.
 
 ## Drupal 7 public file entities to Drupal 8 file entities
 
