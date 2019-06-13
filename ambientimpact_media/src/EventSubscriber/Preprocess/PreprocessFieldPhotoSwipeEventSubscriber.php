@@ -62,6 +62,12 @@ implements EventSubscriberInterface {
       // first item or that it equates to empty to avoid unnecessary work.
       empty($items[0]['content']['#use_photoswipe'])
     ) {
+      // Remove our properties from the first item as they're no longer needed.
+      if (isset($items[0]['content']['#use_photoswipe'])) {
+        unset($items[0]['content']['#use_photoswipe']);
+        unset($items[0]['content']['#use_photoswipe_gallery']);
+      }
+
       return;
     }
 
@@ -78,6 +84,8 @@ implements EventSubscriberInterface {
     $attributes[$fieldAttributeMap['enabled']] = 'true';
     $attributes[$fieldAttributeMap['gallery']] =
       $firstItem['#use_photoswipe_gallery'] ? 'true' : 'false';
+
+    // Remove our properties from the first item as they're no longer needed.
     unset($firstItem['#use_photoswipe']);
     unset($firstItem['#use_photoswipe_gallery']);
 
