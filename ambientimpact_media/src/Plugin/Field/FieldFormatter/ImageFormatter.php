@@ -81,8 +81,10 @@ class ImageFormatter extends CoreImageFormatter {
 
     $this->componentManager = $componentManager;
 
-    // Set our default PhotoSwipe third-party settings.
+    // Set our default third-party settings.
     $this->componentManager->getComponentInstance('photoswipe')
+      ->setImageFormatterDefaults($this);
+    $this->componentManager->getComponentInstance('animated_gif_toggle')
       ->setImageFormatterDefaults($this);
   }
 
@@ -112,16 +114,37 @@ class ImageFormatter extends CoreImageFormatter {
   /**
    * {@inheritdoc}
    *
-   * This extends the parent::viewElements() to add PhotoSwipe data attributes
-   * to the element render arrays.
+   * This extends the parent::viewElements() to alter the element render arrays
+   * for the PhotoSwipe and AnimatedGIFToggle components.
    *
-   * @see \Drupal\ambientimpact_core\Plugin\AmbientImpact\Component\PhotoSwipe::alterImageFormatterElements()
-   *   Elements are passed to this PhotoSwipe method to have data added.
+   * @see \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\PhotoSwipe::alterImageFormatterElements()
+   *   Elements are passed to this PhotoSwipe component method to be altered.
+   *
+   * @see \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\AnimatedGIFToggle::alterImageFormatterElements()
+   *   Elements are passed to this AnimatedGIFToggle component method to be
+   *   altered.
    */
   public function viewElements(FieldItemListInterface $items, $langCode) {
     $elements = parent::viewElements($items, $langCode);
 
     $settings = $this->getThirdPartySettings('ambientimpact_media');
+
+    // Allow the Animated GIF toggle component to alter $elements if set to
+    // display an image style and linked to either the file or media entity.
+    if (
+      !empty($elements) &&
+      $this->getSetting('image_style') !== '' &&
+      (
+        $this->getSetting('image_link') === 'file' ||
+        $this->getSetting('image_link') === 'content'
+      )
+    ) {
+      $this->componentManager->getComponentInstance('animated_gif_toggle')
+        ->alterImageFormatterElements(
+          $elements, $items, $this->getEntitiesToView($items, $langCode),
+          $settings
+        );
+    }
 
     // Don't do any work if the field is empty, the field is not linked to the
     // image file, or PhotoSwipe is not to be used.

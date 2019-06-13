@@ -88,17 +88,17 @@ function ambientimpact_media_field_formatter_third_party_settings_form(
       '#type'           => 'checkbox',
       '#title'          => t('Use PhotoSwipe'),
       '#description'    => t('If enabled, will use the <a href="https://photoswipe.com/" target="_blank">PhotoSwipe</a> JavaScript library to display linked images.'),
-      '#default_value'  =>
-        $plugin->getThirdPartySetting('ambientimpact_media', 'use_photoswipe'),
+      '#default_value'  => $plugin->getThirdPartySetting(
+        'ambientimpact_media', 'use_photoswipe'
+      ),
     ];
     $elements['use_photoswipe_gallery'] = [
       '#type'           => 'checkbox',
       '#title'          => t('Group as PhotoSwipe gallery'),
       '#description'    => t('If enabled, will group all items in this field as a PhotoSwipe gallery.'),
-      '#default_value'  =>
-        $plugin->getThirdPartySetting(
-          'ambientimpact_media', 'use_photoswipe_gallery'
-        ),
+      '#default_value'  => $plugin->getThirdPartySetting(
+        'ambientimpact_media', 'use_photoswipe_gallery'
+      ),
       '#states'   => [
         'visible'   => [
           // This hides this item if 'use_photoswipe' is not checked.
@@ -107,6 +107,15 @@ function ambientimpact_media_field_formatter_third_party_settings_form(
           ],
         ],
       ],
+    ];
+
+    $elements['use_animated_gif_toggle'] = [
+      '#type'           => 'checkbox',
+      '#title'          => t('Use animated GIF toggle'),
+      '#description'    => t('If enabled and displaying an image style, will allow users to toggle between the static image style and the original animated GIF.'),
+      '#default_value'  => $plugin->getThirdPartySetting(
+        'ambientimpact_media', 'use_animated_gif_toggle'
+      ),
     ];
   }
 
@@ -144,24 +153,111 @@ function ambientimpact_media_field_formatter_settings_summary_alter(
     $summary[] = t('Provider/play icon shown.');
   }
 
-  if (
-    in_array($pluginID, [
-      'image',
-      'image_formatter_link_to_image_style',
-    ]) &&
+  if (in_array($pluginID, [
+    'image',
+    'image_formatter_link_to_image_style',
+  ])) {
     // This is passed to us as a string ('1' or '0'), despite the schema
     // specifying it as boolean, likely because this is at the Form API stage
     // where checkbox values are treated as strings.
-    (bool) $context['formatter']->getThirdPartySetting(
-      'ambientimpact_media', 'use_photoswipe'
-    ) === true
-  ) {
     if ((bool) $context['formatter']->getThirdPartySetting(
-      'ambientimpact_media', 'use_photoswipe_gallery'
+      'ambientimpact_media', 'use_photoswipe'
     ) === true) {
-      $summary[] = t('Uses PhotoSwipe; grouped as gallery');
-    } else {
-      $summary[] = t('Uses PhotoSwipe');
+      if ((bool) $context['formatter']->getThirdPartySetting(
+        'ambientimpact_media', 'use_photoswipe_gallery'
+      ) === true) {
+        $summary[] = t('Uses PhotoSwipe; grouped as gallery');
+      } else {
+        $summary[] = t('Uses PhotoSwipe');
+      }
+    }
+
+    $linkedTo = $context['formatter']->getSetting('image_link');
+
+    if (
+      (bool) $context['formatter']->getThirdPartySetting(
+        'ambientimpact_media', 'use_animated_gif_toggle'
+      ) === true &&
+      (
+        $pluginID === 'image_formatter_link_to_image_style' ||
+        // Only display if we're set to link to the file or entity on the
+        // 'image' formatter, as we don't link to anything otherwise.
+        $linkedTo === 'file' || $linkedTo === 'content'
+      )
+    ) {
+      $summary[] = t('Uses animated GIF toggle');
     }
   }
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ *
+ * This adds the 'use_animated_gif_toggle' variable to the 'image_formatter' and
+ * 'image_formatter_link_to_image_style_formatter' items so that that setting
+ * can make it through to our preprocess functions.
+ *
+ * @see ambientimpact_media_preprocess_image_formatter()
+ *   Passes variables to the Animated GIF toggle component.
+ *
+ * @see ambientimpact_media_preprocess_image_formatter_link_to_image_style_formatter()
+ *   Passes variables to the Animated GIF toggle component.
+ */
+function ambientimpact_media_theme_registry_alter(&$themeRegistry) {
+  foreach ([
+    'image_formatter',
+    'image_formatter_link_to_image_style_formatter',
+  ] as $type) {
+    if (isset($themeRegistry[$type])) {
+      $themeRegistry[$type]['variables']['use_animated_gif_toggle'] = false;
+    }
+  }
+}
+
+/**
+ * Prepares variables for image formatter templates.
+ *
+ * Default template: image-formatter.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - item: An ImageItem object.
+ *   - item_attributes: An optional associative array of html attributes to be
+ *     placed in the img tag.
+ *   - image_style: An optional image style.
+ *   - url: An optional \Drupal\Core\Url object.
+ *
+ * @see \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\AnimatedGIFToggle::preprocessImageFormatter()
+ *   Variables are passed to this for modification.
+ */
+function ambientimpact_media_preprocess_image_formatter(&$variables) {
+  \Drupal::service('plugin.manager.ambientimpact_component')
+    ->getComponentInstance('animated_gif_toggle')
+      ->preprocessImageFormatter($variables);
+}
+
+/**
+ * Prepares variables for image link to image style formatter templates.
+ *
+ * Default template: image-formatter-link-to-image-style-formatter.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - item: An ImageItem object.
+ *   - item_attributes: An optional associative array of html attributes to be
+ *     placed in the img tag.
+ *   - url: A \Drupal\Core\Url object.
+ *   - url_attributes: An optional associative array of html attributes to be
+ *     placed in the a tag.
+ *   - image_style: An optional image style.
+ *
+ * @see \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\AnimatedGIFToggle::preprocessImageFormatter()
+ *   Variables are passed to this for modification.
+ */
+function ambientimpact_media_preprocess_image_formatter_link_to_image_style_formatter(
+  array &$variables
+) {
+  \Drupal::service('plugin.manager.ambientimpact_component')
+    ->getComponentInstance('animated_gif_toggle')
+      ->preprocessImageFormatter($variables);
 }
