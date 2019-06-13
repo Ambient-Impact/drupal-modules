@@ -2,3 +2,5 @@ component.media_play_overlay:
   css:
     component:
       media_play_overlay.css: {}
+  js:
+    media_play_overlay.js: {}
