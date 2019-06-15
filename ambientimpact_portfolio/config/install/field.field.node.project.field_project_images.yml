@@ -17,21 +17,24 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  alt_field: true
-  default_image:
-    alt: ''
-    title: ''
-    width: null
-    height: null
-    uuid: ''
   file_directory: project_images
   file_extensions: 'png gif jpg jpeg'
   max_filesize: ''
   max_resolution: ''
   min_resolution: ''
-  title_field: true
+  alt_field: true
   alt_field_required: true
+  title_field: true
   title_field_required: false
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+    caption: ''
+  caption_field: 1
+  caption_field_required: 0
   handler: 'default:file'
   handler_settings: {  }
 field_type: image
