@@ -193,20 +193,25 @@ function ambientimpact_media_field_formatter_settings_summary_alter(
 /**
  * Implements hook_theme_registry_alter().
  *
- * This adds the 'use_animated_gif_toggle' variable to the 'image_formatter' and
- * 'image_formatter_link_to_image_style_formatter' items so that that setting
- * can make it through to our preprocess functions.
+ * This adds the 'use_animated_gif_toggle' variable to the 'image_formatter',
+ * 'image_formatter_link_to_image_style_formatter', and
+ * 'image_caption_formatter' items so that that setting can make it through to
+ * our preprocess functions.
  *
  * @see ambientimpact_media_preprocess_image_formatter()
  *   Passes variables to the Animated GIF toggle component.
  *
  * @see ambientimpact_media_preprocess_image_formatter_link_to_image_style_formatter()
  *   Passes variables to the Animated GIF toggle component.
+ *
+ * @see ambientimpact_media_preprocess_image_caption_formatter()
+ *   Passes variables to the Animated GIF toggle component.
  */
 function ambientimpact_media_theme_registry_alter(&$themeRegistry) {
   foreach ([
     'image_formatter',
     'image_formatter_link_to_image_style_formatter',
+    'image_caption_formatter',
   ] as $type) {
     if (isset($themeRegistry[$type])) {
       $themeRegistry[$type]['variables']['use_animated_gif_toggle'] = false;
@@ -257,6 +262,26 @@ function ambientimpact_media_preprocess_image_formatter(&$variables) {
 function ambientimpact_media_preprocess_image_formatter_link_to_image_style_formatter(
   array &$variables
 ) {
+  \Drupal::service('plugin.manager.ambientimpact_component')
+    ->getComponentInstance('animated_gif_toggle')
+      ->preprocessImageFormatter($variables);
+}
+
+/**
+ * Prepares variables for image caption formatter templates.
+ *
+ * Default template: image-caption-formatter.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - item: An ImageItem object.
+ *   - item_attributes: An optional associative array of html attributes to be
+ *     placed in the img tag.
+ *   - image_style: An optional image style.
+ *   - url: An optional \Drupal\Core\Url object.
+ *   - caption: An optional caption text.
+ */
+function ambientimpact_media_preprocess_image_caption_formatter(&$variables) {
   \Drupal::service('plugin.manager.ambientimpact_component')
     ->getComponentInstance('animated_gif_toggle')
       ->preprocessImageFormatter($variables);
