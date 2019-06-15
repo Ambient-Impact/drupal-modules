@@ -129,6 +129,12 @@ class ImageFormatter extends CoreImageFormatter {
 
     $settings = $this->getThirdPartySettings('ambientimpact_media');
 
+    // Use the image caption formatter template. See this module's readme.md for
+    // details and requirements.
+    foreach ($elements as $delta => $element) {
+      $elements[$delta]['#theme'] = 'image_caption_formatter';
+    }
+
     // Allow the Animated GIF toggle component to alter $elements if set to
     // display an image style and linked to either the file or media entity.
     if (
