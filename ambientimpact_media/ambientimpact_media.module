@@ -280,6 +280,9 @@ function ambientimpact_media_preprocess_image_formatter_link_to_image_style_form
  *   - image_style: An optional image style.
  *   - url: An optional \Drupal\Core\Url object.
  *   - caption: An optional caption text.
+ *
+ * @see \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\AnimatedGIFToggle::preprocessImageFormatter()
+ *   Variables are passed to this for modification.
  */
 function ambientimpact_media_preprocess_image_caption_formatter(&$variables) {
   \Drupal::service('plugin.manager.ambientimpact_component')
