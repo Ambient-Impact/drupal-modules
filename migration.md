@@ -100,3 +100,61 @@ drush migrate:import d7_node_web_snippet
 
 This is detailed in [the ```ambientimpact_paragraphs_migrate```
 module](ambientimpact_paragraphs/ambientimpact_paragraphs_migrate/readme.md#file-field-to-media-field-migration)
+
+## tl;dr
+
+This is a quick and dirty reference used during development. This assumes public
+files have been copied over, all modules have been enabled, and vocabularies
+already exist or have been migrated.
+
+### Migrate
+
+Absolutely everything:
+
+```
+drush migrate:import d7_file_ambientimpact,d7_file_entity_vimeo,d7_file_entity_youtube,d7_taxonomy_term:web_tags,d7_taxonomy_term:project_categories,d7_node_project,d7_paragraph_animated_gifs,d7_paragraph_code,d7_paragraph_images,d7_paragraph_text,d7_paragraph_video,d7_node_web_snippet
+
+drush migrate:duplicate-file-detection d8_paragraph_animated_gifs_media_step1
+
+drush migrate:duplicate-file-detection d8_paragraph_images_media_step1
+
+drush migrate:import d8_paragraph_animated_gifs_media_step1,d8_paragraph_animated_gifs_media_step2,d8_paragraph_images_media_step1,d8_paragraph_images_media_step2
+```
+
+Just portfolio projects:
+
+```
+drush migrate:import d7_file_ambientimpact,d7_taxonomy_term:project_categories,d7_node_project
+```
+
+Just web snippets:
+
+```
+drush migrate:import d7_file_ambientimpact,d7_file_entity_vimeo,d7_file_entity_youtube,d7_taxonomy_term:web_tags,d7_paragraph_animated_gifs,d7_paragraph_code,d7_paragraph_images,d7_paragraph_text,d7_paragraph_video,d7_node_web_snippet
+
+drush migrate:duplicate-file-detection d8_paragraph_animated_gifs_media_step1
+
+drush migrate:duplicate-file-detection d8_paragraph_images_media_step1
+
+drush migrate:import d8_paragraph_animated_gifs_media_step1,d8_paragraph_animated_gifs_media_step2,d8_paragraph_images_media_step1,d8_paragraph_images_media_step2
+```
+
+### Roll back
+
+Absolutely everything:
+
+```
+drush migrate:rollback d8_paragraph_animated_gifs_media_step2,d8_paragraph_animated_gifs_media_step1,d8_paragraph_images_media_step2,d8_paragraph_images_media_step1,d7_node_web_snippet,d7_paragraph_animated_gifs,d7_paragraph_code,d7_paragraph_images,d7_paragraph_text,d7_paragraph_video,d7_node_project,d7_file_entity_vimeo,d7_file_entity_youtube,d7_file_ambientimpact,d7_taxonomy_term:web_tags,d7_taxonomy_term:project_categories
+```
+
+Just portfolio projects:
+
+```
+drush migrate:rollback d7_node_project,d7_taxonomy_term:project_categories,d7_file_ambientimpact
+```
+
+Just web snippets:
+
+```
+drush migrate:rollback d8_paragraph_animated_gifs_media_step2,d8_paragraph_animated_gifs_media_step1,d8_paragraph_images_media_step2,d8_paragraph_images_media_step1,d7_node_web_snippet,d7_paragraph_animated_gifs,d7_paragraph_code,d7_paragraph_images,d7_paragraph_text,d7_paragraph_video,d7_file_entity_vimeo,d7_file_entity_youtube,d7_file_ambientimpact,d7_taxonomy_term:web_tags
+```
