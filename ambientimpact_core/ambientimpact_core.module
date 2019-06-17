@@ -11,3 +11,42 @@ function ambientimpact_core_element_info_alter(array &$info) {
      'ambientimpact_core/component.toolbar';
  }
 }
+
+/**
+ * Implements hook_node_links_alter().
+ *
+ * This removes the 'Read more' link if a node is displayed in a view mode
+ * that's not enabled, i.e. doesn't have custom display settings, and so is
+ * falling back to 'default'.
+ *
+ * @todo Should this be exposed as a setting per node type?
+ *
+ * @see https://api.drupal.org/api/drupal/core%21modules%21node%21node.api.php/function/hook_node_links_alter
+ */
+function ambientimpact_core_node_links_alter(
+  array &$links,
+  \Drupal\node\NodeInterface $node,
+  array &$context
+) {
+  // Bail early if the view mode is 'default' or the 'Read more' link is not
+  // present in the array.
+  if (
+    $context['view_mode'] === 'default' ||
+    !isset($links['node']['#links']['node-readmore'])
+  ) {
+    return;
+  }
+
+  $viewModeConfig = \Drupal::config(
+    'core.entity_view_display.node.' .
+    $node->getType() . '.' .
+    $context['view_mode']
+  );
+
+  // If the status is explicitly false, remove the link. Note that we must use a
+  // strict (===) operator here, because the config could also return null
+  // which would equate to false if the truthy (==) operator was used.
+  if ($viewModeConfig->get('status') === false) {
+    unset($links['node']['#links']['node-readmore']);
+  }
+}
