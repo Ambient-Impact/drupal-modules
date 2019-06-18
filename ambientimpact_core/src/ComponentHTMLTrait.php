@@ -28,45 +28,11 @@ trait ComponentHTMLTrait {
   protected $hasCachedHTML = null;
 
   /**
-   * The cache bin service name to store and retrieve Component HTML to/from.
-   *
-   * @var string
-   */
-  protected $htmlCacheBin = 'cache.ambientimpact_component_html';
-
-  /**
    * This Component's HTML cache ID.
    *
    * @var null|string
    */
   protected $htmlCacheID = null;
-
-  /**
-   * The Component HTML cache service.
-   *
-   * @var null|object
-   */
-  protected $htmlCacheService = null;
-
-  /**
-   * Get the Component HTML cache bin service.
-   *
-   * This will get the service from the service container if it hasn't been
-   * saved to $this->htmlCacheService yet.
-   *
-   * @return object
-   *   The contents of $this->htmlCacheService.
-   *
-   * @see $this->htmlCacheService
-   *   Returns the contents of this property.
-   */
-  protected function getHTMLCacheService() {
-    if ($this->htmlCacheService === null) {
-      $this->htmlCacheService = $this->container->get($this->htmlCacheBin);
-    }
-
-    return $this->htmlCacheService;
-  }
 
   /**
    * Get the Component HTML cache settings.
@@ -102,8 +68,7 @@ trait ComponentHTMLTrait {
       $this->htmlCacheID =
         $this->pluginDefinition['provider'] . ':' .
         $this->pluginDefinition['id'] . ':' .
-        $this->container->get('language_manager')
-          ->getCurrentLanguage()->getId();
+        $this->languageManager->getCurrentLanguage()->getId();
     }
 
     return $this->htmlCacheID;
@@ -121,7 +86,7 @@ trait ComponentHTMLTrait {
   protected function hasCachedHTML(): bool {
     if ($this->hasCachedHTML === null) {
       $this->hasCachedHTML = !empty(
-        $this->getHTMLCacheService()->get($this->getHTMLCacheID())->data
+        $this->htmlCacheService->get($this->getHTMLCacheID())->data
       );
     }
 
@@ -136,8 +101,9 @@ trait ComponentHTMLTrait {
    */
   protected function getHTMLPath() {
     // Get the path to the module implementing this component plugin.
-    $modulePath   = $this->container->get('module_handler')
-      ->getModule($this->pluginDefinition['provider'])->getPath();
+    $modulePath = $this->moduleHandler->getModule(
+      $this->pluginDefinition['provider']
+    )->getPath();
 
     // This is the path to the component from Drupal's root, including the
     // implementing module.
@@ -167,7 +133,7 @@ trait ComponentHTMLTrait {
 
     // If cached HTML is available, grab that without doing any rendering.
     if ($this->hasCachedHTML()) {
-      $html = $this->getHTMLCacheService()->get($this->getHTMLCacheID())->data;
+      $html = $this->htmlCacheService->get($this->getHTMLCacheID())->data;
 
     // If no cached HTML is found, render and cache the HTML.
     } else {
@@ -178,7 +144,7 @@ trait ComponentHTMLTrait {
       ];
 
       // Render the inline template.
-      $html = $this->container->get('renderer')->renderPlain($renderArray);
+      $html = $this->renderer->renderPlain($renderArray);
 
       $cacheSettings = static::getHTMLCacheSettings();
 
@@ -191,7 +157,7 @@ trait ComponentHTMLTrait {
       }
 
       // Save the rendered template HTML to the cache.
-      $this->getHTMLCacheService()->set(
+      $this->htmlCacheService->set(
         $this->getHTMLCacheID(),
         $html,
         $cacheSettings['max-age'],

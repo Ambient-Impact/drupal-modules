@@ -2,9 +2,14 @@
 
 namespace Drupal\ambientimpact_core\Plugin\AmbientImpact\Component;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Component\Serialization\SerializationInterface;
+use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\ambientimpact_core\ComponentBase;
 use Drupal\ambientimpact_core\IconBundlePluginManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Icon component.
@@ -21,26 +26,83 @@ use Drupal\ambientimpact_core\IconBundlePluginManager;
  */
 class Icon extends ComponentBase {
 	/**
-	 * The Icon Bundle plugin manager service instance.
+	 * The Ambient.Impact Icon Bundle plugin manager service.
 	 *
 	 * @var \Drupal\ambientimpact_core\IconBundlePluginManager
 	 */
 	private $iconBundleManager;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function __construct(
-		array $configuration, string $pluginID, array $pluginDefinition,
-		ContainerInterface $container
-	) {
-		$this->iconBundleManager =
-			$container->get('plugin.manager.ambientimpact_icon_bundle');
+  /**
+   * Constructor; saves dependencies.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   *
+   * @param string $pluginID
+   *   The plugin_id for the plugin instance.
+   *
+   * @param array $pluginDefinition
+   *   The plugin implementation definition.
+   *
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
+   *   The Drupal module handler service.
+   *
+   * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager
+   *   The Drupal language manager service.
+   *
+   * @param \Drupal\Core\Render\RendererInterface $renderer
+   *   The Drupal renderer service.
+   *
+   * @param \Drupal\Component\Serialization\SerializationInterface $yamlSerialization
+   *   The Drupal YAML serialization class.
+   *
+   * @param \Drupal\Core\Cache\CacheBackendInterface $htmlCacheService
+   *   The Component HTML cache service.
+   *
+   * @param \Drupal\ambientimpact_core\IconBundlePluginManager $iconBundleManager
+	 *   The Ambient.Impact Icon Bundle plugin manager service.
+   */
+  public function __construct(
+    array $configuration, string $pluginID, array $pluginDefinition,
+    ModuleHandlerInterface $moduleHandler,
+    LanguageManagerInterface $languageManager,
+    RendererInterface $renderer,
+    SerializationInterface $yamlSerialization,
+    CacheBackendInterface $htmlCacheService,
+    IconBundlePluginManager $iconBundleManager
+  ) {
+    // Save dependencies before calling parent::__construct() so that they're
+    // available in the configuration methods as ComponentBase::__construct()
+    // will call them.
+    $this->iconBundleManager = $iconBundleManager;
 
-		parent::__construct(
-			$configuration, $pluginID, $pluginDefinition, $container
-		);
-	}
+    parent::__construct(
+      $configuration, $pluginID, $pluginDefinition,
+      $moduleHandler,
+      $languageManager,
+      $renderer,
+      $yamlSerialization,
+      $htmlCacheService
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(
+    ContainerInterface $container,
+    array $configuration, $pluginID, $pluginDefinition
+  ) {
+    return new static(
+      $configuration, $pluginID, $pluginDefinition,
+      $container->get('module_handler'),
+      $container->get('language_manager'),
+      $container->get('renderer'),
+      $container->get('serialization.yaml'),
+      $container->get('cache.ambientimpact_component_html'),
+      $container->get('plugin.manager.ambientimpact_icon_bundle')
+    );
+  }
 
 	/**
 	 * {@inheritdoc}
@@ -104,9 +166,9 @@ class Icon extends ComponentBase {
 		];
 
 		// Render the template without attaching assets or cache metadata.
-		$jsSettings['template'] =
-			$this->container->get('renderer')
-				->renderPlain($templateRenderArray);
+		$jsSettings['template'] = $this->renderer->renderPlain(
+			$templateRenderArray
+		);
 
 		// Output bundle URLs and their used state.
 		foreach (

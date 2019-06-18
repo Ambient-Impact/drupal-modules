@@ -3,8 +3,13 @@
 namespace Drupal\ambientimpact_media\Plugin\AmbientImpact\Component;
 
 use Drupal\ambientimpact_core\ComponentBase;
+use Drupal\Component\Serialization\SerializationInterface;
+use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Image\ImageFactory;
+use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Render\RendererInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -36,22 +41,46 @@ class AnimatedGIFToggle extends ComponentBase {
    * @param array $pluginDefinition
    *   The plugin implementation definition.
    *
-   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-   *   The Drupal services container.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
+   *   The Drupal module handler service.
+   *
+   * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager
+   *   The Drupal language manager service.
+   *
+   * @param \Drupal\Core\Render\RendererInterface $renderer
+   *   The Drupal renderer service.
+   *
+   * @param \Drupal\Component\Serialization\SerializationInterface $yamlSerialization
+   *   The Drupal YAML serialization class.
+   *
+   * @param \Drupal\Core\Cache\CacheBackendInterface $htmlCacheService
+   *   The Component HTML cache service.
    *
    * @param \Drupal\Core\Image\ImageFactory $imageFactory
    *   The Drupal image factory service.
    */
   public function __construct(
     array $configuration, string $pluginID, array $pluginDefinition,
-    ContainerInterface $container,
+    ModuleHandlerInterface $moduleHandler,
+    LanguageManagerInterface $languageManager,
+    RendererInterface $renderer,
+    SerializationInterface $yamlSerialization,
+    CacheBackendInterface $htmlCacheService,
     ImageFactory $imageFactory
   ) {
-    parent::__construct(
-      $configuration, $pluginID, $pluginDefinition, $container
-    );
-
+    // Save dependencies before calling parent::__construct() so that they're
+    // available in the configuration methods as ComponentBase::__construct()
+    // will call them.
     $this->imageFactory = $imageFactory;
+
+    parent::__construct(
+      $configuration, $pluginID, $pluginDefinition,
+      $moduleHandler,
+      $languageManager,
+      $renderer,
+      $yamlSerialization,
+      $htmlCacheService
+    );
   }
 
   /**
@@ -62,7 +91,12 @@ class AnimatedGIFToggle extends ComponentBase {
     array $configuration, $pluginID, $pluginDefinition
   ) {
     return new static(
-      $configuration, $pluginID, $pluginDefinition, $container,
+      $configuration, $pluginID, $pluginDefinition,
+      $container->get('module_handler'),
+      $container->get('language_manager'),
+      $container->get('renderer'),
+      $container->get('serialization.yaml'),
+      $container->get('cache.ambientimpact_component_html'),
       $container->get('image.factory')
     );
   }

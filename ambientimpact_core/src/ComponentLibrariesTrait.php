@@ -17,10 +17,10 @@ trait ComponentLibrariesTrait {
     // they're structured the same, so this avoids repeating code.
     $files          = [];
 
-    // Get the YAML parser service.
-    $parser         = $this->container->get('serialization.yaml');
+    // Get the YAML parser.
+    $parser         = $this->yamlSerialization;
     // Get the path to the module implementing this component plugin.
-    $modulePath     = $this->container->get('module_handler')
+    $modulePath     = $this->moduleHandler
       ->getModule($this->pluginDefinition['provider'])->getPath();
     // This is the path to the component from Drupal's root, including the
     // implementing module.
