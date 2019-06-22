@@ -1,0 +1,8 @@
+name: Ambient.Impact - UX
+type: module
+description: Various UX (user experience) improvements and components.
+package: Ambient.Impact
+core: 8.x
+
+dependencies:
+  - ambientimpact_core:ambientimpact_core
