@@ -1,6 +1,6 @@
 name: Ambient.Impact - Portfolio migrate
 type: module
-description: Migration from Drupal 7.
+description: Portfolio migration from Drupal 7 for <a href="https://ambientimpact.com">ambientimpact.com</a>.
 package: Ambient.Impact
 core: 8.x
 
