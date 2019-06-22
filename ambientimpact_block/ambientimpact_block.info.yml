@@ -3,6 +3,7 @@ type: module
 description: Various blocks for site building.
 package: Ambient.Impact
 core: 8.x
+
 dependencies:
   - ambientimpact_core:ambientimpact_core
   - hook_event_dispatcher:hook_event_dispatcher
