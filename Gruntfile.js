@@ -17,6 +17,7 @@ module.exports = function(grunt) {
       'ambientimpact_core',
       'ambientimpact_block',
       'ambientimpact_media',
+      'ambientimpact_ux',
     ].join(','),
 
     stylesheetPaths:  'stylesheets,components',
