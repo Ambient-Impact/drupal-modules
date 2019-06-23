@@ -72,9 +72,6 @@ class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
    *
    * - 'ambientimpact_core/core' library, which contains common and layout CSS.
    *
-   * - The 'to_top' component on every page, regardless of theme. This is done
-   *   because it provides a useful UX improvement.
-   *
    * - 'ambientimpact_core/component.seven' library if the current theme is
    *   Seven.
    *
@@ -106,7 +103,6 @@ class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
     ];
 
     $attached['library'][] = 'ambientimpact_core/core';
-    $attached['library'][] = 'ambientimpact_core/component.to_top';
 
     if ($this->themeManager->getActiveTheme()->getName() === 'seven') {
       $attached['library'][] = 'ambientimpact_core/component.seven';

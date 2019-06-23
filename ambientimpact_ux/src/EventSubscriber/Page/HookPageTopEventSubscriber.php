@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_core\EventSubscriber\Page;
+namespace Drupal\ambientimpact_ux\EventSubscriber\Page;
 
 use Drupal\ambientimpact_core\ComponentPluginManager;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
