@@ -1,0 +1,10 @@
+{
+  "name": "ambientimpact-ux",
+  "dependencies": {
+    "popper.js": "https://github.com/FezVrasta/popper.js/archive/v1.14.4.zip",
+    "tippy.js": "https://files.ambientimpact.com/web/libraries/tippy.js-2.6.0.zip"
+  },
+  "devDependencies": {
+    "tippy.js-source": "https://github.com/atomiks/tippyjs/archive/v2.6.0.zip"
+  }
+}

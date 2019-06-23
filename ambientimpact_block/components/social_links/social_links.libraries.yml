@@ -9,7 +9,7 @@ component.social_links.tooltips:
   js:
     social_links.tooltips.js: {}
   dependencies:
-    - ambientimpact_core/component.tooltip
+    - ambientimpact_ux/component.tooltip
 
 component.social_links.admin:
   css:

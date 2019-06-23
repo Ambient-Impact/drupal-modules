@@ -6,4 +6,4 @@ component.tooltip:
     tooltip.js: {}
   dependencies:
     - ambientimpact_core/ally.js
-    - ambientimpact_core/tippy.js
+    - ambientimpact_ux/tippy.js
