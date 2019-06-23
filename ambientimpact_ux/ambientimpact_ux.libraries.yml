@@ -1,3 +1,13 @@
+autosize:
+  remote: https://github.com/jackmoore/autosize
+  version: 3.0.4
+  license:
+    name: MIT
+    url: https://github.com/jackmoore/autosize/blob/master/LICENSE.md
+    gpl-compatible: true
+  js:
+    assets/vendor/autosize/dest/autosize.min.js: { minified: true }
+
 headroom.js:
   remote: https://wicky.nillia.ms/headroom.js/
   version: 0.9.4

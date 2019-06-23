@@ -1,6 +1,7 @@
 {
   "name": "ambientimpact-ux",
   "dependencies": {
+    "autosize": "3.0.4",
     "headroom.js": "https://npmcdn.com/headroom.js@0.9.4/dist/headroom.min.js",
     "smoothscroll": "^0.4.4",
     "popper.js": "https://github.com/FezVrasta/popper.js/archive/v1.14.4.zip",

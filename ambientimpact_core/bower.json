@@ -2,7 +2,6 @@
   "name": "ambientimpact-core",
   "dependencies": {
     "jquery.parseparams": "https://gist.github.com/956897.git",
-    "autosize": "3.0.4",
     "jquery.livequery": "https://github.com/brandonaaron/livequery.git#1.1.1",
     "jquery.throttle-debounce": "https://github.com/cowboy/jquery-throttle-debounce.git#v1.1",
     "jquery.onfontresize": "https://github.com/johnantoni/jquery.onfontresize.git#1cc450aa65",

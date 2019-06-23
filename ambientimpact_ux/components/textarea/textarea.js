@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-   Ambient.Impact - Core - Texarea component
+   Ambient.Impact - UX - Texarea component
 ----------------------------------------------------------------------------- */
 
 // This attaches an autosizing behaviour to textareas.

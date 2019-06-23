@@ -5,4 +5,4 @@ component.textarea:
   js:
     textarea.js: {}
   dependencies:
-    - ambientimpact_core/autosize
+    - ambientimpact_ux/autosize

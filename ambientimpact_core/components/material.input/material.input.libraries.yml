@@ -4,4 +4,4 @@ component.material.input:
   dependencies:
     - ambientimpact_core/ally.js
     - ambientimpact_core/component.jquery
-    - ambientimpact_core/component.textarea
+    - ambientimpact_ux/component.textarea
