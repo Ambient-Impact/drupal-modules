@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-//   Ambient.Impact - Core - Abbreviation (abbr) component
+//   Ambient.Impact - UX - Abbreviation (abbr) component
 // -----------------------------------------------------------------------------
 
 // This creates Tippy.js tooltips for abbr elements, which improve mobile
