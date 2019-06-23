@@ -93,13 +93,3 @@ gsap.plugin.css:
     gpl-compatible: false
   js:
     assets/vendor/gsap/src/minified/plugins/CSSPlugin.min.js: { minified: true }
-
-headroom.js:
-  remote: https://wicky.nillia.ms/headroom.js/
-  version: 0.9.4
-  license:
-    name: MIT
-    url: https://github.com/WickyNilliams/headroom.js/blob/master/LICENSE
-    gpl-compatible: true
-  js:
-    assets/vendor/headroom.js/index.js: { minified: true }

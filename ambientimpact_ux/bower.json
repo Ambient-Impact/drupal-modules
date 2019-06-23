@@ -1,6 +1,7 @@
 {
   "name": "ambientimpact-ux",
   "dependencies": {
+    "headroom.js": "https://npmcdn.com/headroom.js@0.9.4/dist/headroom.min.js",
     "smoothscroll": "^0.4.4",
     "popper.js": "https://github.com/FezVrasta/popper.js/archive/v1.14.4.zip",
     "tippy.js": "https://files.ambientimpact.com/web/libraries/tippy.js-2.6.0.zip"

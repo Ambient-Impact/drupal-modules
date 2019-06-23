@@ -22,7 +22,6 @@
     "DOM-Query": "https://github.com/Ambient-Impact/DOM-Query.git",
     "tinymce": "4.5.7",
     "frend-offcanvas": "https://raw.githubusercontent.com/frend/frend.co/gh-pages/_components/offcanvas/dist/froffcanvas.min.js",
-    "headroom.js": "https://npmcdn.com/headroom.js@0.9.4/dist/headroom.min.js",
     "jquery-hoverintent": "^1.9.0",
     "popper.js": "https://github.com/FezVrasta/popper.js/archive/v1.14.4.zip",
     "tippy.js": "https://files.ambientimpact.com/web/libraries/tippy.js-2.6.0.zip",

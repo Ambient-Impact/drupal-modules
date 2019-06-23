@@ -5,7 +5,7 @@ component.headroom:
   js:
     headroom.js: {}
   dependencies:
-    - ambientimpact_core/headroom.js
+    - ambientimpact_ux/headroom.js
     - ambientimpact_core/component.environment
     - ambientimpact_core/component.event.lazy_resize
     - ambientimpact_ux/component.immerse

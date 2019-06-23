@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-//   Ambient.Impact - Core - Headroom.js component
+//   Ambient.Impact - UX - Headroom.js component
 // -----------------------------------------------------------------------------
 
 // This attaches a Headroom.js instance to a given element, with some
