@@ -17,7 +17,6 @@
     "fontfaceobserver": "2.1.0",
     "js-cookie": "~2.1.2",
     "jquery-observe": "^2.0.2",
-    "smoothscroll": "^0.4.4",
     "ally.js": "https://github.com/medialize/ally.js/releases/download/1.4.1/ally.js.zip",
     "roboto": "https://github.com/FontFaceKit/roboto.git#v1.1.0",
     "DOM-Query": "https://github.com/Ambient-Impact/DOM-Query.git",

@@ -7,7 +7,7 @@ component.to_top:
   dependencies:
     - core/modernizr
     - ambientimpact_core/ally.js
-    - ambientimpact_core/smoothscroll
+    - ambientimpact_ux/smoothscroll
     - ambientimpact_core/component.jquery
     - ambientimpact_core/component.media_query
     - ambientimpact_core/component.event.lazy_resize
