@@ -2,7 +2,7 @@ services:
   # hook_page_attachments() event subscriber.
   ambientimpact_ux.hook_page_attachments_event_subscriber:
     class: \Drupal\ambientimpact_ux\EventSubscriber\Page\HookPageAttachmentsEventSubscriber
-    arguments: []
+    arguments: ['@theme.manager']
     tags:
       - { name: 'event_subscriber' }
 

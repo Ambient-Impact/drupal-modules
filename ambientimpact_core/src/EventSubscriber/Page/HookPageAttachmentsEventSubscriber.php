@@ -4,7 +4,6 @@ namespace Drupal\ambientimpact_core\EventSubscriber\Page;
 
 use Drupal\ambientimpact_core\ComponentPluginManager;
 use Drupal\Core\State\StateInterface;
-use Drupal\Core\Theme\ThemeManagerInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\hook_event_dispatcher\Event\Page\PageAttachmentsEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -21,13 +20,6 @@ class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
   protected $componentManager;
 
   /**
-   * The Drupal theme manager service.
-   *
-   * @var \Drupal\Core\Theme\ThemeManagerInterface
-   */
-  protected $themeManager;
-
-  /**
    * The Drupal state system manager.
    *
    * @var \Drupal\Core\State\StateInterface
@@ -40,19 +32,14 @@ class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
    * @param \Drupal\ambientimpact_core\ComponentPluginManager $componentManager
    *   The Ambient.Impact Component plugin manager service.
    *
-   * @param \Drupal\Core\Theme\ThemeManagerInterface $themeManager
-   *   The Drupal theme manager service.
-   *
    * @param \Drupal\Core\State\StateInterface $stateManager
    *   The Drupal state system manager.
    */
   public function __construct(
     ComponentPluginManager $componentManager,
-    ThemeManagerInterface $themeManager,
     StateInterface $stateManager
   ) {
     $this->componentManager = $componentManager;
-    $this->themeManager = $themeManager;
     $this->stateManager = $stateManager;
   }
 
@@ -71,9 +58,6 @@ class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
    * This adds the following:
    *
    * - 'ambientimpact_core/core' library, which contains common and layout CSS.
-   *
-   * - 'ambientimpact_core/component.seven' library if the current theme is
-   *   Seven.
    *
    * - Framework JavaScript settings to drupalSettings.
    *
@@ -103,9 +87,5 @@ class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
     ];
 
     $attached['library'][] = 'ambientimpact_core/core';
-
-    if ($this->themeManager->getActiveTheme()->getName() === 'seven') {
-      $attached['library'][] = 'ambientimpact_core/component.seven';
-    }
   }
 }

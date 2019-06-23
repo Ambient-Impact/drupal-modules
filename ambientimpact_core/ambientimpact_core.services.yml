@@ -50,7 +50,6 @@ services:
     class: \Drupal\ambientimpact_core\EventSubscriber\Page\HookPageAttachmentsEventSubscriber
     arguments:
       - '@plugin.manager.ambientimpact_component'
-      - '@theme.manager'
       - '@state'
     tags:
       - { name: 'event_subscriber' }
