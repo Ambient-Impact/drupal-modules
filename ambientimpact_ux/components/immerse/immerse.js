@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-//   Ambient.Impact - Core - Immerse component
+//   Ambient.Impact - UX - Immerse component
 // -----------------------------------------------------------------------------
 
 AmbientImpact.addComponent('immerse', function(aiImmerse, $) {

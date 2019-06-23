@@ -8,4 +8,4 @@ component.headroom:
     - ambientimpact_core/headroom.js
     - ambientimpact_core/component.environment
     - ambientimpact_core/component.event.lazy_resize
-    - ambientimpact_core/component.immerse
+    - ambientimpact_ux/component.immerse
