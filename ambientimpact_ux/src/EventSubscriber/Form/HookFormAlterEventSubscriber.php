@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_core\EventSubscriber\Form;
+namespace Drupal\ambientimpact_ux\EventSubscriber\Form;
 
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\hook_event_dispatcher\Event\Form\FormAlterEvent;
@@ -32,6 +32,6 @@ class HookFormAlterEventSubscriber implements EventSubscriberInterface {
   public function formAlter(FormAlterEvent $event) {
     $form = &$event->getForm();
 
-    $form['#attached']['library'][] = 'ambientimpact_core/component.form';
+    $form['#attached']['library'][] = 'ambientimpact_ux/component.form';
   }
 }

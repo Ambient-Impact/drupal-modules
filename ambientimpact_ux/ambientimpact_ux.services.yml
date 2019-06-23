@@ -12,3 +12,10 @@ services:
     arguments: ['@plugin.manager.ambientimpact_component']
     tags:
       - { name: 'event_subscriber' }
+
+  # hook_form_alter() event subscriber.
+  ambientimpact_ux.hook_form_alter_event_subscriber:
+    class: \Drupal\ambientimpact_ux\EventSubscriber\Form\HookFormAlterEventSubscriber
+    arguments: []
+    tags:
+      - { name: 'event_subscriber' }

@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-   Ambient.Impact - Core - Form validation component
+   Ambient.Impact - UX - Form validation component
 ----------------------------------------------------------------------------- */
 
 AmbientImpact.onGlobals([
@@ -12,8 +12,8 @@ AmbientImpact.addComponent('form.validation', function(aiFormValidation, $) {
   'use strict';
 
   // This triggers 'invalid' and 'valid' events on the form when submission is
-  // attempting, only allowing submission if form passes validation. Based on:
-  // https://stackoverflow.com/a/48626400
+  // attempted, only allowing submission if the form passes validation.
+  // @see https://stackoverflow.com/a/48626400
   this.addBehaviour(
     'AmbientImpactFormValidationEvents',
     'ambientimpact-form-validation-events',
