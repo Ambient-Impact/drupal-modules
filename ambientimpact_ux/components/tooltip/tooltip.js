@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-//   Ambient.Impact - Core - Tooltip component
+//   Ambient.Impact - UX - Tooltip component
 // -----------------------------------------------------------------------------
 
 // This component is a wrapper around Tippy.js:
