@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-   Ambient.Impact - Core - Toolbar offset management component
+   Ambient.Impact - UX - Toolbar offset management component
 ----------------------------------------------------------------------------- */
 
 AmbientImpact.onGlobals(['Drupal.toolbar.mql'], function() {

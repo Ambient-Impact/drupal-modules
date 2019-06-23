@@ -1,18 +1,6 @@
 <?php
 
 /**
- * Implements hook_element_info_alter().
- *
- * This attaches the toolbar component to the toolbar element.
- */
-function ambientimpact_core_element_info_alter(array &$info) {
- if (isset($info['toolbar'])) {
-   $info['toolbar']['#attached']['library'][] =
-     'ambientimpact_core/component.toolbar';
- }
-}
-
-/**
  * Implements hook_node_links_alter().
  *
  * This removes the 'Read more' link if a node is displayed in a view mode
