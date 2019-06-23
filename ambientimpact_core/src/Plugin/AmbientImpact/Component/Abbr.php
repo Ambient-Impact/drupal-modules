@@ -10,7 +10,7 @@ use Drupal\ambientimpact_core\ComponentBase;
  * @Component(
  *   id = "abbr",
  *   title = @Translation("Abbreviation (HTML <abbr> element)"),
- *   description = @Translation("Provides rich, mobule-accessible tooltips for <abbr> elements.")
+ *   description = @Translation("Provides rich, mobile-accessible tooltips for <abbr> elements.")
  * )
  */
 class Abbr extends ComponentBase {
