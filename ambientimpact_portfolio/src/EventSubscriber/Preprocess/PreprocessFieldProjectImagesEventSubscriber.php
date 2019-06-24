@@ -51,7 +51,7 @@ implements EventSubscriberInterface {
    * @param \Drupal\hook_event_dispatcher\Event\Preprocess\FieldPreprocessEvent $event
    *   The template_preprocess_field event.
    *
-   * @see Drupal\ambientimpact_core\Plugin\AmbientImpact\Component\Image::preprocessFieldSetImageFieldMaxWidth()
+   * @see \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\Image::preprocessFieldSetImageFieldMaxWidth()
    *   This adds a max-width on each field item.
    */
   public function preprocessField(FieldPreprocessEvent $event) {
