@@ -1,10 +1,8 @@
 // -----------------------------------------------------------------------------
-//	Ambient.Impact - Core - Icon component
+//	 Ambient.Impact - Icons - Icon component
 // -----------------------------------------------------------------------------
 
-// Make sure to load this rather than just the icon partial, as the partial
-// needs access to mixins.
-@import '../../stylesheets/_common.scss';
+@import '../../../ambientimpact_core/stylesheets/_common.scss';
 
 .ambientimpact-icon {
 	@include set-icon-size($icon-size);

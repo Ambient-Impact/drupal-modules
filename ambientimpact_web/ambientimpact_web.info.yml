@@ -10,10 +10,11 @@ dependencies:
   - drupal:taxonomy
   - drupal:user
   - drupal:views
+  - ambientimpact_core:ambientimpact_core
+  - ambientimpact_icon:ambientimpact_icon
+  - ambientimpact_paragraphs:ambientimpact_paragraphs
   - entity_reference_revisions:entity_reference_revisions
   - hook_event_dispatcher:hook_event_dispatcher
   - paragraphs:paragraphs
   - search_api:search_api
   - search_api_db:search_api_db
-  - ambientimpact_core:ambientimpact_core
-  - ambientimpact_paragraphs:ambientimpact_paragraphs

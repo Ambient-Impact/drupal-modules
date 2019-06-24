@@ -1,10 +1,9 @@
-name: Ambient.Impact - UX
+name: Ambient.Impact - Icons
 type: module
-description: Various UX (user experience) improvements and components.
+description: Provides a system to manage and render icons.
 package: Ambient.Impact
 core: 8.x
 
 dependencies:
   - ambientimpact_core:ambientimpact_core
-  - ambientimpact_icon:ambientimpact_icon
   - hook_event_dispatcher:hook_event_dispatcher

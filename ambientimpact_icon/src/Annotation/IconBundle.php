@@ -1,13 +1,13 @@
 <?php
 
-namespace Drupal\ambientimpact_core\Annotation;
+namespace Drupal\ambientimpact_icon\Annotation;
 
 use Drupal\Component\Annotation\Plugin;
 
 /**
  * Defines an Icon Bundle annotation object.
  *
- * @see \Drupal\ambientimpact_core\IconBundlePluginManager
+ * @see \Drupal\ambientimpact_icon\IconBundlePluginManager
  * @see plugin_api
  *
  * @Annotation

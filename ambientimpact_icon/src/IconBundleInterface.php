@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_core;
+namespace Drupal\ambientimpact_icon;
 
 /**
  * An interface for all Ambient.Impact Icon Bundle plugins.
@@ -44,7 +44,7 @@ interface IconBundleInterface {
    * Returns whether this bundle is in use in the current request.
    *
    * @return boolean
-   *   True if at least one Drupal\ambientimpact_core\Element\Icon element
+   *   True if at least one Drupal\ambientimpact_icon\Element\Icon element
    *   has been rendered with this bundle, false otherwise.
    */
   public function isUsed(): bool;

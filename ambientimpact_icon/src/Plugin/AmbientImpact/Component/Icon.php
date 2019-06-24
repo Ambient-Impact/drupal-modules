@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_core\Plugin\AmbientImpact\Component;
+namespace Drupal\ambientimpact_icon\Plugin\AmbientImpact\Component;
 
 use Drupal\Component\Serialization\SerializationInterface;
 use Drupal\Core\Cache\CacheBackendInterface;
@@ -8,13 +8,13 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\ambientimpact_core\ComponentBase;
-use Drupal\ambientimpact_core\IconBundlePluginManager;
+use Drupal\ambientimpact_icon\IconBundlePluginManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Icon component.
  *
- * @see \Drupal\ambientimpact_core\IconBundlePluginManager
+ * @see \Drupal\ambientimpact_icon\IconBundlePluginManager
  *   This is the Icon Bundle plugin manager which discovers and manages bundles
  *   for this component.
  *
@@ -28,7 +28,7 @@ class Icon extends ComponentBase {
 	/**
 	 * The Ambient.Impact Icon Bundle plugin manager service.
 	 *
-	 * @var \Drupal\ambientimpact_core\IconBundlePluginManager
+	 * @var \Drupal\ambientimpact_icon\IconBundlePluginManager
 	 */
 	private $iconBundleManager;
 
@@ -59,7 +59,7 @@ class Icon extends ComponentBase {
    * @param \Drupal\Core\Cache\CacheBackendInterface $htmlCacheService
    *   The Component HTML cache service.
    *
-   * @param \Drupal\ambientimpact_core\IconBundlePluginManager $iconBundleManager
+   * @param \Drupal\ambientimpact_icon\IconBundlePluginManager $iconBundleManager
 	 *   The Ambient.Impact Icon Bundle plugin manager service.
    */
   public function __construct(

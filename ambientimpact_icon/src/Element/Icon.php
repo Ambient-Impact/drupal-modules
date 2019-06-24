@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_core\Element;
+namespace Drupal\ambientimpact_icon\Element;
 
 use Drupal\Core\Render\Element\RenderElement;
 use Drupal\Core\Template\Attribute;
@@ -52,7 +52,7 @@ class Icon extends RenderElement {
 
     // Attach the component library.
     $element['#attached']['library'][] =
-      'ambientimpact_core/component.icon';
+      'ambientimpact_icon/component.icon';
 
     // Convert our attributes arrays into Attribute objects so that they're
     // sanitized and passed to Twig as something that can be easily printed.

@@ -1,6 +1,6 @@
-/* -----------------------------------------------------------------------------
-	Ambient.Impact - Core - Icon support component
------------------------------------------------------------------------------ */
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Icons - Icon support detection component
+// -----------------------------------------------------------------------------
 
 // This empty component is used as a dependency for the other icon components,
 // so that they don't register if SVG is not supported.

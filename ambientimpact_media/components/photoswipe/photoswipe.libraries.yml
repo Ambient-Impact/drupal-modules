@@ -20,7 +20,7 @@ component.photoswipe:
     - ambientimpact_core/ally.js
     - ambientimpact_core/component.media_query
     - ambientimpact_core/component.link.image
-    - ambientimpact_core/component.icon
+    - ambientimpact_icon/component.icon
     - ambientimpact_ux/component.immerse
 
 component.photoswipe.field:

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_core\Template;
+namespace Drupal\ambientimpact_icon\Template;
 
 use Drupal\Component\Utility\NestedArray;
 use Symfony\Component\DependencyInjection\ContainerInterface;

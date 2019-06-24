@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_core;
+namespace Drupal\ambientimpact_icon;
 
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;

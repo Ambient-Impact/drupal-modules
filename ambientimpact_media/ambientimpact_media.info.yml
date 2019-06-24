@@ -8,4 +8,7 @@ dependencies:
   - drupal:image
   - drupal:media
   - drupal:media_library
+  - ambientimpact_core:ambientimpact_core
+  - ambientimpact_icon:ambientimpact_icon
+  - hook_event_dispatcher:hook_event_dispatcher
   - image_field_caption:image_field_caption

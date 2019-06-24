@@ -1,11 +1,11 @@
 <?php
 
-namespace Drupal\ambientimpact_core;
+namespace Drupal\ambientimpact_icon;
 
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\ambientimpact_core\Annotation\IconBundle as IconBundleAnnotation;
+use Drupal\ambientimpact_icon\Annotation\IconBundle as IconBundleAnnotation;
 
 /**
  * Plugin manager for Ambient.Impact Icon Bundle plugins.
@@ -118,7 +118,7 @@ class IconBundlePluginManager extends DefaultPluginManager {
    *   defaults to an empty array which returns all discovered bundle plugins.
    *
    * @return array
-   *   An array of \Drupal\ambientimpact_core\Plugin\AmbientImpact\Icon\Bundle
+   *   An array of \Drupal\ambientimpact_icon\Plugin\AmbientImpact\Icon\Bundle
    *   instances, one for each plugin ID specified, or all if not specified.
    */
   public function getIconBundleInstances(array $iconBundleIDs = []) {

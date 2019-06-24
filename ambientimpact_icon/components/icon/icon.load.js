@@ -1,6 +1,6 @@
-/* -----------------------------------------------------------------------------
-	Ambient.Impact - Core - Icon loading component
------------------------------------------------------------------------------ */
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Icons - Icon loading component
+// -----------------------------------------------------------------------------
 
 AmbientImpact.on('icon.support', function() {
 AmbientImpact.addComponent('icon.load', function(aiIconLoad, $) {

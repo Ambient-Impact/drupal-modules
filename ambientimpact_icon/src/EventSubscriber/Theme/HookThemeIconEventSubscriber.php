@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_core\EventSubscriber\Theme;
+namespace Drupal\ambientimpact_icon\EventSubscriber\Theme;
 
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\ambientimpact_core\ComponentPluginManager;
@@ -86,7 +86,7 @@ class HookThemeIconEventSubscriber implements EventSubscriberInterface {
       'template'  => 'ambientimpact-icon',
       // Path is required.
       // @see https://www.drupal.org/project/hook_event_dispatcher/issues/3038311
-      'path'      => $this->moduleHandler->getModule('ambientimpact_core')
+      'path'      => $this->moduleHandler->getModule('ambientimpact_icon')
                      ->getPath() . '/templates',
     ]);
   }

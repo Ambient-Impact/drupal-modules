@@ -2,7 +2,7 @@
 
 namespace Drupal\ambientimpact_media\Plugin\AmbientImpact\Icon\Bundle;
 
-use Drupal\ambientimpact_core\IconBundleBase;
+use Drupal\ambientimpact_icon\IconBundleBase;
 
 /**
  * PhotoSwipe icon bundle.

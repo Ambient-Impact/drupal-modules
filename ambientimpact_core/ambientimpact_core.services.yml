@@ -4,11 +4,6 @@ services:
     class: Drupal\ambientimpact_core\ComponentPluginManager
     parent: default_plugin_manager
 
-  # Icon bundle plugin manager.
-  plugin.manager.ambientimpact_icon_bundle:
-    class: Drupal\ambientimpact_core\IconBundlePluginManager
-    parent: default_plugin_manager
-
   # The Component HTML cache bin.
   cache.ambientimpact_component_html:
     class: Drupal\Core\Cache\CacheBackendInterface
@@ -21,13 +16,6 @@ services:
   ambientimpact_core.hook_theme_description_list_event_subscriber:
     class: \Drupal\ambientimpact_core\EventSubscriber\Theme\HookThemeDescriptionListEventSubscriber
     arguments: ['@module_handler']
-    tags:
-      - { name: 'event_subscriber' }
-
-  # Icon hook_theme() event subscriber.
-  ambientimpact_core.hook_theme_icon_event_subscriber:
-    class: \Drupal\ambientimpact_core\EventSubscriber\Theme\HookThemeIconEventSubscriber
-    arguments: ['@plugin.manager.ambientimpact_component', '@module_handler']
     tags:
       - { name: 'event_subscriber' }
 
@@ -60,13 +48,3 @@ services:
     arguments: ['@request_stack']
     tags:
       - { name: 'event_subscriber' }
-
-  # ambientimpact_icon() Twig function.
-  # Note that Twig extensions don't seem to correctly pass specific services, so
-  # we must pass the service container itself for dependency injection to work:
-  # @see https://stackoverflow.com/a/24938384
-  ambientimpact_core.twig.ambientimpact_icon:
-    class: Drupal\ambientimpact_core\Template\IconTwigExtension
-    arguments: ['@service_container']
-    tags:
-      - { name: twig.extension }
