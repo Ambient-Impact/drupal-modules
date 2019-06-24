@@ -1,13 +1,11 @@
-/* -----------------------------------------------------------------------------
-	Ambient.Impact - Core - Material Design shadow partial
------------------------------------------------------------------------------ */
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Material Design shadow partial
+// -----------------------------------------------------------------------------
 
 // Shadow functions based on:
 // https://css-tricks.com/snippets/sass/material-shadows-mixin/
 
-
 $material-shadow-colour:	black !default;
-
 
 /**
  * Returns the opacity for the 'top' element of a Material shadow.

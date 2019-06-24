@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_core\Plugin\AmbientImpact\Component;
+namespace Drupal\ambientimpact_ux\Plugin\AmbientImpact\Component;
 
 use Drupal\ambientimpact_core\ComponentBase;
 

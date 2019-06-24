@@ -1,10 +1,10 @@
 // -----------------------------------------------------------------------------
-//   Ambient.Impact - Core - Material Design ripple component
+//   Ambient.Impact - UX - Material Design ripple component
 // -----------------------------------------------------------------------------
 
 // @see https://codepen.io/jproffitt71/pen/PBPKmw
 
-@import '../../stylesheets/_common.scss';
+@import '../../../ambientimpact_core/stylesheets/_common.scss';
 
 .material-ripple {
   @include material-ripple;

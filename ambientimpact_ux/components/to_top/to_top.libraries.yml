@@ -13,4 +13,4 @@ component.to_top:
     - ambientimpact_core/component.event.lazy_resize
     - ambientimpact_ux/component.headroom
     - ambientimpact_core/component.icon
-    # - ambientimpact_core/component.material.ripple
+    # - ambientimpact_ux/component.material.ripple

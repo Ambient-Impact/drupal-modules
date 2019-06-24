@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-   Ambient.Impact - Core - Material Design ripple component
+   Ambient.Impact - UX - Material Design ripple component
 ----------------------------------------------------------------------------- */
 
 // This is adapted from the JavaScript code by Jessie Proffitt:
