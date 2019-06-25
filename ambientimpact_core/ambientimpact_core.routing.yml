@@ -2,7 +2,7 @@
 ambientimpact_core.component_html_endpoint:
   path: '/ambientimpact/endpoint/component/html'
   defaults:
-    _controller: '\Drupal\ambientimpact_core\Controller\ComponentController::htmlEndpoint'
+    _controller: '\Drupal\ambientimpact_core\Controller\ComponentHTMLController::endpoint'
   requirements:
     # We have to specify at least one requirement, and because we don't require
     # any permission for components, set this to always allow.

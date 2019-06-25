@@ -8,9 +8,9 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\ambientimpact_core\ComponentPluginManager;
 
 /**
- * Controller for Ambient.Impact Component plugins.
+ * Controller for the 'ambientimpact_core.component_html_endpoint' route.
  */
-class ComponentController extends ControllerBase {
+class ComponentHTMLController extends ControllerBase {
   /**
    * The Ambient.Impact Component plugin manager service.
    *
@@ -48,7 +48,7 @@ class ComponentController extends ControllerBase {
    * @see \Drupal\ambientimpact_core\ComponentPluginManager::getComponentHTML()
    *   Returns the HTML that we respond with.
    */
-  public function htmlEndpoint() {
+  public function endpoint() {
     return new JsonResponse($this->componentManager->getComponentHTML());
   }
 }
