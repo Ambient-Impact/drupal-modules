@@ -11,7 +11,7 @@ use Drupal\Core\Field\FieldItemListInterface;
  * @Component(
  *   id = "photoswipe",
  *   title = @Translation("PhotoSwipe"),
- *   description = @Translation("Provides a wrapper component around PhotoSwipe.")
+ *   description = @Translation("Provides a wrapper component around <a href='https://photoswipe.com/'>PhotoSwipe</a>.")
  * )
  */
 class PhotoSwipe extends ComponentBase {
