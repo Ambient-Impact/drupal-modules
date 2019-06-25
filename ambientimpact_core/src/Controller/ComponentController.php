@@ -99,7 +99,7 @@ class ComponentController extends ControllerBase {
       ] = [
         '#type'   => 'html_tag',
         '#tag'    => 'dt',
-        '#value'  => $this->t('@title (@id)', [
+        '#value'  => $this->t('@title (<code>@id</code>)', [
           '@id'     => $pluginDefinition['id'],
           '@title'  => $pluginDefinition['title'],
         ]),
