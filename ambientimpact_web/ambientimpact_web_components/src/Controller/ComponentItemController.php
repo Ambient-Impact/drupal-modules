@@ -77,41 +77,46 @@ class ComponentItemController extends ControllerBase {
     $dumper = new HtmlDumper();
     $cloner = new VarCloner();
 
+    // These items need to be dumped via the Symfony VarDumper.
+    $dumps = [
+      'definition'  => [
+        'title' => $this->t('Definition'),
+        'dump'  => $pluginDefinition,
+      ],
+      'configuration' => [
+        'title' => $this->t('Configuration'),
+        'dump'  => $plugin->getConfiguration(),
+      ],
+      'libraries' => [
+        'title' => $this->t('Libraries'),
+        'dump'  => $plugin->getLibraries(),
+      ],
+    ];
+
     $renderArray = [
       '#theme'          => 'ambientimpact_component_item',
       '#machineName'    => $componentMachineName,
       '#description'    => $pluginDefinition['description'],
-      '#configuration'  => [
-        '#type'   => 'details',
-        '#title'  => $this->t('Configuration'),
-
-        'pre'  => [
-          '#type'   => 'html_tag',
-          '#tag'    => 'pre',
-
-          'dump'    => [
-            '#markup'  => Markup::create($dumper->dump($cloner->cloneVar(
-              $plugin->getConfiguration()
-            ), true)),
-          ],
-        ],
-      ],
-      '#libraries'      => [
-        '#type'   => 'details',
-        '#title'  => $this->t('Libraries'),
-
-        'pre'  => [
-          '#type'   => 'html_tag',
-          '#tag'    => 'pre',
-
-          'dump'    => [
-            '#markup'  => Markup::create($dumper->dump($cloner->cloneVar(
-              $plugin->getLibraries()
-            ), true)),
-          ],
-        ],
-      ],
     ];
+
+    // Dump away.
+    foreach ($dumps as $key => $data) {
+      $renderArray['#' . $key] = [
+        '#type'   => 'details',
+        '#title'  => $data['title'],
+
+        'pre'  => [
+          '#type'   => 'html_tag',
+          '#tag'    => 'pre',
+
+          'dump'    => [
+            '#markup'  => Markup::create($dumper->dump($cloner->cloneVar(
+              $data['dump']
+            ), true)),
+          ],
+        ],
+      ];
+    }
 
     return $renderArray;
   }

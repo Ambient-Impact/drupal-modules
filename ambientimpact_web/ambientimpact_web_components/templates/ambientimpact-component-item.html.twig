@@ -6,6 +6,8 @@
  * Available variables:
  * - description: The Component's description.
  * - machineName: The Component's machine name, a.k.a. its plug-in ID.
+ * - definition: A render array containing this Component's Drupal plug-in
+ *   definition array.
  * - configuration: A render array containing this Component's plug-in
  *   configration array.
  * - libraries: A render array containing this Component's libraries array.
@@ -17,7 +19,7 @@
 
 <p>{{ description }}</p>
 
-<p>Machine name: <code>{{ machineName }}</code></p>
+{{ definition }}
 
 {{ configuration }}
 
