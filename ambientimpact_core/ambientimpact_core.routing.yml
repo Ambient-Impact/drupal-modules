@@ -1,12 +1,3 @@
-# Component list page.
-ambientimpact_core.component_list:
-  path: '/web/components'
-  defaults:
-    _controller: '\Drupal\ambientimpact_core\Controller\ComponentController::componentList'
-    _title: 'Components'
-  requirements:
-    _permission: 'administer ambientimpact components'
-
 # Component HTML endpoint; returns the HTML for components wrapped in JSON.
 ambientimpact_core.component_html_endpoint:
   path: '/ambientimpact/endpoint/component/html'

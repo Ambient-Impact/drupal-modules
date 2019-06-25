@@ -1,0 +1,17 @@
+# Components list page.
+ambientimpact_web_components.component_list:
+  path: '/web/components'
+  defaults:
+    _controller: '\Drupal\ambientimpact_web_components\Controller\ComponentListController::componentList'
+    _title: 'Components'
+  requirements:
+    _permission: 'view ambientimpact component pages'
+
+# Component item page.
+ambientimpact_web_components.component_item:
+  path: '/web/components/{componentMachineName}'
+  defaults:
+    _controller: '\Drupal\ambientimpact_web_components\Controller\ComponentItemController::componentItem'
+    _title_callback: '\Drupal\ambientimpact_web_components\Controller\ComponentItemController::componentItemTitle'
+  requirements:
+    _permission: 'view ambientimpact component pages'

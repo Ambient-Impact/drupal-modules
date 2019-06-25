@@ -1,0 +1,36 @@
+{#
+/**
+ * @file
+ * Default implementation for the Ambient.Impact Component list.
+ *
+ * Available variables:
+ * - list: A render array containing the list of Components.
+ *
+ * @see \Drupal\ambientimpact_web_components\Controller\ComponentListController::componentList()
+ *   Used in this method.
+ */
+#}
+
+<p>{{
+  'This lists all discovered Ambient.Impact Component plugins. Information about the component system and the source for each component can be found on <a href="@GitLabURL">@GitLab</a> and <a href="@GitHubURL">@GitHub</a>.'|t({
+    '@GitLab':    ambientimpact_icon('gitlab', 'brands', 'GitLab'),
+    '@GitLabURL': 'https://gitlab.com/Ambient.Impact/drupal-modules',
+    '@GitHub':    ambientimpact_icon('github', 'brands', 'GitHub'),
+    '@GitHubURL': 'https://github.com/Ambient-Impact/drupal-modules',
+  })
+}}</p>
+
+{# Make sure that #context is defined before adding a list_style. #}
+{% if list['#context'] is not defined %}
+  {% set list = list|merge({'#context': []}) %}
+{% endif %}
+
+{# Set the list_style to 'unlisted' so that list markers and indenting are
+   removed. #}
+{% set list = list|merge({
+  '#context': list['#context']|merge({
+    'list_style': 'unlisted',
+  })
+}) %}
+
+{{ list }}

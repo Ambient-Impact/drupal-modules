@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * Default implementation for an Ambient.Impact Component item.
+ *
+ * Available variables:
+ * - description: The Component's description.
+ * - machineName: The Component's machine name, a.k.a. its plug-in ID.
+ * - configuration: A render array containing this Component's plug-in
+ *   configration array.
+ * - libraries: A render array containing this Component's libraries array.
+ *
+ * @see \Drupal\ambientimpact_web_components\Controller\ComponentItemController::componentItem()
+ *   Used in this method.
+ */
+#}
+
+<p>{{ description }}</p>
+
+<p>Machine name: <code>{{ machineName }}</code></p>
+
+{{ configuration }}
+
+{{ libraries }}

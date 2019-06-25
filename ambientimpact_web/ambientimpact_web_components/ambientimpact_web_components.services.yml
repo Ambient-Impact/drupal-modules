@@ -1,0 +1,14 @@
+services:
+  # hook_theme() event to define the 'ambientimpact_component_list' element.
+  ambientimpact_web_components.hook_theme_component_list_event_subscriber:
+    class: \Drupal\ambientimpact_web_components\EventSubscriber\Theme\HookThemeComponentList
+    arguments: ['@module_handler']
+    tags:
+      - { name: 'event_subscriber' }
+
+  # hook_theme() event to define the 'ambientimpact_component_item' element.
+  ambientimpact_web_components.hook_theme_component_item_event_subscriber:
+    class: \Drupal\ambientimpact_web_components\EventSubscriber\Theme\HookThemeComponentItem
+    arguments: ['@module_handler']
+    tags:
+      - { name: 'event_subscriber' }
