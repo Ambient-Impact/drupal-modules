@@ -3,9 +3,12 @@
 namespace Drupal\ambientimpact_web_components\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Render\Markup;
 use Drupal\ambientimpact_core\ComponentPluginManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\VarDumper\Dumper\HtmlDumper;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
 
 /**
  * Controller for the 'ambientimpact_web_components.component_item' route.
@@ -40,6 +43,17 @@ class ComponentItemController extends ControllerBase {
   /**
    * Builds and returns the Component item render array.
    *
+   * In addition to outputting annotation data about a Component, this also uses
+   * the Symfony VarDumper to output the configuration and libraries as user-
+   * friendly elements. Note that this makes use of \Drupal\Core\Render\Markup
+   * to allow output of the inline JavaScript which presents the following
+   * issues that will need revisiting:
+   * - \Drupal\Core\Render\Markup is marked as @internal, so it could change or
+   *   stop working with any Drupal update.
+   * - Inline JavaScript presents a problem with
+   *   {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+   *    Content Security Policy (CSP)}.
+   *
    * @param string $componentMachineName
    *   The machine name of the Component to display.
    *
@@ -60,6 +74,9 @@ class ComponentItemController extends ControllerBase {
 
     $pluginDefinition = $pluginDefinitions[$componentMachineName];
 
+    $dumper = new HtmlDumper();
+    $cloner = new VarCloner();
+
     $renderArray = [
       '#theme'          => 'ambientimpact_component_item',
       '#machineName'    => $componentMachineName,
@@ -68,24 +85,30 @@ class ComponentItemController extends ControllerBase {
         '#type'   => 'details',
         '#title'  => $this->t('Configuration'),
 
-        'output'  => [
+        'pre'  => [
           '#type'   => 'html_tag',
           '#tag'    => 'pre',
-          '#value'  => print_r(
-            $plugin->getConfiguration(), true
-          ),
+
+          'dump'    => [
+            '#markup'  => Markup::create($dumper->dump($cloner->cloneVar(
+              $plugin->getConfiguration()
+            ), true)),
+          ],
         ],
       ],
       '#libraries'      => [
         '#type'   => 'details',
         '#title'  => $this->t('Libraries'),
 
-        'output'  => [
+        'pre'  => [
           '#type'   => 'html_tag',
           '#tag'    => 'pre',
-          '#value'  => print_r(
-            $plugin->getLibraries(), true
-          ),
+
+          'dump'    => [
+            '#markup'  => Markup::create($dumper->dump($cloner->cloneVar(
+              $plugin->getLibraries()
+            ), true)),
+          ],
         ],
       ],
     ];
