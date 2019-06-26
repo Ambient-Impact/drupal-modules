@@ -137,6 +137,7 @@ class GeshiFieldBEMFormatter extends FormatterBase implements ContainerFactoryPl
         'nu'  => 'number',
         'co'  => 'comment',
         'me'  => 'method',
+        'st'  => 'string',
       ] as $old => $new) {
         // Depending on the language, these can have up to (and possibly more
         // than) 5 variations.
