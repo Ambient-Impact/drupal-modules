@@ -101,6 +101,12 @@ class ComponentItemController extends ControllerBase {
       ],
     ];
 
+    // Remove the 'id' from the configuration as it's redundant and already in
+    // the plug-in definition.
+    if (isset($dumps['configuration']['dump']['id'])) {
+      unset($dumps['configuration']['dump']['id']);
+    }
+
     $renderArray = [
       '#theme'          => 'ambientimpact_component_item',
       '#machineName'    => $componentMachineName,
