@@ -105,15 +105,11 @@ class ComponentItemController extends ControllerBase {
         '#type'   => 'details',
         '#title'  => $data['title'],
 
-        'pre'  => [
-          '#type'   => 'html_tag',
-          '#tag'    => 'pre',
-
-          'dump'    => [
-            '#markup'  => Markup::create($dumper->dump($cloner->cloneVar(
-              $data['dump']
-            ), true)),
-          ],
+        // The Symfony VarDumper creates a <pre> element so we don't need to.
+        'dump'    => [
+          '#markup'  => Markup::create($dumper->dump($cloner->cloneVar(
+            $data['dump']
+          ), true)),
         ],
       ];
     }
