@@ -59,6 +59,14 @@ class ComponentItemController extends ControllerBase {
    *
    * @return array
    *   The Component item render array.
+   *
+   * @todo Determine what to do about inline JavaScript/CSS from Symfony
+   * VarDumper.
+   *
+   * @todo Should we take more care not to accidentally expose sensitive data
+   * via the Symfony VarDumper? Can we white-list certain definition keys to
+   * be shown and ignore the rest? Can we use something else that poses less
+   * risks, like GeSHi, to display this data?
    */
   public function componentItem(string $componentMachineName) {
     $pluginDefinitions = $this->componentManager->getDefinitions();
