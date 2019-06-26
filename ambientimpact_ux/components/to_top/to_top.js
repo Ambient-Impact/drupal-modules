@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-   Ambient.Impact - UX - Scroll to top component
+   Ambient.Impact - UX - To top component
 ----------------------------------------------------------------------------- */
 
 // This creates a floating button that scrolls to the top of the screen when

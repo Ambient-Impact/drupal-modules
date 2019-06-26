@@ -5,12 +5,12 @@ namespace Drupal\ambientimpact_core\Plugin\AmbientImpact\Component;
 use Drupal\ambientimpact_core\ComponentBase;
 
 /**
- * External link component.
+ * Link: image component.
  *
  * @Component(
  *   id = "link.image",
- *   title = @Translation("Image links"),
- *   description = @Translation("This component contains code that handles links to image files and links that contain image elements.")
+ *   title = @Translation("Link: image"),
+ *   description = @Translation("Marks links to image files and links that contain image elements with a class, and marks them as external, causing them to open in a new tab.")
  * )
  */
 class LinkImage extends ComponentBase {

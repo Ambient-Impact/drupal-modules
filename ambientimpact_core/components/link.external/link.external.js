@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-	Ambient.Impact - Core - External link component
+	Ambient.Impact - Core - Link: external component
 ----------------------------------------------------------------------------- */
 
 // This forces links outside of this domain to open in a new tab, and disables

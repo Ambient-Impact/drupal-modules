@@ -10,7 +10,7 @@ use Drupal\ambientimpact_core\ComponentBase;
  * @Component(
  *   id = "toolbar",
  *   title = @Translation("Toolbar"),
- *   description = @Translation("This component contains modifications and enhancements to the Drupal administrative toolbar.")
+ *   description = @Translation("Contains modifications and enhancements to the Drupal core administrative toolbar.")
  * )
  */
 class Toolbar extends ComponentBase {

@@ -5,12 +5,12 @@ namespace Drupal\ambientimpact_core\Plugin\AmbientImpact\Component;
 use Drupal\ambientimpact_core\ComponentBase;
 
 /**
- * External link component.
+ * Link: file component.
  *
  * @Component(
  *   id = "link.file",
- *   title = @Translation("File links"),
- *   description = @Translation("This component contains code that handles links to common document and media files.")
+ *   title = @Translation("Link: file"),
+ *   description = @Translation("Marks links to common document and video files with a class and marks them as external, causing them to open in a new tab.")
  * )
  */
 class LinkFile extends ComponentBase {

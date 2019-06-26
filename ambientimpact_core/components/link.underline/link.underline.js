@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-  Ambient.Impact - Core - Link underline component
+  Ambient.Impact - Core - Link: underline component
 ----------------------------------------------------------------------------- */
 
 // Currently this component is used to mark links that are part of a text

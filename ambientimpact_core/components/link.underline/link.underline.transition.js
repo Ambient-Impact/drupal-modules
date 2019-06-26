@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-   Ambient.Impact - Core - Link underline transition component
+   Ambient.Impact - Core - Link: underline transition component
 ----------------------------------------------------------------------------- */
 
 // Fancy link underlines that clear descenders are achieved using a linear

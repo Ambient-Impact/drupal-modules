@@ -5,12 +5,12 @@ namespace Drupal\ambientimpact_core\Plugin\AmbientImpact\Component;
 use Drupal\ambientimpact_core\ComponentBase;
 
 /**
- * External link component.
+ * Link: external component.
  *
  * @Component(
  *   id = "link.external",
- *   title = @Translation("External links"),
- *   description = @Translation("This component contains code that handles links to external websites.")
+ *   title = @Translation("Link: external"),
+ *   description = @Translation("Marks links to external websites with a class and causes them to open in a new tab.")
  * )
  */
 class LinkExternal extends ComponentBase {

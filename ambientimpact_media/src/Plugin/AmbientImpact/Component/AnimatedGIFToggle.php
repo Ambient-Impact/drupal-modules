@@ -13,11 +13,11 @@ use Drupal\Core\Render\RendererInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Animated GIF Toggle component.
+ * Animated GIF toggle component.
  *
  * @Component(
  *   id = "animated_gif_toggle",
- *   title = @Translation("Animated GIF Toggle"),
+ *   title = @Translation("Animated GIF toggle"),
  *   description = @Translation("Allows fields containing animated GIFs to toggle between a static image and the animated GIF on user interaction.")
  * )
  */

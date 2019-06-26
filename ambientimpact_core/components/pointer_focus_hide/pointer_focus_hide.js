@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-	Ambient.Impact - Core - Hide pointer focus component
+	Ambient.Impact - Core - Pointer focus hide component
 ----------------------------------------------------------------------------- */
 
 // This hides the focus ring (outline) if a pointer was used to focus the

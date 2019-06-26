@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-   Ambient.Impact - UX - Material Design text input component
+   Ambient.Impact - UX - Material input component
 ----------------------------------------------------------------------------- */
 
 AmbientImpact.on('jquery', function(aijQuery) {

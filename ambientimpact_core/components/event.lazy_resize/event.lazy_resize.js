@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-//   Ambient.Impact - Core - Lazy resize event component
+//   Ambient.Impact - Core - Event: lazy resize component
 // -----------------------------------------------------------------------------
 
 AmbientImpact.onGlobals('Drupal.debounce', function() {

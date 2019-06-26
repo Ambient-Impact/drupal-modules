@@ -10,7 +10,7 @@ use Drupal\ambientimpact_core\ComponentBase;
  * @Component(
  *   id = "jquery",
  *   title = @Translation("jQuery"),
- *   description = @Translation("This component contains plugins for jQuery.")
+ *   description = @Translation("jQuery plug-ins.")
  * )
  */
 class jQuery extends ComponentBase {

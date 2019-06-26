@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
-  Ambient.Impact - Core - Media Query component
+  Ambient.Impact - Core - Media query component
 ----------------------------------------------------------------------------- */
 
 // This wraps the native window.matchMedia with some convenience methods. Will

@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-//   Ambient.Impact - Media - Media Play Overlay component
+//   Ambient.Impact - Media - Media play overlay component
 // -----------------------------------------------------------------------------
 
 // This attaches a simple API on .media-play-overlay elements to play, stop,

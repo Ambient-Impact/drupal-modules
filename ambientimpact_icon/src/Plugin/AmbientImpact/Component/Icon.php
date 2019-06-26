@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @Component(
  *   id = "icon",
  *   title = @Translation("Icon"),
- *   description = @Translation("This component contains settings and methods for managing and rendering icons.")
+ *   description = @Translation("Contains settings and methods for managing and rendering icons.")
  * )
  */
 class Icon extends ComponentBase {

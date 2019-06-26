@@ -10,7 +10,7 @@ use Drupal\ambientimpact_core\ComponentBase;
  * @Component(
  *   id = "social_links",
  *   title = @Translation("Social links"),
- *   description = @Translation("Provides libraries for the social links blocks.")
+ *   description = @Translation("Provides styling and JavaScript for the social links blocks.")
  * )
  */
 class SocialLinks extends ComponentBase {

@@ -10,7 +10,7 @@ use Drupal\ambientimpact_core\ComponentBase;
  * @Component(
  *   id = "tooltip",
  *   title = @Translation("Tooltip"),
- *   description = @Translation("Provides a rich tooltip element which can be themed.")
+ *   description = @Translation("Provides a wrapper component around <a href='https://atomiks.github.io/tippyjs/'>Tippy.js</a>.")
  * )
  */
 class Tooltip extends ComponentBase {
