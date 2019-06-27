@@ -1,6 +1,6 @@
-/* -----------------------------------------------------------------------------
-   Ambient.Impact - Core - Link: underline image component
------------------------------------------------------------------------------ */
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Core - Link: underline image component
+// -----------------------------------------------------------------------------
 
 // This looks for links that contain an image, and wraps any text nodes found in
 // those links so that we can apply the underline to only the text instead of

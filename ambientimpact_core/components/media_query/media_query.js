@@ -1,6 +1,6 @@
-/* -----------------------------------------------------------------------------
-  Ambient.Impact - Core - Media query component
------------------------------------------------------------------------------ */
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Core - Media query component
+// -----------------------------------------------------------------------------
 
 // This wraps the native window.matchMedia with some convenience methods. Will
 // not register if window.matchMedia isn't present.

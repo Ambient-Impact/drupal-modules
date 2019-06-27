@@ -1,46 +1,44 @@
-/* -----------------------------------------------------------------------------
-	Ambient.Impact - Core - Link: image component partial
------------------------------------------------------------------------------ */
-
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Core - Link: image component partial
+// -----------------------------------------------------------------------------
 
 // Elements that are considered "image" elements, inside of a link. Currently
 // not including SVG elements as those have a strange bug in Firefox 51 where
 // icons become super blurry and unviewable, even if excluded via a :not().
 // <canvas> elements are currently not in this list because they often have
 // their hover states defined elsewhere, on a per-element basis.
-$image-link-elements:		img, picture	!default;
+$image-link-elements:   img, picture  !default;
 
 // These are just defaults meant to mimic setting opacity: <number> if you don't
 // override them. Filters are pretty well supported as of May 2018, and the
 // PhotoSwipe component uses the opacity property to hide the current thumbnail,
 // so we avoid using that property for effects/transitions.
-$image-link-normal-filters:	opacity(100%)	!default;
-$image-link-hover-filters:	opacity(50%)	!default;
-$image-link-active-filters:	opacity(100%)	!default;
-
+$image-link-normal-filters: opacity(100%) !default;
+$image-link-hover-filters:  opacity(50%)  !default;
+$image-link-active-filters: opacity(100%) !default;
 
 // Images in links. These get configurable filters applied on
 // hover/focus/active.
 @mixin image-link {
-	#{$image-link-elements} {
-		filter: $image-link-normal-filters;
+  #{$image-link-elements} {
+    filter: $image-link-normal-filters;
 
-		@include transition-fade-base(
-			$props: filter
-		);
-	}
+    @include transition-fade-base(
+      $props: filter
+    );
+  }
 
-	@include link-hover {
-		#{$image-link-elements} {
-			filter: $image-link-hover-filters;
+  @include link-hover {
+    #{$image-link-elements} {
+      filter: $image-link-hover-filters;
 
-			@include transition-fade-active();
-		}
-	}
+      @include transition-fade-active();
+    }
+  }
 
-	@include link-active {
-		#{$image-link-elements} {
-			filter: $image-link-active-filters;
-		}
-	}
+  @include link-active {
+    #{$image-link-elements} {
+      filter: $image-link-active-filters;
+    }
+  }
 }

@@ -1,7 +1,6 @@
-/* -----------------------------------------------------------------------------
-   Ambient.Impact - Core - Link: image component
------------------------------------------------------------------------------ */
-
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Core - Link: image component
+// -----------------------------------------------------------------------------
 
 AmbientImpact.on(['jquery', 'link.file'], function(aijQuery, aiLinkFile) {
 AmbientImpact.addComponent('link.image', function(aiLinkImage, $) {

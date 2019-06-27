@@ -1,6 +1,6 @@
-/* -----------------------------------------------------------------------------
-  Ambient.Impact - Core - Link: underline component
------------------------------------------------------------------------------ */
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Core - Link: underline component
+// -----------------------------------------------------------------------------
 
 // Currently this component is used to mark links that are part of a text
 // selection with a class for browsers that support styling the text selection
@@ -9,13 +9,13 @@
 // component functions as an entry point for loading the child components if
 // custom properties are supported.
 
-// https://developer.mozilla.org/en-US/docs/Web/API/Selection
-// https://developer.mozilla.org/en-US/docs/Web/API/Range
+// @see https://developer.mozilla.org/en-US/docs/Web/API/Selection
+// @see https://developer.mozilla.org/en-US/docs/Web/API/Range
 
-// TO DO: wrap selected text within links so that we only remove underline crop
+// @todo Wrap selected text within links so that we only remove underline crop
 // on the part of the link that's selected?
 
-// TO DO: should this be moved to the typography underline component?
+// @todo Should this be moved to the typography underline component?
 
 AmbientImpact.onGlobals(['Modernizr.customproperties'], function() {
 
