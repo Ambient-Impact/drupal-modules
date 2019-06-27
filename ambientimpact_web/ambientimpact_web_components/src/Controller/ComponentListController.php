@@ -72,13 +72,33 @@ class ComponentListController extends ControllerBase {
 
     foreach ($pluginsSorted as $pluginID => $pluginTitle) {
       $renderArray['#list']['#items'][$pluginID] = [
-        '#type'   => 'link',
-        '#title'  => $pluginDefinitions[$pluginID]['title'],
-        '#url'    => Url::fromRoute(
-          'ambientimpact_web_components.component_item',
-          ['componentMachineName' => $pluginID]
-        ),
+        '#theme'    => 'ambientimpact_component_list_item',
+        '#pageLink' => [
+          '#type'   => 'link',
+          '#title'  => $pluginDefinitions[$pluginID]['title'],
+          '#url'    => Url::fromRoute(
+            'ambientimpact_web_components.component_item',
+            ['componentMachineName' => $pluginID]
+          ),
+        ],
       ];
+
+      $componentInstance = $this->componentManager
+        ->getComponentInstance($pluginID);
+
+      if (
+        $componentInstance !== false &&
+        $componentInstance->hasDemo() === true
+      ) {
+        $renderArray['#list']['#items'][$pluginID]['#demoLink'] = [
+          '#type'   => 'link',
+          '#title'  => $this->t('Demo'),
+          '#url'    => Url::fromRoute(
+            'ambientimpact_web_components.component_item_demo',
+            ['componentMachineName' => $pluginID]
+          ),
+        ];
+      }
     }
 
     return $renderArray;

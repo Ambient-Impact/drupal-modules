@@ -15,3 +15,12 @@ ambientimpact_web_components.component_item:
     _title_callback: '\Drupal\ambientimpact_web_components\Controller\ComponentItemController::componentItemTitle'
   requirements:
     _permission: 'view ambientimpact component pages'
+
+# Component item demo page.
+ambientimpact_web_components.component_item_demo:
+  path: '/web/components/{componentMachineName}/demo'
+  defaults:
+    _controller: '\Drupal\ambientimpact_web_components\Controller\ComponentItemDemoController::componentItemDemo'
+    _title_callback: '\Drupal\ambientimpact_web_components\Controller\ComponentItemDemoController::componentItemDemoTitle'
+  requirements:
+    _permission: 'view ambientimpact component pages'
