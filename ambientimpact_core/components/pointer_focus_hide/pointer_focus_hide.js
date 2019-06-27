@@ -24,10 +24,14 @@ AmbientImpact.addComponent('pointerFocusHide', function(
   /**
    * An array of element selectors to watch.
    *
+   * Note that the link selector ignores links that open in a new tab/window, as
+   * there's a UX benefit to having the link outlined when the user returns to
+   * the tab/window, in case they forgot where they were on the page.
+   *
    * @type {Array}
    */
   this.elements = [
-    'a', ':button', ':submit', ':reset', ':radio',
+    'a:not([target="_blank"])', ':button', ':submit', ':reset', ':radio',
     ':checkbox', '[role="button"]', '[tabindex][tabindex!="-1"]'
   ];
 
@@ -100,17 +104,16 @@ AmbientImpact.addComponent('pointerFocusHide', function(
   // significant benefit to binding to specific containers and doing so would
   // add more complexity.
   $('body').on('focus', this.elements.join(), function(event) {
+    var $this = $(this);
+
     if (
-      // If the data attribute has been set to true, always apply the
-      // class.
-      $(this).data('pointer-focus-hide') === true ||
-      // If no data attribute, make sure this isn't a link that is set to
-      // open in a new tab/window. Unless overridden by the data
-      // attribute, these always show the focus outline to make it easier
-      // for a user who clicked a link to see where they left off.
-      $(this).attr('target') != '_blank'
+      // If the data attribute/jQuery data has been set to true, always apply
+      // the class.
+      $this.data('pointer-focus-hide') === true  ||
+      // If the data attribute/jQuery data is not defined, apply the class.
+      typeof $this.data('pointer-focus-hide') === 'undefined'
     ) {
-      $(this).addClass(aiPointerFocusHide.pointerFocusClass);
+      $this.addClass(aiPointerFocusHide.pointerFocusClass);
     }
   })
   .on('blur', this.elements.join(), function(event) {
