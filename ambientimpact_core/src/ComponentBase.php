@@ -448,4 +448,20 @@ ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface {
 
     return $html;
   }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hasDemo(): bool {
+    $reflection = new \ReflectionMethod($this, 'getDemo');
+
+    return get_class() !== $reflection->getDeclaringClass()->getName();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDemo(): array {
+    return [];
+  }
 }

@@ -64,4 +64,24 @@ interface ComponentInterface {
    *   API documentation for the renderer.
    */
   public function getHTML();
+
+  /**
+   * Determine if this Component provides a demo.
+   *
+   * @return boolean
+   *   True if this Component defines its own getDemo() method, false otherwise.
+   *
+   * @see https://stackoverflow.com/a/5817816
+   *   Explains how to determine if a method was defined by the current class or
+   *   was inherited.
+   */
+  public function hasDemo(): bool;
+
+  /**
+   * Get a demo render array for this Component.
+   *
+   * @return array
+   *   A render array.
+   */
+  public function getDemo(): array;
 }
