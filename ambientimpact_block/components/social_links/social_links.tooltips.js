@@ -2,6 +2,9 @@
 //   Ambient.Impact - Blocks - Social links tooltips
 // -----------------------------------------------------------------------------
 
+// @todo Should this be removed as it's out of scope for this block? It would
+// make more sense to have this handled on a theme or otherwise global level.
+
 AmbientImpact.on('tooltip', function(aiTooltip) {
 AmbientImpact.addComponent(
   'socialLinks.tooltips',
