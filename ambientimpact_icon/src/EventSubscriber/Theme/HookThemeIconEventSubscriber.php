@@ -3,7 +3,7 @@
 namespace Drupal\ambientimpact_icon\EventSubscriber\Theme;
 
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\ambientimpact_core\ComponentPluginManager;
+use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\hook_event_dispatcher\Event\Theme\ThemeEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -15,7 +15,7 @@ class HookThemeIconEventSubscriber implements EventSubscriberInterface {
   /**
    * The Ambient.Impact Component plugin manager service.
    *
-   * @var \Drupal\ambientimpact_core\ComponentPluginManager
+   * @var \Drupal\ambientimpact_core\ComponentPluginManagerInterface
    */
   protected $componentManager;
 
@@ -29,14 +29,14 @@ class HookThemeIconEventSubscriber implements EventSubscriberInterface {
   /**
    * Event subscriber constructor; saves dependencies.
    *
-   * @param \Drupal\ambientimpact_core\ComponentPluginManager $componentManager
+   * @param \Drupal\ambientimpact_core\ComponentPluginManagerInterface $componentManager
    *   The Ambient.Impact Component plugin manager service.
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   The Drupal module handler service.
    */
   public function __construct(
-    ComponentPluginManager $componentManager,
+    ComponentPluginManagerInterface $componentManager,
     ModuleHandlerInterface $moduleHandler
   ) {
     $this->componentManager = $componentManager;

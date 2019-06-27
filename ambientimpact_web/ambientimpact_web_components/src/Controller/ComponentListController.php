@@ -4,7 +4,7 @@ namespace Drupal\ambientimpact_web_components\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
-use Drupal\ambientimpact_core\ComponentPluginManager;
+use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -14,17 +14,17 @@ class ComponentListController extends ControllerBase {
   /**
    * The Ambient.Impact Component plugin manager service.
    *
-   * @var \Drupal\ambientimpact_core\ComponentPluginManager
+   * @var \Drupal\ambientimpact_core\ComponentPluginManagerInterface
    */
   protected $componentManager;
 
   /**
    * Controller constructor; saves dependencies.
    *
-   * @param \Drupal\ambientimpact_core\ComponentPluginManager $componentManager
+   * @param \Drupal\ambientimpact_core\ComponentPluginManagerInterface $componentManager
    *   The Ambient.Impact Component plugin manager service.
    */
-  public function __construct(ComponentPluginManager $componentManager) {
+  public function __construct(ComponentPluginManagerInterface $componentManager) {
     $this->componentManager = $componentManager;
   }
 

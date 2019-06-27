@@ -2,7 +2,7 @@
 
 namespace Drupal\ambientimpact_core\EventSubscriber\Page;
 
-use Drupal\ambientimpact_core\ComponentPluginManager;
+use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Drupal\Core\State\StateInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\hook_event_dispatcher\Event\Page\PageAttachmentsEvent;
@@ -15,7 +15,7 @@ class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
   /**
    * The Ambient.Impact Component plugin manager service.
    *
-   * @var \Drupal\ambientimpact_core\ComponentPluginManager
+   * @var \Drupal\ambientimpact_core\ComponentPluginManagerInterface
    */
   protected $componentManager;
 
@@ -29,14 +29,14 @@ class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
   /**
    * Event subscriber constructor; saves dependencies.
    *
-   * @param \Drupal\ambientimpact_core\ComponentPluginManager $componentManager
+   * @param \Drupal\ambientimpact_core\ComponentPluginManagerInterface $componentManager
    *   The Ambient.Impact Component plugin manager service.
    *
    * @param \Drupal\Core\State\StateInterface $stateManager
    *   The Drupal state system manager.
    */
   public function __construct(
-    ComponentPluginManager $componentManager,
+    ComponentPluginManagerInterface $componentManager,
     StateInterface $stateManager
   ) {
     $this->componentManager = $componentManager;

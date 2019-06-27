@@ -9,7 +9,7 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\image\Plugin\Field\FieldFormatter\ImageFormatter as CoreImageFormatter;
 use Drupal\ambientimpact_core\Config\Entity\ThirdPartySettingsDefaultsTrait;
-use Drupal\ambientimpact_core\ComponentPluginManager;
+use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 
 /**
  * Plugin override of the core 'image' formatter.
@@ -25,7 +25,7 @@ class ImageFormatter extends CoreImageFormatter {
   /**
    * The Component plugin manager instance.
    *
-   * @var \Drupal\ambientimpact_core\ComponentPluginManager
+   * @var \Drupal\ambientimpact_core\ComponentPluginManagerInterface
    */
   protected $componentManager;
 
@@ -59,7 +59,7 @@ class ImageFormatter extends CoreImageFormatter {
    * @param \Drupal\Core\Entity\EntityStorageInterface $imageStyleStorage
    *   The image style storage.
    *
-   * @param \Drupal\ambientimpact_core\ComponentPluginManager $componentManager
+   * @param \Drupal\ambientimpact_core\ComponentPluginManagerInterface $componentManager
    *   The Ambient.Impact Component manager service.
    */
   public function __construct(
@@ -72,7 +72,7 @@ class ImageFormatter extends CoreImageFormatter {
     array $thirdPartySettings,
     AccountInterface $currentUser,
     EntityStorageInterface $imageStyleStorage,
-    ComponentPluginManager $componentManager
+    ComponentPluginManagerInterface $componentManager
   ) {
     parent::__construct(
       $pluginID, $pluginDefinition, $fieldDefinition, $settings, $label,

@@ -2,7 +2,7 @@
 
 namespace Drupal\ambientimpact_media\EventSubscriber\Preprocess;
 
-use Drupal\ambientimpact_core\ComponentPluginManager;
+use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Drupal\hook_event_dispatcher\Event\Preprocess\FieldPreprocessEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -16,18 +16,18 @@ implements EventSubscriberInterface {
   /**
    * The Ambient.Impact Component plugin manager service.
    *
-   * @var \Drupal\ambientimpact_core\ComponentPluginManager
+   * @var \Drupal\ambientimpact_core\ComponentPluginManagerInterface
    */
   protected $componentManager;
 
   /**
    * Event subscriber constructor; saves dependencies.
    *
-   * @param \Drupal\ambientimpact_core\ComponentPluginManager $componentManager
+   * @param \Drupal\ambientimpact_core\ComponentPluginManagerInterface $componentManager
    *   The Ambient.Impact Component plugin manager service.
    */
   public function __construct(
-    ComponentPluginManager $componentManager
+    ComponentPluginManagerInterface $componentManager
   ) {
     $this->componentManager = $componentManager;
   }

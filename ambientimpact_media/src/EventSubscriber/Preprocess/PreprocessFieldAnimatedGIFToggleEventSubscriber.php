@@ -2,7 +2,7 @@
 
 namespace Drupal\ambientimpact_media\EventSubscriber\Preprocess;
 
-use Drupal\ambientimpact_core\ComponentPluginManager;
+use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Drupal\hook_event_dispatcher\Event\Preprocess\FieldPreprocessEvent;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
@@ -20,7 +20,7 @@ implements EventSubscriberInterface {
   /**
    * The Ambient.Impact Component plugin manager service.
    *
-   * @var \Drupal\ambientimpact_core\ComponentPluginManager
+   * @var \Drupal\ambientimpact_core\ComponentPluginManagerInterface
    */
   protected $componentManager;
 
@@ -34,14 +34,14 @@ implements EventSubscriberInterface {
   /**
    * Event subscriber constructor; saves dependencies.
    *
-   * @param \Drupal\ambientimpact_core\ComponentPluginManager $componentManager
+   * @param \Drupal\ambientimpact_core\ComponentPluginManagerInterface $componentManager
    *   The Ambient.Impact Component plugin manager service.
    *
    * @param \Drupal\Core\StringTranslation\TranslationInterface $stringTranslation
    *   The Drupal string translation service.
    */
   public function __construct(
-    ComponentPluginManager $componentManager,
+    ComponentPluginManagerInterface $componentManager,
     TranslationInterface $stringTranslation
   ) {
     $this->componentManager   = $componentManager;

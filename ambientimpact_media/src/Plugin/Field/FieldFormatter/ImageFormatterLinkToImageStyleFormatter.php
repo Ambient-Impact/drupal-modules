@@ -12,7 +12,7 @@ use Drupal\Core\Utility\LinkGeneratorInterface;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\image_formatter_link_to_image_style\Plugin\Field\FieldFormatter\ImageFormatterLinkToImageStyleFormatter as DefaultImageFormatterLinkToImageStyleFormatter;
 use Drupal\ambientimpact_core\Config\Entity\ThirdPartySettingsDefaultsTrait;
-use Drupal\ambientimpact_core\ComponentPluginManager;
+use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 
 /**
  * Plugin override of the 'image_formatter_link_to_image_style' formatter.
@@ -36,7 +36,7 @@ extends DefaultImageFormatterLinkToImageStyleFormatter {
   /**
    * The Component plugin manager instance.
    *
-   * @var \Drupal\ambientimpact_core\ComponentPluginManager
+   * @var \Drupal\ambientimpact_core\ComponentPluginManagerInterface
    */
   protected $componentManager;
 
@@ -76,7 +76,7 @@ extends DefaultImageFormatterLinkToImageStyleFormatter {
    * @param \Drupal\Core\Image\ImageFactory $imageFactory
    *   The Drupal image factory service.
    *
-   * @param \Drupal\ambientimpact_core\ComponentPluginManager $componentManager
+   * @param \Drupal\ambientimpact_core\ComponentPluginManagerInterface $componentManager
    *   The Ambient.Impact Component manager service.
    */
   public function __construct(
@@ -91,7 +91,7 @@ extends DefaultImageFormatterLinkToImageStyleFormatter {
     LinkGeneratorInterface $linkGenerator,
     EntityStorageInterface $imageStyleStorage,
     ImageFactory $imageFactory,
-    ComponentPluginManager $componentManager
+    ComponentPluginManagerInterface $componentManager
   ) {
     parent::__construct(
       $pluginID, $pluginDefinition, $fieldDefinition, $settings, $label,

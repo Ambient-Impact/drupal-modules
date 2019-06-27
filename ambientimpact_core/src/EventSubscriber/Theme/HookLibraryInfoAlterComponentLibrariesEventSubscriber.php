@@ -2,7 +2,7 @@
 
 namespace Drupal\ambientimpact_core\EventSubscriber\Theme;
 
-use Drupal\ambientimpact_core\ComponentPluginManager;
+use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\hook_event_dispatcher\Event\Theme\LibraryInfoAlterEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -18,18 +18,18 @@ implements EventSubscriberInterface {
   /**
    * The Ambient.Impact Component plugin manager service.
    *
-   * @var \Drupal\ambientimpact_core\ComponentPluginManager
+   * @var \Drupal\ambientimpact_core\ComponentPluginManagerInterface
    */
   protected $componentManager;
 
   /**
    * Event subscriber constructor; saves dependencies.
    *
-   * @param \Drupal\ambientimpact_core\ComponentPluginManager $componentManager
+   * @param \Drupal\ambientimpact_core\ComponentPluginManagerInterface $componentManager
    *   The Ambient.Impact Component plugin manager service.
    */
   public function __construct(
-    ComponentPluginManager $componentManager
+    ComponentPluginManagerInterface $componentManager
   ) {
     $this->componentManager = $componentManager;
   }
@@ -49,7 +49,7 @@ implements EventSubscriberInterface {
    * @param \Drupal\hook_event_dispatcher\Event\Theme\LibraryInfoAlterEvent $event
    *   The event object.
    *
-   * @see \Drupal\ambientimpact_core\ComponentPluginManager::getComponentLibraries()
+   * @see \Drupal\ambientimpact_core\ComponentPluginManagerInterface::getComponentLibraries()
    *   Returns the libraries output by this method.
    *
    * @see https://www.drupal.org/docs/8/creating-custom-modules/adding-stylesheets-css-and-javascript-js-to-a-drupal-8-module#dynamic-css-js

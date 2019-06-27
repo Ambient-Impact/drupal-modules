@@ -2,7 +2,7 @@
 
 namespace Drupal\ambientimpact_ux\EventSubscriber\Page;
 
-use Drupal\ambientimpact_core\ComponentPluginManager;
+use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\hook_event_dispatcher\Event\Page\PageTopEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -14,18 +14,18 @@ class HookPageTopEventSubscriber implements EventSubscriberInterface {
   /**
    * The Ambient.Impact Component plugin manager service.
    *
-   * @var \Drupal\ambientimpact_core\ComponentPluginManager
+   * @var \Drupal\ambientimpact_core\ComponentPluginManagerInterface
    */
   protected $componentManager;
 
   /**
    * Event subscriber constructor; saves dependencies.
    *
-   * @param \Drupal\ambientimpact_core\ComponentPluginManager $componentManager
+   * @param \Drupal\ambientimpact_core\ComponentPluginManagerInterface $componentManager
    *   The Ambient.Impact Component plugin manager service.
    */
   public function __construct(
-    ComponentPluginManager $componentManager
+    ComponentPluginManagerInterface $componentManager
   ) {
     $this->componentManager = $componentManager;
   }

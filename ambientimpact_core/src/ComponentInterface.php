@@ -39,7 +39,7 @@ interface ComponentInterface {
    *
    * @see https://www.drupal.org/docs/8/creating-custom-modules/adding-stylesheets-css-and-javascript-js-to-a-drupal-8-module#configurable
    *
-   * @see \Drupal\ambientimpact_core\ComponentPluginManager\getComponentJSSettings
+   * @see \Drupal\ambientimpact_core\ComponentPluginManagerInterface::getComponentJSSettings()
    *
    * @see ambientimpact_core_page_attachments()
    */

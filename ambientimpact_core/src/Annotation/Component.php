@@ -5,9 +5,10 @@ namespace Drupal\ambientimpact_core\Annotation;
 use Drupal\Component\Annotation\Plugin;
 
 /**
- * Defines a Component annotation object.
+ * Defines an Ambient.Impact Component annotation object.
  *
- * @see \Drupal\ambientimpact_core\ComponentPluginManager
+ * @see \Drupal\ambientimpact_core\ComponentPluginManagerInterface
+ *
  * @see plugin_api
  *
  * @Annotation
