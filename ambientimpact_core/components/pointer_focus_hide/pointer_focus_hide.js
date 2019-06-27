@@ -30,7 +30,7 @@ AmbientImpact.addComponent('pointerFocusHide', function(
    *
    * @type {Array}
    */
-  this.elements = [
+  var elements = [
     'a:not([target="_blank"])', ':button', ':submit', ':reset', ':radio',
     ':checkbox', '[role="button"]', '[tabindex][tabindex!="-1"]'
   ];
@@ -42,7 +42,7 @@ AmbientImpact.addComponent('pointerFocusHide', function(
    *
    * @type {String}
    */
-  this.pointerFocusClass = 'pointer-focus-hide';
+  var pointerFocusClass = 'pointer-focus-hide';
 
   /**
    * The ally.js focus source global service object.
@@ -103,7 +103,7 @@ AmbientImpact.addComponent('pointerFocusHide', function(
   // We bind globally instead of using a behaviour since there isn't really any
   // significant benefit to binding to specific containers and doing so would
   // add more complexity.
-  $('body').on('focus', this.elements.join(), function(event) {
+  $('body').on('focus', elements.join(), function(event) {
     var $this = $(this);
 
     if (
@@ -113,11 +113,11 @@ AmbientImpact.addComponent('pointerFocusHide', function(
       // If the data attribute/jQuery data is not defined, apply the class.
       typeof $this.data('pointer-focus-hide') === 'undefined'
     ) {
-      $this.addClass(aiPointerFocusHide.pointerFocusClass);
+      $this.addClass(pointerFocusClass);
     }
   })
-  .on('blur', this.elements.join(), function(event) {
-    $(this).removeClass(aiPointerFocusHide.pointerFocusClass)
+  .on('blur', elements.join(), function(event) {
+    $(this).removeClass(pointerFocusClass)
   });
 });
 });
