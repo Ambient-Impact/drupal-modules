@@ -3,7 +3,6 @@
 namespace Drupal\ambientimpact_core\EventSubscriber\Theme;
 
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\ambientimpact_core\ComponentPluginManager;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\hook_event_dispatcher\Event\Theme\LibraryInfoAlterEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
