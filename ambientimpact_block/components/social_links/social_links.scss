@@ -1,61 +1,59 @@
 // -----------------------------------------------------------------------------
-//	Ambient.Impact - Blocks - Social links block stylesheet
+//   Ambient.Impact - Blocks - Social links block stylesheet
 // -----------------------------------------------------------------------------
-
 
 @import '../../../ambientimpact_core/stylesheets/_common.scss';
 
-
 .ambientimpact-social-links {
-	$self:	&;
+  $self:  &;
 
-	margin-left:	0;
-	padding-left:	0;
-	list-style:		none;
+  margin-left:  0;
+  padding-left: 0;
+  list-style:   none;
 
-	&--orientation-vertical {
-		display:		flex;
-		flex-direction:	column;
-	}
-	&--orientation-horizontal {
-		display:		flex;
-		flex-direction:	row;
+  &--orientation-vertical {
+    display:    flex;
+    flex-direction: column;
+  }
+  &--orientation-horizontal {
+    display:    flex;
+    flex-direction: row;
 
-		#{$self}__network:not(:last-child) {
-			margin-right: $general-spacing;
-		}
-	}
+    #{$self}__network:not(:last-child) {
+      margin-right: $general-spacing;
+    }
+  }
 
-	&__network-link {
-		// This fixes weird inline focus outlines in Firefox.
-		display: block;
-	}
+  &__network-link {
+    // This fixes weird inline focus outlines in Firefox.
+    display: block;
+  }
 
-	&--display-icon-and-text &__network-link-accessibility-text {
-		@include hide-me;
-	}
+  &--display-icon-and-text &__network-link-accessibility-text {
+    @include hide-me;
+  }
 }
 
 // Alignment is handled at the block level, so that we can align the title.
 .ambientimpact-block-social-links {
-	@each $alignment, $data in (
-		start:	(title: left,	list: start),
-		centre:	(title: center,	list: center),
-		end:	(title: right,	list: end)
-	) {
-		&--alignment-#{$alignment} {
-			h2 {
-				text-align:			map-get($data, title);
-			}
+  @each $alignment, $data in (
+    start:  (title: left, list: start),
+    centre: (title: center, list: center),
+    end:  (title: right,  list: end)
+  ) {
+    &--alignment-#{$alignment} {
+      h2 {
+        text-align:     map-get($data, title);
+      }
 
-			.ambientimpact-social-links {
-				&--orientation-horizontal {
-					justify-content:	map-get($data, list);
-				}
-				&--orientation-vertical {
-					align-items:		map-get($data, list);
-				}
-			}
-		}
-	}
+      .ambientimpact-social-links {
+        &--orientation-horizontal {
+          justify-content:  map-get($data, list);
+        }
+        &--orientation-vertical {
+          align-items:    map-get($data, list);
+        }
+      }
+    }
+  }
 }
