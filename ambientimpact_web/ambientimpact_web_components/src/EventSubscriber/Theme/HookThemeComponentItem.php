@@ -49,6 +49,7 @@ class HookThemeComponentItem implements EventSubscriberInterface {
     $event->addNewTheme('ambientimpact_component_item', [
       'variables' => [
         'description'     => '',
+        'demoLink'        => [],
         'definition'      => [],
         'configuration'   => [],
         'libraries'       => [],

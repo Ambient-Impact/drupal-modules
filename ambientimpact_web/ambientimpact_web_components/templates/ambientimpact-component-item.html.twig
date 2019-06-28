@@ -5,7 +5,7 @@
  *
  * Available variables:
  * - description: The Component's description.
- * - machineName: The Component's machine name, a.k.a. its plug-in ID.
+ * - demoLink: The Component's demo link, if it provides a demo.
  * - definition: A render array containing this Component's Drupal plug-in
  *   definition array.
  * - configuration: A render array containing this Component's plug-in
@@ -21,6 +21,12 @@
 
 <div{{ create_attribute({'class': [baseClass]}) }}>
   <p>{{ description }}</p>
+
+  {% if demoLink %}
+    <span{{ create_attribute({
+      'class': [baseClass ~ '__demo-link']
+    }) }}>{{ demoLink }}</span>
+  {% endif %}
 
   {{ definition }}
 

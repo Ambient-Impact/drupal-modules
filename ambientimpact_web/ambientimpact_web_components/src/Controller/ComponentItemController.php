@@ -4,6 +4,7 @@ namespace Drupal\ambientimpact_web_components\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Render\Markup;
+use Drupal\Core\Url;
 use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -119,6 +120,17 @@ class ComponentItemController extends ControllerBase {
       '#machineName'    => $componentMachineName,
       '#description'    => $pluginDefinition['description'],
     ];
+
+    if ($componentInstance->hasDemo() === true) {
+      $renderArray['#demoLink'] = [
+        '#type'   => 'link',
+        '#title'  => $this->t('View demo'),
+        '#url'    => Url::fromRoute(
+          'ambientimpact_web_components.component_item_demo',
+          ['componentMachineName' => $pluginDefinition['id']]
+        ),
+      ];
+    }
 
     // Dump away.
     foreach ($dumps as $key => $data) {
