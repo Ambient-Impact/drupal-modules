@@ -17,10 +17,14 @@
  */
 #}
 
-<p>{{ description }}</p>
+{% set baseClass = 'ambientimpact-component-item' %}
 
-{{ definition }}
+<div{{ create_attribute({'class': [baseClass]}) }}>
+  <p>{{ description }}</p>
 
-{{ configuration }}
+  {{ definition }}
 
-{{ libraries }}
+  {{ configuration }}
+
+  {{ libraries }}
+</div>
