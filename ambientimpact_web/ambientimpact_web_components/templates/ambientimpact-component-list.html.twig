@@ -23,18 +23,5 @@
     })
   }}</p>
 
-  {# Make sure that #context is defined before adding a list_style. #}
-  {% if list['#context'] is not defined %}
-    {% set list = list|merge({'#context': []}) %}
-  {% endif %}
-
-  {# Set the list_style to 'unlisted' so that list markers and indenting are
-     removed. #}
-  {% set list = list|merge({
-    '#context': list['#context']|merge({
-      'list_style': 'unlisted',
-    })
-  }) %}
-
   {{ list }}
 </div>
