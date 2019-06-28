@@ -8,6 +8,16 @@ autosize:
   js:
     assets/vendor/autosize/dest/autosize.min.js: { minified: true }
 
+frend-offcanvas:
+  remote: https://frend.co/components/offcanvas/
+  version: 1.1.1
+  license:
+    name: MIT
+    url: https://github.com/frend/frend.co/blob/gh-pages/LICENSE
+    gpl-compatible: true
+  js:
+    assets/vendor/frend-offcanvas/index.js: { minified: true }
+
 headroom.js:
   remote: https://wicky.nillia.ms/headroom.js/
   version: 0.9.4
