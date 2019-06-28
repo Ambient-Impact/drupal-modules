@@ -21,7 +21,7 @@ AmbientImpact.addComponent('link.external', function(aiLinkExternal, $) {
   // if we detach from the link.
   this.linkTargetDataName = 'externalLinkOriginalTarget';
 
-  // jQuery plugins wrapping our methods.
+  // jQuery plug-ins wrapping our methods.
   $.fn.extend({
     forceExternalLink: function() {
       aiLinkExternal.makeLinkExternal(this);

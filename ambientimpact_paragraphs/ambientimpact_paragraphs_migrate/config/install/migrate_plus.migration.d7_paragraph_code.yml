@@ -18,7 +18,7 @@ process:
   id: item_id
   revision_id: revision_id
 
-  # We can just use the simple 'get' plugin for these fields, because Migrate
+  # We can just use the simple 'get' plug-in for these fields, because Migrate
   # understands basic text/number fields and thus handles the details for us.
   field_code: field_code
   field_code_tab_size: field_code_tab_size

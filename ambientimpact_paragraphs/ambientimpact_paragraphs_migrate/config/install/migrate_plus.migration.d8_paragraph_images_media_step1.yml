@@ -29,13 +29,13 @@ process:
     plugin: media_name
     source: file_name
 
-  # This process plugin will skip the whole row if an existing media entity is
+  # This process plug-in will skip the whole row if an existing media entity is
   # found.
   existing_media_file:
     plugin: check_media_duplicate
     source: target_id
 
-  # This process plugin will skip the whole row if a duplicate image file is
+  # This process plug-in will skip the whole row if a duplicate image file is
   # found.
   unique_file_id:
     plugin: check_duplicate

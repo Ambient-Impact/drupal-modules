@@ -9,7 +9,7 @@ use Drupal\Core\Extension\ModuleHandler;
 use Drupal\Core\Url;
 
 /**
- * Base class for implementing Ambient.Impact Icon Bundle plugins.
+ * Base class for implementing Ambient.Impact Icon Bundle plug-ins.
  */
 class IconBundleBase extends PluginBase
 implements IconBundleInterface, ContainerFactoryPluginInterface {
@@ -59,13 +59,13 @@ implements IconBundleInterface, ContainerFactoryPluginInterface {
    * This saves the Drupal module_handler service instance to a property.
    *
    * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
+   *   A configuration array containing information about the plug-in instance.
    *
    * @param string $pluginID
-   *   The plugin_id for the plugin instance.
+   *   The plugin_id for the plug-in instance.
    *
    * @param array $pluginDefinition
-   *   The plugin implementation definition. PluginBase defines this as mixed,
+   *   The plug-in implementation definition. PluginBase defines this as mixed,
    *   but we should always have an array so the type is set. This can be
    *   changed in the future if need be.
    *

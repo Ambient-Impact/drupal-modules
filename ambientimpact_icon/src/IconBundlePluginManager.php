@@ -8,11 +8,11 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\ambientimpact_icon\Annotation\IconBundle as IconBundleAnnotation;
 
 /**
- * Plugin manager for Ambient.Impact Icon Bundle plugins.
+ * Plugin manager for Ambient.Impact Icon Bundle plug-ins.
  */
 class IconBundlePluginManager extends DefaultPluginManager {
   /**
-   * An associative array of Icon Bundle instances, keyed by plugin ID.
+   * An associative array of Icon Bundle instances, keyed by plug-in ID.
    *
    * @var array
    */
@@ -23,7 +23,7 @@ class IconBundlePluginManager extends DefaultPluginManager {
    *
    * @param \Traversable $namespaces
    *   An object that implements \Traversable which contains the root paths
-   *   keyed by the corresponding namespace to look for plugin
+   *   keyed by the corresponding namespace to look for plug-in
    *   implementations.
    *
    * @param \Drupal\Core\Cache\CacheBackendInterface $cacheBackend
@@ -42,32 +42,32 @@ class IconBundlePluginManager extends DefaultPluginManager {
     ModuleHandlerInterface $moduleHandler
   ) {
     parent::__construct(
-      // This tells the plugin manager to look for Icon Bundle plugins in the
+      // This tells the plug-in manager to look for Icon Bundle plug-ins in the
       // 'src/Plugin/AmbientImpact/Icon/Bundle' subdirectory of any enabled
       // modules. This also serves to define the PSR-4 subnamespace in which
-      // Icon Bundle plugins will live.
+      // Icon Bundle plug-ins will live.
       'Plugin/AmbientImpact/Icon/Bundle',
 
       $namespaces,
 
       $moduleHandler,
 
-      // The name of the interface that plugins should adhere to. Drupal will
-      // enforce this as a requirement. If a plugin does not implement this
+      // The name of the interface that plug-ins should adhere to. Drupal will
+      // enforce this as a requirement. If a plug-in does not implement this
       // interface, Drupal will throw an error.
       IconBundleInterface::class,
 
-      // The name of the annotation class that contains the plugin definition.
+      // The name of the annotation class that contains the plug-in definition.
       IconBundleAnnotation::class
     );
 
-    // This allows the plugin definitions to be altered by an alter hook. The
+    // This allows the plug-in definitions to be altered by an alter hook. The
     // parameter defines the name of the hook, thus:
     // hook_ambientimpact_icon_bundle_info_alter().
     // @todo Do we even need this?
     $this->alterInfo('ambientimpact_icon_bundle_info');
 
-    // This sets the caching method for our plugin definitions. Plugin
+    // This sets the caching method for our plug-in definitions. Plugin
     // definitions are discovered by examining the directory defined above, for
     // any classes with an IconBundleAnnotation. The annotations are read, and
     // then the resulting data is cached using the provided cache backend.
@@ -75,18 +75,18 @@ class IconBundlePluginManager extends DefaultPluginManager {
   }
 
   /**
-   * Get an Icon Bundle plugin's instance.
+   * Get an Icon Bundle plug-in's instance.
    *
    * Since each Icon Bundle should only ever have one instance, this returns
    * any existing instance that is found, creating one if the $iconBundleID is
    * an available definition but hasn't been instantiated yet.
    *
    * @param string $iconBundleID
-   *   The plugin ID of the Icon Bundle.
+   *   The plug-in ID of the Icon Bundle.
    *
    * @return object|false
-   *   The Icon Bundle plugin instance or false if the $iconBundleID doesn't
-   *   exist in the plugin definitions.
+   *   The Icon Bundle plug-in instance or false if the $iconBundleID doesn't
+   *   exist in the plug-in definitions.
    *
    * @see $this->iconBundleInstances
    *   Icon Bundle instances are stored here, keyed by $iconBundleID.
@@ -97,13 +97,13 @@ class IconBundlePluginManager extends DefaultPluginManager {
       return $this->iconBundleInstances[$iconBundleID];
     }
 
-    // Return false if the plugin with the $iconBundleID is not found in the
+    // Return false if the plug-in with the $iconBundleID is not found in the
     // discovered definitions.
     if (!isset($this->getDefinitions()[$iconBundleID])) {
       return false;
     }
 
-    // Create the plugin instance.
+    // Create the plug-in instance.
     $this->iconBundleInstances[$iconBundleID] =
       $this->createInstance($iconBundleID, []);
 
@@ -111,21 +111,21 @@ class IconBundlePluginManager extends DefaultPluginManager {
   }
 
   /**
-   * Get instances for multiple Icon Bundle plugins.
+   * Get instances for multiple Icon Bundle plug-ins.
    *
    * @param array $iconBundleIDs
    *   An array of Icon Bundle IDs to return instances of. If not specified,
-   *   defaults to an empty array which returns all discovered bundle plugins.
+   *   defaults to an empty array which returns all discovered bundle plug-ins.
    *
    * @return array
    *   An array of \Drupal\ambientimpact_icon\Plugin\AmbientImpact\Icon\Bundle
-   *   instances, one for each plugin ID specified, or all if not specified.
+   *   instances, one for each plug-in ID specified, or all if not specified.
    */
   public function getIconBundleInstances(array $iconBundleIDs = []) {
     $bundleInstances = [];
 
     // If no IDs were specified, attempt to get an instance of all discovered
-    // plugins.
+    // plug-ins.
     if (empty($iconBundleIDs)) {
       foreach ($this->getDefinitions() as $pluginID => $definition) {
         $bundleInstances[$pluginID] =

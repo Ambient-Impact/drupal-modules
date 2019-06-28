@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-//   Ambient.Impact - Core - jQuery().textNodes() plugin component
+//   Ambient.Impact - Core - jQuery().textNodes() plug-in component
 // -----------------------------------------------------------------------------
 
 AmbientImpact.addComponent('jquery.textNodes', function(aijQueryTextNodes, $) {

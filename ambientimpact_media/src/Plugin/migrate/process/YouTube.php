@@ -7,7 +7,7 @@ use Drupal\migrate\ProcessPluginBase;
 use Drupal\migrate\Row;
 
 /**
- * Process plugin to convert youtube:// scheme URIs to video URLs.
+ * Process plug-in to convert youtube:// scheme URIs to video URLs.
  *
  * @see https://www.previousnext.com.au/blog/migrating-drupal-7-file-entities-drupal-8-media-entities
  *   Based on code from this blog post.

@@ -9,7 +9,7 @@ AmbientImpact.addComponent('icon.jquery', function(aiIconjQuery, $) {
 	'use strict';
 
 	$.fn.extend({
-		// jQuery plugin to wrap the text contents of the current element with
+		// jQuery plug-in to wrap the text contents of the current element with
 		// a specified icon and settings.
 		wrapTextWithIcon: function(iconCode, settings) {
 			// Grab the existing text and remove it from the DOM.
@@ -18,7 +18,7 @@ AmbientImpact.addComponent('icon.jquery', function(aiIconjQuery, $) {
 			// Return the element with the icon inserted.
 			return this.append(aiIconGet.get(iconCode, settings));
 		},
-		// jQuery plugin to unwrap the current element's text contents from an
+		// jQuery plug-in to unwrap the current element's text contents from an
 		// icon, if one exists.
 		// @see jQuery.fn.wrapTextWithIcon().
 		unwrapTextWithIcon: function() {

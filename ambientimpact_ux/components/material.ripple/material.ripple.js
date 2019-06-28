@@ -213,7 +213,7 @@ AmbientImpact.addComponent('material.ripple', function(
         // ) {
         //   $element.addClass(inputActiveClass);
 
-        //   // Give other plugins a chance to do their magic to the element (e.g.
+        //   // Give other plug-ins a chance to do their magic to the element (e.g.
         //   // select2 hidden input) before checking if it is still focused.
 
         //   $('body').one([

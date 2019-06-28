@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Icon component.
  *
  * @see \Drupal\ambientimpact_icon\IconBundlePluginManager
- *   This is the Icon Bundle plugin manager which discovers and manages bundles
+ *   This is the Icon Bundle plug-in manager which discovers and manages bundles
  *   for this component.
  *
  * @Component(
@@ -26,7 +26,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class Icon extends ComponentBase {
 	/**
-	 * The Ambient.Impact Icon Bundle plugin manager service.
+	 * The Ambient.Impact Icon Bundle plug-in manager service.
 	 *
 	 * @var \Drupal\ambientimpact_icon\IconBundlePluginManager
 	 */
@@ -36,13 +36,13 @@ class Icon extends ComponentBase {
    * Constructor; saves dependencies.
    *
    * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
+   *   A configuration array containing information about the plug-in instance.
    *
    * @param string $pluginID
-   *   The plugin_id for the plugin instance.
+   *   The plugin_id for the plug-in instance.
    *
    * @param array $pluginDefinition
-   *   The plugin implementation definition.
+   *   The plug-in implementation definition.
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   The Drupal module handler service.
@@ -60,7 +60,7 @@ class Icon extends ComponentBase {
    *   The Component HTML cache service.
    *
    * @param \Drupal\ambientimpact_icon\IconBundlePluginManager $iconBundleManager
-	 *   The Ambient.Impact Icon Bundle plugin manager service.
+	 *   The Ambient.Impact Icon Bundle plug-in manager service.
    */
   public function __construct(
     array $configuration, string $pluginID, array $pluginDefinition,
@@ -110,7 +110,7 @@ class Icon extends ComponentBase {
 	public function defaultConfiguration() {
 		$defaultBundles = [];
 
-		// Find Icon Bundle plugin definitions that are defined by this module
+		// Find Icon Bundle plug-in definitions that are defined by this module
 		// and save their IDs so that we have a list of the ones that we ship
 		// with.
 		foreach (

@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-//   Ambient.Impact - Core - jQuery().findAndSelf() plugin component
+//   Ambient.Impact - Core - jQuery().findAndSelf() plug-in component
 // -----------------------------------------------------------------------------
 
 AmbientImpact.addComponent(

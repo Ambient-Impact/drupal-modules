@@ -13,7 +13,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class HookThemeIconEventSubscriber implements EventSubscriberInterface {
   /**
-   * The Ambient.Impact Component plugin manager service.
+   * The Ambient.Impact Component plug-in manager service.
    *
    * @var \Drupal\ambientimpact_core\ComponentPluginManagerInterface
    */
@@ -30,7 +30,7 @@ class HookThemeIconEventSubscriber implements EventSubscriberInterface {
    * Event subscriber constructor; saves dependencies.
    *
    * @param \Drupal\ambientimpact_core\ComponentPluginManagerInterface $componentManager
-   *   The Ambient.Impact Component plugin manager service.
+   *   The Ambient.Impact Component plug-in manager service.
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   The Drupal module handler service.

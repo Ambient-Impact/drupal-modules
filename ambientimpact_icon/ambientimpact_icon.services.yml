@@ -1,5 +1,5 @@
 services:
-  # Icon bundle plugin manager.
+  # Icon bundle plug-in manager.
   plugin.manager.ambientimpact_icon_bundle:
     class: Drupal\ambientimpact_icon\IconBundlePluginManager
     parent: default_plugin_manager

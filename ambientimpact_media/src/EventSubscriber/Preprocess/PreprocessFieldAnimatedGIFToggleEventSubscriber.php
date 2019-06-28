@@ -18,7 +18,7 @@ implements EventSubscriberInterface {
   use StringTranslationTrait;
 
   /**
-   * The Ambient.Impact Component plugin manager service.
+   * The Ambient.Impact Component plug-in manager service.
    *
    * @var \Drupal\ambientimpact_core\ComponentPluginManagerInterface
    */
@@ -35,7 +35,7 @@ implements EventSubscriberInterface {
    * Event subscriber constructor; saves dependencies.
    *
    * @param \Drupal\ambientimpact_core\ComponentPluginManagerInterface $componentManager
-   *   The Ambient.Impact Component plugin manager service.
+   *   The Ambient.Impact Component plug-in manager service.
    *
    * @param \Drupal\Core\StringTranslation\TranslationInterface $stringTranslation
    *   The Drupal string translation service.

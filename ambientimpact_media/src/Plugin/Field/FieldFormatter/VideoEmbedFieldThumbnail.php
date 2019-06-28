@@ -37,7 +37,7 @@ class VideoEmbedFieldThumbnail extends Thumbnail {
    * @param string $plugin_id
    *   The plugin_id for the formatter.
    * @param mixed $plugin_definition
-   *   The plugin implementation definition.
+   *   The plug-in implementation definition.
    * @param \Drupal\Core\Field\FieldDefinitionInterface $field_definition
    *   The definition of the field to which the formatter is associated.
    * @param array $settings

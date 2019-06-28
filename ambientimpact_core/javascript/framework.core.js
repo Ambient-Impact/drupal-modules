@@ -375,7 +375,7 @@
 			 *
 			 * Note that in Drupal 8, the newer version of jQuery.once that's
 			 * bundled changed its API so that you no longer pass a callback,
-			 * but it functions as a filter plugin, returning only elements that
+			 * but it functions as a filter plug-in, returning only elements that
 			 * have not been processed yet.
 			 *
 			 * @param {object} behaviours

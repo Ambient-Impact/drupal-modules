@@ -3,7 +3,7 @@
 namespace Drupal\ambientimpact_icon;
 
 /**
- * An interface for all Ambient.Impact Icon Bundle plugins.
+ * An interface for all Ambient.Impact Icon Bundle plug-ins.
  */
 interface IconBundleInterface {
   /**

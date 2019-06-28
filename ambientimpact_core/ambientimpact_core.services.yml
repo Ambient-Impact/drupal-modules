@@ -1,5 +1,5 @@
 services:
-  # Component plugin manager.
+  # Component plug-in manager.
   plugin.manager.ambientimpact_component:
     class: Drupal\ambientimpact_core\ComponentPluginManager
     parent: default_plugin_manager

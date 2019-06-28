@@ -15,7 +15,7 @@ use Drupal\Core\Render\RendererInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Base class for implementing Ambient.Impact Component plugins.
+ * Base class for implementing Ambient.Impact Component plug-ins.
  */
 class ComponentBase extends PluginBase implements
 ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface {
@@ -69,7 +69,7 @@ ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface {
    * This is relative to the implementing module's directory.
    *
    * If empty, will be built in $this->__construct() with
-   * $this->componentsDirectory and the plugin ID.
+   * $this->componentsDirectory and the plug-in ID.
    *
    * @var string
    *
@@ -100,13 +100,13 @@ ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface {
    * $this->setConfiguration() to ensure settings are merged over defaults.
    *
    * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
+   *   A configuration array containing information about the plug-in instance.
    *
    * @param string $pluginID
-   *   The plugin_id for the plugin instance.
+   *   The plugin_id for the plug-in instance.
    *
    * @param array $pluginDefinition
-   *   The plugin implementation definition. PluginBase defines this as mixed,
+   *   The plug-in implementation definition. PluginBase defines this as mixed,
    *   but we should always have an array so the type is set. This can be
    *   changed in the future if need be.
    *
@@ -196,7 +196,7 @@ ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface {
   }
 
   /**
-   * Returns generic default configuration for Component plugins.
+   * Returns generic default configuration for Component plug-ins.
    *
    * @return array
    *   An associative array with the default configuration.

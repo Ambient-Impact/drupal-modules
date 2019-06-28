@@ -39,7 +39,7 @@ AmbientImpact.addComponent('link.image', function(aiLinkImage, $) {
     return !!$(link).has(this.elements.join()).length;
   };
 
-  // jQuery plugin to wrap a link's text if it contains an image, to allow
+  // jQuery plug-in to wrap a link's text if it contains an image, to allow
   // styling just the text.
   $.fn.extend({
     wrapImageLinkText: function() {

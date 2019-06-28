@@ -13,7 +13,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
   /**
-   * The Ambient.Impact Component plugin manager service.
+   * The Ambient.Impact Component plug-in manager service.
    *
    * @var \Drupal\ambientimpact_core\ComponentPluginManagerInterface
    */
@@ -30,7 +30,7 @@ class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
    * Event subscriber constructor; saves dependencies.
    *
    * @param \Drupal\ambientimpact_core\ComponentPluginManagerInterface $componentManager
-   *   The Ambient.Impact Component plugin manager service.
+   *   The Ambient.Impact Component plug-in manager service.
    *
    * @param \Drupal\Core\State\StateInterface $stateManager
    *   The Drupal state system manager.

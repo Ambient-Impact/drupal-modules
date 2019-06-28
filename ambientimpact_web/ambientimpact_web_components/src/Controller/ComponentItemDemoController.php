@@ -15,7 +15,7 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
  */
 class ComponentItemDemoController extends ControllerBase {
   /**
-   * The Ambient.Impact Component plugin manager service.
+   * The Ambient.Impact Component plug-in manager service.
    *
    * @var \Drupal\ambientimpact_core\ComponentPluginManagerInterface
    */
@@ -25,7 +25,7 @@ class ComponentItemDemoController extends ControllerBase {
    * Controller constructor; saves dependencies.
    *
    * @param \Drupal\ambientimpact_core\ComponentPluginManagerInterface $componentManager
-   *   The Ambient.Impact Component plugin manager service.
+   *   The Ambient.Impact Component plug-in manager service.
    */
   public function __construct(ComponentPluginManagerInterface $componentManager) {
     $this->componentManager = $componentManager;

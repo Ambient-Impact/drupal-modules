@@ -41,13 +41,13 @@ class Image extends ComponentBase {
    * Constructor; saves dependencies.
    *
    * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
+   *   A configuration array containing information about the plug-in instance.
    *
    * @param string $pluginID
-   *   The plugin_id for the plugin instance.
+   *   The plugin_id for the plug-in instance.
    *
    * @param array $pluginDefinition
-   *   The plugin implementation definition.
+   *   The plug-in implementation definition.
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   The Drupal module handler service.

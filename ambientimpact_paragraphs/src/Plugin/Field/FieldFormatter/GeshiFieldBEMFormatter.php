@@ -39,7 +39,7 @@ class GeshiFieldBEMFormatter extends FormatterBase implements ContainerFactoryPl
    *   The plugin_id for the formatter.
    *
    * @param mixed $pluginDefinition
-   *   The plugin implementation definition.
+   *   The plug-in implementation definition.
    *
    * @param \Drupal\Core\Field\FieldDefinitionInterface $fieldDefinition
    *   The definition of the field to which the formatter is associated.

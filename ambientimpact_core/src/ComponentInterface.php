@@ -3,7 +3,7 @@
 namespace Drupal\ambientimpact_core;
 
 /**
- * An interface for all Ambient.Impact Component plugins.
+ * An interface for all Ambient.Impact Component plug-ins.
  */
 interface ComponentInterface {
   /**

@@ -41,7 +41,7 @@ process:
       target_id: value
       target_revision_id: revision_id
 
-  # The core Link module seems to provide a 'field_link' process plugin:
+  # The core Link module seems to provide a 'field_link' process plug-in:
   # @see \Drupal\link\Plugin\migrate\process\FieldLink
   # ...but it doesn't seem to work for us, so we're using this method:
   # @see https://drupal.stackexchange.com/a/197850
