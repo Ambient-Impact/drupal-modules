@@ -19,3 +19,10 @@ services:
     arguments: ['@module_handler']
     tags:
       - { name: 'event_subscriber' }
+
+  # hook_theme() event to define the 'ambientimpact_component_demo' element.
+  ambientimpact_web_components.hook_theme_component_demo_event_subscriber:
+    class: \Drupal\ambientimpact_web_components\EventSubscriber\Theme\HookThemeComponentDemo
+    arguments: ['@module_handler']
+    tags:
+      - { name: 'event_subscriber' }

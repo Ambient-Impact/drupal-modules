@@ -1,0 +1,18 @@
+{#
+/**
+ * @file
+ * Default implementation for an Ambient.Impact Component demo.
+ *
+ * Available variables:
+ * - demo: The Component's demo render array.
+ *
+ * @see \Drupal\ambientimpact_web_components\Controller\ComponentItemDemoController::componentItemDemo()
+ *   Used in this method.
+ */
+#}
+
+{% set baseClass = 'ambientimpact-component-demo' %}
+
+<div{{ create_attribute({'class': [baseClass]}) }}>
+  {{ demo }}
+</div>

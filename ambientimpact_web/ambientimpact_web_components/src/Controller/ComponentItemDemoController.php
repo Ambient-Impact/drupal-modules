@@ -69,7 +69,10 @@ class ComponentItemDemoController extends ControllerBase {
       throw new NotFoundHttpException();
     }
 
-    $renderArray = $plugin->getDemo();
+    $renderArray = [
+      '#theme'  => 'ambientimpact_component_demo',
+      '#demo'   => $plugin->getDemo(),
+    ];
 
     return $renderArray;
   }
