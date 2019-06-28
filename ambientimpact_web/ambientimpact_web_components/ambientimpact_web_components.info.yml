@@ -1,4 +1,4 @@
-name: Ambient.Impact - Web - Components pages
+name: Ambient.Impact - Web - Component pages
 type: module
 description: Provides an <a href="/web/components">overview page</a> and individual pages to view details about available components; this can be seen on <a href="https://ambientimpact.com/web/components">ambientimpact.com</a>.
 package: Ambient.Impact
