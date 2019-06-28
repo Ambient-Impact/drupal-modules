@@ -1,0 +1,24 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Web - Component pages - Component list stylesheet
+// -----------------------------------------------------------------------------
+
+@import '../../../../ambientimpact_core/stylesheets/_common.scss';
+
+.ambientimpact-component-list {
+  .item-list ul {
+    // Flow this list into 2 or 3 columns when the space allows for it.
+    columns:    3 12em;
+    column-gap: $general-spacing * 2;
+
+    // @see http://stackoverflow.com/a/7785711
+    //   Avoid breaking to new column inside children.
+    > * {
+      // Chrome and Safari.
+      -webkit-column-break-inside: avoid;
+      // Firefox 20+.
+      page-break-inside: avoid;
+      // IE 11+.
+      break-inside: avoid-column;
+    }
+  }
+}

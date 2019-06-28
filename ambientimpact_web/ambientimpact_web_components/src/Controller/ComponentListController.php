@@ -52,6 +52,9 @@ class ComponentListController extends ControllerBase {
         '#items'      => [],
         '#empty'      => $this->t('No components found.'),
       ],
+      '#attached' => [
+        'library'   => 'ambientimpact_web_components/component.component_list',
+      ],
     ];
 
     $pluginDefinitions = $this->componentManager->getDefinitions();

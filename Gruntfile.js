@@ -19,6 +19,7 @@ module.exports = function(grunt) {
       'ambientimpact_icon',
       'ambientimpact_media',
       'ambientimpact_ux',
+      'ambientimpact_web/ambientimpact_web_components',
     ].join(','),
 
     stylesheetPaths:  'stylesheets,components',
