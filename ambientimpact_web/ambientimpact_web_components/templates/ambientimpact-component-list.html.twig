@@ -11,26 +11,30 @@
  */
 #}
 
-<p>{{
-  'This lists all discovered Ambient.Impact Component plug-ins. Information about the component system and the source for each component can be found on <a href="@GitLabURL">@GitLab</a> and <a href="@GitHubURL">@GitHub</a>.'|t({
-    '@GitLab':    ambientimpact_icon('gitlab', 'brands', 'GitLab'),
-    '@GitLabURL': 'https://gitlab.com/Ambient.Impact/drupal-modules',
-    '@GitHub':    ambientimpact_icon('github', 'brands', 'GitHub'),
-    '@GitHubURL': 'https://github.com/Ambient-Impact/drupal-modules',
-  })
-}}</p>
+{% set baseClass = 'ambientimpact-component-list' %}
 
-{# Make sure that #context is defined before adding a list_style. #}
-{% if list['#context'] is not defined %}
-  {% set list = list|merge({'#context': []}) %}
-{% endif %}
+<div{{ create_attribute({'class': [baseClass]}) }}>
+  <p>{{
+    'This lists all discovered Ambient.Impact Component plug-ins. Information about the component system and the source for each component can be found on <a href="@GitLabURL">@GitLab</a> and <a href="@GitHubURL">@GitHub</a>.'|t({
+      '@GitLab':    ambientimpact_icon('gitlab', 'brands', 'GitLab'),
+      '@GitLabURL': 'https://gitlab.com/Ambient.Impact/drupal-modules',
+      '@GitHub':    ambientimpact_icon('github', 'brands', 'GitHub'),
+      '@GitHubURL': 'https://github.com/Ambient-Impact/drupal-modules',
+    })
+  }}</p>
 
-{# Set the list_style to 'unlisted' so that list markers and indenting are
-   removed. #}
-{% set list = list|merge({
-  '#context': list['#context']|merge({
-    'list_style': 'unlisted',
-  })
-}) %}
+  {# Make sure that #context is defined before adding a list_style. #}
+  {% if list['#context'] is not defined %}
+    {% set list = list|merge({'#context': []}) %}
+  {% endif %}
 
-{{ list }}
+  {# Set the list_style to 'unlisted' so that list markers and indenting are
+     removed. #}
+  {% set list = list|merge({
+    '#context': list['#context']|merge({
+      'list_style': 'unlisted',
+    })
+  }) %}
+
+  {{ list }}
+</div>
