@@ -77,8 +77,15 @@ class ComponentItemController extends ControllerBase {
       throw new NotFoundHttpException();
     }
 
-    $plugin =
+    $componentInstance =
       $this->componentManager->getComponentInstance($componentMachineName);
+
+    // If the Component plug-in can't be instantiated for any reason, throw a
+    // 404.
+    // @see https://www.drupal.org/node/1616360
+    if ($componentInstance === false) {
+      throw new NotFoundHttpException();
+    }
 
     $pluginDefinition = $pluginDefinitions[$componentMachineName];
 
@@ -93,11 +100,11 @@ class ComponentItemController extends ControllerBase {
       ],
       'configuration' => [
         'title' => $this->t('Configuration'),
-        'dump'  => $plugin->getConfiguration(),
+        'dump'  => $componentInstance->getConfiguration(),
       ],
       'libraries' => [
         'title' => $this->t('Libraries'),
-        'dump'  => $plugin->getLibraries(),
+        'dump'  => $componentInstance->getLibraries(),
       ],
     ];
 
