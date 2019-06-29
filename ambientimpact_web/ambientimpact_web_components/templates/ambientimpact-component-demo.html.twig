@@ -14,5 +14,15 @@
 {% set baseClass = 'ambientimpact-component-demo' %}
 
 <div{{ create_attribute({'class': [baseClass]}) }}>
-  {{ demo }}
+  <div{{
+    create_attribute({'class': [baseClass ~ '__intro', 'hidden']})
+  }}></div>
+
+  <ul{{
+    create_attribute({'class': [baseClass ~ '__actions', 'hidden']})
+  }}></ul>
+
+  <div{{ create_attribute({'class': [baseClass ~ '__content']}) }}>
+    {{ demo }}
+  </div>
 </div>
