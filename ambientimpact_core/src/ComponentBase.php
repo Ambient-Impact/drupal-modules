@@ -12,6 +12,8 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslationInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -19,6 +21,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class ComponentBase extends PluginBase implements
 ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface {
+  use StringTranslationTrait;
+
   /**
    * The Drupal module handler service.
    *
@@ -46,6 +50,13 @@ ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface {
    * @var \Drupal\Component\Serialization\SerializationInterface
    */
   protected $yamlSerialization;
+
+  /**
+   * The Drupal string translation service.
+   *
+   * @var \Drupal\Core\StringTranslation\TranslationInterface
+   */
+  protected $stringTranslation;
 
   /**
    * The Component HTML cache service.
@@ -122,6 +133,9 @@ ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface {
    * @param \Drupal\Component\Serialization\SerializationInterface $yamlSerialization
    *   The Drupal YAML serialization class.
    *
+   * @param \Drupal\Core\StringTranslation\TranslationInterface $stringTranslation
+   *   The Drupal string translation service.
+   *
    * @param \Drupal\Core\Cache\CacheBackendInterface $htmlCacheService
    *   The Component HTML cache service.
    */
@@ -131,6 +145,7 @@ ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface {
     LanguageManagerInterface $languageManager,
     RendererInterface $renderer,
     SerializationInterface $yamlSerialization,
+    TranslationInterface $stringTranslation,
     CacheBackendInterface $htmlCacheService
   ) {
     parent::__construct($configuration, $pluginID, $pluginDefinition);
@@ -140,6 +155,7 @@ ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface {
     $this->languageManager    = $languageManager;
     $this->renderer           = $renderer;
     $this->yamlSerialization  = $yamlSerialization;
+    $this->stringTranslation  = $stringTranslation;
     $this->htmlCacheService   = $htmlCacheService;
 
     $this->setConfiguration($configuration);
@@ -163,6 +179,7 @@ ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface {
       $container->get('language_manager'),
       $container->get('renderer'),
       $container->get('serialization.yaml'),
+      $container->get('string_translation'),
       $container->get('cache.ambientimpact_component_html')
     );
   }

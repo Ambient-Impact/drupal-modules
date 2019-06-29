@@ -7,6 +7,8 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\ambientimpact_core\ComponentBase;
 use Drupal\ambientimpact_icon\IconBundlePluginManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -56,6 +58,9 @@ class Icon extends ComponentBase {
    * @param \Drupal\Component\Serialization\SerializationInterface $yamlSerialization
    *   The Drupal YAML serialization class.
    *
+   * @param \Drupal\Core\StringTranslation\TranslationInterface $stringTranslation
+   *   The Drupal string translation service.
+   *
    * @param \Drupal\Core\Cache\CacheBackendInterface $htmlCacheService
    *   The Component HTML cache service.
    *
@@ -68,6 +73,7 @@ class Icon extends ComponentBase {
     LanguageManagerInterface $languageManager,
     RendererInterface $renderer,
     SerializationInterface $yamlSerialization,
+    TranslationInterface $stringTranslation,
     CacheBackendInterface $htmlCacheService,
     IconBundlePluginManager $iconBundleManager
   ) {
@@ -82,6 +88,7 @@ class Icon extends ComponentBase {
       $languageManager,
       $renderer,
       $yamlSerialization,
+      $stringTranslation,
       $htmlCacheService
     );
   }
@@ -99,6 +106,7 @@ class Icon extends ComponentBase {
       $container->get('language_manager'),
       $container->get('renderer'),
       $container->get('serialization.yaml'),
+      $container->get('string_translation'),
       $container->get('cache.ambientimpact_component_html'),
       $container->get('plugin.manager.ambientimpact_icon_bundle')
     );

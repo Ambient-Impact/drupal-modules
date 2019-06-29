@@ -10,6 +10,8 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Image\ImageFactory;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslationInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -53,6 +55,9 @@ class AnimatedGIFToggle extends ComponentBase {
    * @param \Drupal\Component\Serialization\SerializationInterface $yamlSerialization
    *   The Drupal YAML serialization class.
    *
+   * @param \Drupal\Core\StringTranslation\TranslationInterface $stringTranslation
+   *   The Drupal string translation service.
+   *
    * @param \Drupal\Core\Cache\CacheBackendInterface $htmlCacheService
    *   The Component HTML cache service.
    *
@@ -65,6 +70,7 @@ class AnimatedGIFToggle extends ComponentBase {
     LanguageManagerInterface $languageManager,
     RendererInterface $renderer,
     SerializationInterface $yamlSerialization,
+    TranslationInterface $stringTranslation,
     CacheBackendInterface $htmlCacheService,
     ImageFactory $imageFactory
   ) {
@@ -79,6 +85,7 @@ class AnimatedGIFToggle extends ComponentBase {
       $languageManager,
       $renderer,
       $yamlSerialization,
+      $stringTranslation,
       $htmlCacheService
     );
   }
@@ -96,6 +103,7 @@ class AnimatedGIFToggle extends ComponentBase {
       $container->get('language_manager'),
       $container->get('renderer'),
       $container->get('serialization.yaml'),
+      $container->get('string_translation'),
       $container->get('cache.ambientimpact_component_html'),
       $container->get('image.factory')
     );
