@@ -25,9 +25,9 @@ implements EventSubscriberInterface {
   protected $componentManager;
 
   /**
-   * The string translation service.
+   * The Drupal string translation service.
    *
-   * @var \Drupal\Core\StringTranslation\TranslationManager
+   * @var \Drupal\Core\StringTranslation\TranslationInterface
    */
   protected $stringTranslation;
 

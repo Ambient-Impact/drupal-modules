@@ -29,9 +29,9 @@ class GeshiFieldBEMParagraphsFormatter extends GeshiFieldBEMFormatter {
   use StringTranslationTrait;
 
   /**
-   * The string translation service.
+   * The Drupal string translation service.
    *
-   * @var \Drupal\Core\StringTranslation\TranslationManager
+   * @var \Drupal\Core\StringTranslation\TranslationInterface
    */
   protected $stringTranslation;
 
