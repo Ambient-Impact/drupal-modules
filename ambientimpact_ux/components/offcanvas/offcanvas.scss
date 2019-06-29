@@ -1,0 +1,178 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Off-canvas panel component
+// -----------------------------------------------------------------------------
+
+// This is taken from the Frend Off Canvas CSS and modified.
+// @see https://github.com/frend/frend.co/blob/gh-pages/_components/offcanvas/offcanvas.css
+
+@import '../../../ambientimpact_core/stylesheets/_common.scss';
+
+///
+/// Off-canvas panel transition duration.
+///
+$offcanvas-transition-duration: 0.3s;
+
+///
+/// Off-canvas panel padding.
+///
+$offcanvas-panel-padding: 0.5em;
+
+///
+/// Off-canvas panel maximum width or height from edge of viewport.
+///
+/// This is used as max-width if displayed on the left or right, and is used as
+/// max-height if displayed at the top or bottom.
+///
+$offcanvas-panel-max-size: 17em;
+
+.offcanvas-panel--is-ready {
+  position: fixed !important;
+
+  &.offcanvas-panel--left,
+  &.offcanvas-panel--right {
+    top:    0;
+    bottom: 0;
+
+    width:      100%;
+    max-width:  $offcanvas-panel-max-size;
+  }
+  &.offcanvas-panel--top,
+  &.offcanvas-panel--bottom {
+    left:   0;
+    right:  0;
+
+    height:     100%;
+    max-height: $offcanvas-panel-max-size;
+  }
+
+  // Firefox doesn't properly scroll the bottom of the panel content to the
+  // bottom padding point, but the very bottom of the border box, so we have to
+  // set the bottom padding as a generated content box. This was observed in
+  // Firefox Developer Edition 60.0b10.
+  padding:  $offcanvas-panel-padding
+            $offcanvas-panel-padding
+            0
+            $offcanvas-panel-padding;
+
+  &::after {
+    content:  '';
+
+    display:  block;
+
+    height:   $offcanvas-panel-padding;
+  }
+
+  overflow:   auto;
+
+  z-index:    1;
+
+  &.offcanvas-panel--modal {
+    // This places this over the overlay and most other page elements,
+    // including the admin Toolbar.
+    @include z-index('modal');
+  }
+
+  // Initially hidden. This prevents keyboard/script focus until the panel is
+  // opened.
+  visibility:   hidden;
+
+  &.offcanvas-panel--is-active {
+    visibility: visible;
+  }
+
+  transform:    translateX(0) translateY(0);
+  will-change:  transform;
+
+  transition-property:        transform, visibility;
+  transition-duration:        $offcanvas-transition-duration;
+  transition-timing-function: $easing-sharp;
+
+  // Light panel theme.
+  &.offcanvas-panel--theme-light {
+    @include set-colours(
+      $background: $material-panel-background-colour-light
+    );
+  }
+  // Dark panel theme.
+  &.offcanvas-panel--theme-dark {
+    @include set-colours(
+      $background: $material-panel-background-colour-dark
+    );
+  }
+
+  @include material-shadow(3);
+
+  &.offcanvas-panel--left {
+    left:   0;
+
+    &[aria-hidden="true"] {
+      transform: translateX(-100%);
+    }
+  }
+  &.offcanvas-panel--right {
+    right:    0;
+
+    &[aria-hidden="true"] {
+      transform: translateX(100%);
+    }
+  }
+  &.offcanvas-panel--top {
+    top: 0;
+
+    &[aria-hidden="true"] {
+      transform: translateY(-100%);
+    }
+  }
+  &.offcanvas-panel--bottom {
+    bottom: 0;
+
+    &[aria-hidden="true"] {
+      transform: translateY(100%);
+    }
+  }
+
+  // Right-align the close button as most people are right-handed.
+  // @todo What about left-handed people?
+  .offcanvas-close {
+    display:      block;
+    margin-left:  auto;
+  }
+}
+
+.offcanvas-overlay {
+  position: fixed;
+
+  top:    0;
+  bottom: 0;
+  left:   0;
+  right:  0;
+
+  // This places the overlay over most elements, including the admin Toolbar.
+  @include z-index('modal');
+
+  visibility: hidden;
+
+  // If pointer-events: none; is supported, use that instead of visibility,
+  // as Firefox doesn't always transition visibility correctly.
+  @supports (pointer-events: none) {
+    visibility:   visible;
+
+    pointer-events: none;
+  }
+
+  opacity:  0;
+
+  transition-property:        opacity, visibility;
+  transition-duration:        $offcanvas-transition-duration;
+  transition-timing-function: $easing-sharp;
+
+  @include set-colours($background: black);
+
+  &--active {
+    visibility: visible;
+
+    opacity:    0.5;
+
+    pointer-events: auto;
+  }
+}

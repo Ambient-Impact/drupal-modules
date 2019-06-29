@@ -1,0 +1,9 @@
+component.offcanvas:
+  css:
+    component:
+      offcanvas.css: {}
+  js:
+    offcanvas.js: {}
+  dependencies:
+    - ambientimpact_core/ally.js
+    - ambientimpact_ux/frend-offcanvas
