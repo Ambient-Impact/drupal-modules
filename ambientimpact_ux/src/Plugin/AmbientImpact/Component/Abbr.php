@@ -9,8 +9,8 @@ use Drupal\ambientimpact_core\ComponentBase;
  *
  * @Component(
  *   id = "abbr",
- *   title = @Translation("Abbreviation (HTML &lt;abbr&gt; element)"),
- *   description = @Translation("Provides rich, mobile-accessible tooltips for &lt;abbr&gt; elements.")
+ *   title = @Translation("Abbreviation"),
+ *   description = @Translation("Provides rich, mobile-accessible tooltips for HTML <a href='https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr'>&lt;abbr&gt;</a> elements.")
  * )
  */
 class Abbr extends ComponentBase {
