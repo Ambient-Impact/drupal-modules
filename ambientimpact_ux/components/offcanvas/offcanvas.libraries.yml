@@ -7,3 +7,10 @@ component.offcanvas:
   dependencies:
     - ambientimpact_core/ally.js
     - ambientimpact_ux/frend-offcanvas
+
+component.offcanvas.demo:
+  js:
+    offcanvas.demo.js: {}
+  dependencies:
+    - ambientimpact_ux/component.offcanvas
+    - ambientimpact_web_components/component.component_demo
