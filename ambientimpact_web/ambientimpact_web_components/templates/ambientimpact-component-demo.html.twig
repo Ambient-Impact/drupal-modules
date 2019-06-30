@@ -19,7 +19,9 @@
   }}></div>
 
   <ul{{
-    create_attribute({'class': [baseClass ~ '__actions', 'hidden']})
+    create_attribute({
+      'class': [baseClass ~ '__actions', 'unlisted-list', 'hidden']
+    })
   }}></ul>
 
   <div{{ create_attribute({'class': [baseClass ~ '__content']}) }}>

@@ -1,3 +1,6 @@
 component.component_demo:
+  css:
+    component:
+      component_demo.css: {}
   js:
     component_demo.js: {}

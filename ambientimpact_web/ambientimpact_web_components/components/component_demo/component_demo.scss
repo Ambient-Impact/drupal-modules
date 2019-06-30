@@ -1,0 +1,56 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Web - Component pages - Component demo component
+// -----------------------------------------------------------------------------
+
+// @todo Should we add some sort of dynamic layout based on how many grid items
+// there are? E.g. even or odd, so that we don't get a single one wrapping to a
+// new row?
+
+@import '../../../../ambientimpact_core/stylesheets/_common.scss';
+
+.ambientimpact-component-demo {
+  &__actions {
+    @include contain-floats;
+
+    @include use-grid {
+      display:  grid;
+
+      grid-gap: $general-spacing;
+      grid-template-columns:  repeat(auto-fit, minmax(10em, 1fr));
+
+      // contain-floats adds this so we have to remove it from the flow so that
+      // it doesn't affect the grid.
+      &::after {
+        display: none;
+      }
+    }
+
+    &-action-item {
+      // If grid isn't supported, float items.
+      @include root-conditions(('[dir=ltr]'), 'html') {
+        float:          left;
+        padding-right:  $general-spacing;
+      }
+      @include root-conditions(('[dir=rtl]'), 'html') {
+        float:          right;
+        padding-left:   $general-spacing;
+      }
+
+      @include use-grid {
+        @include root-conditions(('[dir=ltr]'), 'html') {
+          padding-right:  0;
+        }
+        @include root-conditions(('[dir=rtl]'), 'html') {
+          padding-left:   0;
+        }
+      }
+    }
+
+    &-action-button {
+      @include use-grid {
+        display:  block;
+        width:    100%;
+      }
+    }
+  }
+}
