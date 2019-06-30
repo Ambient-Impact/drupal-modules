@@ -49,7 +49,10 @@ class OffCanvas extends ComponentBase {
     $renderArray = [
       '#type'       => 'html_tag',
       '#tag'        => 'div',
-      '#attributes' => ['class' => [$baseClass, 'hidden']],
+      '#attributes' => [
+        'class'           => [$baseClass, 'hidden'],
+        'data-base-class' => $baseClass,
+      ],
       '#attached'   => [
         'library'     => [
           'ambientimpact_ux/component.offcanvas.demo',
@@ -63,7 +66,6 @@ class OffCanvas extends ComponentBase {
         '#type'       => 'html_tag',
         '#tag'        => 'div',
         '#attributes' => [
-          // 'class'                 => [$baseClass . '__' . $panelMachineName],
           // The HTML ID is needed to be able to set the 'aria-controls'
           // attribute on open buttons.
           'id'                    => $baseClass . '-' . $panelMachineName,
