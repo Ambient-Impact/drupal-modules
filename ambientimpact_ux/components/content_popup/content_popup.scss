@@ -1,0 +1,35 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Content pop-up component
+// -----------------------------------------------------------------------------
+
+@import '../../../ambientimpact_core/stylesheets/_common.scss';
+
+// The open button is always hidden as its only purpose is to be triggered via
+// script to open the panel.
+.content-popup-offcanvas-button,
+// Keep the panel hidden if it's not enhanced for whatever reason.
+.content-popup-offcanvas:not(.offcanvas-panel--is-ready) {
+  display: none;
+}
+
+// The content pop-up container, shared between the panel and tooltip.
+.content-popup {
+  // Remove the title's top margin and reduce its opacity to de-emphasize it.
+  &__title {
+    margin-top: 0;
+    opacity:  0.6;
+  }
+}
+
+.content-popup-offcanvas {
+  // Have the panel take up only as much space as it needs to fit the content
+  // on screen instead of the larger default. The selector is for specificity.
+  &.offcanvas-panel--is-ready {
+    height:   auto;
+    max-height: 100%;
+  }
+
+  &__content {
+    margin-bottom:  $general-spacing;
+  }
+}

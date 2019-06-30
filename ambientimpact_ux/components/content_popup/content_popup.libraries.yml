@@ -1,0 +1,17 @@
+component.content_popup:
+  css:
+    component:
+      content_popup.css: {}
+  js:
+    content_popup.js: {}
+  dependencies:
+    - ambientimpact_core/component.media_query
+    - ambientimpact_ux/component.offcanvas
+    - ambientimpact_ux/component.tooltip
+
+component.content_popup.demo:
+  js:
+    content_popup.demo.js: {}
+  dependencies:
+    - ambientimpact_ux/component.content_popup
+    - ambientimpact_web_components/component.component_demo
