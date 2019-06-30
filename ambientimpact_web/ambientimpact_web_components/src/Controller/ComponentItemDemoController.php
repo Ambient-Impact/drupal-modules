@@ -71,8 +71,20 @@ class ComponentItemDemoController extends ControllerBase {
 
     $renderArray = [
       '#theme'  => 'ambientimpact_component_demo',
-      '#demo'   => $plugin->getDemo(),
     ];
+
+    $componentRenderArray = $plugin->getDemo();
+
+    // If the Component's render array has a '#demo' key, merge it into our
+    // render array.
+    if (isset($componentRenderArray['#demo'])) {
+      $renderArray += $componentRenderArray;
+
+    // If it doesn't have a '#demo' key, assume it contains some children and
+    // set it to the '#demo' key on our render array.
+    } else {
+      $renderArray['#demo'] = $componentRenderArray;
+    }
 
     return $renderArray;
   }

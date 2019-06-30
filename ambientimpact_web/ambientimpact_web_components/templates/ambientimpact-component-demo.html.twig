@@ -4,6 +4,7 @@
  * Default implementation for an Ambient.Impact Component demo.
  *
  * Available variables:
+ * - intro: An introduction to this Component's demo, as a render array.
  * - demo: The Component's demo render array.
  *
  * @see \Drupal\ambientimpact_web_components\Controller\ComponentItemDemoController::componentItemDemo()
@@ -13,10 +14,16 @@
 
 {% set baseClass = 'ambientimpact-component-demo' %}
 
+{% set introAttributes = create_attribute({'class': [baseClass ~ '__intro']}) %}
+
+{# Set the intro as hidden but still output it in case it's needed by the demo
+   JavaScript. #}
+{% if intro is empty %}
+  {% set introAttributes = introAttributes.addClass('hidden') %}
+{% endif %}
+
 <div{{ create_attribute({'class': [baseClass]}) }}>
-  <div{{
-    create_attribute({'class': [baseClass ~ '__intro', 'hidden']})
-  }}></div>
+  <div{{ introAttributes }}>{{ intro }}</div>
 
   <ul{{
     create_attribute({
