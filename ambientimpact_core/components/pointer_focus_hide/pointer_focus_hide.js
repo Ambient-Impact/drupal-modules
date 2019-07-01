@@ -36,6 +36,16 @@ AmbientImpact.addComponent('pointerFocusHide', function(
   ];
 
   /**
+   * The element data attribute/jQuery().data() name that hides pointer focus.
+   *
+   * If this is found and set to true, pointer focus hiding will be forced on an
+   * element.
+   *
+   * @type {String}
+   */
+  var dataName = 'pointer-focus-hide';
+
+  /**
    * The class to apply to elements when a pointer was used to focus them.
    *
    * This hides the focus outline in pointer_focus_hide.scss.
@@ -100,6 +110,26 @@ AmbientImpact.addComponent('pointerFocusHide', function(
     focusSourceHandle.unlock();
   };
 
+  /**
+   * Hide the pointer focus on a given element.
+   *
+   * @param {HTMLElement|jQuery} element
+   *   An HTML element or a jQuery collection containing one.
+   */
+  this.hide = function(element) {
+    $(element).data(dataName, true);
+  };
+
+  /**
+   * Show the pointer focus on a given element.
+   *
+   * @param {HTMLElement|jQuery} element
+   *   An HTML element or a jQuery collection containing one.
+   */
+  this.show = function(element) {
+    $(element).data(dataName, false);
+  };
+
   // We bind globally instead of using a behaviour since there isn't really any
   // significant benefit to binding to specific containers and doing so would
   // add more complexity.
@@ -109,9 +139,9 @@ AmbientImpact.addComponent('pointerFocusHide', function(
     if (
       // If the data attribute/jQuery data has been set to true, always apply
       // the class.
-      $this.data('pointer-focus-hide') === true  ||
+      $this.data(dataName) === true  ||
       // If the data attribute/jQuery data is not defined, apply the class.
-      typeof $this.data('pointer-focus-hide') === 'undefined'
+      typeof $this.data(dataName) === 'undefined'
     ) {
       $this.addClass(pointerFocusClass);
     }
