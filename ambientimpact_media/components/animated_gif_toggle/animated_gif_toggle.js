@@ -32,6 +32,13 @@ AmbientImpact.addComponent('animatedGIFToggle', function(
   var animatedSourceDataName =
     'ambientimpact-animated-gif-toggle-animated-source';
 
+  /**
+   * The last played object, containing .play(), .stop(), etc. or null if none.
+   *
+   * @type {null|Object}
+   */
+  var lastPlayed = null;
+
   // The back-end sends the settings under 'animatedGifToggle' because the
   // lowerCamelCase conversion is pretty simple and doesn't understand
   // abbreviations or acronyms.
@@ -64,11 +71,22 @@ AmbientImpact.addComponent('animatedGIFToggle', function(
    * link by the behaviour.
    */
   var play = function() {
+    // If there's a last played object, stop it.
+    if (
+      lastPlayed !== null &&
+      lastPlayed.$link[0] !== this.$link[0]
+    ) {
+      lastPlayed.stop();
+    }
+
     // Set the overlay to playing.
     this.$overlay[0].aiMediaPlayOverlay.play();
 
     // Set the src to the animated source URL.
     this.$image.attr('src', this.$link.data(animatedSourceDataName));
+
+    // Set 'this' as the last played object.
+    lastPlayed = this;
   };
 
   /**
