@@ -12,14 +12,7 @@ AmbientImpact.addComponent(
 function(aiPhotoSwipePointer, $) {
   'use strict';
 
-  $(document).on('PhotoSwipeBeforeAttach.aiPhotoSwipePointer', function(
-    event, $gallery, gallerySettings
-  ) {
-    // Force pointer focus hiding on the links, even if they open in a new
-    // tab/window.
-    $gallery.find('a').data('pointer-focus-hide', true);
-  })
-  .on('PhotoSwipeOpen.aiPhotoSwipePointer', function(
+  $(document).on('PhotoSwipeOpen.aiPhotoSwipePointer', function(
     event, gallery, $gallery, gallerySettings
   ) {
     // Lock the pointer focus state so we have the same focus state on

@@ -72,9 +72,6 @@ AmbientImpact.addComponent('animatedGIFToggle', function(
           animatedSourceDataName,
           $this.attr(componentSettings.fieldAttributes.url)
         )
-        // Force pointer focus hiding.
-        // @todo What if this already has an existing value?
-        .data('pointer-focus-hide', true)
         .on('click.aiAnimatedGIFToggle', eventHandler);
     },
     function(context, settings, trigger) {
@@ -87,7 +84,6 @@ AmbientImpact.addComponent('animatedGIFToggle', function(
       $link
         .off('click.aiAnimatedGIFToggle', eventHandler)
         .removeData([
-          'pointer-focus-hide',
           animatedSourceDataName,
           staticSourceDataName,
         ]);
