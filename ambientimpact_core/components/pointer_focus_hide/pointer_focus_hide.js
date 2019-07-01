@@ -72,6 +72,19 @@ AmbientImpact.addComponent('pointerFocusHide', function(
   var focusSourceHandle = ally.style.focusSource();
 
   /**
+   * Whether the focus source is currently locked.
+   *
+   * @type {Boolean}
+   *
+   * @see this.lock()
+   *   Set to true here.
+   *
+   * @see this.unlock()
+   *   Set to false here.
+   */
+  var focusLocked = false;
+
+  /**
    * Lock the focus source detection to the current one.
    *
    * This tells ally.js to pause detection and leave the current source as the
@@ -89,6 +102,8 @@ AmbientImpact.addComponent('pointerFocusHide', function(
    */
   this.lock = function() {
     focusSourceHandle.lock(focusSourceHandle.current());
+
+    focusLocked = true;
   };
 
   /**
@@ -108,6 +123,18 @@ AmbientImpact.addComponent('pointerFocusHide', function(
    */
   this.unlock = function() {
     focusSourceHandle.unlock();
+
+    focusLocked = false;
+  };
+
+  /**
+   * Determine if the focus source is currently locked.
+   *
+   * @return {Boolean}
+   *   The current value of focusLocked.
+   */
+  this.isLocked = function() {
+    return focusLocked;
   };
 
   /**
