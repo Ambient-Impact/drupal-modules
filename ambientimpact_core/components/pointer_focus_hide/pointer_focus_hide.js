@@ -6,9 +6,22 @@
 // element, but maintains focus and will show the outline if a user uses
 // keyboard navigation.
 
-// @todo Should we bind events to page visibility events to lock and unlock the
-// pointer focus source so that it doesn't register as "script" when the page is
-// shown again, thus always outlining the last focused element?
+// Note that this will always show the focus outline when the document loses and
+// regains focus. While we could use the Page Visibility API to try and lock and
+// unlock the focus source on hidden and visible states, this is not done for
+// two reasons:
+// - The Page Visibility API doesn't guarantee us that the element will still be
+//   focused on triggering the visibilitychange event with the hidden state, and
+//   this seems to be inconsistent even within the same browser, depending on
+//   how the document lost focus, i.e. window was blurred or the tab was
+//   switched away from/to.
+//
+// - There's arguably a UX benefit to showing the focus outlines on coming back
+//   to the document after it was blurred, as it can remind users what they
+//   interacted with last so that they can resume where they left off. Making
+//   this more granular or specific to certain elements may be explored at a
+//   later time.
+//
 // @see https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
 
 // @todo When :focus-visible becomes better supported, deprecate this in favour
@@ -24,15 +37,11 @@ AmbientImpact.addComponent('pointerFocusHide', function(
   /**
    * An array of element selectors to watch.
    *
-   * Note that the link selector ignores links that open in a new tab/window, as
-   * there's a UX benefit to having the link outlined when the user returns to
-   * the tab/window, in case they forgot where they were on the page.
-   *
    * @type {Array}
    */
   var elements = [
-    'a:not([target="_blank"])', ':button', ':submit', ':reset', ':radio',
-    ':checkbox', '[role="button"]', '[tabindex][tabindex!="-1"]'
+    'a', ':button', ':submit', ':reset', ':radio', ':checkbox',
+    '[role="button"]', '[tabindex][tabindex!="-1"]',
   ];
 
   /**
