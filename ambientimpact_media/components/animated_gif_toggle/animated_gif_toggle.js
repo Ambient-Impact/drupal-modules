@@ -17,12 +17,32 @@ AmbientImpact.addComponent('animatedGIFToggle', function(
 ) {
   'use strict';
 
-  var staticSourceDataName = 'ambientimpact-animated-gif-toggle-static-source',
-      animatedSourceDataName =
-        'ambientimpact-animated-gif-toggle-animated-source',
-      componentSettings =
-        AmbientImpact.getComponentSettings('animatedGifToggle');
+  /**
+   * The data-* attribute name that stores the static image source URL.
+   *
+   * @type {String}
+   */
+  var staticSourceDataName = 'ambientimpact-animated-gif-toggle-static-source';
 
+  /**
+   * The data-* attribute name that stores the animated image source URL.
+   *
+   * @type {String}
+   */
+  var animatedSourceDataName =
+    'ambientimpact-animated-gif-toggle-animated-source';
+
+  // The back-end sends the settings under 'animatedGifToggle' because the
+  // lowerCamelCase conversion is pretty simple and doesn't understand
+  // abbreviations or acronyms.
+  this.settings = AmbientImpact.getComponentSettings('animatedGifToggle');
+
+  /**
+   * Event handler to toggle the animated/static GIF state.
+   *
+   * @param {jQuery.Event} event
+   *   The jQuery.Event object for this event.
+   */
   var eventHandler = function(event) {
     var $link = $(this);
 
@@ -52,7 +72,7 @@ AmbientImpact.addComponent('animatedGIFToggle', function(
   this.addBehaviour(
     'AmbientImpactAnimatedGIFToggle',
     'ambientimpact-animated-gif-toggle',
-    '[' + componentSettings.fieldAttributes.enabled + ']',
+    '[' + this.settings.fieldAttributes.enabled + ']',
     function(context, settings) {
       var $this   = $(this),
           $link   = $this.find('a').first(),
@@ -70,7 +90,7 @@ AmbientImpact.addComponent('animatedGIFToggle', function(
         )
         .data(
           animatedSourceDataName,
-          $this.attr(componentSettings.fieldAttributes.url)
+          $this.attr(aiAnimatedGIFToggle.settings.fieldAttributes.url)
         )
         .on('click.aiAnimatedGIFToggle', eventHandler);
     },
