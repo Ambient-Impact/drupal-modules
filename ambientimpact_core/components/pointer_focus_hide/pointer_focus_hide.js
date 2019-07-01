@@ -169,7 +169,7 @@ AmbientImpact.addComponent('pointerFocusHide', function(
   // We bind globally instead of using a behaviour since there isn't really any
   // significant benefit to binding to specific containers and doing so would
   // add more complexity.
-  $('body').on('focus', elements.join(), function(event) {
+  $('body').on('focus.aiPointerFocusHide', elements.join(), function(event) {
     var $this = $(this);
 
     if (
@@ -182,7 +182,7 @@ AmbientImpact.addComponent('pointerFocusHide', function(
       $this.addClass(pointerFocusClass);
     }
   })
-  .on('blur', elements.join(), function(event) {
+  .on('blur.aiPointerFocusHide', elements.join(), function(event) {
     $(this).removeClass(pointerFocusClass)
   });
 });
