@@ -163,5 +163,20 @@ AmbientImpact.addComponent('animatedGIFToggle', function(
       delete $link[0].aiAnimatedGIFToggle;
     }
   );
+
+  // If the document is hidden and there's a last played object, stop the
+  // playing object. While there's probably no performance benefit from doing
+  // this, as browsers already optimize for this sort of thing, it can feel like
+  // good UX to have it stopped when the user returns to the page.
+  //
+  // @see https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
+  $(document).on('visibilitychange.aiAnimatedGIFToggle', function(event) {
+    if (
+      document.visibilityState === 'hidden' &&
+      lastPlayed !== null
+    ) {
+      lastPlayed.stop();
+    }
+  });
 });
 });
