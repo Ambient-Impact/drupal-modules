@@ -172,6 +172,14 @@ class Image extends ComponentBase {
       // Create an Image instance.
       $imageInstance = $this->imageFactory->get($fileURI);
 
+      // If we get null for the width, skip this image as it likely means the
+      // derivative hasn't been created yet. While getting the original image
+      // width would technically work, there's no guarantee that it's the same
+      // width and may cause more problems.
+      if ($imageInstance->getWidth() === null) {
+        continue;
+      }
+
       // If a 'style' attribute already exists, try to explode so that we can
       // remove any existing max-width for the sake of cleanness.
       if ($item['attributes']->offsetExists('style')) {
