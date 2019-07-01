@@ -51,23 +51,53 @@ AmbientImpact.addComponent('animatedGIFToggle', function(
       return;
     }
 
-    // Get elements.
-    var $image            = $link[0].aiAnimatedGIFToggle.$image,
-        $mediaPlayOverlay = $link[0].aiAnimatedGIFToggle.$mediaPlayOverlay;
-
-    // Toggle the overlay.
-    $mediaPlayOverlay[0].aiMediaPlayOverlay.toggle();
-
-    // Swap based on the overlay state.
-    $image.attr('src', $link.data(
-      $mediaPlayOverlay[0].aiMediaPlayOverlay.isPlaying() ?
-      animatedSourceDataName :
-      staticSourceDataName
-    ));
+    $link[0].aiAnimatedGIFToggle.toggle();
 
     // Don't follow the link.
     event.preventDefault();
   }
+
+  /**
+   * Play a GIF.
+   *
+   * Note that 'this' refers to the aiAnimatedGIFToggle object attached to the
+   * link by the behaviour.
+   */
+  var play = function() {
+    // Set the overlay to playing.
+    this.$overlay[0].aiMediaPlayOverlay.play();
+
+    // Set the src to the animated source URL.
+    this.$image.attr('src', this.$link.data(animatedSourceDataName));
+  };
+
+  /**
+   * Stop playing a GIF.
+   *
+   * Note that 'this' refers to the aiAnimatedGIFToggle object attached to the
+   * link by the behaviour.
+   */
+  var stop = function() {
+    // Set the overlay to stopped.
+    this.$overlay[0].aiMediaPlayOverlay.stop();
+
+    // Set the src to the static source URL.
+    this.$image.attr('src', this.$link.data(staticSourceDataName));
+  };
+
+  /**
+   * Toggle playing a GIF.
+   *
+   * Note that 'this' refers to the aiAnimatedGIFToggle object attached to the
+   * link by the behaviour.
+   */
+  var toggle = function() {
+    if (this.$overlay[0].aiMediaPlayOverlay.isPlaying() === true) {
+      this.stop();
+    } else {
+      this.play();
+    }
+  };
 
   this.addBehaviour(
     'AmbientImpactAnimatedGIFToggle',
@@ -79,8 +109,12 @@ AmbientImpact.addComponent('animatedGIFToggle', function(
           $image  = $link.find('img');
 
       $link[0].aiAnimatedGIFToggle = {
-        $image:             $image,
-        $mediaPlayOverlay:  $link.find('.media-play-overlay')
+        $link:     $link,
+        $image:    $image,
+        $overlay:  $link.find('.media-play-overlay'),
+        play:      play,
+        stop:      stop,
+        toggle:    toggle
       };
 
       $link
