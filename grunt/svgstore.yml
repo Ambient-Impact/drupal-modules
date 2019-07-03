@@ -1,23 +1,39 @@
 icons_core:
   options:
+    cleanup:
+      # Removes the inline fill attributes from IcoMoon so that we can colour
+      # these dynamically via CSS.
+      - fill
     prefix: icon-
   files:
     ambientimpact_icon/icons/core.svg:
       - ambientimpact_icon/icons/core/*.svg
 icons_brands:
   options:
+    cleanup:
+      # Removes the inline fill attributes from IcoMoon so that we can colour
+      # these dynamically via CSS.
+      - fill
     prefix: icon-
   files:
     ambientimpact_icon/icons/brands.svg:
       - ambientimpact_icon/icons/brands/*.svg
 icons_libricons:
   options:
+    cleanup:
+      # Removes the inline fill attributes from IcoMoon so that we can colour
+      # these dynamically via CSS.
+      - fill
     prefix: icon-
   files:
     ambientimpact_icon/icons/libricons.svg:
       - ambientimpact_icon/icons/libricons/*.svg
 icons_photoswipe:
   options:
+    cleanup:
+      # Removes the inline fill attributes from IcoMoon so that we can colour
+      # these dynamically via CSS.
+      - fill
     prefix: icon-
   files:
     ambientimpact_media/components/photoswipe/icons/photoswipe.svg:
