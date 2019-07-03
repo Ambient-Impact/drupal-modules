@@ -134,7 +134,7 @@
         ],
         "isMulticolor": false,
         "isMulticolor2": false,
-        "grid": 0,
+        "grid": 24,
         "tags": [
           "pager-first"
         ]
@@ -165,7 +165,7 @@
         ],
         "isMulticolor": false,
         "isMulticolor2": false,
-        "grid": 0,
+        "grid": 24,
         "tags": [
           "pager-last"
         ]
@@ -194,7 +194,7 @@
         ],
         "isMulticolor": false,
         "isMulticolor2": false,
-        "grid": 0,
+        "grid": 24,
         "tags": [
           "pager-next"
         ]
@@ -222,7 +222,7 @@
         ],
         "isMulticolor": false,
         "isMulticolor2": false,
-        "grid": 0,
+        "grid": 24,
         "tags": [
           "pager-previous"
         ]
@@ -250,9 +250,9 @@
         ],
         "isMulticolor": false,
         "isMulticolor2": false,
-        "grid": 0,
+        "grid": 24,
         "tags": [
-          "throbber"
+          "spinner"
         ]
       },
       "attrs": [
@@ -261,7 +261,7 @@
       "properties": {
         "order": 2,
         "id": 4,
-        "name": "throbber",
+        "name": "spinner",
         "prevSize": 32
       },
       "setIdx": 2,
@@ -278,7 +278,7 @@
         ],
         "isMulticolor": false,
         "isMulticolor2": false,
-        "grid": 0,
+        "grid": 24,
         "tags": [
           "arrow-down"
         ]
@@ -306,7 +306,7 @@
         ],
         "isMulticolor": false,
         "isMulticolor2": false,
-        "grid": 0,
+        "grid": 24,
         "tags": [
           "arrow-left"
         ]
@@ -334,7 +334,7 @@
         ],
         "isMulticolor": false,
         "isMulticolor2": false,
-        "grid": 0,
+        "grid": 24,
         "tags": [
           "arrow-right"
         ]
@@ -362,7 +362,7 @@
         ],
         "isMulticolor": false,
         "isMulticolor2": false,
-        "grid": 0,
+        "grid": 24,
         "tags": [
           "arrow-up"
         ]
@@ -411,6 +411,7 @@
       "overrideSize": true
     },
     "historySize": 50,
-    "gridSize": 16
+    "gridSize": 16,
+    "showGrid": true
   }
 }
