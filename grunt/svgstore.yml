@@ -8,6 +8,16 @@ icons_core:
   files:
     ambientimpact_icon/icons/core.svg:
       - ambientimpact_icon/icons/core/*.svg
+icons_material:
+  options:
+    cleanup:
+      # Removes the inline fill attributes from IcoMoon so that we can colour
+      # these dynamically via CSS.
+      - fill
+    prefix: icon-
+  files:
+    ambientimpact_icon/icons/material.svg:
+      - ambientimpact_icon/icons/material/*.svg
 icons_brands:
   options:
     cleanup:

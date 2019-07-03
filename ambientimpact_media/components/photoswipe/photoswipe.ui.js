@@ -34,7 +34,7 @@ AmbientImpact.addComponent('photoswipe.ui', function(aiPhotoSwipeUI, $) {
               'on Pinterest</span>'
       },
       download: {
-        bundle: 'core',
+        bundle: 'material',
         text: 'Download'
       }
     }

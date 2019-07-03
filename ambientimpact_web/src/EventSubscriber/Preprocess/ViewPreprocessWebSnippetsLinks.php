@@ -89,24 +89,27 @@ class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
     foreach ([
       // Search.
       'search' => [
-        'route'     => 'view.web_snippets_search.page_results',
-        'icon'      => 'search',
-        'text'      => $this->t('Search<span class="visually-hidden"> web snippets</span>'),
-        'titleAttr' => $this->t('Search web snippets.'),
+        'route'       => 'view.web_snippets_search.page_results',
+        'iconName'    => 'search',
+        'iconBundle'  => 'material',
+        'text'        => $this->t('Search<span class="visually-hidden"> web snippets</span>'),
+        'titleAttr'   => $this->t('Search web snippets.'),
       ],
       // View all tags.
       'view-all-tags' => [
-        'route'     => 'view.web_tags.page',
-        'icon'      => 'bookmark_outline',
-        'text'      => $this->t('Tags<span class="visually-hidden"> (view all web development tags)</span>'),
-        'titleAttr' => $this->t('View all web development tags.'),
+        'route'       => 'view.web_tags.page',
+        'iconName'    => 'bookmark_outline',
+        'iconBundle'  => 'material',
+        'text'        => $this->t('Tags<span class="visually-hidden"> (view all web development tags)</span>'),
+        'titleAttr'   => $this->t('View all web development tags.'),
       ],
       // RSS feed.
       'feed' => [
-        'route'     => 'view.web_snippets.feed',
-        'icon'      => 'rss',
-        'text'      => $this->t('Subscribe<span class="visually-hidden"> to the web snippets RSS feed</span>'),
-        'titleAttr' => $this->t('View the web snippets RSS feed.'),
+        'route'       => 'view.web_snippets.feed',
+        'iconName'    => 'rss',
+        'iconBundle'  => 'core',
+        'text'        => $this->t('Subscribe<span class="visually-hidden"> to the web snippets RSS feed</span>'),
+        'titleAttr'   => $this->t('View the web snippets RSS feed.'),
       ],
     ] as $key => $data) {
       $items[$key] = [
@@ -116,8 +119,8 @@ class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
         // is probably better for render caching as well.
         'content'         => [
           '#type'           => 'ambientimpact_icon',
-          '#bundle'         => 'core',
-          '#icon'           => $data['icon'],
+          '#bundle'         => $data['iconBundle'],
+          '#icon'           => $data['iconName'],
           '#text'           => $data['text'],
         ],
       ];

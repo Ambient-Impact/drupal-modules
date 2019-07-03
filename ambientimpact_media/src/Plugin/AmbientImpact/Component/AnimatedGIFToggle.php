@@ -237,7 +237,7 @@ class AnimatedGIFToggle extends ComponentBase {
         '<span class="visually-hidden">Play this animated </span>GIF'
       ),
       '#iconName'   => 'play',
-      '#iconBundle' => 'core',
+      '#iconBundle' => 'material',
       '#preview'    => $variables['image'],
     ];
   }
