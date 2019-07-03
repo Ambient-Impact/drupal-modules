@@ -12,9 +12,8 @@ are licensed under [Creative Commons Attribution 4.0 International (CC BY
 
 # YouTube icon
 
-This is from the [Entypo+](http://entypo.com/) icon set and are licensed under
-Creative Commons Attribution 4.0 International (CC BY
-4.0).
+This is from the [Entypo+](http://entypo.com/) icon set and is licensed under
+Creative Commons Attribution 4.0 International (CC BY 4.0).
 
 # GitLab icon
 
