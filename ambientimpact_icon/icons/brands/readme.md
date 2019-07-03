@@ -1,4 +1,4 @@
-# Facebook, GitHub, Tumblr, and Wikipedia icons
+# Facebook, GitHub, Instagram, Pinterest, Tumblr, Twitter, and Wikipedia icons
 
 These are from [Simple Icons](https://github.com/simple-icons/simple-icons) and
 are licensed under [Creative Commons Zero v1.0
