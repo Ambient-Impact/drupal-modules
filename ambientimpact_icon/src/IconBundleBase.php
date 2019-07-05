@@ -5,7 +5,8 @@ namespace Drupal\ambientimpact_icon;
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Extension\ModuleHandler;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\State\StateInterface;
 use Drupal\Core\Url;
 
 /**
@@ -13,6 +14,20 @@ use Drupal\Core\Url;
  */
 class IconBundleBase extends PluginBase
 implements IconBundleInterface, ContainerFactoryPluginInterface {
+  /**
+   * The Drupal module handler service.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
+   * The Drupal state service.
+   *
+   * @var \Drupal\Core\State\StateInterface
+   */
+  protected $state;
+
   /**
    * The path to the icon bundle relative to the root directory of the module.
    *
@@ -30,33 +45,7 @@ implements IconBundleInterface, ContainerFactoryPluginInterface {
   protected $used = false;
 
   /**
-   * The Drupal services container.
-   *
-   * @var \Symfony\Component\DependencyInjection\ContainerInterface
-   */
-  protected $container;
-
-  /**
-   * {@inheritdoc}
-   *
-   * Override the parent method so that we can inject our dependencies into
-   * the constructor.
-   *
-   * @see https://medium.com/oneshoe/drupal-8-dependency-injection-47cc3ee62858
-   */
-  public static function create(
-    ContainerInterface $container,
-    array $configuration, $pluginID, $pluginDefinition
-  ) {
-    return new static(
-      $configuration, $pluginID, $pluginDefinition, $container
-    );
-  }
-
-  /**
    * Constructs an Ambient.Impact Icon Bundle object.
-   *
-   * This saves the Drupal module_handler service instance to a property.
    *
    * @param array $configuration
    *   A configuration array containing information about the plug-in instance.
@@ -66,19 +55,38 @@ implements IconBundleInterface, ContainerFactoryPluginInterface {
    *
    * @param array $pluginDefinition
    *   The plug-in implementation definition. PluginBase defines this as mixed,
-   *   but we should always have an array so the type is set. This can be
-   *   changed in the future if need be.
+   *   but we should always have an array so the type is set.
    *
-   * @see \Drupal\Component\Plugin\PluginBase
-   *   This is the parent class that the __construct() of is called.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
+   *   The Drupal module handler service.
+   *
+   * @param \Drupal\Core\State\StateInterface $state
+   *   The Drupal state service.
    */
   public function __construct(
     array $configuration, string $pluginID, array $pluginDefinition,
-    ContainerInterface $container
+    ModuleHandlerInterface $moduleHandler,
+    StateInterface $state
   ) {
-    $this->container = $container;
-
     parent::__construct($configuration, $pluginID, $pluginDefinition);
+
+    // Save dependencies.
+    $this->moduleHandler  = $moduleHandler;
+    $this->state          = $state;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(
+    ContainerInterface $container,
+    array $configuration, $pluginID, $pluginDefinition
+  ) {
+    return new static(
+      $configuration, $pluginID, $pluginDefinition,
+      $container->get('module_handler'),
+      $container->get('state')
+    );
   }
 
   /**
@@ -88,9 +96,9 @@ implements IconBundleInterface, ContainerFactoryPluginInterface {
     $path = $this->path . '/' . $this->pluginDefinition['id'] . '.svg';
 
     if ($absolute === true) {
-      $path = $this->container->get('module_handler')
-        ->getModule($this->pluginDefinition['provider'])->getPath()
-      . '/' . $path;
+      $path = $this->moduleHandler->getModule(
+        $this->pluginDefinition['provider']
+      )->getPath() . '/' . $path;
     }
 
     return $path;
@@ -105,8 +113,7 @@ implements IconBundleInterface, ContainerFactoryPluginInterface {
     // download the bundle when the cache is cleared.
     // @todo Should we use some other metric for this, e.g. last modified
     // time? That way only changed bundles are re-downloaded.
-    $queryString  = $this->container->get('state')
-              ->get('system.css_js_query_string');
+    $queryString  = $this->state->get('system.css_js_query_string');
 
     if ($queryString !== null) {
       $urlObject->setOption('query', [$queryString => null]);
