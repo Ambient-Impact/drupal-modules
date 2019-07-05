@@ -28,11 +28,8 @@
   // on hover, making them more obvious on mobile.
   text-decoration:    underline;
 
-  // For browsers that support it, clear descenders. First declaration is
-  // better supported (at least in Blink as of May 2018), and second is the
-  // new proposed standard:
-  // https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-skip-ink
-  text-decoration-skip:   ink;
+  // For browsers that support it, clear descenders.
+  // @see https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-skip-ink
   text-decoration-skip-ink: auto;
 
   @include link-hover {
