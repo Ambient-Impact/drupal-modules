@@ -1,8 +1,0 @@
-module:
-  options:
-    map: true
-  files:
-    - src: '{<%= modulePaths %>}/{<%= stylesheetPaths %>}/**/*.css'
-      ext: .css
-      extDot: last
-      expand: true
