@@ -3,6 +3,11 @@
  * @file
  * Default theme implementation for an 'ambientimpact_icon' #type.
  *
+ * Note that the 'spaceless' filter is used to ensure no white-space is output
+ * between the icon elements as the icon can be displayed inline in a passage of
+ * text, in which case extra white-space would cause extra visual spaces where
+ * none is wanted, e.g. right next to some punctuation.
+ *
  * Available variables:
  * - containerTag: The container HTML tag.
  * - containerAttributes: Attributes object for the icon container.
@@ -14,7 +19,9 @@
  * @ingroup themeable
  */
 #}
-<{{ containerTag }}{{ containerAttributes }}>
-  <svg{{ iconAttributes }}><use{{ useAttributes }}></use></svg>
-  <span{{ textAttributes }}>{{ text }}</span>
-</{{ containerTag }}>
+{% filter spaceless %}
+  <{{ containerTag }}{{ containerAttributes }}>
+    <svg{{ iconAttributes }}><use{{ useAttributes }}></use></svg>
+    <span{{ textAttributes }}>{{ text }}</span>
+  </{{ containerTag }}>
+{% endfilter %}
