@@ -1,0 +1,17 @@
+{
+  "name": "ambient.impact/drupal-module-paragraphs-migrate",
+  "description": "Ambient.Impact - Paragraphs migrate",
+  "type": "project",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Ambient.Impact",
+      "homepage": "https://ambientimpact.com/",
+      "role": "Developer"
+    }
+  ],
+  "require-dev": {
+    "drupal/migrate_file_to_media": "^1.0.0-beta5",
+    "drupal/migrate_plus": "^4.1.0"
+  }
+}

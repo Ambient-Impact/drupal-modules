@@ -1,0 +1,16 @@
+{
+  "name": "ambient.impact/drupal-module-core",
+  "description": "Ambient.Impact - Core",
+  "type": "project",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Ambient.Impact",
+      "homepage": "https://ambientimpact.com/",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "drupal/hook_event_dispatcher": "^1.23"
+  }
+}

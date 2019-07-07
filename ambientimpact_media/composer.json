@@ -1,0 +1,44 @@
+{
+  "name": "ambient.impact/drupal-module-media",
+  "description": "Ambient.Impact - Media",
+  "type": "project",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Ambient.Impact",
+      "homepage": "https://ambientimpact.com/",
+      "role": "Developer"
+    }
+  ],
+  "repositories": {
+    "drupal/image_field_caption": {
+      "type": "package",
+      "package": {
+        "name": "drupal/image_field_caption",
+        "type": "drupal-module",
+        "version": "1.x-dev",
+        "source": {
+          "url": "https://git.drupalcode.org/sandbox/spoit-2806183.git",
+          "type": "git",
+          "reference": "8.x-1.x"
+        }
+      }
+    }
+  },
+  "require": {
+    "cweagans/composer-patches": "^1.6.5",
+    "drupal/hook_event_dispatcher": "^1.23",
+    "drupal/image_field_caption": "1.x-dev",
+    "drupal/video_embed_field": "^2.0.0"
+  },
+  "extra": {
+    "patches": {
+      "drupal/image_field_caption": {
+        "Fatal error fixes https://www.drupal.org/project/image_field_caption/issues/2413809#comment-13148691": "https://www.drupal.org/files/issues/2019-06-15/image_field_caption-fatal_error_fixes-2413809-8-8.x.patch"
+      },
+      "drupal/video_embed_field": {
+        "Retrieve title & description for videos https://www.drupal.org/project/video_embed_field/issues/2913925": "https://www.drupal.org/files/issues/2018-07-09/retrieve-title-2913925-5.patch"
+      }
+    }
+  }
+}

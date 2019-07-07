@@ -1,0 +1,17 @@
+{
+  "name": "ambient.impact/drupal-module-portfolio",
+  "description": "Ambient.Impact - Portfolio",
+  "type": "project",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Ambient.Impact",
+      "homepage": "https://ambientimpact.com/",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "drupal/entityqueue": "^1.0",
+    "drupal/hook_event_dispatcher": "^1.23"
+  }
+}

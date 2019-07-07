@@ -1,0 +1,29 @@
+{
+  "name": "ambient.impact/drupal-module-migrate",
+  "description": "Ambient.Impact - Migrate",
+  "type": "project",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Ambient.Impact",
+      "homepage": "https://ambientimpact.com/",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "cweagans/composer-patches": "^1.6.5"
+  },
+  "require-dev": {
+    "drupal/migrate_plus": "^4.1.0"
+  },
+  "extra": {
+    "patches": {
+      "drupal/core": {
+        "Migrate 'findMigrationDependencies' function throws error when 'process' param is null https://www.drupal.org/project/drupal/issues/2981837": "https://www.drupal.org/files/issues/2019-05-22/findMigrationDependencies-null-process-value-2981837-5.patch"
+      },
+      "drupal/migrate_plus": {
+        "Add a LoadEntity process plugin [#3018849] https://www.drupal.org/project/migrate_plus/issues/3018849#comment-12928073": "https://www.drupal.org/files/issues/2019-01-15/migrate_plus-3018849-29-Add-a-LoadEntity-process-plugin.patch"
+      }
+    }
+  }
+}

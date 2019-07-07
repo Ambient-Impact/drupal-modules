@@ -1,0 +1,19 @@
+{
+  "name": "ambient.impact/drupal-module-web",
+  "description": "Ambient.Impact - Web",
+  "type": "project",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Ambient.Impact",
+      "homepage": "https://ambientimpact.com/",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "drupal/entity_reference_revisions": "^1.6.0",
+    "drupal/hook_event_dispatcher": "^1.23",
+    "drupal/paragraphs": "^1.8.0",
+    "drupal/search_api": "^1.13"
+  }
+}

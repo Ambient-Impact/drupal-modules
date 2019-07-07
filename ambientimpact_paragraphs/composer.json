@@ -1,0 +1,18 @@
+{
+  "name": "ambient.impact/drupal-module-paragraphs",
+  "description": "Ambient.Impact - Paragraphs",
+  "type": "project",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Ambient.Impact",
+      "homepage": "https://ambientimpact.com/",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "drupal/paragraphs": "^1.8.0",
+    "drupal/geshifilter": "^1.2.0",
+    "drupal/video_embed_field": "^2.0.0"
+  }
+}
