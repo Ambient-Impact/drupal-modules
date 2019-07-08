@@ -63,3 +63,8 @@ directory. A very simple example can be found in
 [```intrinsic_ratio.libraries.yml```](ambientimpact_media/components/intrinsic_ratio/intrinsic_ratio.libraries.yml),
 while a more complex example can be found in
 [```photoswipe.libraries.yml```](ambientimpact_media/components/photoswipe/photoswipe.libraries.yml).
+
+## Third-party libraries
+
+Various components require third-party libraries to function. See
+[third-party_libraries.md](third-party_libraries.md) for more information.

@@ -10,7 +10,38 @@
       "role": "Developer"
     }
   ],
+  "repositories": {
+    "drupal-library/jquery.onfontresize": {
+      "type": "package",
+      "package": {
+        "name": "drupal-library/jquery.onfontresize",
+        "type": "drupal-library",
+        "version": "master",
+        "source": {
+          "url": "https://github.com/johnantoni/jquery.onfontresize.git",
+          "type": "git",
+          "reference": "master"
+        }
+      }
+    }
+  },
   "require": {
-    "drupal/hook_event_dispatcher": "^1.23"
+    "drupal/hook_event_dispatcher": "^1.23",
+    "npm-asset/chillout": "^3.1.7",
+    "npm-asset/fontfaceobserver": "2.1.0",
+    "npm-asset/gsap": "^2.0.1",
+    "npm-asset/jquery-hoverintent": "^1.9.0",
+    "npm-asset/js-cookie": "~2.1.2",
+    "drupal-library/jquery.onfontresize": "master",
+    "npm-asset/ally.js": "1.4.1"
+  },
+  "require-dev": {
+    "npm-asset/sass-toolkit": "~2.9.0",
+    "npm-asset/sassy-lists": "~2.2.4",
+    "bower-asset/jacket": "~1.1.1",
+    "bower-asset/sassy-math": "~1.5.1",
+    "npm-asset/include-media": "^1.4.9",
+    "bower-asset/sassy-cast": "^2.0.0",
+    "npm-asset/sass-recursive-map-merge": "1.0.1"
   }
 }

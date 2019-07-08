@@ -7,8 +7,8 @@ photoswipe:
     gpl-compatible: true
   css:
     component:
-      assets/vendor/photoswipe/dist/photoswipe.css: {}
-      assets/vendor/photoswipe/dist/default-skin/default-skin.css: {}
+      /libraries/photoswipe/dist/photoswipe.css: {}
+      /libraries/photoswipe/dist/default-skin/default-skin.css: {}
   js:
-    assets/vendor/photoswipe/dist/photoswipe.min.js: { minified: true }
-    assets/vendor/photoswipe/dist/photoswipe-ui-default.min.js: { minified: true }
+    /libraries/photoswipe/dist/photoswipe.min.js: { minified: true }
+    /libraries/photoswipe/dist/photoswipe-ui-default.min.js: { minified: true }

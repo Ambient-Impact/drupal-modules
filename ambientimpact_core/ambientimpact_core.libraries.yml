@@ -23,7 +23,7 @@ ally.js:
     url: https://github.com/medialize/ally.js/blob/1.4.1/LICENSE.txt
     gpl-compatible: true
   js:
-    assets/vendor/ally.js/ally.min.js: { minified: true }
+    /libraries/ally.js/ally.min.js: { minified: true }
 
 fontfaceobserver:
   remote: https://github.com/bramstein/fontfaceobserver
@@ -35,7 +35,7 @@ fontfaceobserver:
   js:
     # This is the version without the Promises polyfill, which we don't need
     # because we require and test for Promises in the framework.
-    assets/vendor/fontfaceobserver/fontfaceobserver.standalone.js: { minified: true }
+    /libraries/fontfaceobserver/fontfaceobserver.standalone.js: { minified: true }
 
 # GSAP (GreenSock Animation Platform) libraries
 gsap.tweenmax:
@@ -46,7 +46,7 @@ gsap.tweenmax:
     url: https://greensock.com/standard-license
     gpl-compatible: false
   js:
-    assets/vendor/gsap/src/minified/TweenMax.min.js: { minified: true }
+    /libraries/gsap/src/minified/TweenMax.min.js: { minified: true }
 gsap.tweenlite:
   remote: https://greensock.com/gsap
   version: 2.0.1
@@ -55,7 +55,7 @@ gsap.tweenlite:
     url: https://greensock.com/standard-license
     gpl-compatible: false
   js:
-    assets/vendor/gsap/src/minified/TweenLite.min.js: { minified: true }
+    /libraries/gsap/src/minified/TweenLite.min.js: { minified: true }
 gsap.timelinelite:
   remote: https://greensock.com/gsap
   version: 2.0.1
@@ -64,7 +64,7 @@ gsap.timelinelite:
     url: https://greensock.com/standard-license
     gpl-compatible: false
   js:
-    assets/vendor/gsap/src/minified/TimelineLite.min.js: { minified: true }
+    /libraries/gsap/src/minified/TimelineLite.min.js: { minified: true }
 gsap.plugin.colorprops:
   remote: https://greensock.com/gsap
   version: 2.0.1
@@ -73,7 +73,7 @@ gsap.plugin.colorprops:
     url: https://greensock.com/standard-license
     gpl-compatible: false
   js:
-    assets/vendor/gsap/src/minified/plugins/ColorPropsPlugin.min.js: { minified: true }
+    /libraries/gsap/src/minified/plugins/ColorPropsPlugin.min.js: { minified: true }
 gsap.plugin.css:
   remote: https://greensock.com/gsap
   version: 2.0.1
@@ -82,4 +82,4 @@ gsap.plugin.css:
     url: https://greensock.com/standard-license
     gpl-compatible: false
   js:
-    assets/vendor/gsap/src/minified/plugins/CSSPlugin.min.js: { minified: true }
+    /libraries/gsap/src/minified/plugins/CSSPlugin.min.js: { minified: true }

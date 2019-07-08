@@ -40,3 +40,8 @@ you must add the following to your root ```composer.json```:
 * If you install this to a different location, update the path accordingly.
 * You must define patches in your root ```composer.json``` and not in an external file via the ```patches-file``` setting for ```wikimedia/composer-merge-plugin``` to be able to merge in patches from dependencies.
 * If your Drupal project was already installed manually or via Drush, you can use [grasmash/composerize-drupal](https://github.com/grasmash/composerize-drupal) to convert it to Composer.
+
+## Third-party front-end libraries
+
+These are managed via Composer like back-end dependencies. See
+[third-party_libraries.md](third-party_libraries.md) for more information.

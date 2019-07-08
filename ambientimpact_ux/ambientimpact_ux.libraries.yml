@@ -6,7 +6,7 @@ autosize:
     url: https://github.com/jackmoore/autosize/blob/master/LICENSE.md
     gpl-compatible: true
   js:
-    assets/vendor/autosize/dest/autosize.min.js: { minified: true }
+    /libraries/autosize/dist/autosize.min.js: { minified: true }
 
 frend-offcanvas:
   remote: https://frend.co/components/offcanvas/
@@ -16,7 +16,7 @@ frend-offcanvas:
     url: https://github.com/frend/frend.co/blob/gh-pages/LICENSE
     gpl-compatible: true
   js:
-    assets/vendor/frend-offcanvas/index.js: { minified: true }
+    /libraries/frend-offcanvas/dist/froffcanvas.min.js: { minified: true }
 
 headroom.js:
   remote: https://wicky.nillia.ms/headroom.js/
@@ -26,7 +26,7 @@ headroom.js:
     url: https://github.com/WickyNilliams/headroom.js/blob/master/LICENSE
     gpl-compatible: true
   js:
-    assets/vendor/headroom.js/index.js: { minified: true }
+    /libraries/headroom.js/dist/headroom.min.js: { minified: true }
 
 smoothscroll:
   remote: https://github.com/iamdustan/smoothscroll
@@ -36,7 +36,7 @@ smoothscroll:
     url: https://github.com/iamdustan/smoothscroll/blob/master/LICENSE
     gpl-compatible: true
   js:
-    assets/vendor/smoothscroll/src/smoothscroll.js: {}
+    /libraries/smoothscroll/src/smoothscroll.js: {}
 
 popper.js:
   remote: https://popper.js.org/
@@ -46,7 +46,7 @@ popper.js:
     url: https://github.com/FezVrasta/popper.js/blob/master/LICENSE.md
     gpl-compatible: true
   js:
-    assets/vendor/popper.js/dist/umd/popper.min.js: { minified: true }
+    /libraries/popper.js/dist/umd/popper.min.js: { minified: true }
 
 tippy.js:
   remote: https://atomiks.github.io/tippyjs/
@@ -57,8 +57,8 @@ tippy.js:
     gpl-compatible: true
   css:
     component:
-      assets/vendor/tippy.js/dist/tippy.css: {}
+      /libraries/tippy.js/dist/tippy.css: {}
   js:
-    assets/vendor/tippy.js/dist/tippy.standalone.js: { minified: true }
+    /libraries/tippy.js/dist/tippy.standalone.js: { minified: true }
   dependencies:
     - ambientimpact_ux/popper.js

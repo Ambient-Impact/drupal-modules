@@ -5,8 +5,8 @@
 @import '../../../ambientimpact_core/stylesheets/_common.scss';
 
 // We need the Tippy.js partials for the arrow stuff.
-@import '../../assets/vendor/tippy.js-source/src/scss/_mixins.scss';
-@import '../../assets/vendor/tippy.js-source/src/scss/_vars.scss';
+@import '../../../../../libraries/tippy.js-source/src/scss/_mixins.scss';
+@import '../../../../../libraries/tippy.js-source/src/scss/_vars.scss';
 
 ///
 /// The padding of tooltips.
