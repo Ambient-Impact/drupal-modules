@@ -10,5 +10,6 @@ dependencies:
   - drupal:media_library
   - ambientimpact_core:ambientimpact_core
   - ambientimpact_icon:ambientimpact_icon
+  - ambientimpact_ux:ambientimpact_ux
   - hook_event_dispatcher:hook_event_dispatcher
   - image_field_caption:image_field_caption
