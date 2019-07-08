@@ -34,6 +34,10 @@ you must add the following to your root ```composer.json```:
 }
 ```
 
+Once everything is configured, running [```composer
+install```](https://getcomposer.org/doc/03-cli.md#install-i) in your project
+root is all you have to do.
+
 ## Notes
 
 * The ```merge-plugin``` item should already exist by default in your root ```composer.json```, so you'll have to merge it in manually.
