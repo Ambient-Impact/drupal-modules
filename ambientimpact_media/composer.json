@@ -37,7 +37,8 @@
         "Fatal error fixes https://www.drupal.org/project/image_field_caption/issues/2413809#comment-13148691": "https://www.drupal.org/files/issues/2019-06-15/image_field_caption-fatal_error_fixes-2413809-8-8.x.patch"
       },
       "drupal/video_embed_field": {
-        "Retrieve title & description for videos https://www.drupal.org/project/video_embed_field/issues/2913925": "https://www.drupal.org/files/issues/2018-07-09/retrieve-title-2913925-5.patch"
+        "Retrieve title & description for videos https://www.drupal.org/project/video_embed_field/issues/2913925": "https://www.drupal.org/files/issues/2018-07-09/retrieve-title-2913925-5.patch",
+        "Load bigger Vimeo Thumbnails [#2954954] https://www.drupal.org/project/video_embed_field/issues/2954954#comment-13150506 ": "https://www.drupal.org/files/issues/2019-06-17/video_embed_field-bigger_vimeo_thumbnails-2954954-7-8.x-2.x.patch"
       }
     }
   }
