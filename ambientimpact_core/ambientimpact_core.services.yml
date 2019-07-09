@@ -29,7 +29,7 @@ services:
   # Modernizr hook_library_info_alter() event subscriber.
   ambientimpact_core.hook_library_info_alter_modernizr_event_subscriber:
     class: \Drupal\ambientimpact_core\EventSubscriber\Theme\HookLibraryInfoAlterModernizrEventSubscriber
-    arguments: ['@module_handler']
+    arguments: ['@module_handler', '@logger.factory']
     tags:
       - { name: 'event_subscriber' }
 
