@@ -26,11 +26,11 @@
   ],
   "require": {
     "drupal/hook_event_dispatcher": "^1.23",
-    "npm-asset/autosize": "3.0.4",
+    "npm-asset/autosize": "4.0.2",
     "npm-asset/headroom.js": "0.9.4",
     "npm-asset/fr-offcanvas": "1.1.1",
     "bower-asset/smoothscroll": "^0.4.4",
-    "npm-asset/popper.js": "1.14.4",
+    "npm-asset/popper.js": "1.15.0",
     "bower-asset/stickyfill": "~1.1.4",
     "npm-asset/tippy.js": "2.6.0"
   },
