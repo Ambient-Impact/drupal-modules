@@ -5,5 +5,7 @@ component.link.underline:
     link.underline.transition.js: {}
   dependencies:
     - ambientimpact_core/ally.js
-    - ambientimpact_ux/gsap.tweenmax
+    - ambientimpact_ux/gsap.tweenlite
+    - ambientimpact_ux/gsap.plugin.css
+    - ambientimpact_ux/gsap.plugin.colorprops
     - ambientimpact_core/component.link.image
