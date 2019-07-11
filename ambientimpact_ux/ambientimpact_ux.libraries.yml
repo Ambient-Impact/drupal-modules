@@ -68,6 +68,16 @@ gsap.plugin.css:
   js:
     /libraries/gsap/src/minified/plugins/CSSPlugin.min.js: { minified: true }
 
+gsap.plugin.scrollto:
+  remote: https://greensock.com/docs/Plugins/ScrollToPlugin
+  version: 2.1.3
+  license:
+    name: Standard "No Charge" GreenSock License
+    url: https://greensock.com/standard-license
+    gpl-compatible: false
+  js:
+    /libraries/gsap/src/minified/plugins/ScrollToPlugin.min.js: { minified: true }
+
 headroom.js:
   remote: https://wicky.nillia.ms/headroom.js/
   version: 0.9.4
