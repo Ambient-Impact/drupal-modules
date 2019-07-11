@@ -20,7 +20,7 @@ AmbientImpact.onGlobals([
 ], function() {
 
 AmbientImpact.addComponent('link.underline.transition', function(
-  aiunderlineTransition, $
+  aiLinkUnderlineTransition, $
 ) {
   'use strict';
 
@@ -114,7 +114,7 @@ AmbientImpact.addComponent('link.underline.transition', function(
       properties['link-underline-normal-colour'];
 
     // This doesn't work, but the enter handler clears this anyways, so leave
-    // this hear for now in case GSAP starts removing it as it should.
+    // this here for now in case GSAP starts removing it as it should.
     tweenSettings.clearProps = linkUnderlineCurrentColourProperty;
 
     // Run the tween.
