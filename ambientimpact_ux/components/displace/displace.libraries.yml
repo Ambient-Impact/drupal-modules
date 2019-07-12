@@ -1,0 +1,5 @@
+component.displace:
+  js:
+    displace.js: {}
+  dependencies:
+    - ambientimpact_core/component.environment
