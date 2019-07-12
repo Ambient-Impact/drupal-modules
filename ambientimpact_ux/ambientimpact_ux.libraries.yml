@@ -16,7 +16,7 @@ frend-offcanvas:
     url: https://github.com/frend/frend.co/blob/gh-pages/LICENSE
     gpl-compatible: true
   js:
-    /libraries/frend-offcanvas/dist/froffcanvas.min.js: { minified: true }
+    /libraries/fr-offcanvas/dist/froffcanvas.min.js: { minified: true }
 
 gsap.tweenmax:
   remote: https://greensock.com/docs/TweenMax
