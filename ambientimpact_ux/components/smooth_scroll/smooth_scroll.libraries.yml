@@ -1,0 +1,15 @@
+component.smooth_scroll:
+  js:
+    smooth_scroll.js: {}
+  dependencies:
+    - ambientimpact_core/component.media_query
+    - ambientimpact_ux/gsap.tweenlite
+    - ambientimpact_ux/gsap.plugin.scrollto
+    - ambientimpact_ux/component.displace
+
+component.smooth_scroll.demo:
+  css:
+    component:
+      smooth_scroll.demo.css: {}
+  dependencies:
+    - ambientimpact_ux/component.smooth_scroll
