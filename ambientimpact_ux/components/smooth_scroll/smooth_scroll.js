@@ -133,7 +133,9 @@ AmbientImpact.addComponent('smoothScroll', function(aiSmoothScroll, $) {
      * - distance: the distance that scrolling to scrollTo will cover, from the
      *   current scroll position.
      *
-     * - offsetName: the name of the element offset to grab for this axis.
+     * - offsetName: the name of the element offset to grab for this axis. Also
+     *   doubles as the name of the viewport offset value to pass to GSAP for
+     *   the offsetX/offsetY settings.
      *
      * - duration: the duration of the scrolling for this axis. If adaptive
      *   scroll duration is enabled, this will be calculated based on the
@@ -178,13 +180,7 @@ AmbientImpact.addComponent('smoothScroll', function(aiSmoothScroll, $) {
      * @type {Object}
      */
     var tweenOptions = {
-      scrollTo: {
-        // This adds top and left offsets from viewport displacement. This
-        // allows the admin toolbar width/height to be taken into account, for
-        // example.
-        offsetX:  displacementOffsets.left,
-        offsetY:  displacementOffsets.top
-      },
+      scrollTo: {},
       ease:     Power4.easeOut
     };
 
@@ -287,6 +283,26 @@ AmbientImpact.addComponent('smoothScroll', function(aiSmoothScroll, $) {
       // duration value.
       } else {
         scrollDuration = baseScrollDuration;
+      }
+    }
+
+    for (var directionName in viewportData) {
+      if (!viewportData.hasOwnProperty(directionName)) {
+        continue;
+      }
+
+      // If the location to scroll to is greather than or equal to the relevant
+      // displacement offset, tell GSAP to offset the scroll on this axis. This
+      // is done conditionally here, because GSAP doesn't seem to adjust the
+      // animation when the location to scroll to is at the top, for example,
+      // and so ends up hitting the top ungracefully without fully easing out.
+      if (
+        viewportData[directionName].scrollTo >= displacementOffsets[
+          viewportData[directionName].offsetName
+        ]
+      ) {
+        tweenOptions.scrollTo['offset' + directionName.toUpperCase()] =
+          displacementOffsets[viewportData[directionName].offsetName];
       }
     }
 
