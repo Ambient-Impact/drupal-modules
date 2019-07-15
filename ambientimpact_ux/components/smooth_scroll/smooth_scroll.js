@@ -12,6 +12,13 @@ AmbientImpact.addComponent('smoothScroll', function(aiSmoothScroll, $) {
   'use strict';
 
   /**
+   * Whether to scale the scroll duration based on the distance travelled.
+   *
+   * @type {Boolean}
+   */
+  this.useAdaptiveScrollDuration = true;
+
+  /**
    * The last two document scroll positions.
    *
    * @type {Array}
@@ -41,11 +48,16 @@ AmbientImpact.addComponent('smoothScroll', function(aiSmoothScroll, $) {
   var $document = $(document);
 
   /**
-   * The duration of the scrolling animation.
+   * The base duration of the scrolling animation, in seconds.
+   *
+   * This duration value is used to determine the actual scrolling duration,
+   * which takes this and increases it based on the distance travelled. This
+   * value can most simply be thought of as the duration for scrolling one
+   * viewport width or height.
    *
    * @type {Number}
    */
-  var scrollDuration = 0.8;
+  var baseScrollDuration = 0.8;
 
   /**
    * Update lastTwoScrollPositions on document scroll.
@@ -87,6 +99,13 @@ AmbientImpact.addComponent('smoothScroll', function(aiSmoothScroll, $) {
      */
     var element = null;
 
+  /**
+   * An HTML element to scroll to, if any, wrapped in a jQuery collection.
+   *
+   * @type {jQuery}
+   */
+    var $element = $();
+
     /**
      * An HTML element ID, if found in the hash.
      *
@@ -95,11 +114,63 @@ AmbientImpact.addComponent('smoothScroll', function(aiSmoothScroll, $) {
     var elementID = location.hash.substr(1);
 
     /**
-     * Viewport offsets as returned by the displace component.
+     * Viewport displacement offsets as returned by the displace component.
      *
      * @type {Object}
      */
-    var offsets = aiDisplace.getOffsets();
+    var displacementOffsets = aiDisplace.getOffsets();
+
+    /**
+     * Data for scrolling the viewport, grouped by X and Y axes.
+     *
+     * Purpose of each key:
+     *
+     * - size: the size of the viewport in this axis, minus viewport
+     *   displacement values, if any.
+     *
+     * - scrollTo: the scroll value to scroll to.
+     *
+     * - distance: the distance that scrolling to scrollTo will cover, from the
+     *   current scroll position.
+     *
+     * - offsetName: the name of the element offset to grab for this axis.
+     *
+     * - duration: the duration of the scrolling for this axis. If adaptive
+     *   scroll duration is enabled, this will be calculated based on the
+     *   distance travelled in the context of the to the viewport size.
+     *
+     * @type {Object}
+     */
+    var viewportData = {
+      x: {
+        size:
+          $window.width() - displacementOffsets.left -
+          displacementOffsets.right,
+        scrollTo:   0,
+        distance:   0,
+        offsetName: 'left',
+        duration:   0
+      },
+      y: {
+        size:
+          $window.height() - displacementOffsets.top -
+          displacementOffsets.bottom,
+        scrollTo:   0,
+        distance:   0,
+        offsetName: 'top',
+        duration:   0
+      }
+    };
+
+    /**
+     * The duration of the scrolling animation, in seconds.
+     *
+     * This defaults to zero and is only given a non-zero value if the
+     * '(prefers-reduced-motion: reduce)' media query doesn't match.
+     *
+     * @type {Number}
+     */
+    var scrollDuration = 0;
 
     /**
      * The options object to be passed to TweenLite.to().
@@ -111,8 +182,8 @@ AmbientImpact.addComponent('smoothScroll', function(aiSmoothScroll, $) {
         // This adds top and left offsets from viewport displacement. This
         // allows the admin toolbar width/height to be taken into account, for
         // example.
-        offsetX:  offsets.left,
-        offsetY:  offsets.top
+        offsetX:  displacementOffsets.left,
+        offsetY:  displacementOffsets.top
       },
       ease:     Power4.easeOut
     };
@@ -138,11 +209,12 @@ AmbientImpact.addComponent('smoothScroll', function(aiSmoothScroll, $) {
 
     // If there's a hash, try and find an element with that ID.
     if (location.hash !== '') {
-      element = document.getElementById(elementID);
+      element   = document.getElementById(elementID);
+      $element  = $(element);
     }
 
-    // If a valid element is found by looking for the ID in the hash, scroll it
-    // into view.
+    // If a valid element is found by looking for the ID in the hash, have GSAP
+    // scroll it into view.
     if (element !== null) {
       tweenOptions.scrollTo.y = '#' + elementID;
       tweenOptions.scrollTo.x = tweenOptions.scrollTo.y;
@@ -151,10 +223,10 @@ AmbientImpact.addComponent('smoothScroll', function(aiSmoothScroll, $) {
       // on it would likely start it prematurely, so this event allows that to
       // start when the scrolling has actually come to a stop on element.
       tweenOptions.onComplete = function() {
-        $(element).trigger('scrollTarget');
+        $element.trigger('scrollTarget');
       };
 
-    // Otherwise, attempt to scroll to the coordinates stored in history.state,
+    // Otherwise, set the scroll coordinates to those stored in history.state,
     // if found. If not found, just scroll to the top. Note that history.state
     // can be an empty string and also null, but checking via typeof just
     // returns 'object', so we have to check for those values explicitly.
@@ -172,14 +244,55 @@ AmbientImpact.addComponent('smoothScroll', function(aiSmoothScroll, $) {
       }
     }
 
+    // Only scroll smoothly if the browser doesn't indicate the user prefers
+    // reduced motion:
+    // https://ambientimpact.com/web/snippets/the-reduced-motion-media-query
+    if (!aiMediaQuery.matches('(prefers-reduced-motion: reduce)')) {
+      for (var directionName in viewportData) {
+        if (!viewportData.hasOwnProperty(directionName)) {
+          continue;
+        }
+
+        if (element !== null) {
+          viewportData[directionName].scrollTo = $element.offset()[
+            viewportData[directionName].offsetName
+          ];
+        } else if (typeof tweenOptions.scrollTo[directionName] === 'number') {
+          viewportData[directionName].scrollTo =
+            tweenOptions.scrollTo[directionName];
+        }
+
+        if (aiSmoothScroll.useAdaptiveScrollDuration === true) {
+          // Calculate the distance this scroll will cover.
+          viewportData[directionName].distance = Math.abs(
+            lastPosition[viewportData[directionName].offsetName] -
+            viewportData[directionName].scrollTo
+          );
+
+          // Calculate the duration based on the distance to be scrolled.
+          viewportData[directionName].duration =
+            viewportData[directionName].distance /
+            viewportData[directionName].size * baseScrollDuration;
+        }
+      }
+
+      // If adaptive scroll duration is enabled, set the duration to whichever
+      // is longer of either X or Y.
+      if (aiSmoothScroll.useAdaptiveScrollDuration === true) {
+        scrollDuration = Math.max(
+          viewportData.x.duration, viewportData.y.duration
+        );
+
+      // If adaptive scroll duration is disabled, just use the base scroll
+      // duration value.
+      } else {
+        scrollDuration = baseScrollDuration;
+      }
+    }
+
     TweenLite.to(
       window,
-      // Only scroll smoothly if the browser doesn't indicate the user prefers
-      // reduced motion:
-      // https://ambientimpact.com/web/snippets/the-reduced-motion-media-query
-      aiMediaQuery.matches(
-        '(prefers-reduced-motion: reduce)'
-      ) ? 0 : scrollDuration,
+      scrollDuration,
       tweenOptions
     );
   });
