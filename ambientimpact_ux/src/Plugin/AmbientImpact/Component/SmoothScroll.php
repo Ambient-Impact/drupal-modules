@@ -50,7 +50,7 @@ class SmoothScroll extends ComponentBase {
         'instructions'  => [
           '#type'         => 'html_tag',
           '#tag'          => 'p',
-          '#value'        => $this->t('Click a link to be taken to a corresponding section on the page. Note how both clicking a link and using your brower\'s back and forward buttons will smoothly scroll the page.'),
+          '#value'        => $this->t('Click a link to be taken to a corresponding section on the page. Note how both clicking a link and using your brower\'s back and forward buttons will smoothly scroll the page. If scrolling is instantaneous, your browser may be informing us that you <a href="/web/snippets/the-reduced-motion-media-query">prefer minimal motion</a> or there was a problem executing JavaScript.'),
         ],
         // Add a hidden checkbox to toggle adaptive scroll duration. This is
         // enabled by the demo JavaScript when it attaches.
