@@ -93,6 +93,15 @@ class SmoothScroll extends ComponentBase {
       ],
     ];
 
+    // Generate a few paragraphs of lorem ipsum before the first section.
+    for ($j = 0; $j < 4; $j++) {
+      $renderArray['#demo']['leading_paragraphs']['paragraph' . $j] = [
+        '#type'     => 'html_tag',
+        '#tag'      => 'p',
+        '#value'    => $lorem,
+      ];
+    }
+
     // Generate the demo sections.
     for ($i = 1; $i <= $sectionCount; $i++) {
       $renderArray['#demo']['section' . $i] = [
