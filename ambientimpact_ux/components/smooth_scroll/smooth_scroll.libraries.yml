@@ -8,8 +8,11 @@ component.smooth_scroll:
     - ambientimpact_ux/component.displace
 
 component.smooth_scroll.demo:
+  js:
+    smooth_scroll.demo.js: {}
   css:
     component:
       smooth_scroll.demo.css: {}
   dependencies:
     - ambientimpact_ux/component.smooth_scroll
+    - ambientimpact_web_components/component.component_demo

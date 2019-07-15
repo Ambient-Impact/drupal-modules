@@ -52,13 +52,38 @@ class SmoothScroll extends ComponentBase {
           '#tag'          => 'p',
           '#value'        => $this->t('Click a link to be taken to a corresponding section on the page. Note how both clicking a link and using your brower\'s back and forward buttons will smoothly scroll the page.'),
         ],
+        // Add a hidden checkbox to toggle adaptive scroll duration. This is
+        // enabled by the demo JavaScript when it attaches.
+        'adaptiveScrollDuration'  => [
+          '#type'       => 'checkbox',
+          '#title'      => $this->t('Use adaptive scroll duration'),
+          '#checked'    => true,
+          '#description'  => $this->t('If enabled, will scale the duration of the scroll by the distance travelled, so that longer scrolls take a bit longer and don\'t zip by too fast. Enabled by default.'),
+          '#description_display'  => 'after',
+          // Since we're creating this checkbox outside of Drupal's Form API, we
+          // have to manually set this so that the label is correctly given its
+          // 'for' attribute so that activating it (by click, etc.) toggles the
+          // checkbox as expected.
+          '#id'         => $baseClass . '-adaptive-scroll-duration',
+          '#wrapper_attributes' => [
+            'class'       => [
+              $baseClass . '-adaptive-scroll-duration',
+              // Hide this both visually and from screen readers initially, but
+              // still maintaining its visual layout to avoid the page shifting
+              // when JavaScript shows this.
+              // @see https://www.drupal.org/docs/8/theming/upgrading-classes-on-7x-themes-to-8x
+              'invisible',
+            ],
+          ],
+        ],
         'links'         => $links,
       ],
       '#demo'   => [
         '#type'       => 'html_tag',
         '#tag'        => 'div',
         '#attributes' => [
-          'class'       => [$baseClass],
+          'class'           => [$baseClass],
+          'data-base-class' => $baseClass,
         ],
         '#attached'   => [
           'library'     => [
