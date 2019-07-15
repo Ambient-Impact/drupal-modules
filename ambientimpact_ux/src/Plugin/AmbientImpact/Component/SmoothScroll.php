@@ -20,7 +20,7 @@ class SmoothScroll extends ComponentBase {
   public function getDemo(): array {
     $baseClass = 'smooth-scroll-demo';
 
-    $sectionCount = 3;
+    $sectionCount = 4;
 
     $baseTargetID = 'demo-target';
 
