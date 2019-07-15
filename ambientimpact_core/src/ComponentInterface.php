@@ -7,11 +7,16 @@ namespace Drupal\ambientimpact_core;
  */
 interface ComponentInterface {
   /**
-   * Get the path to this component, relative to the module directory.
+   * Get the path to this component.
+   *
+   * @param boolean $absolute
+   *   If true, will return the path relative to the Drupal root. If false, will
+   *   return the path relative to the implementing module's directory. Defaults
+   *   to false.
    *
    * @return string
    */
-  public function getPath(): string;
+  public function getPath(bool $absolute = false): string;
 
   /**
    * Parse and return any libraries that this component provides.

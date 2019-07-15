@@ -187,7 +187,13 @@ ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface {
   /**
    * {@inheritdoc}
    */
-  public function getPath(): string {
+  public function getPath(bool $absolute = false): string {
+    if ($absolute === true) {
+      return $this->moduleHandler->getModule(
+        $this->pluginDefinition['provider']
+      )->getPath() . '/' . $this->path;
+    }
+
     return $this->path;
   }
 
@@ -246,17 +252,11 @@ ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface {
 
     // Get the YAML parser.
     $parser         = $this->yamlSerialization;
-    // Get the path to the module implementing this component plugin.
-    $modulePath     = $this->moduleHandler
-      ->getModule($this->pluginDefinition['provider'])->getPath();
-    // This is the path to the component from Drupal's root, including the
-    // implementing module.
-    $componentPath  = $modulePath . '/' . $this->path;
 
     // This is the full file system path to the file, including the file name
     // and extension.
     $filePath =
-      DRUPAL_ROOT . '/' . $componentPath . '/' .
+      DRUPAL_ROOT . '/' . $this->getPath(true) . '/' .
       $this->pluginDefinition['id'] . '.libraries.yml';
 
     // Don't proceed if the file doesn't exist.
@@ -308,7 +308,7 @@ ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface {
     foreach ($files as &$category) {
       foreach (array_keys($category) as $key) {
         // New key.
-        $category[$this->path . '/' . $key] = $category[$key];
+        $category[$this->getPath() . '/' . $key] = $category[$key];
         // Delete the old key.
         unset($category[$key]);
       }
@@ -398,18 +398,9 @@ ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface {
    *   The Component's <component name>.html.twig file path.
    */
   protected function getHTMLPath() {
-    // Get the path to the module implementing this component plugin.
-    $modulePath = $this->moduleHandler->getModule(
-      $this->pluginDefinition['provider']
-    )->getPath();
-
-    // This is the path to the component from Drupal's root, including the
-    // implementing module.
-    $componentPath  = $modulePath . '/' . $this->path;
-
     // This is the full file system path to the file, including the file name
     // and extension.
-    return DRUPAL_ROOT . '/' . $componentPath . '/' .
+    return DRUPAL_ROOT . '/' . $this->getPath(true) . '/' .
       $this->pluginDefinition['id'] . '.html.twig';
   }
 
