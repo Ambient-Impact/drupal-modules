@@ -32,15 +32,21 @@ AmbientImpact.addComponent('smoothScrollDemo', function(aiSmoothScrollDemo, $) {
     return;
   }
 
+  /**
+   * Set the adaptive scroll duration setting based on the checkbox state.
+   */
   function setAdaptiveScrollDuration() {
     aiSmoothScroll.useAdaptiveScrollDuration =
       $adaptiveScrollDuration.prop('checked')
   };
 
+  // Set once on document ready.
   setAdaptiveScrollDuration();
 
+  // Update the checkbox on the 'change' event.
   $adaptiveScrollDuration.on('change', setAdaptiveScrollDuration);
 
+  // Remove the 'invisible' class so that the form item is now visible.
   $adaptiveScrollDuration.closest('.form-item').removeClass('invisible');
 });
 });
