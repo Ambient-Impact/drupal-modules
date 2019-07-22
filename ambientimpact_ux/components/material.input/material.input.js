@@ -176,15 +176,26 @@ AmbientImpact.addComponent('material.input', function(aiMaterialInput, $) {
             .find('label')
               .addClass(labelClass)
               // .each(function() {
+              //   var $label = $(this);
+
               //   // Add an optional indicator for better UX:
               //   // http://uxmovement.com/forms/why-users-fill-out-less-if-you-mark-required-fields/
-              //   if (!$(this).has('.form-required').length) {
-              //     $(this).append(
-              //       '<em class="' + optionalIndicatorClass + '"> ' +
-              //         Drupal.t('(optional)') +
-              //       '</em>'
-              //     );
+              //   if (
+              //     $label.has('.form-required').length ||
+              //     typeof $label.attr('for') !== 'undefined' &&
+              //     $('#' + $label.attr('for')).length > 0 &&
+              //     $('#' + $label.attr('for')).is([
+              //       '.required', '[required]',
+              //     ].join(','))
+              //   ) {
+              //     return;
               //   }
+
+              //   $(this).append(
+              //     '<em class="' + optionalIndicatorClass + '"> ' +
+              //       Drupal.t('(optional)') +
+              //     '</em>'
+              //   );
               // })
             .end()
             .find('.description')
