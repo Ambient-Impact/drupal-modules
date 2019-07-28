@@ -81,20 +81,19 @@ implements ComponentPluginManagerInterface{
       // interface, Drupal will throw an error.
       ComponentInterface::class,
 
-      // The name of the annotation class that contains the plug-in
-      // definition.
+      // The name of the annotation class that contains the plug-in definition.
       ComponentAnnotation::class
     );
 
     // This allows the plug-in definitions to be altered by an alter hook. The
-    // parameter defines the name of the hook, thus:
+    // parameter defines the name of the hook:
     // hook_ambientimpact_component_info_alter().
     // @todo Do we even need this?
     $this->alterInfo('ambientimpact_component_info');
 
     // This sets the caching method for our plug-in definitions. Plug-in
     // definitions are discovered by examining the directory defined above, for
-    // any classes with an ComponentAnnotation::class. The annotations are read,
+    // any classes with a ComponentAnnotation::class. The annotations are read,
     // and then the resulting data is cached using the provided cache backend.
     $this->setCacheBackend($cacheBackend, 'ambientimpact_component_info');
   }
@@ -107,7 +106,7 @@ implements ComponentPluginManagerInterface{
 
     // Check if the Component exists so that we can return false without
     // breaking things. If we were to use
-    // Drupal\Component\Plugin\PluginManagerBase::getDefinition() here and a
+    // \Drupal\Component\Plugin\PluginManagerBase::getDefinition() here and a
     // plug-in with the ID of $componentID does not exist, we'd get a big ol'
     // PHP white screen of death.
     if (isset($definitions[$componentID])) {
