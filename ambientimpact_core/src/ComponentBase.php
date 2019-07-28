@@ -243,15 +243,13 @@ ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface {
    * {@inheritdoc}
    */
   public function getLibraries(): array {
-    // This component libraries, if any are found.
-    $libraries      = [];
+    // This component's libraries, if any are found.
+    $libraries = [];
+
     // An array of file array references for ease of manipulation: one index for
     // each 'css' group found, and the 'js' array, if present. At that level
     // they're structured the same, so this avoids repeating code.
-    $files          = [];
-
-    // Get the YAML parser.
-    $parser         = $this->yamlSerialization;
+    $files = [];
 
     // This is the full file system path to the file, including the file name
     // and extension.
@@ -265,7 +263,7 @@ ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface {
     }
 
     // Parse the YAML file.
-    $libraries = $parser::decode(file_get_contents($filePath));
+    $libraries = $this->yamlSerialization::decode(file_get_contents($filePath));
 
     foreach ($libraries as &$library) {
       // Save references to each 'css' group array found.
