@@ -280,7 +280,9 @@ AmbientImpact.addComponent('tooltip', function(aiTooltip, $) {
 			// with hideOnOutOfBounds on touch devices where you would have to
 			// tap elsewhere to move the browser's hover/mouseenter state from
 			// the element before you could tap it again to show the tooltip.
-			trigger:		'mouseenter focus touchstart',
+			// @todo Find a different solution that doesn't get annoying on touch
+			// scrolling if you accidentally drag on the target element.
+			// trigger:		'mouseenter focus touchstart',
 
 			// Minimizes the data attributes added to the DOM to increase
 			// performance.
