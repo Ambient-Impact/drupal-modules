@@ -33,13 +33,13 @@ process:
   # In Drupal 7, this was a simple text field, so we just grab the value and use
   # that as the 'uri'.
   field_project_link:
-    plugin: iterator
+    plugin: sub_process
     source: field_project_link
     process:
       uri: value
 
   field_project_images:
-    plugin: iterator
+    plugin: sub_process
     source: field_project_images
     process:
       target_id:

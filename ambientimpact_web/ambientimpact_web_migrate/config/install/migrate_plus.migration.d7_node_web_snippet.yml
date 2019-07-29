@@ -46,7 +46,7 @@ process:
   # ...but it doesn't seem to work for us, so we're using this method:
   # @see https://drupal.stackexchange.com/a/197850
   field_source_link:
-    plugin: iterator
+    plugin: sub_process
     source: field_source_link
     process:
       uri: url
