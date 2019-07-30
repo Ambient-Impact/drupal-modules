@@ -9,4 +9,5 @@ dependencies:
   - drupal:migrate_drupal
   - ambientimpact_migrate:ambientimpact_migrate
   - ambientimpact_portfolio:ambientimpact_portfolio
+  - migrate_file_to_media:migrate_file_to_media
   - migrate_plus:migrate_plus

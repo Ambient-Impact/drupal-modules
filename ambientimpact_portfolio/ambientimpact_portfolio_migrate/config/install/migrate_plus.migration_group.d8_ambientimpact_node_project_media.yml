@@ -1,0 +1,21 @@
+id: d8_ambientimpact_node_project_media
+label: 'Ambient.Impact Drupal 8 Project node image files to media migration'
+description: 'Migration from migrated image files to media entities.'
+source_type: 'Drupal 8'
+
+shared_configuration:
+  source:
+    # This is the database connection to use for this migration group. Make sure
+    # this is defined in settings.php or a file included by settings.php. You'll
+    # get an error if this database connection isn't defined. Also note that
+    # 'target' refers to the top-level database, while 'key' refers to the
+    # second level, replica database. To clarify: $databases['target']['key'] in
+    # settings.php
+    target: default
+
+dependencies:
+  module:
+    - migrate_file_to_media
+  enforced:
+    module:
+      - ambientimpact_portfolio_migrate
