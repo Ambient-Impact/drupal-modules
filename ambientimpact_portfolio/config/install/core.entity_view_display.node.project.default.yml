@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.project.field_project_categories
     - field.field.node.project.field_project_images
     - field.field.node.project.field_project_link
+    - field.field.node.project.field_project_media
     - node.type.project
   module:
     - ambientimpact_media
@@ -25,9 +26,10 @@ content:
     third_party_settings: {  }
     region: content
   field_project_images:
-    label: visually_hidden
-    weight: 0
     type: image_formatter_link_to_image_style
+    weight: 0
+    region: content
+    label: visually_hidden
     settings:
       image_style: project_image_small
       image_link_style: project_image_linked
@@ -38,7 +40,7 @@ content:
       ambientimpact_media:
         use_photoswipe: true
         use_photoswipe_gallery: true
-    region: content
+        use_animated_gif_toggle: false
   field_project_link:
     weight: 2
     label: visually_hidden
@@ -58,3 +60,5 @@ content:
     third_party_settings: {  }
 hidden:
   field_project_categories: true
+  field_project_media: true
+  search_api_excerpt: true
