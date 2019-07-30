@@ -10,7 +10,7 @@ third_party_settings:
   menu_ui:
     available_menus:
       - main
-    parent: 'main-menu:0:'
+    parent: 'main:'
 name: 'Web snippet'
 type: web_snippet
 description: ''
