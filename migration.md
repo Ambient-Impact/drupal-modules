@@ -220,6 +220,9 @@ already exist or have been migrated.
 
 ### Migrate
 
+Note that [Migrate Manifest](https://www.drupal.org/project/migrate_manifest)
+could have been used to automate most of this in hindsight.
+
 Absolutely everything:
 
 ```
