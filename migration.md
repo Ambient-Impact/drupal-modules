@@ -1,12 +1,71 @@
-This document assumes you've already set up a connection to the legacy Drupal 7
-database in your settings.php.
+This document attempts to detail the process of upgrading
+[ambientimpact.com](https://ambientimpact.com/) from Drupal 7 to Drupal 8.
 
-The following modules are required:
+# Overview
+
+The [Upgrading to Drupal 8 documentation on
+Drupal.org](https://www.drupal.org/docs/8/upgrade) is recommended reading before
+going any further as it explains many of the key concepts and the how and why of
+upgrading/migration.
+
+There are a few important concepts to keep in mind:
+
+* The migration process requires you to install a separate Drupal 8 site, rather than upgrading the Drupal 7 site in place. This makes it easier to compare sites side by side and allows you to run and roll back migrations multiple times.
+* Drupal core's migration process currently requires that the new site be completely empty, without any content (nodes) created before the migration is run. Attempting to run migrations after even a single node has been created manually [will cause errors](https://www.drupal.org/project/migrate_plus/issues/2843323). While it's theoretically possible to put together a custom workflow to migrate content into a site that already has user-created content, that's out of the scope of this document.
+
+# Setting up
+
+## Database
+
+After installing a new Drupal 8 site, you'll need to add a connection to the
+legacy Drupal 7 database in your settings.php:
+
+```
+// The legacy, local Drupal 7 database to migrate from.
+$databases['migrate_drupal7']['default'] = [
+  'database'  => '',
+  'username'  => '',
+  'password'  => '',
+  'driver'    => 'mysql',
+  'host'      => '',
+  'port'      => '',
+];
+```
+
+You'll have to fill in the details for your database. If you're developing
+locally on Acquia DevDesktop like I did, here's what I used:
+
+```
+// The legacy, local Drupal 7 database to migrate from.
+$databases['migrate_drupal7']['default'] = [
+  'database'  => 'ambientimpact_drupal7_dev',
+  'username'  => 'drupaluser',
+  'password'  => '',
+  'driver'    => 'mysql',
+  'host'      => '127.0.0.1',
+  'port'      => 33067,
+];
+```
+
+Note the lack of a password - DevDesktop automatically sets up the
+```drupaluser``` user without a password, which is fine for local development
+but should *never* be done for a site accessible over the internet.
+
+## Modules
+
+The following core and contrib modules need to be installed:
 
 * Drupal core's Migrate and Migrate Drupal
 * [Migrate Plus](https://www.drupal.org/project/migrate_plus)
 * [Migrate Tools](https://www.drupal.org/project/migrate_tools)
 * [Migrate File Entities to Media Entities](https://www.drupal.org/project/migrate_file_to_media)
+
+Additionally, the relevant modules from this repository need to be installed:
+
+* Ambient.Impact - Migrate (```ambientimpact_migrate```)
+* Ambient.Impact - Paragraphs migrate (```ambientimpact_paragraphs_migrate```)
+* Ambient.Impact - Web migrate (```ambientimpact_web_migrate```)
+* Ambient.Impact - Portfolio migrate (```ambientimpact_portfolio_migrate```)
 
 # Migrations
 
@@ -26,6 +85,10 @@ Note that this path is the root of the Drupal 7 install, not containing the
 it, make the edit, and then install it again. Alternatively, you can install
 ```ambientimpact_migrate``` and then edit the configuration manually using the
 [Devel module](https://www.drupal.org/project/devel)'s Config editor.
+
+All other migrations not listed here were handled using the migrations created
+by Drupal core's upgrade process; for example, various site settings and other
+basic stuff not requiring custom configuration and code.
 
 ## Drupal 7 public file entities to Drupal 8 file entities
 
