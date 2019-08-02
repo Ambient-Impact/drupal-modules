@@ -67,6 +67,54 @@ Additionally, the relevant modules from this repository need to be installed:
 * Ambient.Impact - Web migrate (```ambientimpact_web_migrate```)
 * Ambient.Impact - Portfolio migrate (```ambientimpact_portfolio_migrate```)
 
+# Resources and guides
+
+This section lists various resources used to build these working migrations in
+the hope that they'll be useful to others who are attempting migrations.
+
+## Drupal.org documentation
+
+* [Upgrading to Drupal 8](https://www.drupal.org/docs/8/upgrade)
+* [Migrate API](https://www.drupal.org/docs/8/api/migrate-api)
+* [List of core Migrate process plugins](https://www.drupal.org/docs/8/api/migrate-api/migrate-process-plugins/list-of-core-migrate-process-plugins)
+* [List of process plugins provided by Migrate Plus](https://www.drupal.org/docs/8/api/migrate-api/migrate-process-plugins/list-of-process-plugins-provided-by-migrate-plus)
+
+## Drupal.org issue queue searches
+
+* [Drupal core](https://www.drupal.org/project/issues/search/drupal?text=&assigned=&submitted=&project_issue_followers=&version%5B%5D=8.x&component%5B%5D=migration+system&issue_tags_op=%3D&issue_tags=)
+* [Migrate Plus](https://www.drupal.org/project/issues/migrate_plus?text=&status=All&priorities=All&categories=All&version=8.x&component=All)
+* [Paragraphs](https://www.drupal.org/project/issues/paragraphs?text=migrate&status=Open&priorities=All&categories=All&version=8.x&component=All)
+* [Entity Reference Revisions](https://www.drupal.org/project/issues/entity_reference_revisions?text=paragraph+migrate&status=All&priorities=All&categories=All&version=8.x&component=All) (used by Paragraphs)
+
+## Drupal.org issues
+
+* [Paragraphs: Migration templates for automated migration from Drupal 7 version [#2841593]](https://www.drupal.org/project/paragraphs/issues/2841593)
+* [Paragraphs: Field collections deriver and base migration [#2911244]](https://www.drupal.org/project/paragraphs/issues/2911244) (is for Drupal 7 field collections, but was useful to look at)
+* [Paragraphs: Migration plugin source for D7_Paragraph? [#2917749]](https://www.drupal.org/project/paragraphs/issues/2917749) (some resources linked in comments)
+
+## Third-party
+
+* [Building a custom migration in Drupal 8 series on deninet.com](https://deninet.com/blog/2017/05/29/building-custom-migration-drupal-8-part-1-getting-started); [Part 4: Files and Content](https://deninet.com/blog/2017/06/13/building-custom-migration-drupal-8-part-4-files-and-content) and [Part 5: Paragraphs](https://deninet.com/blog/2017/06/18/building-custom-migration-drupal-8-part-5-paragraphs) were especially useful in building custom migrations.
+* [Migrating Content References in Drupal 8 | Mediacurrent](https://www.mediacurrent.com/blog/migrating-content-references-drupal-8/)
+* [Migrating Paragraphs in Drupal 8 – Four Kitchens](https://www.fourkitchens.com/blog/development/migrating-paragraphs-drupal-8/)
+* [Drupal 7 to 8 Migration: Step by Step Notes | IAC Web Development Resources](https://webdev.iac.gatech.edu/drupal-8-migration)
+* [Drupal 7 to Drupal 8 Migration - 101 and Observations | Tanay Sai](http://www.tanay.co.in/blog/drupal-7-drupal-8-migration-101-and-observations.html)
+* [Custom Drupal-to-Drupal Migrations with Migrate Tools | Drupalize.Me](https://drupalize.me/blog/201604/custom-drupal-drupal-migrations-migrate-tools)
+
+The following were not used in this migration but are listed because they may be
+useful for other migrations:
+
+* [A slick migration trick - convert columns to multi-value field with subfields](https://www.freelock.com/blog/john-locke/2017-12/slick-migration-trick-convert-columns-multi-value-field-subfields)
+* [Migration of CSV Data into Paragraphs | MTech](https://www.mtech-llc.com/blog/charlotte-leon/migration-csv-data-paragraphs)
+* [Troubleshooting a Drupal 8 Migration | MTech](https://www.mtech-llc.com/blog/lucas-hedding/troubleshooting-drupal-8-migration)
+* [Drupal 8 CSV Migration | U.Group - Advanced Technology & Creative Design](https://u.group/thinking/drupal-8-csv-migration/)
+
+## Tools and modules
+
+* [Configuration development](https://www.drupal.org/project/config_devel)
+* [Config Delete](https://www.drupal.org/project/config_delete)
+* [Migrate Devel](https://www.drupal.org/project/migrate_devel)
+
 # Migrations
 
 The migrations are broken down into several discrete groups requiring their own
