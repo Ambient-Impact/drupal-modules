@@ -1,0 +1,3 @@
+component.menu_horizontal_peek:
+  js:
+    menu_horizontal_peek.js: {}
