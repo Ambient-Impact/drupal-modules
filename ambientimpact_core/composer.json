@@ -42,5 +42,12 @@
     "npm-asset/include-media": "^1.4.9",
     "bower-asset/sassy-cast": "^2.0.0",
     "npm-asset/sass-recursive-map-merge": "1.0.1"
+  },
+  "extra": {
+    "drush": {
+      "services": {
+        "drush.services.yml": "^9"
+      }
+    }
   }
 }

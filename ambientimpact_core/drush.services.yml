@@ -1,0 +1,5 @@
+services:
+  ambientimpact_core.commands:
+    class: \Drupal\ambientimpact_core\Commands\AmbientimpactDrushCommands
+    tags:
+      - { name: drush.command }
