@@ -177,6 +177,7 @@ implements BuilderAwareInterface {
       $projectRoot . '/.',
     ];
 
+    // Add each exclude item as an '--exclude' parameter.
     foreach ($options['exclude'] as $exclude) {
       $tarOptions[] = '--exclude="' . $exclude . '"';
     }
@@ -225,6 +226,7 @@ implements BuilderAwareInterface {
           // sorting should be used, which we might as well.
           ->sortByName(true);
 
+        // Perform the search.
         $archiveFinder->in($groupPath);
 
         // If we haven't found any existing archives or the number of found
@@ -236,7 +238,7 @@ implements BuilderAwareInterface {
           return;
         }
 
-        // An array of archive found archive names.
+        // An array of found archive names.
         $archiveNames = [];
 
         foreach ($archiveFinder as $file) {
