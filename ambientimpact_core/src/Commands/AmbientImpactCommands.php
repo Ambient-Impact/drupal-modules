@@ -9,9 +9,9 @@ use Robo\LoadAllTasks;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Ambient.Impact Drush commandfile.
+ * Ambient.Impact Drush command file.
  */
-class AmbientimpactDrushCommands extends DrushCommands
+class AmbientImpactCommands extends DrushCommands
 implements BuilderAwareInterface {
   use LoadAllTasks;
 
