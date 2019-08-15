@@ -158,7 +158,9 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
    *
    * @option exclude
    *   An array of file and directory patterns to exclude, in the format
-   *   recognized by tar.
+   *   recognized by tar. Prepend file and directory paths with "./" to match
+   *   relative to the project root, rather than to match anywhere in their
+   *   path.
    *
    * @usage ambientimpact:backup --path='~/drush-backups/scheduled' --group=daily --limit=7
    *   Back up the site to '~/drush-backups/scheduled', using the 'daily' group,
@@ -223,12 +225,16 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
       // they sit in the archive root. Note the removal of the leading slash
       // character so tar recognizes the path.
       // @see https://www.gnu.org/software/tar/manual/html_section/tar_51.html
-      '--transform="s,^' . ltrim($tempPath, '/') . '/,./,"',
+      '--transform="s,^' . ltrim($tempPath, '/') . '/,,"',
       // This transforms the stored project files' paths from the full path to
       // placing them all under a 'tree' directory in the archive root. Note the
       // removal of the leading slash character so tar recognizes the path.
       // @see https://www.gnu.org/software/tar/manual/html_section/tar_51.html
-      '--transform="s,^' . ltrim($projectRoot, '/') . '/,tree/,"',
+      '--transform="s,^' . ltrim($projectRoot, '/') . '/\./,tree/,"',
+      // Same as above, but for the root directory - without this, we'd end up
+      // with an empty directory structure with the full filesystem path to the
+      // Drupal install.
+      '--transform="s,^' . ltrim($projectRoot, '/') . '/\.,tree,"',
       '--file=' . $archivePath,
       $dumpPath,
       $projectRoot . '/.',
