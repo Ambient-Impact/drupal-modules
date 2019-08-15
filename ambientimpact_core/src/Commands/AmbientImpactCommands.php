@@ -2,6 +2,8 @@
 
 namespace Drupal\ambientimpact_core\Commands;
 
+use Consolidation\SiteAlias\SiteAliasManagerAwareInterface;
+use Consolidation\SiteAlias\SiteAliasManagerAwareTrait;
 use Drush\Commands\DrushCommands;
 use Drush\Drush;
 use Robo\Contract\BuilderAwareInterface;
@@ -12,8 +14,9 @@ use Symfony\Component\Finder\Finder;
  * Ambient.Impact Drush command file.
  */
 class AmbientImpactCommands extends DrushCommands
-implements BuilderAwareInterface {
+implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
   use LoadAllTasks;
+  use SiteAliasManagerAwareTrait;
 
   /**
    * The date() format used to generate archive names.
@@ -48,11 +51,14 @@ implements BuilderAwareInterface {
    * Constructor; saves $this->selfRecord and sets 'path.drush-script'.
    */
   public function __construct() {
-    // Get the @self alias record. Note that we have to use
-    // Drush::aliasManager() to get the siteAliasManager because of this bug
-    // which still seems to be occurring as of Drush 9.7.1:
+    // Set the site alias manager.Note that we have to use Drush::aliasManager()
+    // to get the siteAliasManager because of this bug which still seems to be
+    // occurring as of Drush 9.7.1:
     // @see https://github.com/drush-ops/drush/issues/3394
-    $this->selfRecord = Drush::aliasManager()->getSelf();
+    $this->setSiteAliasManager(Drush::aliasManager());
+
+    // Save the @self alias record.
+    $this->selfRecord = $this->siteAliasManager()->getSelf();
 
     // If no path to Drush is set, set it to the local one in the
     // '../vendor/bin' directory because
