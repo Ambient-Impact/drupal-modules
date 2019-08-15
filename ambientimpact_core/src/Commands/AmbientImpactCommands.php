@@ -436,11 +436,10 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
     $rsyncTask = $collection->taskRsync()
       ->fromPath($this->getProjectRoot($source) . DIRECTORY_SEPARATOR)
       ->toPath($this->getProjectRoot($target))
-      ->archive()
-      ->progress();
+      ->archive();
 
     if ($options['verbose'] || $options['debug']) {
-      $rsyncTask->verbose();
+      $rsyncTask->verbose()->progress();
     }
 
     if ($config->simulate()) {
