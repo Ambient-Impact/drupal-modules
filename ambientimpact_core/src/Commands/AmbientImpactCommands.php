@@ -79,11 +79,18 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
    * By default this is one directory higher than the Drupal root, but this
    * method can be overridden to provide a different path.
    *
+   * @param string $name
+   *   The site alias name to get from the site alias manager. If none is
+   *   provided, defaults to '@self'.
+   *
    * @return string
    *   The filesystem path to the project root.
+   *
+   * @todo Can this infer the project root from a Drupal site's path to
+   * vendor/bin/drush?
    */
-  protected function getProjectRoot(): string {
-    return \realpath($this->selfRecord->root() . '/..');
+  protected function getProjectRoot(string $name = '@self'): string {
+    return \realpath($this->siteAliasManager()->get($name)->root() . '/..');
   }
 
   /**
