@@ -1,5 +1,6 @@
 services:
   ambientimpact_core.commands:
     class: \Drupal\ambientimpact_core\Commands\AmbientImpactCommands
+    arguments: ['@file_system']
     tags:
       - { name: drush.command }
