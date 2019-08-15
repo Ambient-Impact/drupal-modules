@@ -164,6 +164,8 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
    *   Back up the site to '~/drush-backups/scheduled', using the 'daily' group,
    *   and limit to the 7 most recent back-ups.
    *
+   * @aliases ai:backup
+   *
    * @todo When Drupal upgrades to Symfony 4.3+, add usage of
    * $finder->ignoreVCSIgnored(true); to simplify ignored files and directories,
    * which tells Symfony to use the existing .gitignore file.
