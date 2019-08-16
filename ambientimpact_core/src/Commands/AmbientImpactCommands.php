@@ -215,7 +215,7 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
     $collection   = $this->collectionBuilder();
 
     $projectRoot  = $this->getProjectRoot();
-    $groupPath    = $options['path'] . '/' . $options['group'];
+    $groupPath    = $options['path'] . DIRECTORY_SEPARATOR . $options['group'];
     $tempPath     = $collection->tmpDir();
 
     // Build relative public files path by removing the project root path from
@@ -227,10 +227,10 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
     );
 
     $archiveName  = \date(self::ARCHIVE_DATE_FORMAT) . '.tar.gz';
-    $archivePath  = $groupPath . '/' . $archiveName;
+    $archivePath  = $groupPath . DIRECTORY_SEPARATOR . $archiveName;
 
     $dumpName     = 'database.sql';
-    $dumpPath     = $tempPath . '/' . $dumpName;
+    $dumpPath     = $tempPath . DIRECTORY_SEPARATOR . $dumpName;
 
     $tarOptions = [
       '--create', '--gzip',
@@ -240,18 +240,26 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
       '--force-local',
       // This removes the temporary directory path from the stored files, so
       // they sit in the archive root. Note the removal of the leading slash
-      // character so tar recognizes the path.
+      // character so tar recognizes the path on *nix.
       // @see https://www.gnu.org/software/tar/manual/html_section/tar_51.html
-      '--transform="s,^' . ltrim($tempPath, '/') . '/,,"',
+      '--transform="s,^' . preg_quote(
+        ltrim($tempPath, '/') . DIRECTORY_SEPARATOR
+      ) . ',,"',
       // This transforms the stored project files' paths from the full path to
       // placing them all under a 'tree' directory in the archive root. Note the
-      // removal of the leading slash character so tar recognizes the path.
+      // removal of the leading slash character so tar recognizes the path on
+      // *nix.
       // @see https://www.gnu.org/software/tar/manual/html_section/tar_51.html
-      '--transform="s,^' . ltrim($projectRoot, '/') . '/\./,tree/,"',
+      '--transform="s,^' . preg_quote(
+        ltrim($projectRoot, '/') . DIRECTORY_SEPARATOR
+      ) . '\.' . preg_quote(DIRECTORY_SEPARATOR) . ',tree' .
+      DIRECTORY_SEPARATOR . ',"',
       // Same as above, but for the root directory - without this, we'd end up
       // with an empty directory structure with the full filesystem path to the
       // Drupal install.
-      '--transform="s,^' . ltrim($projectRoot, '/') . '/\.,tree,"',
+      '--transform="s,^' . preg_quote(
+        ltrim($projectRoot, '/') . DIRECTORY_SEPARATOR
+      ) . '\.,tree,"',
       '--file=' . $archivePath,
       $dumpPath,
       $projectRoot . '/.',
@@ -283,7 +291,7 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
       ->addCode(function() use ($drushCommand, $tempPath, $dumpName) {
         $drushCommand->processManager()
           ->drush($drushCommand->selfRecord, 'sql:dump', [], [
-            'result-file' => $tempPath . '/' . $dumpName,
+            'result-file' => $tempPath . DIRECTORY_SEPARATOR . $dumpName,
           ])
           ->mustRun();
       });
@@ -344,7 +352,7 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
         for ($i = $options['limit']; $i < count($archiveNames); $i++) {
           $archiveFileSystemStack
             // Remove the archive from the file system.
-            ->remove($groupPath . '/' . $archiveNames[$i])
+            ->remove($groupPath . DIRECTORY_SEPARATOR . $archiveNames[$i])
             // Log a Drush info message, to be shown if --verbose is passed.
             ->addCode(function() use ($drushCommand, $archiveNames, $i) {
               $drushCommand->logger()->info(dt('Deleting archive @name', [
