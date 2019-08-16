@@ -83,6 +83,13 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
   protected $pathEvaluator;
 
   /**
+   * Array of public file directory names that contain generated files.
+   *
+   * @var array
+   */
+  protected $generatedFileDirectories = ['css', 'js', 'php', 'styles'];
+
+  /**
    * Constructor; saves $this->selfRecord and sets 'path.drush-script'.
    *
    * @param \Drupal\Core\File\FileSystemInterface $fileSystemService
@@ -252,9 +259,9 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
 
     // Add generated files to exclude list if set to do so.
     if ($options['exclude-generated-files']) {
-      foreach (['css', 'js', 'php', 'styles'] as $path) {
+      foreach ($this->generatedFileDirectories as $dirName) {
         $options['exclude'][] = '.' . DIRECTORY_SEPARATOR . $publicFilesPath .
-          DIRECTORY_SEPARATOR . $path;
+          DIRECTORY_SEPARATOR . $dirName;
       }
     }
 
@@ -484,9 +491,9 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
 
     // Add generated file paths if they're to be excluded.
     if ($options['exclude-generated-files']) {
-      foreach (['css', 'js', 'php', 'styles'] as $path) {
+      foreach ($this->generatedFileDirectories as $dirName) {
         $options['exclude-paths'][] = $relativeFileDirs['public'] .
-          DIRECTORY_SEPARATOR . $path;
+          DIRECTORY_SEPARATOR . $dirName;
       }
     }
 
