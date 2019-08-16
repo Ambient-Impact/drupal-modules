@@ -162,6 +162,10 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
    *   relative to the project root, rather than to match anywhere in their
    *   path.
    *
+   * @option exclude-generated-files
+   *   Whether to exclude generated files, such as compiled Twig templates,
+   *   aggregated JavaScript/CSS, and image style derivatives.
+   *
    * @usage ambientimpact:backup --path='~/drush-backups/scheduled' --group=daily --limit=7
    *   Back up the site to '~/drush-backups/scheduled', using the 'daily' group,
    *   and limit to the 7 most recent back-ups.
@@ -197,10 +201,8 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
       'sftp-config.json',
       './drupal/libraries',
       '*/node_modules',
-      './drupal/sites/*/files/css',
-      './drupal/sites/*/files/js',
-      './drupal/sites/*/files/styles',
     ],
+    'exclude-generated-files' => true,
   ]) {
     // Robo collection builder instance.
     $collection   = $this->collectionBuilder();
@@ -208,6 +210,14 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
     $projectRoot  = $this->getProjectRoot();
     $groupPath    = $options['path'] . '/' . $options['group'];
     $tempPath     = $collection->tmpDir();
+
+    // Build relative public files path by removing the project root path from
+    // its absolute path.
+    $publicFilesPath = preg_replace(
+      '%^' . preg_quote($projectRoot . DIRECTORY_SEPARATOR) . '%',
+      '',
+      $this->fileSystemService->realPath('public://')
+    );
 
     $archiveName  = \date(self::ARCHIVE_DATE_FORMAT) . '.tar.gz';
     $archivePath  = $groupPath . '/' . $archiveName;
@@ -239,6 +249,14 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
       $dumpPath,
       $projectRoot . '/.',
     ];
+
+    // Add generated files to exclude list if set to do so.
+    if ($options['exclude-generated-files']) {
+      foreach (['css', 'js', 'php', 'styles'] as $path) {
+        $options['exclude'][] = '.' . DIRECTORY_SEPARATOR . $publicFilesPath .
+          DIRECTORY_SEPARATOR . $path;
+      }
+    }
 
     // Add each exclude item as an '--exclude' parameter.
     foreach ($options['exclude'] as $exclude) {
