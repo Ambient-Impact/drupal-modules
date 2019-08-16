@@ -66,14 +66,14 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
    *
    * @var \Consolidation\SiteAlias\HostPath
    */
-  public $sourceEvaluatedPath;
+  protected $sourceEvaluatedPath;
 
   /**
    * HostPath object representing the path to the target Drupal site root.
    *
    * @var \Consolidation\SiteAlias\HostPath
    */
-  public $targetEvaluatedPath;
+  protected $targetEvaluatedPath;
 
   /**
    * Drush back-end evalutator.
