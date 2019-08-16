@@ -8,8 +8,7 @@ use Drupal\Core\Url;
 use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\VarDumper\Dumper\HtmlDumper;
-use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Controller for the 'ambientimpact_web_components.component_item' route.
@@ -44,16 +43,9 @@ class ComponentItemController extends ControllerBase {
   /**
    * Builds and returns the Component item render array.
    *
-   * In addition to outputting annotation data about a Component, this also uses
-   * the Symfony VarDumper to output the configuration and libraries as user-
-   * friendly elements. Note that this makes use of \Drupal\Core\Render\Markup
-   * to allow output of the inline JavaScript which presents the following
-   * issues that will need revisiting:
-   * - \Drupal\Core\Render\Markup is marked as @internal, so it could change or
-   *   stop working with any Drupal update.
-   * - Inline JavaScript presents a problem with
-   *   {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
-   *    Content Security Policy (CSP)}.
+   * In addition to outputting definition data about a Component, this also uses
+   * the Symfony Yaml component to output the configuration and libraries as
+   * YAML.
    *
    * @param string $componentMachineName
    *   The machine name of the Component to display.
@@ -61,13 +53,10 @@ class ComponentItemController extends ControllerBase {
    * @return array
    *   The Component item render array.
    *
-   * @todo Determine what to do about inline JavaScript/CSS from Symfony
-   * VarDumper.
+   * @todo Should we take more care not to accidentally expose sensitive data?
+   * Can we white-list certain definition keys to be shown and ignore the rest?
    *
-   * @todo Should we take more care not to accidentally expose sensitive data
-   * via the Symfony VarDumper? Can we white-list certain definition keys to
-   * be shown and ignore the rest? Can we use something else that poses less
-   * risks, like GeSHi, to display this data?
+   * @todo Use GeSHi to display YAML with syntax highlighting.
    */
   public function componentItem(string $componentMachineName) {
     $pluginDefinitions = $this->componentManager->getDefinitions();
@@ -90,9 +79,6 @@ class ComponentItemController extends ControllerBase {
 
     $pluginDefinition = $pluginDefinitions[$componentMachineName];
 
-    $dumper = new HtmlDumper();
-    $cloner = new VarCloner();
-
     // These items need to be dumped via the Symfony VarDumper.
     $dumps = [
       'definition'  => [
@@ -108,6 +94,15 @@ class ComponentItemController extends ControllerBase {
         'dump'  => $componentInstance->getLibraries(),
       ],
     ];
+
+    // Plug-in titles and descriptions need to be rendered as strings, otherwise
+    // Symfony Yaml::dump() will list them as 'null'.
+    foreach (['title', 'description'] as $key) {
+      if (method_exists($dumps['definition']['dump'][$key], '__toString')) {
+        $dumps['definition']['dump'][$key] =
+          $dumps['definition']['dump'][$key]->__toString();
+      }
+    }
 
     // Remove the 'id' from the configuration as it's redundant and already in
     // the plug-in definition.
@@ -138,11 +133,10 @@ class ComponentItemController extends ControllerBase {
         '#type'   => 'details',
         '#title'  => $data['title'],
 
-        // The Symfony VarDumper creates a <pre> element so we don't need to.
-        'dump'    => [
-          '#markup'  => Markup::create($dumper->dump($cloner->cloneVar(
-            $data['dump']
-          ), true)),
+        'dump'     => [
+          '#type'   => 'html_tag',
+          '#tag'    => 'pre',
+          '#value'  => Yaml::dump($data['dump'], 5, 2),
         ],
       ];
     }
