@@ -116,14 +116,13 @@
 
   position:   absolute;
 
+  // This places the element's top right at the bottom edge of the offset
+  // parent, allowing the shadow to be aligned precisely.
+  top: 100%;
+
   // Position exactly centred in the current context.
   left:         50%;
   margin-left:  -($shadow-width / 2);
-
-  // @todo Is this needed? This pseudo-element is already floating with its top
-  // against the underside of its parent, and this value still seems to allow
-  // a 1px space to creep in, even if px are used.
-  // bottom:       -$height;
 
   // Set to larger than the width of the viewport, along with a bit of height.
   width:      $shadow-width;
