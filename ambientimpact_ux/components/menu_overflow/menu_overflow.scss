@@ -1,0 +1,31 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Menu: overflow component
+// -----------------------------------------------------------------------------
+
+$base-class: 'menu-overflow';
+
+.#{$base-class} {
+  display: none;
+}
+
+.menu--overflow-enhanced {
+  .#{$base-class} {
+    display: block;
+
+    &--hidden {
+      display: none;
+    }
+
+    &__menu {
+      display: none;
+    }
+
+    &--open .#{$base-class}__menu {
+      display: block;
+    }
+  }
+
+  .menu-item--hidden {
+    display: none;
+  }
+}
