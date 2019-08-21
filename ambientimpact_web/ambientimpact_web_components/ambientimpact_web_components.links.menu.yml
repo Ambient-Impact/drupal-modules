@@ -1,0 +1,4 @@
+ambientimpact_web_components.component_list:
+  title: 'Components'
+  route_name: ambientimpact_web_components.component_list
+  menu_name: main
