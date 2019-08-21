@@ -1,0 +1,8 @@
+# Web development overview page.
+ambientimpact_web.overview:
+  path: '/web'
+  defaults:
+    _controller: '\Drupal\ambientimpact_web\Controller\WebController::overview'
+    _title: 'Web development'
+  requirements:
+    _permission: 'access content'
