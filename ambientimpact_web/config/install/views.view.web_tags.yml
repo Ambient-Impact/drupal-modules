@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - system.menu.main
     - taxonomy.vocabulary.web_tags
   enforced:
     module:
@@ -175,12 +176,12 @@ display:
       display_extenders: {  }
       path: web/tags
       menu:
-        type: none
-        title: 'Web development tags'
+        type: normal
+        title: Tags
         description: ''
         expanded: false
-        parent: ''
-        weight: -48
+        parent: ambientimpact_web.overview
+        weight: -47
         context: '0'
         menu_name: main
       filters:
