@@ -1,16 +1,16 @@
 // -----------------------------------------------------------------------------
-//	 Ambient.Impact - Icons - Icon component partial
+//   Ambient.Impact - Icons - Icon component partial
 // -----------------------------------------------------------------------------
 
 ///
 /// The default icon width and height.
 ///
-$icon-size:					1.2em	!default;
+$icon-size:         1.2em !default;
 
 ///
 /// The default spacing between an icon and its text, if visible.
 ///
-$icon-text-spacing:	0.3em	!default;
+$icon-text-spacing: 0.3em !default;
 
 ///
 /// Sets the icon size on an .ambientimpact-icon element.
@@ -24,18 +24,18 @@ $icon-text-spacing:	0.3em	!default;
 ///   The width and height of the icon.
 ///
 @mixin set-icon-size($size) {
-	.ambientimpact-icon__icon {
-		width:		$size;
-		height:		$size;
-	}
-	// If this icon is standalone, set explicit dimensions on container and
-	// display as block.
-	&.ambientimpact-icon--icon-standalone-loaded {
-		display:	block;
+  .ambientimpact-icon__icon {
+    width:    $size;
+    height:   $size;
+  }
+  // If this icon is standalone, set explicit dimensions on container and
+  // display as block.
+  &.ambientimpact-icon--icon-standalone-loaded {
+    display:  block;
 
-		width:		$size;
-		height:		$size;
-	}
+    width:    $size;
+    height:   $size;
+  }
 }
 
 ///
@@ -44,9 +44,9 @@ $icon-text-spacing:	0.3em	!default;
 /// @param {Color} $colour
 ///
 @mixin set-icon-colour($colour) {
-	.ambientimpact-icon__icon {
-		fill: $colour;
-	}
+  .ambientimpact-icon__icon {
+    fill: $colour;
+  }
 }
 
 ///
@@ -68,21 +68,21 @@ $icon-text-spacing:	0.3em	!default;
 /// @require {Mixin} use-grid
 ///
 @mixin set-icon-display($display: inline) {
-	@if ($display == inline) {
-		display:	inline;
-	} @else if ($display == block) {
-		display:	block;
-	}
+  @if ($display == inline) {
+    display:  inline;
+  } @else if ($display == block) {
+    display:  block;
+  }
 
-	&:not(.ambientimpact-icon--icon-standalone-loaded) {
-		@include use-grid {
-			@if ($display == inline) {
-				display:	inline-grid;
-			} @else if ($display == block) {
-				display:	grid;
-			}
-		}
-	}
+  &:not(.ambientimpact-icon--icon-standalone-loaded) {
+    @include use-grid {
+      @if ($display == inline) {
+        display:  inline-grid;
+      } @else if ($display == block) {
+        display:  grid;
+      }
+    }
+  }
 }
 
 ///
@@ -101,58 +101,58 @@ $icon-text-spacing:	0.3em	!default;
 ///     container.
 ///
 @mixin set-icon-vertical-alignment($align: text) {
-	// Icons next to plain text.
-	$text-align-inline:	-0.2em;
-	$text-align-grid:		-0.15em;
+  // Icons next to plain text.
+  $text-align-inline: -0.2em;
+  $text-align-grid:   -0.15em;
 
-	// Icons within a link next to text.
-	$link-align-inline:	-0.3em;
-	$link-align-grid:		-0.2em;
+  // Icons within a link next to text.
+  $link-align-inline: -0.3em;
+  $link-align-grid:   -0.2em;
 
-	// Centre vertically. 'center' is accepted for backwards compatibility.
-	@if $align == centre or $align == center {
-		align-items:	center;
+  // Centre vertically. 'center' is accepted for backwards compatibility.
+  @if $align == centre or $align == center {
+    align-items:  center;
 
-		.ambientimpact-icon__icon {
-			// We can't use a value of 0 or baseline as that still looks off. We
-			// can align to the first line, which is better than nothing.
-			vertical-align:		$text-align-inline;
+    .ambientimpact-icon__icon {
+      // We can't use a value of 0 or baseline as that still looks off. We
+      // can align to the first line, which is better than nothing.
+      vertical-align:   $text-align-inline;
 
-			// Reset, in case we've set these previously.
-			@include use-grid {
-				bottom:					0;
+      // Reset, in case we've set these previously.
+      @include use-grid {
+        bottom:         0;
 
-				vertical-align: 0;
-			}
-		}
+        vertical-align: 0;
+      }
+    }
 
-	// Align to text baseline but account for link underlines.
-	} @else if $align == link {
-		align-items:	baseline;
+  // Align to text baseline but account for link underlines.
+  } @else if $align == link {
+    align-items:  baseline;
 
-		.ambientimpact-icon__icon {
-			vertical-align:		$link-align-inline;
+    .ambientimpact-icon__icon {
+      vertical-align:   $link-align-inline;
 
-			@include use-grid {
-				bottom:					$link-align-grid;
+      @include use-grid {
+        bottom:         $link-align-grid;
 
-				vertical-align: 0;
-			}
-		}
-	// Default is to align roughly to the text baseline.
-	} @else {
-		align-items:	baseline;
+        vertical-align: 0;
+      }
+    }
+  // Default is to align roughly to the text baseline.
+  } @else {
+    align-items:  baseline;
 
-		.ambientimpact-icon__icon {
-			vertical-align:		$text-align-inline;
+    .ambientimpact-icon__icon {
+      vertical-align:   $text-align-inline;
 
-			@include use-grid {
-				bottom:			$text-align-grid;
+      @include use-grid {
+        bottom:     $text-align-grid;
 
-				vertical-align: 0;
-			}
-		}
-	}
+        vertical-align: 0;
+      }
+    }
+  }
 }
 
 ///
@@ -161,28 +161,28 @@ $icon-text-spacing:	0.3em	!default;
 /// @param {Number} $spacing
 ///
 @mixin set-icon-text-spacing($spacing) {
-	@include use-grid {
-		grid-column-gap: $spacing;
-	}
-	.ambientimpact-icon__icon {
-		@include root-conditions(('[dir=ltr]'), 'html') {
-			padding-right: $spacing;
-		}
+  @include use-grid {
+    grid-column-gap: $spacing;
+  }
+  .ambientimpact-icon__icon {
+    @include root-conditions(('[dir=ltr]'), 'html') {
+      padding-right: $spacing;
+    }
 
-		@include root-conditions(('[dir=rtl]'), 'html') {
-			padding-left: $spacing;
-		}
+    @include root-conditions(('[dir=rtl]'), 'html') {
+      padding-left: $spacing;
+    }
 
-		@include use-grid {
-			@include root-conditions(('[dir=ltr]'), 'html') {
-				padding-right: 0;
-			}
+    @include use-grid {
+      @include root-conditions(('[dir=ltr]'), 'html') {
+        padding-right: 0;
+      }
 
-			@include root-conditions(('[dir=rtl]'), 'html') {
-				padding-left: 0;
-			}
-		}
-	}
+      @include root-conditions(('[dir=rtl]'), 'html') {
+        padding-left: 0;
+      }
+    }
+  }
 }
 
 ///
@@ -195,14 +195,14 @@ $icon-text-spacing:	0.3em	!default;
 /// @param {Number} $indent
 ///
 @mixin set-icon-text-indent($indent) {
-	@supports (display: inline-block) {
-		display:			inline-block;
-		margin-left:	$indent;
-		text-indent:	-$indent;
+  @supports (display: inline-block) {
+    display:      inline-block;
+    margin-left:  $indent;
+    text-indent:  -$indent;
 
-		@include use-grid {
-			margin-left:	0;
-			text-indent:	0;
-		}
-	}
+    @include use-grid {
+      margin-left:  0;
+      text-indent:  0;
+    }
+  }
 }
