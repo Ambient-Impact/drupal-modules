@@ -141,7 +141,10 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
         'aria-haspopup':  true,
         'aria-expanded':  false
       })
-      .append(this.toggleContent)
+      // Append the toggle content. Note that we have to use $().clone() or
+      // we'll be moving the same, single element around if there are more than
+      // one overflow toggle on a page.
+      .append($(this.toggleContent).clone())
       .on('click.aiMenuOverflow', function(event) {
         $overflowContainer.toggleClass(openClass);
 
