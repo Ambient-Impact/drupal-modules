@@ -13,6 +13,43 @@ $icon-size:         1.2em !default;
 $icon-text-spacing: 0.3em !default;
 
 ///
+/// Target styles to an icon container selector.
+///
+/// @content
+///   Styles to wrap in the icon container selector.
+///
+@mixin on-icon-container {
+  .ambientimpact-icon {
+    @content;
+  }
+}
+
+///
+/// Target styles to an icon element selector; i.e. the <svg> element.
+///
+/// @content
+///   Styles to wrap in the icon element selector.
+///
+@mixin on-icon-icon {
+  .ambientimpact-icon__icon {
+    @content;
+  }
+}
+
+///
+/// Target styles to an icon text selector.
+///
+/// @content
+///   Styles to wrap in the icon text selector.
+///
+@mixin on-icon-text {
+  .ambientimpact-icon__text {
+    @content;
+  }
+}
+
+
+///
 /// Sets the icon size on an .ambientimpact-icon element.
 ///
 /// This is mostly meant for internal use. If you want to change the icon size,
