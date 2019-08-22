@@ -48,6 +48,30 @@ $icon-text-spacing: 0.3em !default;
   }
 }
 
+///
+/// Sets transform transition properties on an .ambientimpact-icon element.
+///
+/// @param {Number} $transition-duration [200ms]
+///   The duration to set for the transition-duration.
+///
+/// @param {String} $transition-easing [linear]
+///   The easing to set for the transition-timing-function.
+///
+/// @content
+///   Any additional properties to include after the transition properies.
+///
+@mixin icon-transform-transition(
+  $transition-duration: 200ms,
+  $transition-easing:   linear
+) {
+  @include on-icon-icon {
+    transition-property:        transform;
+    transition-duration:        $transition-duration;
+    transition-timing-function: $transition-easing;
+
+    @content;
+  }
+}
 
 ///
 /// Sets the icon size on an .ambientimpact-icon element.
