@@ -20,21 +20,27 @@ $icon-text-spacing: 0.3em !default;
 /// .ambientimpact-icon (for icon and text), or .ambientimpact-icon__icon (for
 /// just the icon).
 ///
+/// Note that we have to also set the min-width so that the icon doesn't get
+/// scaled down in certain edge cases when displayed as grid - this is probably
+/// because SVG elements are treated like responsive images by modern browsers.
+///
 /// @param {Number} $size
 ///   The width and height of the icon.
 ///
 @mixin set-icon-size($size) {
   .ambientimpact-icon__icon {
-    width:    $size;
-    height:   $size;
+    width:      $size;
+    min-width:  $size;
+    height:     $size;
   }
   // If this icon is standalone, set explicit dimensions on container and
   // display as block.
   &.ambientimpact-icon--icon-standalone-loaded {
-    display:  block;
+    display:    block;
 
-    width:    $size;
-    height:   $size;
+    width:      $size;
+    min-width:  $size;
+    height:     $size;
   }
 }
 
