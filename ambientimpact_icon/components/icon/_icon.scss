@@ -229,6 +229,50 @@ $icon-text-spacing: 0.3em !default;
 }
 
 ///
+/// Sets the order of the icon and text on an .ambientimpact-icon element.
+///
+/// Note that this requires CSS Grid support and will not have any effect if
+/// falling back to the inline, pre-Grid layout.
+///
+/// @param {String} $order [icon-first]
+///   Valid values are:
+///
+///   - icon-first: The icon will be displayed before the text. In left-to-right
+///     languages (such as English), this means the icon will be on the left and
+///     the text will be on the right. In right-to-left languages, the icon will
+///     be on the left and the text will be on the right.
+///
+///   - text-first: The text will be displayed before the icon. In left-to-right
+///     languages (such as English), this means the text will be on the left and
+///     the icon will be on the right. In right-to-left languages, the text will
+///     be on the left and the icon will be on the right.
+///
+@mixin set-icon-order($order: icon-first) {
+  &:not(.ambientimpact-icon--icon-standalone-loaded) {
+    @if $order == icon-first {
+      grid-template-columns:  auto 1fr;
+
+      @include on-icon-icon {
+        order: 1;
+      }
+      @include on-icon-text {
+        order: 2;
+      }
+
+    } @else if $order == text-first {
+      grid-template-columns:  1fr auto;
+
+      @include on-icon-icon {
+        order: 2;
+      }
+      @include on-icon-text {
+        order: 1;
+      }
+    }
+  }
+}
+
+///
 /// Sets text indent on lines after the first on an .ambientimpact-icon element.
 ///
 /// Usually this is the icon width plus the spacing between the icon and text to

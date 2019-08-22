@@ -21,9 +21,10 @@
 
   @include set-icon-display(inline);
 
-  &:not(.ambientimpact-icon--icon-standalone-loaded) {
-    grid-template-columns:  auto 1fr;
+  // Set default icon order.
+  @include set-icon-order;
 
+  &:not(.ambientimpact-icon--icon-standalone-loaded) {
     // Icons with text align to text baseline.
     @include set-icon-vertical-alignment('text');
 
