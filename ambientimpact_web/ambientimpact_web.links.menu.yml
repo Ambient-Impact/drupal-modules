@@ -1,4 +1,5 @@
 ambientimpact_web.overview:
-  title: 'Web development'
+  # Title is abbreviated to not take up too much space on narrow screens.
+  title: 'Web dev'
   route_name: ambientimpact_web.overview
   menu_name: main
