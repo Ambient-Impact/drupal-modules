@@ -81,6 +81,9 @@ $material-ripple-base-class: 'material-ripple';
       // don't trigger a ripple more than once.
       animation: none !important;
     }
+
+    // Remove the default tap highlight in WebKit and Blink, as it's redundant.
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
