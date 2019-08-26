@@ -65,6 +65,13 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
   var menuItemClass = 'menu-item';
 
   /**
+   * The Drupal menu item with active trail class.
+   *
+   * @type {String}
+   */
+  var menuItemActiveTrailClass = menuItemClass + '--active-trail';
+
+  /**
    * The BEM modifier class for menu items when they're hidden.
    *
    * This is applied to both the existing menu items and the cloned menu items
@@ -238,7 +245,21 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
           // Otherwise, show the overflow menu item.
           } else {
             $overflowItem.removeClass(menuItemHiddenClass);
+
           }
+        }
+
+        // If any of the items displayed in the overflow menu are in the active
+        // trail, add the active trail to the overflow container.
+        if (
+          $overflowItems.filter(':not(.' + menuItemHiddenClass + ')')
+            .hasClass(menuItemActiveTrailClass)
+        ) {
+          $overflowContainer.addClass(menuItemActiveTrailClass);
+
+        // If not, remove the active trail class from the overflow container.
+        } else {
+          $overflowContainer.removeClass(menuItemActiveTrailClass);
         }
       }
     };
