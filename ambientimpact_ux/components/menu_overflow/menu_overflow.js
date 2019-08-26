@@ -16,7 +16,6 @@
 // @todo Find out what the accessibility implications are of showing/hiding
 // items entirely.
 
-AmbientImpact.on('icon', function(aiIcon) {
 AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
   'use strict';
 
@@ -28,12 +27,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
    *
    * @type {String|HTMLElement|jQuery}
    */
-  this.toggleContent = aiIcon.get(
-    'arrow-down', {
-      bundle: 'core',
-      text:   Drupal.t('More')
-    }
-  );
+  this.toggleContent = Drupal.t('More');
 
   /**
    * The base BEM class for the overflow root and all child/state classes.
@@ -141,13 +135,19 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
     $overflowToggle
       .addClass(toggleClass)
-      .attr('type', 'button')
+      .attr('type', 'button');
 
-      // Append the toggle content. Note that we have to use $().clone() or
-      // we'll be moving the same, single element around if there are more than
-      // one overflow toggle on a page.
-      .append($(this.toggleContent).clone());
+    // Append the toggle content. Note that if the content is not a string, it's
+    // likely to be an HTML element, in which case we have to use $().clone() or
+    // we'll be moving the same, single element around if there is more than one
+    // overflow toggle on a page. If it is a string, using $().clone() won't
+    // work as expected, so we have to check for that.
+    if (typeof this.toggleContent === 'string') {
+      $overflowToggle.append(this.toggleContent);
 
+    } else {
+      $overflowToggle.append($(this.toggleContent).clone());
+    }
 
     $overflowMenu
       .addClass('menu ' + overflowMenuClass)
@@ -282,5 +282,4 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
       .children('.' + menuItemClass)
         .removeClass(menuItemHiddenClass);
   };
-});
 });

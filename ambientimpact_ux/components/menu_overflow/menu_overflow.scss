@@ -17,23 +17,6 @@ $base-class: 'menu-overflow';
     &--hidden {
       display: none;
     }
-
-    &__toggle {
-      @include on-icon-container {
-        // For drop-down menus, icons look better after the text, rather than
-        // before.
-        @include set-icon-order(text-first);
-      }
-
-      @include icon-transform-transition;
-    }
-    &--open .#{$base-class}__toggle {
-      // Rotate the icon 180 degrees when the overflow menu is open, so that it
-      // points up, indicating activating the toggle will close the menu.
-      @include on-icon-icon {
-        transform: rotate(180deg);
-      }
-    }
   }
 
   .menu-item--hidden {

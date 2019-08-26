@@ -31,7 +31,7 @@ AmbientImpact.addComponent('menuDropDown', function(aiMenuDropDown, $) {
     // already a jQuery collection, jQuery will return it as-is.
     $menu = $($menu).first();
 
-    $menu.find('.menu-item--expanded > a')
+    $menu.find('.menu-item--expanded').children('a, button')
       .wrapTextWithIcon('arrow-down', {bundle: 'core'})
       .on('click.aiMenuDropDown', clickHandler);
   };
@@ -49,7 +49,7 @@ AmbientImpact.addComponent('menuDropDown', function(aiMenuDropDown, $) {
     // already a jQuery collection, jQuery will return it as-is.
     $menu = $($menu).first();
 
-    $menu.find('.menu-item--expanded > a')
+    $menu.find('.menu-item--expanded').children('a, button')
       .unwrapTextWithIcon()
       .off('click.aiMenuDropDown', clickHandler);
   };
