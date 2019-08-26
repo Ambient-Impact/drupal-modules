@@ -18,10 +18,6 @@ $base-class: 'menu-overflow';
       display: none;
     }
 
-    &__menu {
-      display: none;
-    }
-
     &__toggle {
       @include on-icon-container {
         // For drop-down menus, icons look better after the text, rather than
@@ -37,10 +33,6 @@ $base-class: 'menu-overflow';
       @include on-icon-icon {
         transform: rotate(180deg);
       }
-    }
-
-    &--open .#{$base-class}__menu {
-      display: block;
     }
   }
 

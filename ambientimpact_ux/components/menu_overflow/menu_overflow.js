@@ -5,10 +5,16 @@
 // Priority+ navigation pattern; menu items that don't fit on a single line are
 // displayed in an overflow menu.
 //
+// Note that the theme is expected to handle the actual drop-down layout and
+// styling - the main function of this component is to manage which menu items
+// are to be shown in the top-level menu and which are to be in the overflow
+// menu.
+//
 // @see https://css-tricks.com/container-adapting-tabs-with-more-button/
 //   Based on this article by Osvaldas Valutis.
 //
-// @todo Find out what the accessibility implications of showing/hiding items.
+// @todo Find out what the accessibility implications are of showing/hiding
+// items entirely.
 
 AmbientImpact.on('icon', function(aiIcon) {
 AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
@@ -35,13 +41,6 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
    * @type {String}
    */
   var baseClass = 'menu-overflow';
-
-  /**
-   * The BEM modifier class for the overflow root it's open.
-   *
-   * @type {String}
-   */
-  var openClass = baseClass + '--open';
 
   /**
    * The BEM modifier class for the overflow root it's hidden.
@@ -142,29 +141,26 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
     $overflowToggle
       .addClass(toggleClass)
-      .attr({
-        'type':           'button',
-        'aria-haspopup':  true,
-        'aria-expanded':  false
-      })
+      .attr('type', 'button')
+
       // Append the toggle content. Note that we have to use $().clone() or
       // we'll be moving the same, single element around if there are more than
       // one overflow toggle on a page.
-      .append($(this.toggleContent).clone())
-      .on('click.aiMenuOverflow', function(event) {
-        $overflowContainer.toggleClass(openClass);
+      .append($(this.toggleContent).clone());
 
-        $overflowToggle.attr(
-          'aria-expanded', $overflowContainer.hasClass(openClass)
-        );
-      });
 
     $overflowMenu
       .addClass('menu ' + overflowMenuClass)
       .append($overflowItems);
 
     $overflowContainer
-      .addClass(baseClass)
+      // Add classes to identify this as an expanded menu item, in addition to
+      // our base class indicating this item contains the overflow menu.
+      .addClass([
+        menuItemClass,
+        menuItemClass + '--expanded',
+        baseClass,
+      ].join(' '))
       .append($overflowToggle)
       .append($overflowMenu)
       .appendTo($menu);
@@ -214,14 +210,10 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
         }
       }
 
-      // If no menu items are to be hidden, close and hide the overflow
-      // container, and mark the toggle as closed.
+      // If no menu items are to be hidden, hide the overflow container.
       if ($hiddenMenuItems.length === 0) {
         $overflowContainer
-          .addClass(hiddenClass)
-          .removeClass(openClass);
-
-        $overflowToggle.attr('aria-expanded', false);
+          .addClass(hiddenClass);
 
       // If we do have menu items to hide, do so while showing the overflow
       // container and overflow menu items whose counterparts were just hidden.
