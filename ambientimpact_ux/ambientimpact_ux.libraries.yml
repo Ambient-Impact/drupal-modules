@@ -88,6 +88,16 @@ headroom.js:
   js:
     /libraries/headroom.js/dist/headroom.min.js: { minified: true }
 
+jquery.hoverintent:
+  remote: https://github.com/briancherne/jquery-hoverIntent
+  version: 1.10.0
+  license:
+    name: MIT
+    url: https://github.com/briancherne/jquery-hoverIntent/blob/master/jquery.hoverIntent.js
+    gpl-compatible: true
+  js:
+    /libraries/jquery-hoverintent/jquery.hoverIntent.min.js: { minified: true }
+
 smoothscroll:
   remote: https://github.com/iamdustan/smoothscroll
   version: 0.4.4
