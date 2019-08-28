@@ -10,6 +10,10 @@ While not required for these modules to operate, the
 [```ambientimpact_base```](https://gitlab.com/Ambient.Impact/drupal-themes)
 theme integrates heavily with these modules.
 
+**Warning**: while these are generally production-ready, they're not guaranteed
+to maintain a stable API and may occasionally contain bugs, being a
+work-in-progress. Stable releases may be provided at a later date.
+
 # Using Composer
 
 If you're using [Composer](https://www.drupal.org/docs/develop/using-composer)
