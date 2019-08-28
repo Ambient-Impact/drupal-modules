@@ -264,8 +264,12 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
       }
     };
 
-    // Run once on attach.
-    menu.aiMenuOverflow.update();
+    // Run once on attach. This is wrapped in a setTimeout() so that any layout
+    // work that may be done immediately during or after attachment can register
+    // to our calculations. Without this, the calculations may be off depending
+    // on the screen width at attachment, and only correct themselves if/when
+    // the viewport is resized or rotated.
+    setTimeout(menu.aiMenuOverflow.update, 10);
 
     // Add an event handler to trigger on our debounced resize event.
     $(window).on('lazyResize.aiMenuOverflow', menu.aiMenuOverflow.update);
