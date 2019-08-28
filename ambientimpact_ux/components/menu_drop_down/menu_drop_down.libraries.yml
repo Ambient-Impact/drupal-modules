@@ -3,3 +3,4 @@ component.menu_drop_down:
     menu_drop_down.js: {}
   dependencies:
     - ambientimpact_icon/component.icon
+    - ambientimpact_ux/jquery.hoverintent

@@ -11,6 +11,7 @@
 //   fall back in case the browser doesn't support them?
 
 AmbientImpact.on('icon', function(aiIcon) {
+AmbientImpact.onGlobals('jQuery.fn.hoverIntent', function() {
 AmbientImpact.addComponent('menuDropDown', function(aiMenuDropDown, $) {
   'use strict';
 
@@ -42,6 +43,29 @@ AmbientImpact.addComponent('menuDropDown', function(aiMenuDropDown, $) {
    *   Uses this.
    */
   var lastOpenThreshold = 100;
+
+  /**
+   * hoverIntent settings for drop-down menus.
+   *
+   * @type {Object}
+   *
+   * @see https://briancherne.github.io/jquery-hoverIntent/
+   */
+  var hoverIntentSettings = {
+    over:         mouseEnterHandler,
+    out:          mouseLeaveHandler,
+
+    // This sets a timeout before the 'out' handler can be triggered after the
+    // pointer leaves the element, cancelling the 'out' if the user moves the
+    // pointer back into the element. This is to give the sub-menu a buffer
+    // against user error and not close prematurely.
+    timeout:      400,
+
+    // These make the the 'over' handler trigger sooner than the default
+    // hoverIntent settings.
+    sensitivity:  3,
+    interval:     30
+  };
 
   /**
    * Expanded menu item link click handler.
@@ -249,12 +273,12 @@ AmbientImpact.addComponent('menuDropDown', function(aiMenuDropDown, $) {
       .on('click.aiMenuDropDown', clickHandler);
 
     // Attach the focus and mouse event handlers to the menu item itself.
-    $menuItems.on({
-      'focusin.aiMenuDropDown':     focusInHandler,
-      'focusout.aiMenuDropDown':    focusOutHandler,
-      'mouseenter.aiMenuDropDown':  mouseEnterHandler,
-      'mouseleave.aiMenuDropDown':  mouseLeaveHandler
-    });
+    $menuItems
+      .on({
+        'focusin.aiMenuDropDown':   focusInHandler,
+        'focusout.aiMenuDropDown':  focusOutHandler
+      })
+      .hoverIntent(hoverIntentSettings);
   };
 
   /**
@@ -310,11 +334,16 @@ AmbientImpact.addComponent('menuDropDown', function(aiMenuDropDown, $) {
     $menuItems
       .removeClass([menuItemClosedClass, menuItemOpenClass].join(' '))
       .off({
-        'focusin.aiMenuDropDown':     focusInHandler,
-        'focusout.aiMenuDropDown':    focusOutHandler,
-        'mouseenter.aiMenuDropDown':  mouseEnterHandler,
-        'mouseleave.aiMenuDropDown':  mouseLeaveHandler
-      });
+        'focusin.aiMenuDropDown':   focusInHandler,
+        'focusout.aiMenuDropDown':  focusOutHandler,
+        // hoverIntent doesn't have an off, so we have to manually unbind the
+        // handlers it attaches.
+        'mouseenter.hoverIntent':   mouseEnterHandler,
+        'mouseleave.hoverIntent':   mouseLeaveHandler
+      })
+      // Remove hoverIntent data.
+      .removeData('hoverIntent');
   };
+});
 });
 });
