@@ -112,7 +112,8 @@
 
   // Override Drupal's .clearfix which uses the ::after element, in case we're
   // set on such an element.
-  visibility:   visible;
+  // 2019-08-28: Disabled because it's not really needed and is causing issues.
+  // visibility:   visible;
 
   position:   absolute;
 
