@@ -101,6 +101,11 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     // already a jQuery collection, jQuery will return it as-is.
     $menu = $($menu).first();
 
+    /**
+     * The top level menu to attach to.
+     *
+     * @type {HTMLElement}
+     */
     var menu = $menu[0];
 
     /**
@@ -178,6 +183,9 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
       $overflowContainer: $overflowContainer
     };
 
+    /**
+     * Update the visible and overflow items, based on current space.
+     */
     menu.aiMenuOverflow.update = function() {
       // Show all items in both the visible menu and the overflow menu, so that
       // we can measure their widths and selectively hide individual items.
@@ -190,13 +198,33 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
        */
       var menuWidth = $menu.width();
 
+      /**
+       * The maximum width in pixels the menu can display before overflowing.
+       *
+       * @type {Number}
+       */
       var stopWidth = $overflowToggle.outerWidth();
 
+      /**
+       * Menu items in the visible menu bar that are to be hidden.
+       *
+       * @type {jQuery}
+       */
       var $hiddenMenuItems = $();
 
       for (var i = 0; i < $menuItems.length; i++) {
+        /**
+         * The current menu item.
+         *
+         * @type {jQuery}
+         */
         var $menuItem = $menuItems.eq(i);
 
+        /**
+         * The current menu item's width.
+         *
+         * @type {Number}
+         */
         var menuItemWidth = $menuItem.outerWidth();
 
         // If the measured width up until now plus the current item width don't
@@ -288,6 +316,11 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     // already a jQuery collection, jQuery will return it as-is.
     $menu = $($menu).first();
 
+    /**
+     * The top level menu to detach from.
+     *
+     * @type {HTMLElement}
+     */
     var menu = $menu[0];
 
     // Don't do anything if we can't find our object attached to the menu
