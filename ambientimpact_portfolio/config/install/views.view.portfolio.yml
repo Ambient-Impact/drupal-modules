@@ -232,7 +232,7 @@ display:
         description: ''
         expanded: false
         parent: ''
-        weight: -46
+        weight: -48
         context: '0'
         menu_name: main
     cache_metadata:
