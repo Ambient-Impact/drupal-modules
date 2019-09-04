@@ -1,4 +1,4 @@
-# Facebook, GitHub, Instagram, Pinterest, Tumblr, Twitter, and Wikipedia icons
+# Facebook, GitHub, Instagram, Pinterest, Steam, Tumblr, Twitter, and Wikipedia icons
 
 These are from [Simple Icons](https://github.com/simple-icons/simple-icons) and
 are licensed under [Creative Commons Zero v1.0
@@ -22,9 +22,3 @@ kit](https://about.gitlab.com/press/press-kit/) and modified to be
 single-colour; licensed under [Attribution-NonCommercial-ShareAlike 4.0
 International (CC BY-NC-SA
 4.0)](https://about.gitlab.com/handbook/marketing/corporate-marketing/#gitlab-trademark--logo-guidelines).
-
-# Steam icon
-
-Originally by [BoneyardBrew on
-DeviantArt](https://www.deviantart.com/boneyardbrew/art/Modern-Steam-Icon-421263397);
-not under a specific license.
