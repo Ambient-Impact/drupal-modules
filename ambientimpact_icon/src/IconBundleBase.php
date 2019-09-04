@@ -116,7 +116,7 @@ implements IconBundleInterface, ContainerFactoryPluginInterface {
     $queryString  = $this->state->get('system.css_js_query_string');
 
     if ($queryString !== null) {
-      $urlObject->setOption('query', [$queryString => null]);
+      $urlObject->mergeOptions(['query' => [$queryString => null]]);
     }
 
     $urlObject->setOption('absolute', $absolute);
