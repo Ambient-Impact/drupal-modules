@@ -120,11 +120,7 @@ class Icon extends RenderElement {
         $iconBundleManager->getIconBundleInstance($element['#bundle']);
 
       if ($bundle !== false) {
-        $urlObject = Url::fromUri(
-          'base:' . $bundle->getPath()
-        );
-
-        $url = $urlObject->toString();
+        $url = $bundle->getURL();
 
         // Mark the bundle as being in use.
         $bundle->markUsed();
