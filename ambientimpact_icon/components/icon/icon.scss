@@ -40,17 +40,6 @@
     // Set any wrapped lines to line up with the start of the first line's
     // text content (after the icon).
     @include set-icon-text-indent($icon-size + $icon-text-spacing);
-
-    // These icons are smaller than their bounding boxes, so reduce the
-    // spacing between the icon and text to compensate and better match
-    // icons that do take up the whole bounding box.
-    &.ambientimpact-icon--name-add,
-    &.ambientimpact-icon--name-remove,
-    &.ambientimpact-icon--name-bookmark,
-    &.ambientimpact-icon--name-bookmark_outline {
-      @include set-icon-text-spacing($icon-text-spacing - 0.1em);
-      @include set-icon-text-indent($icon-size + $icon-text-spacing - 0.1em);
-    }
   }
 
   // Visually hidden text. This text is visually hidden but still accessible
@@ -65,13 +54,5 @@
   // the icon once the bundle has been marked as loaded by JavaScript.
   &--icon-standalone-loaded#{&}--text-hidden &__text {
     display: none;
-  }
-
-  // The Material play icon has a certain amount of empty space on the left,
-  // so add a negative margin to line things up better.
-  &--name-play {
-    .ambientimpact-icon__icon {
-      margin-left: -0.4em;
-    }
   }
 }
