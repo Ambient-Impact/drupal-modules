@@ -5,7 +5,7 @@
 ///
 /// The default icon width and height.
 ///
-$icon-size:         1.2em !default;
+$icon-size:         1em !default;
 
 ///
 /// The default spacing between an icon and its text, if visible.
@@ -173,8 +173,8 @@ $icon-text-spacing: 0.3em !default;
   $text-align-grid:   -0.15em;
 
   // Icons within a link next to text.
-  $link-align-inline: -0.3em;
-  $link-align-grid:   -0.2em;
+  $link-align-inline: -0.25em;
+  $link-align-grid:   -0.25em;
 
   // Centre vertically. 'center' is accepted for backwards compatibility.
   @if $align == centre or $align == center {
