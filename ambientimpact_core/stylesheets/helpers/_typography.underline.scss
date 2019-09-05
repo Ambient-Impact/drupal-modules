@@ -10,7 +10,7 @@ $text-underline-colour:		currentColor	!default;
 ///
 /// The text underline vertical position, as a background-position-y value.
 ///
-$text-underline-position:	95%				!default;
+$text-underline-position:	96%				!default;
 
 ///
 /// The text underline thickness.
@@ -231,15 +231,22 @@ $text-underline-style:		solid			!default;
 			( 5,  0),
 			(-5,  0),
 
-			// These clear horizontally and below the descenders. We stop at 3
+			// These clear horizontally and below the descenders. We stop at 2
 			// so that we don't go too far down and crop the underline even
 			// under characters without descenders.
 			( 1,  1),
 			(-1,  1),
 			( 2,  2),
 			(-2,  2),
-			( 3,  3),
-			(-3,  3),
+
+			// These clear horizontally and above the descenders, to attempt to evenly
+			// clear curved/curly descender "inside" their radius.
+			( 1,  -1),
+			(-1,  -1),
+			( 2,  -2),
+			(-2,  -2),
+			( 3,  -3),
+			(-3,  -3),
 		);
 
 		$shadow: ();
