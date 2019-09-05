@@ -31,7 +31,7 @@
     a & {
       // Icons with text inside links align to text baseline, taking the
       // link underline into account.
-      @include set-icon-vertical-alignment('text');
+      @include set-icon-vertical-alignment('link');
     }
 
     // Add a bit of space between icon and text.
