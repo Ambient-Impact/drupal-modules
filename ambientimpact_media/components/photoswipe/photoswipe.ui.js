@@ -20,29 +20,31 @@ AmbientImpact.addComponent('photoswipe.ui', function(aiPhotoSwipeUI, $) {
 
     var shareIcons = {
       facebook: {
+        name:   'facebook',
         bundle: 'brands',
-        text: 'Share<span class="element-invisible"> ' +
-              'on Facebook</span>'
+        text:   'Share<span class="element-invisible"> on Facebook</span>'
       },
       twitter:  {
+        name:   'twitter',
         bundle: 'brands',
-        text: 'Tweet',
+        text:   'Tweet',
       },
       pinterest:  {
+        name:   'pinterest',
         bundle: 'brands',
-        text: 'Pin<span class="element-invisible"> ' +
-              'on Pinterest</span>'
+        text:   'Pin<span class="element-invisible"> on Pinterest</span>'
       },
       download: {
-        bundle: 'material',
-        text: 'Download'
+        name:   'push-down',
+        bundle: 'libricons',
+        text:   'Download'
       }
     }
 
     // Replace text with our icons and text.
     $.each(gallery.options.shareButtons, function(i, item) {
       gallery.options.shareButtons[i].label = $(aiIcon.get(
-        item.id,
+        shareIcons[item.id].name,
         shareIcons[item.id]
       )).html();
     });

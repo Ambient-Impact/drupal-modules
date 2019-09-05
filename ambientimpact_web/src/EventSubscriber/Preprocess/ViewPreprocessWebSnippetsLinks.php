@@ -90,16 +90,16 @@ class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
       // Search.
       'search' => [
         'route'       => 'view.web_snippets_search.page_results',
-        'iconName'    => 'search',
-        'iconBundle'  => 'material',
+        'iconName'    => 'loupe',
+        'iconBundle'  => 'libricons',
         'text'        => $this->t('Search<span class="visually-hidden"> web snippets</span>'),
         'titleAttr'   => $this->t('Search web snippets.'),
       ],
       // View all tags.
       'view-all-tags' => [
         'route'       => 'view.web_tags.page',
-        'iconName'    => 'bookmark_outline',
-        'iconBundle'  => 'material',
+        'iconName'    => 'bookmark-outline',
+        'iconBundle'  => 'core',
         'text'        => $this->t('Tags<span class="visually-hidden"> (view all web development tags)</span>'),
         'titleAttr'   => $this->t('View all web development tags.'),
       ],

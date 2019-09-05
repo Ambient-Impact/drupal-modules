@@ -236,8 +236,8 @@ class AnimatedGIFToggle extends ComponentBase {
       '#text'       => t(
         '<span class="visually-hidden">Play this animated </span>GIF'
       ),
-      '#iconName'   => 'play',
-      '#iconBundle' => 'material',
+      '#iconName'   => 'twistie-right',
+      '#iconBundle' => 'libricons',
       '#preview'    => $variables['image'],
     ];
   }

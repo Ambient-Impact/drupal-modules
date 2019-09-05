@@ -220,8 +220,8 @@ class VideoEmbedFieldThumbnail extends Thumbnail {
 
         // If not a recognized brand, just use a plain play icon.
         default:
-          $iconName   = 'play';
-          $iconBundle = 'material';
+          $iconName   = 'twistie-right';
+          $iconBundle = 'libricons';
 
           $text       = $this->t('Play');
       }
