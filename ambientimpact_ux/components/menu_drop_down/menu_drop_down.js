@@ -267,6 +267,10 @@ AmbientImpact.addComponent('menuDropDown', function(aiMenuDropDown, $) {
       $trigger[0].aiMenuDropDown = $menuItem[0].aiMenuDropDown;
     }
 
+    // Give the menu a temporary explicit height so that inserting the icon
+    // doesn't cause the layout to shift.
+    $menu.css('height', $menu.height() + 'px');
+
     // Wrap trigger content in an icon, and attach the click event handler. Note
     // that we have to do this even with the event handler after this so that
     // the initial overflow calculations are (hopefully) accurate, taking the
@@ -274,6 +278,12 @@ AmbientImpact.addComponent('menuDropDown', function(aiMenuDropDown, $) {
     $triggers
       .wrapTextWithIcon('arrow-down', {bundle: 'core'})
       .on('click.aiMenuDropDown', clickHandler);
+
+    // Remove the explicit height after a brief delay to allow the browser to
+    // repaint/layout.
+    setTimeout(function() {
+      $menu.css('height', '');
+    }, 10);
 
     // Wrap the overflow toggle with the icon whenever it changes.
     $menu.on('menuOverflowToggleContentAfterUpdate.aiMenuDropDown', function(
