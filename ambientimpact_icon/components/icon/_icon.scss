@@ -10,7 +10,11 @@ $icon-size:         1em !default;
 ///
 /// The default spacing between an icon and its text, if visible.
 ///
-$icon-text-spacing: 0.3em !default;
+/// This should be smaller than the space between words takes up so that it's
+/// clear which text fragment this icon belongs to if the icon is surrounded by
+/// a block of text.
+///
+$icon-text-spacing: 0.2em !default;
 
 ///
 /// Target styles to an icon container selector.
