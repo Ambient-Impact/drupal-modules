@@ -7,20 +7,15 @@
 .ambientimpact-social-links {
   $self:  &;
 
-  margin-left:  0;
-  padding-left: 0;
-  list-style:   none;
-
   &--orientation-vertical {
-    display:    flex;
+    display:        flex;
     flex-direction: column;
   }
   &--orientation-horizontal {
-    display:    flex;
-    flex-direction: row;
-
-    #{$self}__network:not(:last-child) {
-      margin-right: $general-spacing;
+    @supports (flex-wrap: wrap) {
+      display:        flex;
+      flex-direction: row;
+      flex-wrap:      wrap;
     }
   }
 
@@ -37,21 +32,21 @@
 // Alignment is handled at the block level, so that we can align the title.
 .ambientimpact-block-social-links {
   @each $alignment, $data in (
-    start:  (title: left, list: start),
+    start:  (title: left,   list: start),
     centre: (title: center, list: center),
-    end:  (title: right,  list: end)
+    end:    (title: right,  list: end)
   ) {
     &--alignment-#{$alignment} {
       h2 {
-        text-align:     map-get($data, title);
+        text-align: map-get($data, title);
       }
 
       .ambientimpact-social-links {
         &--orientation-horizontal {
-          justify-content:  map-get($data, list);
+          justify-content: map-get($data, list);
         }
         &--orientation-vertical {
-          align-items:    map-get($data, list);
+          align-items: map-get($data, list);
         }
       }
     }
