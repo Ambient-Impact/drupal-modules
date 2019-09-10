@@ -10,9 +10,9 @@ These are from the [Zondicons](https://www.zondicons.com/) icon set and are
 licensed under [Creative Commons Attribution 4.0 International (CC BY
 4.0)](https://creativecommons.org/licenses/by/4.0/).
 
-# Gear icon
+# Gear and plus icons
 
-This is from the [Octicons](https://octicons.github.com/) icon set and is
+These are from the [Octicons](https://octicons.github.com/) icon set and are
 licensed under the [MIT
 License](https://github.com/primer/octicons/blob/master/LICENSE).
 
