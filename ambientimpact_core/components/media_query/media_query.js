@@ -4,8 +4,13 @@
 
 // This wraps the native window.matchMedia with some convenience methods. Will
 // not register if window.matchMedia isn't present.
+//
 // @see https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
+//
 // @see https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Testing_media_queries
+//
+// @see https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries#Media_features
+//   List of currently defined media features.
 
 // @todo include-media style breakpoint events, see bottom of file.
 // @see  https://github.com/eduardoboucas/include-media-export
