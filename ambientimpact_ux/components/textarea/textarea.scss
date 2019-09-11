@@ -12,7 +12,5 @@
   resize:     none;
 
   // @todo Why doesn't this work at all?
-  @include yep('ambientimpact-expensive-effects') {
-    transition: height 0.2s $easing-decelerate;
-  }
+  transition: height 0.2s $easing-decelerate;
 }
