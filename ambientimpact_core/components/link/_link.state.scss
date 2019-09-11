@@ -5,9 +5,10 @@
 ///
 /// Apply styles to link hover and focus states.
 ///
-/// This applies the given styles to the hover state if hover is allowed, on
-/// both the native hover and .proxy-hover class. If inidcated by the parameter,
-/// will also apply the styles on a non-pointer focus.
+/// This applies the given styles to the hover state if the primary input
+/// supports it natively - i.e. is a mouse/trackpad, and not touch - on both the
+/// native hover and .proxy-hover class. If indicated by the parameter, will
+/// also apply the styles on a non-pointer focus.
 ///
 /// @param {String} $focus [true]
 ///   Whether to also apply the styles to the focus state, either true or false.
@@ -15,11 +16,13 @@
 /// @content
 ///   The styles to apply on hover and focus (if indicated).
 ///
-/// @require {mixin}  yep
-/// @require {mixin}  not-pointer-focus
+/// @require {mixin} yep
+/// @require {mixin} not-pointer-focus
+///
+/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/@media/hover
 ///
 @mixin link-hover($focus: true) {
-  @include yep('ambientimpact-global-hover') {
+  @media (hover: hover) {
     &:hover,
     &.proxy-hover {
       @content;

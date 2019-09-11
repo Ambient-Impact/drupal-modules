@@ -178,8 +178,11 @@ $material-button-border-radius: $material-border-radius   !default;
   //   @include transition-fade-base();
   // }
 
-  // Apply hover/focus styles on hover, if hover styles are allowed.
-  @include yep('ambientimpact-global-hover') {
+  // Apply hover/focus styles on hover if the primary input supports hover, i.e.
+  // is a mouse/trackpad rather than touch.
+  //
+  // @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/hover
+  @media (hover: hover) {
     &:not(:disabled):hover {
       @include material-button-interact(
         $background-colour-interact,
