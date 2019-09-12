@@ -6,7 +6,7 @@ dependencies:
 id: node_project
 label: 'Content - Project'
 type: 'canonical_entities:node'
-pattern: 'projects/[node:title]'
+pattern: 'portfolio/[node:title]'
 selection_criteria:
   -
     id: node_type
