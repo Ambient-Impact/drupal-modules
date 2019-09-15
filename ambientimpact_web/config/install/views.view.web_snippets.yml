@@ -233,7 +233,7 @@ display:
         type: normal
         title: Snippets
         menu_name: main
-        weight: -50
+        weight: -49
         parent: ambientimpact_web.overview
     cache_metadata:
       max-age: -1
