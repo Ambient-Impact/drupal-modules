@@ -301,6 +301,37 @@ $icon-text-spacing: 0.2em !default;
 }
 
 ///
+/// Set an icon to stacked mode, where the icon and text are stacked vertically.
+///
+/// This overrides the default horizontal layout of icons and their content.
+///
+@mixin set-icon-stacked {
+  display: block;
+
+  // Specificity.
+  @include use-grid {
+    display: block;
+  }
+
+  @include on-icon-icon {
+    display: block;
+
+    // Specificity.
+    &:not(.ambientimpact-icon--icon-standalone-loaded) {
+      bottom: auto;
+    }
+
+    // Centre horizontally.
+    margin-left:  auto;
+    margin-right: auto;
+  }
+
+  @include on-icon-text {
+    display: block;
+  }
+}
+
+///
 /// Sets text indent on lines after the first on an .ambientimpact-icon element.
 ///
 /// Usually this is the icon width plus the spacing between the icon and text to
