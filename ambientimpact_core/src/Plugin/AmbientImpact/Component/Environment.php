@@ -10,7 +10,7 @@ use Drupal\ambientimpact_core\ComponentBase;
  * @Component(
  *   id = "environment",
  *   title = @Translation("Environment"),
- *   description = @Translation("A simple framework for feature and environment testing.")
+ *   description = @Translation("A collection of front-end utilities to determine the current browser environment.")
  * )
  */
 class Environment extends ComponentBase {
