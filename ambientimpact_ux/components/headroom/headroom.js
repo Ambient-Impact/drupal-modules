@@ -170,23 +170,6 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
         element.style.removeProperty('--offset-top');
       });
     }
-
-    // Re-init on lazy resize and orientation change events.
-    element.headroom.aiHandlers.resize = function(event) {
-      aiHeadroom.init(element, options);
-    };
-
-    $(window).on([
-      'lazyResize.aiHeadroom',
-      'orientationchange.aiHeadroom'
-    ].join(' '), element.headroom.aiHandlers.resize);
-
-    $element.one('headroomDestroy', function(event) {
-      $(window).off([
-        'lazyResize.aiHeadroom',
-        'orientationchange.aiHeadroom'
-      ].join(' '), element.headroom.aiHandlers.resize);
-    });
   };
 });
 });
