@@ -22,6 +22,7 @@ component.photoswipe:
     - ambientimpact_ux/component.link.image
     - ambientimpact_icon/component.icon
     - ambientimpact_ux/component.immerse
+    - ambientimpact_ux/component.pointer_focus_hide
 
 component.photoswipe.field:
   js:
