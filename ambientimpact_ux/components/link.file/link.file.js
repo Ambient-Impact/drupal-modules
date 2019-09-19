@@ -21,8 +21,12 @@ AmbientImpact.addComponent('link.file', function(aiLinkFile, $) {
   // Get the extension from a path, see:
   // http://stackoverflow.com/a/12900504/6513652
   this.getExtension = function(path) {
-    // Extract file name from full path (supports `\\` and `/` separators).
-    var basename = path.split(/[\\/]/).pop(),
+    // Extract file name from full path (supports `\\` and `/` separators). Note
+    // that we first remove any query string by splitting at the '?' character
+    // and extracting only the first string, before the '?'. If no query string
+    // is present, we get an array with one index, so this works without having
+    // to check for that.
+    var basename = path.split('?').shift().split(/[\\/]/).pop(),
 
     // Get last position of '.'.
       pos = basename.lastIndexOf(".");
