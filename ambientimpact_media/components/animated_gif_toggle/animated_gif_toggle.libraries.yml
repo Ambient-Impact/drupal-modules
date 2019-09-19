@@ -2,5 +2,5 @@ component.animated_gif_toggle:
   js:
     animated_gif_toggle.js: {}
   dependencies:
-    - ambientimpact_core/component.link.external
+    - ambientimpact_ux/component.link.external
     - ambientimpact_media/component.media_play_overlay

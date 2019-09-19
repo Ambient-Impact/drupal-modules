@@ -3,5 +3,5 @@ component.link.image:
     link.image.js: {}
   dependencies:
     - ambientimpact_core/component.jquery
-    - ambientimpact_core/component.link.external
-    - ambientimpact_core/component.link.file
+    - ambientimpact_ux/component.link.external
+    - ambientimpact_ux/component.link.file
