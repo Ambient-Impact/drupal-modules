@@ -392,8 +392,13 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     // the viewport is resized or rotated.
     setTimeout(menu.aiMenuOverflow.update, 10);
 
-    // Add an event handler to trigger on our debounced resize event.
-    $(window).on('lazyResize.aiMenuOverflow', menu.aiMenuOverflow.update);
+    // Add event handlers to trigger on our debounced resize event and when
+    // the viewport offsets change, such as when the Drupal toolbar trays open
+    // or close in vertical mode.
+    $(window).on([
+      'lazyResize.aiMenuOverflow',
+      'drupalViewportOffsetChange.aiMenuOverflow'
+    ].join(' '), menu.aiMenuOverflow.update);
   };
 
   /**
@@ -422,7 +427,10 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
       return;
     }
 
-    $(window).off('lazyResize.aiMenuOverflow', menu.aiMenuOverflow.update);
+    $(window).off([
+      'lazyResize.aiMenuOverflow',
+      'drupalViewportOffsetChange.aiMenuOverflow'
+    ].join(' '), menu.aiMenuOverflow.update);
 
     menu.aiMenuOverflow.$overflowContainer.remove();
 
