@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-//   Ambient.Impact - Core - Font component
+//   Ambient.Impact - UX - Font component
 // -----------------------------------------------------------------------------
 
 AmbientImpact.onGlobals(['FontFaceObserver'], function() {

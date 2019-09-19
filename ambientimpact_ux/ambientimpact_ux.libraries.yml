@@ -8,6 +8,18 @@ autosize:
   js:
     /libraries/autosize/dist/autosize.min.js: { minified: true }
 
+fontfaceobserver:
+  remote: https://fontfaceobserver.com/
+  version: 2.1.0
+  license:
+    name: FreeBSD
+    url: https://github.com/bramstein/fontfaceobserver/blob/master/LICENSE
+    gpl-compatible: true
+  js:
+    # This is the version without the Promises polyfill, which we don't need
+    # because we require and test for Promises in the framework.
+    /libraries/fontfaceobserver/fontfaceobserver.standalone.js: { minified: true }
+
 frend-offcanvas:
   remote: https://frend.co/components/offcanvas/
   version: 1.1.1
