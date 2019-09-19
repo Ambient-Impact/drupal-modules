@@ -4,3 +4,6 @@ component.toolbar:
       toolbar.css: {}
   js:
     toolbar.offset.js: {}
+  dependencies:
+    - ambientimpact_core/component.media_query
+    - ambientimpact_ux/component.displace

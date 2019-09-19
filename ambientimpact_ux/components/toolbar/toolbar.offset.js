@@ -1,60 +1,110 @@
-/* -----------------------------------------------------------------------------
-   Ambient.Impact - UX - Toolbar offset management component
------------------------------------------------------------------------------ */
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Toolbar offset management component
+// -----------------------------------------------------------------------------
 
-AmbientImpact.onGlobals(['Drupal.toolbar.mql'], function() {
+// This component's primary purpose is to remove the Drupal toolbar's height
+// from the top viewport offset when in the 'toolbar.narrow' media query width.
+// This is done because Drupal's displace functionality doesn't currently take
+// into account whether an element marked for displacement is actually
+// displacing, so it incorrectly counts the toolbar in the 'toolbar.narrow'
+// media query despite not being in fixed positioning. Altering the top offset
+// allows other components to get an accurate top displacement.
+
+AmbientImpact.onGlobals([
+  'drupalSettings.toolbar.breakpoints',
+  'Drupal.displace.calculateOffset',
+], function() {
+AmbientImpact.on(['mediaQuery', 'displace'], function(
+  aiMediaQuery, aiDisplace
+) {
 AmbientImpact.addComponent('toolbar.offset', function(aiToolbarOffset, $) {
   'use strict';
 
-  var $trays              = $('.toolbar-tray'),
-      // offsetsCache        = {top: 0},
-      standardMediaQuery  = null;
+  /**
+   * The 'toolbar.standard' MediaQueryList object.
+   *
+   * @type {MediaQueryList}
+   */
+  var standardMediaQuery = aiMediaQuery.getQuery(
+    drupalSettings.toolbar.breakpoints['toolbar.standard']
+  );
 
-  // These cannot be wrapped in a behaviour as that will be too late to apply
-  // our adjustments on the narrow media query range.
-  $(document)
-    /**
-     * Offset adjustment handler.
-     *
-     * This makes changes to the offsets in the narrow media query range.
-     */
-    .on('drupalViewportOffsetChange.aiToolbarOffset', function(
-      event, offsets
+  /**
+   * The toolbar bar element, wrapped in a jQuery collection.
+   *
+   * @type {jQuery}
+   */
+  var $toolbarBar = $();
+
+  /**
+   * The 'toolbar.standard' media query change event handler.
+   */
+  function standardMediaQueryChangeHandler(event) {
+    // If narrower than the 'toolbar.standard' media query - i.e. in
+    // 'toolbar.narrow' media query - add an explicit zero top offset to the
+    // toolbar bar element so that Drupal's displacement counts it as such.
+    if (event.matches === false) {
+      $toolbarBar.attr('data-offset-top', '0');
+
+    // If matching the 'toolbar.standard' media query, set the top offset to an
+    // empty value so that Drupal's displacement once again includes its height
+    // in the top offset value.
+    } else {
+      $toolbarBar.attr('data-offset-top', '');
+    }
+  };
+
+  /**
+   * Toolbar bar viewport offset adjustment event handler.
+   */
+  function viewportOffsetChangeHandler(event, offsets) {
+    if (
+      standardMediaQuery.matches === true ||
+      offsets.top === 0
     ) {
-      if (
-        standardMediaQuery === null &&
-        'toolbar.standard' in Drupal.toolbar.mql &&
-        'matches' in Drupal.toolbar.mql['toolbar.standard']
-      ) {
-        standardMediaQuery = Drupal.toolbar.mql['toolbar.standard'];
-      } else {
-        standardMediaQuery = {matches: true}
-      }
+      return;
+    }
 
-      // If the viewport is not at least wide enough to hit the
-      // 'toolbar.standard' breakpoint, any open vertical trays will be
-      // positioned absolutely and will not be taking up any horizontal space.
-      // For whatever reason, the offsets still read as though they do, so make
-      // sure we save zero values. Do the same for the top offset, as the
-      // Toolbar is not actually displacing the viewport.
-      if (standardMediaQuery.matches === true) {
-        return;
-      }
+    // Recalculate the top offset. This runs with a debounce and thus after
+    // standardMediaQueryChangeHandler() has run and altered the toolbar bar's
+    // data-offset-top attribute.
+    offsets.top = Drupal.displace.calculateOffset('top');
+  };
 
-      offsets.left  = 0;
-      offsets.right = 0;
+  this.addBehaviour(
+    'AmbientImpactToolbarOffset',
+    'ambientimpact-toolbar-offset',
+    '#toolbar-administration',
+    function(context, settings) {
+      $toolbarBar = $(this).find('#toolbar-bar');
 
-      if (offsets.top > 0) {
-        // Save the existing top offset, since we need it to set the top
-        // padding for trays.
-        // offsetsCache.top = offsets.top;
-        offsets.top = 0;
-      }
+      aiMediaQuery.onMedia(
+        standardMediaQuery,
+        standardMediaQueryChangeHandler
+      );
 
-      // Set top padding for trays. This is necessary as offsets.top will be
-      // zero on page load at this breakpoint, resulting in items in the trays
-      // being cut off.
-      // $trays.css('padding-top', offsetsCache.top);
-    });
+      // Run once on attach in case we're already in the 'toolbar.narrow' media
+      // query range. Note that we're passing the MediaQueryList object in place
+      // of the event object - this works because they both have a 'matches'
+      // property and that's the only thing the event handler checks.
+      standardMediaQueryChangeHandler(standardMediaQuery);
+    },
+    function(context, settings, trigger) {
+      aiMediaQuery.offMedia(
+        standardMediaQuery,
+        standardMediaQueryChangeHandler
+      );
+    }
+  );
+
+  // Bind to the viewport offset change event globally. This cannot be wrapped
+  // in a behaviour as that will be too late to apply our adjustments on the
+  // narrow media query range - we need to bind as early as possible so other
+  // handlers will get the updated values.
+  $(document).on(
+    'drupalViewportOffsetChange.aiToolbarOffset',
+    viewportOffsetChangeHandler
+  );
+});
 });
 });
