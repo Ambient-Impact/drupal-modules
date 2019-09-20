@@ -1,0 +1,5 @@
+component.pointer_type:
+  js:
+    pointer_type.js: {}
+  dependencies:
+    - ambientimpact_core/ally.js
