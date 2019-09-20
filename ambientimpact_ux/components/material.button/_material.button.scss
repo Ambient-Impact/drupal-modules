@@ -178,19 +178,14 @@ $material-button-border-radius: $material-border-radius   !default;
   //   @include transition-fade-base();
   // }
 
-  // Apply hover/focus styles on hover if the primary input supports hover, i.e.
-  // is a mouse/trackpad rather than touch.
-  //
-  // @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/hover
-  @media (hover: hover) {
-    &:not(:disabled):hover {
-      @include material-button-interact(
-        $background-colour-interact,
-        $foreground-colour-on-light,
-        $foreground-colour-on-dark,
-        $background-colour-interact-reference
-      );
-    }
+  // Apply hover/focus styles on hover if not touch.
+  &:not(:disabled):not([data-pointer-used='touch']):hover {
+    @include material-button-interact(
+      $background-colour-interact,
+      $foreground-colour-on-light,
+      $foreground-colour-on-dark,
+      $background-colour-interact-reference
+    );
   }
   // Apply hover/focus styles on non-pointer focus.
   @include not-pointer-focus {

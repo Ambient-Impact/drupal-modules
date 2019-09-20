@@ -22,7 +22,7 @@
 /// @link https://developer.mozilla.org/en-US/docs/Web/CSS/@media/hover
 ///
 @mixin link-hover($focus: true) {
-  @media (hover: hover) {
+  &:not([data-pointer-used='touch']) {
     &:hover,
     &.proxy-hover {
       @content;
