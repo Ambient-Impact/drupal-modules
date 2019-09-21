@@ -70,6 +70,8 @@ AmbientImpact.addComponent('icon.load', function(aiIconLoad, $) {
       return;
     }
 
+    $(document).trigger('IconBundleLoading', [bundleName]);
+
     // Attempt to load the bundle via jQuery's Ajax functionality, firing
     // events and changing bundle flags on success, failure, and any
     // outcome.
@@ -108,6 +110,25 @@ AmbientImpact.addComponent('icon.load', function(aiIconLoad, $) {
   });
 
   /**
+   * Mark icons within the provided context as loading.
+   *
+   * @param {Object|HTMLElement} context
+   *   The context to search for icons within.
+   *
+   * @param {String} bundleName
+   *   The bundle name whose icons we need to mark as loading.
+   */
+  function markIconsLoading(context, bundleName) {
+    var containerBaseClass = aiIconLoad.settings.containerBaseClass;
+
+    $(context).find(
+      '.' + containerBaseClass +
+      '.' + containerBaseClass + '--bundle-' + bundleName
+    )
+      .addClass(containerBaseClass + '--is-bundle-loading');
+  };
+
+  /**
    * Mark icons within the provided context as loaded.
    *
    * @param {object|HTMLElement} context
@@ -120,19 +141,30 @@ AmbientImpact.addComponent('icon.load', function(aiIconLoad, $) {
     var containerBaseClass = aiIconLoad.settings.containerBaseClass;
 
     $(context).find(
+      '.' + containerBaseClass +
+      '.' + containerBaseClass + '--bundle-' + bundleName
+    )
+      .removeClass(containerBaseClass + '--is-bundle-loading')
+      .addClass(containerBaseClass + '--is-bundle-loaded');
+
+    $(context).find(
       '.' + containerBaseClass + '--icon-standalone' +
       '.' + containerBaseClass + '--bundle-' + bundleName
     ).addClass(containerBaseClass + '--icon-standalone-loaded');
   };
 
-  // When each bundle loads, find all existing icons of that bundle and mark
-  // them as loaded.
+  // When each bundle is loading, mark all its icons on the page as such.
+  $(document).on('IconBundleLoading.aiIcon', function(event, bundleName) {
+    markIconsLoading(document.body, bundleName);
+  });
+
+  // When each bundle is loaded, mark all its icons on the page as such.
   $(document).on('IconBundleLoaded.aiIcon', function(event, bundleName) {
     markIconsLoaded(document.body, bundleName);
   });
 
-  // Define a Drupal behaviour to mark icons as loaded. This is necessary so
-  // that standalone icons are properly marked as loaded when inserted via
+  // Define a Drupal behaviour to mark icons as loaded or loading. This is
+  // necessary so that icons are properly marked as loaded when inserted via
   // Drupal's Ajax framework.
   this.addBehaviour(
     'AmbientImpactIconLoad',
@@ -141,6 +173,8 @@ AmbientImpact.addComponent('icon.load', function(aiIconLoad, $) {
       $.each(bundleStates, function(bundleName, bundleState) {
         if (bundleState.loaded === true) {
           markIconsLoaded(context, bundleName);
+        } else if (bundleState.loading === true) {
+          markIconsLoading(context, bundleName);
         }
       });
     },

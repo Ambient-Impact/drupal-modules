@@ -17,6 +17,11 @@ $icon-size:         1em !default;
 $icon-text-spacing: 0.2em !default;
 
 ///
+/// Icon reveal animation duration when its bundle has loaded.
+///
+$icon-loaded-reveal-animation-duration: 0.3s !default;
+
+///
 /// Target styles to an icon container selector.
 ///
 /// @content

@@ -4,7 +4,21 @@
 
 @import '../../../ambientimpact_core/stylesheets/_common.scss';
 
+///
+/// Icon reveal animation when its bundle has loaded.
+///
+@keyframes icon-loaded-reveal {
+  0% {
+    opacity:    0;
+  }
+  100% {
+    opacity:    1;
+  }
+}
+
 .ambientimpact-icon {
+  $self: &;
+
   @include set-icon-size($icon-size);
 
   // Inherit the text colour from the parent:
@@ -54,5 +68,22 @@
   // the icon once the bundle has been marked as loaded by JavaScript.
   &--icon-standalone-loaded#{&}--text-hidden &__text {
     display: none;
+  }
+
+  &--is-bundle-loading,
+  &--is-bundle-loaded {
+    #{$self}__icon {
+      animation-name:             icon-loaded-reveal;
+      animation-duration:         $icon-loaded-reveal-animation-duration;
+      animation-timing-function:  linear;
+      animation-fill-mode:        backwards;
+    }
+  }
+
+  &--is-bundle-loading #{$self}__icon {
+    animation-play-state: paused;
+  }
+  &--is-bundle-loaded #{$self}__icon {
+    animation-play-state: running;
   }
 }
