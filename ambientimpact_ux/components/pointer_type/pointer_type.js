@@ -22,6 +22,13 @@
 // @see https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events
 //
 // @see https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent/pointerType
+//
+// @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/hover
+//   This media feature was used previously to attempt to only apply styles when
+//   the primary pointer had convenient hover functionality, which the MDN
+//   documentation says is not touch, yet both Firefox and Chrome on Android
+//   match this media query regardless, so it's not useful to us as it currently
+//   is implemented.
 
 AmbientImpact.onGlobals('ally.is.focusable', function() {
 AmbientImpact.addComponent('pointerType', function(aiPointerType, $) {
