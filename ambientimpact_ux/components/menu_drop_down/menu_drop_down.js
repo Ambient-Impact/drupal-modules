@@ -234,9 +234,19 @@ AmbientImpact.addComponent('menuDropDown', function(aiMenuDropDown, $) {
             return;
           }
 
+          this.$menuItem.trigger(
+            'menuDropDownOpening',
+            this.$menuItem[0].aiMenuDropDown
+          );
+
           this.$menuItem
             .addClass(menuItemOpenClass)
             .removeClass(menuItemClosedClass);
+
+          this.$menuItem.trigger(
+            'menuDropDownOpened',
+            this.$menuItem[0].aiMenuDropDown
+          );
         },
 
         /**
@@ -247,9 +257,19 @@ AmbientImpact.addComponent('menuDropDown', function(aiMenuDropDown, $) {
             return;
           }
 
+          this.$menuItem.trigger(
+            'menuDropDownClosing',
+            this.$menuItem[0].aiMenuDropDown
+          );
+
           this.$menuItem
             .addClass(menuItemClosedClass)
             .removeClass(menuItemOpenClass);
+
+          this.$menuItem.trigger(
+            'menuDropDownClosed',
+            this.$menuItem[0].aiMenuDropDown
+          );
         },
 
         /**
