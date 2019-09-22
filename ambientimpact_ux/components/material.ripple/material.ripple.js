@@ -97,28 +97,31 @@ AmbientImpact.addComponent('material.ripple', function(
   }
 
   /**
-   * Determine if the passed element or descendents have a CSS animation.
+   * Determine if the passed element has a CSS animation.
    *
    * This checks for the presence of the 'animation-duration' CSS property and
    * whether it has a value that's greater than 0.
+   *
+   * Note that in the original Pen, this checks both the element itself and all
+   * children, while this checks only the element itself. This may be revisited
+   * at a later date, but checking children or descendents (the latter of which
+   * was done initially in porting the Pen) can cause false positives if a
+   * descendent - such as an icon - has any sort of reveal animation, even if
+   * it's irrelevant.
    *
    * @param {jQuery} element
    *   A jQuery collection containing the element to look at.
    *
    * @return {Boolean}
-   *   True if the element or any descendents have the 'animation-duration' CSS
-   *   property with a value greater than 0, false otherwise.
+   *   True if the element has the 'animation-duration' CSS property with a
+   *   value greater than 0, false otherwise.
    */
   function hasAnimation($element) {
-    var $elements = $element.add($element.find('*'));
-
-    for (var i = $elements.length - 1; i >= 0; i--) {
-      if (parseFloat(
-        getComputedStyle($elements[i], null)
-          .getPropertyValue('animation-duration') || '0'
-      ) > 0) {
-        return true;
-      }
+    if (parseFloat(
+      getComputedStyle($element[0], null)
+        .getPropertyValue('animation-duration') || '0'
+    ) > 0) {
+      return true;
     }
 
     return false;
