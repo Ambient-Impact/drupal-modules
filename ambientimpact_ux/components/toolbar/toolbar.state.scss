@@ -1,0 +1,62 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Drupal toolbar component state
+// -----------------------------------------------------------------------------
+
+@import '../../../ambientimpact_core/stylesheets/_common.scss';
+
+.toolbar .toolbar-bar {
+  @include set-colours($background: $toolbar-bar-background-colour);
+}
+
+.toolbar .toolbar-bar .toolbar-tab > .toolbar-icon {
+  @include link-hover {
+    @include set-colours(
+      $background: $toolbar-tab-interact-background-colour
+    );
+  }
+
+  // Current item indicator.
+  &::after {
+    content: '';
+
+    display: block;
+
+    position: absolute;
+
+    left:   0;
+    right:  0;
+    bottom: 0;
+
+    height: $toolbar-tab-current-indicator-thickness;
+
+    transform: scaleY(0);
+    transform-origin: bottom center;
+
+    background-color: $toolbar-tab-current-indicator-colour;
+
+    transition-duration: 0.2s;
+    transition-property: transform;
+  }
+
+  &.toolbar-icon.is-active {
+    @include set-colours(
+      $background: $toolbar-tab-current-background-colour
+    );
+
+    // Remove the default gradient, as it looks kind of dated design-wise.
+    background-image: none;
+
+    &::after {
+      transform: scaleY(1);
+    }
+  }
+}
+
+.toolbar .toolbar-tray .toolbar-icon,
+.toolbar .toolbar-tray .toolbar-menu a:not(.toolbar-icon) {
+  @include link-hover {
+    @include set-colours(
+      $background: $toolbar-tray-item-interact-background-colour
+    );
+  }
+}

@@ -1,0 +1,67 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Drupal toolbar component colour partial
+// -----------------------------------------------------------------------------
+
+///
+/// Drupal toolbar light blue.
+///
+$toolbar-light-blue: #5181c6 !default;
+
+///
+/// Drupal toolbar light grey.
+///
+$toolbar-light-grey: hsl(0, 0, 75%) !default;
+
+///
+/// Drupal toolbar medium grey.
+///
+$toolbar-medium-grey: hsl(0, 0, 50%) !default;
+
+///
+/// Drupal toolbar near black.
+///
+$toolbar-near-black: hsl(0, 0, 6%) !default;
+
+///
+/// Drupal toolbar near white.
+///
+$toolbar-near-white: hsl(0, 0, 96%) !default;
+
+///
+/// Drupal toolbar tab bar background colour.
+///
+$toolbar-bar-background-colour: $toolbar-near-black !default;
+
+///
+/// Drupal toolbar tab interact (hover/focus) background colour.
+///
+$toolbar-tab-interact-background-colour:
+  lighten($toolbar-bar-background-colour, 30%) !default;
+
+///
+/// Drupal toolbar current tab background colour.
+///
+$toolbar-tab-current-background-colour:
+  lighten($toolbar-bar-background-colour, 20%) !default;
+
+///
+/// Drupal toolbar current tab indicator background colour.
+///
+$toolbar-tab-current-indicator-colour: white !default;
+
+///
+/// Drupal toolbar tray background colour.
+///
+$toolbar-tray-background-colour: white !default;
+
+///
+/// Drupal toolbar tray item interact (hover/focus) background colour.
+///
+$toolbar-tray-item-interact-background-colour:
+  darken($toolbar-tray-background-colour, 10%) !default;
+
+///
+/// Drupal toolbar tray item border colour.
+///
+$toolbar-tray-item-border-colour:
+  darken($toolbar-tray-background-colour, 10%) !default;

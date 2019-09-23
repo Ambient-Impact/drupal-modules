@@ -1,0 +1,17 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Drupal toolbar component typography partial
+// -----------------------------------------------------------------------------
+
+///
+/// Drupal toolbar font family.
+///
+/// This is unchanged from the default that ships with Drupal, but provided in
+/// case this is later changed.
+///
+$toolbar-font-family:
+  'Source Sans Pro', 'Lucida Grande', Verdana, sans-serif !default;
+
+///
+/// Drupal toolbar font size.
+///
+$toolbar-font-size: small !default;

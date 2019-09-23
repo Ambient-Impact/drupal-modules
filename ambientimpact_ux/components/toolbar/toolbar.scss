@@ -12,4 +12,48 @@
   transition-property:        opacity;
   transition-duration:        200ms;
   transition-timing-function: linear;
+
+  .toolbar-icon {
+    @include transition-fade-base;
+
+    @include link-hover {
+      @include transition-fade-active;
+    }
+  }
+}
+
+.toolbar .toolbar-tab > .toolbar-icon {
+  // Required for the current tab indicator.
+  position: relative;
+}
+
+// This adds a slight shadow along the top of vertical trays so that the current
+// tab indicator contrasts against the tray, as they're both the same colour. It
+// also gives the tray a sense of being attached to but coming out from under
+// the tab bar.
+.toolbar .toolbar-tray-vertical::before {
+  content: '';
+
+  position: absolute;
+
+  top: -1em;
+  left: 0;
+  right: 0;
+
+  height: 1em;
+
+  box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.25);
+}
+
+// Borders between vertical tray items. Unlike the default Toolbar CSS, this
+// works for both the Manage menu and other menus.
+.toolbar .toolbar-tray-vertical .toolbar-menu {
+  .menu-item.level-1 + .menu-item,
+  li:not(.menu-item) + li a:not(.toolbar-icon) {
+    border-top: $toolbar-tray-item-border;
+  }
+  .menu-item.level-1:last-child,
+  li:not(.menu-item):last-child a:not(.toolbar-icon) {
+    border-bottom: $toolbar-tray-item-border;
+  }
 }

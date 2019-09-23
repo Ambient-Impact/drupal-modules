@@ -2,6 +2,10 @@ component.toolbar:
   css:
     component:
       toolbar.css: {}
+    state:
+      toolbar.state.css: {}
+    theme:
+      toolbar.typography.css: {}
   js:
     toolbar.offset.js: {}
   dependencies:

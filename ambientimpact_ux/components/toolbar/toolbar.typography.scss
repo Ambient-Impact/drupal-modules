@@ -1,0 +1,23 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Drupal toolbar component typography
+// -----------------------------------------------------------------------------
+
+@import '../../../ambientimpact_core/stylesheets/_common.scss';
+
+#toolbar-administration {
+  font-size: $toolbar-font-size;
+}
+
+.toolbar {
+  font-family: $toolbar-font-family;
+}
+
+.toolbar .toolbar-item,
+.toolbar .toolbar-tray a {
+  &:hover,
+  &:focus,
+  &:active,
+  &.is-active {
+    text-decoration: none;
+  }
+}

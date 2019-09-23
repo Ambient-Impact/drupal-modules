@@ -1,0 +1,24 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Drupal toolbar component partial
+// -----------------------------------------------------------------------------
+
+@import '_toolbar.colour.scss';
+@import '_toolbar.breakpoint.scss';
+@import '_toolbar.typography.scss';
+
+///
+/// Drupal toolbar current tab indicator thickness.
+///
+$toolbar-tab-current-indicator-thickness: 0.2em !default;
+
+///
+/// Drupal toolbar tray item border thickness.
+///
+$toolbar-tray-item-border-thickness: 1px !default;
+
+///
+/// Drupal toolbar tray item border.
+///
+$toolbar-tray-item-border:
+  $toolbar-tray-item-border-thickness solid
+  $toolbar-tray-item-border-colour !default;
