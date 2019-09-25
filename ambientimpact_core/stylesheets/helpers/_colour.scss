@@ -1,23 +1,23 @@
 // -----------------------------------------------------------------------------
-//	Colour helpers
+//  Colour helpers
 // -----------------------------------------------------------------------------
-
 
 ///
 /// Default background colour.
 ///
-$background-colour:				white			!default;
+$background-colour: white !default;
+
 ///
 /// Foreground (usually text) colour on light backgrounds.
 ///
-$foreground-colour-on-light:	hsl(0, 0, 20%)	!default;
+$foreground-colour-on-light: hsl(0, 0, 20%) !default;
+
 ///
 /// Foreground colour on dark backgrounds.
 ///
-$foreground-colour-on-dark:		white			!default;
+$foreground-colour-on-dark: white !default;
 
-// $foreground-colour is set lower down.
-
+// *** $foreground-colour is set lower down. ***
 
 ///
 /// Get a greyscale colour as rgba().
@@ -37,7 +37,7 @@ $foreground-colour-on-dark:		white			!default;
 /// @link https://gist.github.com/LeaVerou/20ac0049428ccfcbe8f1
 ///
 @function greyscale($lightness, $opacity: 1) {
-	@return rgba($lightness, $lightness, $lightness, $opacity);
+  @return rgba($lightness, $lightness, $lightness, $opacity);
 }
 
 ///
@@ -55,11 +55,11 @@ $foreground-colour-on-dark:		white			!default;
 /// @link https://ambientimpact.com/web/snippets/sass-text-contrast-mixin
 ///
 @function get-colour-brightness($colour) {
-	@return (
-		(red($colour)	* .299) +
-		(green($colour)	* .587) +
-		(blue($colour)	* .114)
-	) / 255 * 100%;
+  @return (
+    (red($colour) * .299) +
+    (green($colour) * .587) +
+    (blue($colour)  * .114)
+  ) / 255 * 100%;
 }
 
 ///
@@ -90,28 +90,28 @@ $foreground-colour-on-dark:		white			!default;
 /// @link https://ambientimpact.com/web/snippets/sass-text-contrast-mixin
 ///
 @function get-contrasting-colour(
-	$background:			$background-colour,
-	$foreground-on-light:	$foreground-colour-on-light,
-	$foreground-on-dark:	$foreground-colour-on-dark
+  $background:      $background-colour,
+  $foreground-on-light: $foreground-colour-on-light,
+  $foreground-on-dark:  $foreground-colour-on-dark
 ) {
-	@if $background == null {
-		@return null;
+  @if $background == null {
+    @return null;
 
-	} @else {
-		$background-brightness:
-			get-colour-brightness($background);
-		$foreground-on-dark-brightness:
-			get-colour-brightness($foreground-on-dark);
-		$foreground-on-light-brightness:
-			get-colour-brightness($foreground-on-light);
+  } @else {
+    $background-brightness:
+      get-colour-brightness($background);
+    $foreground-on-dark-brightness:
+      get-colour-brightness($foreground-on-dark);
+    $foreground-on-light-brightness:
+      get-colour-brightness($foreground-on-light);
 
-		@return if(
-			abs($background-brightness - $foreground-on-dark-brightness) >
-				abs($background-brightness - $foreground-on-light-brightness),
-			$foreground-on-dark,
-			$foreground-on-light
-		);
-	}
+    @return if(
+      abs($background-brightness - $foreground-on-dark-brightness) >
+        abs($background-brightness - $foreground-on-light-brightness),
+      $foreground-on-dark,
+      $foreground-on-light
+    );
+  }
 }
 
 ///
@@ -119,14 +119,14 @@ $foreground-colour-on-dark:		white			!default;
 ///
 /// This automatically chooses the most contrasting colour by default, so you
 /// may not need to change this at all when changing $background-colour. Set
-/// $foreground-colour-on-light and $foreground-colour- on-dark instead of this
+/// $foreground-colour-on-light and $foreground-colour-on-dark instead of this
 /// if you need to.
 ///
-$foreground-colour:	get-contrasting-colour(
-						$background-colour,
-						$foreground-colour-on-light,
-						$foreground-colour-on-dark
-					) !default;
+$foreground-colour: get-contrasting-colour(
+  $background-colour,
+  $foreground-colour-on-light,
+  $foreground-colour-on-dark
+) !default;
 
 ///
 /// Set background and foreground colours on an element, contrast-aware.
@@ -157,32 +157,32 @@ $foreground-colour:	get-contrasting-colour(
 /// @author Matei "Ambient.Impact" Stanca
 ///
 @mixin set-colours(
-	$background:			$background-colour,
-	$foreground-on-light:	$foreground-colour-on-light,
-	$foreground-on-dark:	$foreground-colour-on-dark,
-	$background-reference:	null
+  $background:      $background-colour,
+  $foreground-on-light: $foreground-colour-on-light,
+  $foreground-on-dark:  $foreground-colour-on-dark,
+  $background-reference:  null
 ) {
-	// Get the appropriately contrasting foreground colour.
-	$foreground: get-contrasting-colour(
-		if($background-reference != null, $background-reference, $background),
-		$foreground-on-light,
-		$foreground-on-dark
-	);
+  // Get the appropriately contrasting foreground colour.
+  $foreground: get-contrasting-colour(
+    if($background-reference != null, $background-reference, $background),
+    $foreground-on-light,
+    $foreground-on-dark
+  );
 
-	// Set custom properties.
-	@include custom-property(
-		'background-colour',
-		$background
-	);
-	@include custom-property(
-		'foreground-colour',
-		$foreground
-	);
+  // Set custom properties.
+  @include custom-property(
+    'background-colour',
+    $background
+  );
+  @include custom-property(
+    'foreground-colour',
+    $foreground
+  );
 
-	@include trigger-event('set-colours', $background, $foreground);
+  @include trigger-event('set-colours', $background, $foreground);
 
-	background-color:	$background;
-	color:				$foreground;
+  background-color: $background;
+  color:        $foreground;
 }
 
 ///
@@ -196,10 +196,10 @@ $foreground-colour:	get-contrasting-colour(
 ///   inverted.
 ///
 @function invert-lightness($colour) {
-	@return hsla(
-		hue($colour),
-		saturation($colour),
-		100% - lightness($colour),
-		alpha($colour)
-	);
+  @return hsla(
+    hue($colour),
+    saturation($colour),
+    100% - lightness($colour),
+    alpha($colour)
+  );
 }
