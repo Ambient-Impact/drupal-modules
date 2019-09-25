@@ -24,7 +24,7 @@ module.exports = function(grunt) {
   grunt.registerTask('all', [
     'sass',
     'postcss',
-    'sassdoc',
+    //'sassdoc',
     'svgstore',
   ]);
 
