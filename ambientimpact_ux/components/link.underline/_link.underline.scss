@@ -109,15 +109,19 @@ $fancy-link-underlines-has-image-text-class:
     ) {
       // Remove the native underlines.
       text-decoration: none;
-
-      @include custom-property(
-        'link-underline-colour',
-        custom-property('link-underline-normal-colour')
-      );
     };
   }
 
   @include supports-cleared-text-underline {
+    // Don't wrap this in fancy-link-underlines-link as that will cause the
+    // underlines on elements containing an image - such as icons - to not fade
+    // out with a transition. The custom properties must always be set on the
+    // link itself.
+    @include custom-property(
+      'link-underline-colour',
+      custom-property('link-underline-normal-colour')
+    );
+
     &.#{$fancy-link-underlines-has-image-class} {
       // Remove the native underlines as these can show up on top of the
       // fancy underlines for links that contain images, since we don't
@@ -131,25 +135,21 @@ $fancy-link-underlines-has-image-text-class:
     }
 
     @include link-hover {
-      @include fancy-link-underlines-link {
-        @include custom-property(
-          'link-underline-colour',
-          custom-property(
-            'link-underline-hover-colour'
-          )
-        );
-      }
+      @include custom-property(
+        'link-underline-colour',
+        custom-property(
+          'link-underline-hover-colour'
+        )
+      );
     }
 
     @include link-active {
-      @include fancy-link-underlines-link {
-        @include custom-property(
-          'link-underline-colour',
-          custom-property(
-            'link-underline-active-colour'
-          )
-        );
-      }
+      @include custom-property(
+        'link-underline-colour',
+        custom-property(
+          'link-underline-active-colour'
+        )
+      );
     }
   }
 }
