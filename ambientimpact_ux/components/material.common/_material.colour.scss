@@ -1,17 +1,53 @@
-/* -----------------------------------------------------------------------------
-	Ambient.Impact - UX - Material colour partial
------------------------------------------------------------------------------ */
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Material colour partial
+// -----------------------------------------------------------------------------
 
-// This is the primary colour (Material Design indigo) used for all elements and
-// highlights, unless overridden on a global or per-element basis.
-$material-primary-colour:	rgb(63, 81, 181)		!default;
+///
+/// Material Design primary colour.
+///
+/// This is used in many elements as a consistent colour scheme to draw the eye.
+/// Intended to be overridden with a custom theme colour.
+///
+/// @link https://www.materialui.co/colors/indigo/500
+///   Defaults to this indigo.
+///
+$material-primary-colour: rgb(63, 81, 181) !default;
 
-// Material Design error.
-$material-error-colour:		rgb(219, 68, 55)		!default;
+///
+/// Material Design error colour.
+///
+$material-error-colour: rgb(219, 68, 55) !default;
 
-// This is used for various elements that require a line, esp. horizontal.
-$material-line-colour:		hsla(0, 0, 0, 0.15)		!default;
+///
+/// Material Design line colour on light backgrounds.
+///
+$material-line-colour-on-light: hsla(0, 0, 0, 0.15) !default;
 
-// This is used as a background for flat items (buttons, tabs, etc.) when they
-// are being interacted with, e.g. hovered, focused, etc.
-$material-flat-item-interact-colour:	hsla(0, 0, 0, 0.1)	!default;
+///
+/// Material Design line colour on dark backgrounds.
+///
+$material-line-colour-on-dark: hsla(0, 0, 100%, 0.25) !default;
+
+///
+/// Material Design line colour.
+///
+/// @deprecated This will be removed when all uses of it are converted to light/
+/// dark colour scheme-aware.
+///
+$material-line-colour: $material-line-colour-on-light !default;
+
+///
+/// Material Design flat item interact colour on light backgrounds.
+///
+/// This is used for items such as buttons and tabs when they're being
+/// interacted with, i.e. are hovered by the pointer or focused.
+///
+$material-flat-item-interact-colour-on-light: hsla(0, 0, 0, 0.1) !default;
+
+///
+/// Material Design flat item interact colour on dark backgrounds.
+///
+/// This is used for items such as buttons and tabs when they're being
+/// interacted with, i.e. are hovered by the pointer or focused.
+///
+$material-flat-item-interact-colour-on-dark: hsla(0, 0, 100%, 0.15) !default;

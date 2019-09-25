@@ -4,15 +4,50 @@
 
 @import '../../../ambientimpact_core/stylesheets/_common.scss';
 
-$to-top-offset-horizontal:  1em   !default;
-$to-top-offset-bottom:      2em   !default;
-$to-top-hidden-offset:      4em   !default;
+///
+/// To top component horizontal offset from viewport edge.
+///
+$to-top-offset-horizontal: 1em !default;
 
-$to-top-background-colour-normal: lighten(black, 10%) !default;
-$to-top-background-colour-hover:  lighten(black, 20%) !default;
+///
+/// To top component bottom offset from viewport edge.
+///
+$to-top-offset-bottom: 2em !default;
 
-$to-top-foreground-colour-normal: white !default;
-$to-top-foreground-colour-hover:  white !default;
+///
+/// To top component horizontal offset from viewport edge when hidden.
+///
+$to-top-hidden-offset: 4em !default;
+
+///
+/// To top component background colour on light backgrounds.
+///
+$to-top-background-colour-normal-on-light: lighten(black, 10%) !default;
+
+///
+/// To top component background colour on dark backgrounds.
+///
+$to-top-background-colour-normal-on-dark: darken(white, 10%) !default;
+
+///
+/// To top component interacted background colour on light backgrounds.
+///
+$to-top-background-colour-interact-on-light: lighten(black, 20%) !default;
+
+///
+/// To top component interacted background colour on dark backgrounds.
+///
+$to-top-background-colour-interact-on-dark: darken(white, 20%) !default;
+
+///
+/// To top component foreground colour on light backgrounds.
+///
+$to-top-foreground-colour-on-light: white !default;
+
+///
+/// To top component foreground colour on dark backgrounds.
+///
+$to-top-foreground-colour-on-dark: black !default;
 
 .to-top {
   position: fixed;
@@ -46,12 +81,21 @@ $to-top-foreground-colour-hover:  white !default;
   &__link {
     display: block;
 
-    color: $to-top-foreground-colour-normal !important;
+    color: $to-top-foreground-colour-on-light !important;
 
     @include material-button-fab(
-      $background-colour:           $to-top-background-colour-normal,
-      $background-colour-interact:  $to-top-background-colour-hover
+      $background-colour:           $to-top-background-colour-normal-on-light,
+      $background-colour-interact:  $to-top-background-colour-interact-on-light
     );
+
+    @include on-dark-colour-scheme {
+      color: $to-top-foreground-colour-on-dark !important;
+
+      @include material-button-fab(
+        $background-colour:           $to-top-background-colour-normal-on-dark,
+        $background-colour-interact:  $to-top-background-colour-interact-on-dark
+      );
+    }
 
     // Remove the standard link underlines, as we style as a button.
     text-decoration: none;
@@ -62,11 +106,10 @@ $to-top-foreground-colour-hover:  white !default;
     -moz-outline-radius:  50%;
     outline-radius:       50%;
 
-    // Use the background colour for the focus outline to ensure contrast as
-    // the outline uses currentColor by default, which is white in this
-    // case.
+    // Use the background colour for the focus outline to ensure contrast as the
+    // outline uses currentColor by default, which is white in this case.
     &:focus {
-      outline-color: $to-top-background-colour-normal;
+      outline-color: $to-top-background-colour-normal-on-light;
     }
   }
 

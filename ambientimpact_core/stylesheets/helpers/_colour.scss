@@ -3,9 +3,19 @@
 // -----------------------------------------------------------------------------
 
 ///
-/// Default background colour.
+/// Light background colour; usually used for light themes.
 ///
-$background-colour: white !default;
+$background-colour-light: white !default;
+
+///
+/// Dark background colour; usually used for dark themes.
+///
+$background-colour-dark: black !default;
+
+///
+/// Default background colour; light theme by default.
+///
+$background-colour: $background-colour-light !default;
 
 ///
 /// Foreground (usually text) colour on light backgrounds.
@@ -202,4 +212,25 @@ $foreground-colour: get-contrasting-colour(
     100% - lightness($colour),
     alpha($colour)
   );
+}
+
+///
+/// Apply styles when a dark colour scheme is indicated by the user.
+///
+/// Note that this wraps the styles in an @supports test for CSS custom
+/// properties and the CSS filter: invert(100%), both of which make recolouring
+/// far easier, and the latter being often used to invert colours.
+///
+/// @content The properties to apply when using a dark colour scheme.
+///
+/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
+///   We use this media feature to detect if the user has chosen a dark theme,
+///   which is usually set at the operating system level.
+///
+@mixin on-dark-colour-scheme {
+  @supports (--test: orange) and (filter: invert(100%)) {
+    @media (prefers-color-scheme: dark) {
+      @content;
+    }
+  }
 }

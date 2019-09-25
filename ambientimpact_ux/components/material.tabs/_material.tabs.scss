@@ -3,9 +3,16 @@
 // -----------------------------------------------------------------------------
 
 ///
-/// Material tabs container underline colour.
+/// Material tabs container underline colour on light backgrounds.
 ///
-$material-tabs-underline-colour: $material-line-colour !default;
+$material-tabs-underline-colour-on-light:
+  $material-line-colour-on-light !default;
+
+///
+/// Material tabs container underline colour on dark backgrounds.
+///
+$material-tabs-underline-colour-on-dark:
+  $material-line-colour-on-dark !default;
 
 ///
 /// Material tabs container underline thickness.
@@ -34,7 +41,12 @@ $material-tabs-padding: $material-item-padding-text-align !default;
 ///
 @mixin material-tabs-container {
   border-bottom:
-    $material-tabs-underline-thickness solid $material-tabs-underline-colour;
+    $material-tabs-underline-thickness solid
+    $material-tabs-underline-colour-on-light;
+
+    @include on-dark-colour-scheme {
+      border-bottom-color: $material-tabs-underline-colour-on-dark;
+    }
 
   // Fallback if flex-wrap: wrap is not supported.
   > * {
@@ -71,7 +83,11 @@ $material-tabs-padding: $material-item-padding-text-align !default;
   line-height:    1;
 
   @include link-hover {
-    background-color: $material-flat-item-interact-colour;
+    background-color: $material-flat-item-interact-colour-on-light;
+
+    @include on-dark-colour-scheme {
+      background-color: $material-flat-item-interact-colour-on-dark;
+    }
   }
 
   // This adds a bar under the active item to indicate its active state.

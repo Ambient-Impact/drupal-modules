@@ -3,11 +3,22 @@
 // -----------------------------------------------------------------------------
 
 ///
-/// Material Input underline colour when the input is not focused.
+/// Material input inactive underline colour on light backgrounds.
 ///
-/// This is applied to the thin underline.
+/// This is applied to the thin underline which is shown when the input isn't
+/// focused.
 ///
-$material-input-underline-colour-inactive: $material-line-colour !default;
+$material-input-underline-colour-inactive-on-light:
+  $material-line-colour-on-light !default;
+
+///
+/// Material input inactive underline colour on dark backgrounds.
+///
+/// This is applied to the thin underline which is shown when the input isn't
+/// focused.
+///
+$material-input-underline-colour-inactive-on-dark:
+  $material-line-colour-on-dark !default;
 
 ///
 /// Material Input underline colour when the input is focused.
@@ -34,7 +45,11 @@ $material-input-underline-transition-duration:
     // !important is required to override Drupal error styles.
     border-width: 0 0 1px 0 !important;
     border-style: solid;
-    border-color: $material-input-underline-colour-inactive;
+    border-color: $material-input-underline-colour-inactive-on-light;
+
+    @include on-dark-colour-scheme {
+      border-color: $material-input-underline-colour-inactive-on-dark;
+    }
   }
 
   input,
