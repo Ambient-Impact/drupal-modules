@@ -1,10 +1,13 @@
-.sublime-grunt.cache
+# Ignore any Node modules, as they're downloaded via NPM.
 node_modules
-*/assets/vendor
-.sass-cache
-sftp-config.json
 
+# Ignore any vendor assets in any module directories, as they're
+# generated/downloaded automatically.
+**/assets/vendor
+
+# Ignore generated CSS files and their associated map files.
 **/*.css
 **/*.css.map
 
+# Ignore generated icon bundles.
 **/icons/*.svg
