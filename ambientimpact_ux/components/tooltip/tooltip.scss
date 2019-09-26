@@ -4,75 +4,11 @@
 
 @import '../../../ambientimpact_core/stylesheets/_common.scss';
 
-// We need the Tippy.js partials for the arrow stuff.
-@import '../../../../../libraries/tippy.js-source/src/scss/_mixins.scss';
-@import '../../../../../libraries/tippy.js-source/src/scss/_vars.scss';
-
-///
-/// The padding of tooltips.
-///
-$tooltip-padding: 0.4em 0.8em !default;
-
-///
-/// The tooltip shadow depth to pass to the material-panel mixin.
-///
-$tooltip-shadow-depth: 2 !default;
-
-///
-/// The tooltip max width.
-///
-$tooltip-max-width: 25em !default;
-
-///
-/// Tooltip Material dark and light themes.
-///
-$tooltip-themes: (
-  material-dark:  (
-    background-colour:  $material-panel-background-colour-dark,
-  ),
-  material-light: (
-    // This is slightly darker than the default which is usually white so
-    // that it contrasts a bit against any white background.
-    background-colour:  darken($material-panel-background-colour-light, 5%),
-  ),
-);
-
+// Generate the default Material themes.
 @each $theme-name, $theme-settings in $tooltip-themes {
-  .tippy-popper {
-    @each $placement in $placements {
-      &[x-placement^='#{$placement}'] {
-        .tippy-tooltip.#{$theme-name}-theme {
-          .tippy-arrow {
-            @include arrow(
-              $placement, 7px,
-              map-get($theme-settings, background-colour)
-            );
-          }
-        }
-      }
-    }
-  }
-
-  .tippy-tooltip.#{$theme-name}-theme {
-    @include material-panel(
-      $padding-small:     $tooltip-padding,
-      $padding-large:     $tooltip-padding,
-      $background-colour:   map-get($theme-settings, background-colour),
-      $shadow-depth:      $tooltip-shadow-depth
-    );
-
-    .tippy-backdrop {
-      background-color:   map-get($theme-settings, background-colour);
-    }
-
-    .tippy-roundarrow {
-      fill:               map-get($theme-settings, background-colour);
-    }
-
-    &[data-animatefill] {
-      background-color:   transparent;
-    }
-  }
+  @include tooltip-material-theme(
+    $theme-name, map-get($theme-settings, background-colour)
+  );
 }
 
 .tippy-tooltip {

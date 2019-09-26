@@ -1,0 +1,77 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Tooltip component partial
+// -----------------------------------------------------------------------------
+
+///
+/// The padding of tooltips.
+///
+$tooltip-padding: 0.4em 0.8em !default;
+
+///
+/// The tooltip shadow depth to pass to the material-panel mixin.
+///
+$tooltip-shadow-depth: 2 !default;
+
+///
+/// The tooltip max width.
+///
+$tooltip-max-width: 25em !default;
+
+///
+/// Tooltip Material dark and light themes.
+///
+$tooltip-themes: (
+  material-dark:  (
+    background-colour:  $material-panel-background-colour-dark,
+  ),
+  material-light: (
+    background-colour:  $material-panel-background-colour-light,
+  ),
+);
+
+///
+/// Generate a tooltip Material theme.
+///
+/// @param {String} $theme-name
+///   The name of the theme to generate styles for. This is used to create the
+///   class.
+///
+/// @param {Color} $background-colour
+///   The background colour for this theme.
+///
+/// @require {Mixin} material-panel
+/// @require {Variable} $tooltip-padding
+/// @require {Variable} $tooltip-shadow-depth
+///
+@mixin tooltip-material-theme($theme-name, $background-colour) {
+  @each $placement in 'top', 'bottom', 'left', 'right' {
+    .tippy-popper[x-placement^='#{$placement}'].tippy-tooltip.#{
+      $theme-name
+    }-theme .tippy-arrow {
+      // Tippy uses the corresponding side's border to create the arrow, so all
+      // we have to do to recolour the arrow is to set the border colour.
+      border-#{$placement}-color: $background-colour;
+    }
+  }
+
+  .tippy-tooltip.#{$theme-name}-theme {
+    @include material-panel(
+      $padding-small:     $tooltip-padding,
+      $padding-large:     $tooltip-padding,
+      $background-colour: $background-colour,
+      $shadow-depth:      $tooltip-shadow-depth
+    );
+
+    .tippy-backdrop {
+      background-color:   $background-colour;
+    }
+
+    .tippy-roundarrow {
+      fill:               $background-colour;
+    }
+
+    &[data-animatefill] {
+      background-color:   transparent;
+    }
+  }
+}

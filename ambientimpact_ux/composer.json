@@ -10,20 +10,6 @@
       "role": "Developer"
     }
   ],
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "drupal-library/tippy.js-source",
-        "version": "2.6.0",
-        "type": "drupal-library",
-        "dist": {
-          "url": "https://github.com/atomiks/tippyjs/archive/v2.6.0.zip",
-          "type": "zip"
-        }
-      }
-    }
-  ],
   "require": {
     "drupal/hook_event_dispatcher": "^1.23",
     "npm-asset/autosize": "4.0.2",
@@ -36,8 +22,5 @@
     "npm-asset/popper.js": "1.15.0",
     "bower-asset/stickyfill": "~1.1.4",
     "npm-asset/tippy.js": "2.6.0"
-  },
-  "require-dev": {
-    "drupal-library/tippy.js-source": "2.6.0"
   }
 }
