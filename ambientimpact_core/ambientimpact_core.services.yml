@@ -12,6 +12,13 @@ services:
     factory: cache_factory:get
     arguments: [ambientimpact_component_html]
 
+  # merge_recursive() Twig filter.
+  ambientimpact_core.twig.merge_recursive:
+    class: Drupal\ambientimpact_core\Template\MergeRecursiveTwigExtension
+    arguments: []
+    tags:
+      - { name: twig.extension }
+
   # Description list hook_theme() event subscriber.
   ambientimpact_core.hook_theme_description_list_event_subscriber:
     class: \Drupal\ambientimpact_core\EventSubscriber\Theme\HookThemeDescriptionListEventSubscriber
