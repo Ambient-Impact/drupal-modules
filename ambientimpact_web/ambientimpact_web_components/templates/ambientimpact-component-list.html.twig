@@ -4,7 +4,7 @@
  * Default implementation for the Ambient.Impact Component list.
  *
  * Available variables:
- * - list: A render array containing the list of Components.
+ * - list: A render array containing the list of Components as an 'item_list'.
  *
  * @see \Drupal\ambientimpact_web_components\Controller\ComponentListController::componentList()
  *   Used in this method.
@@ -13,8 +13,13 @@
 
 {% set baseClass = 'ambientimpact-component-list' %}
 
+{% set list = list|merge_recursive({
+  '#wrapper_attributes': {'class': [baseClass ~ '__items']},
+  '#attributes':         {'class': [baseClass ~ '__items-list']}
+}) %}
+
 <div{{ create_attribute({'class': [baseClass]}) }}>
-  <p>{{
+  <p{{ create_attribute({'class': [baseClass ~ '__intro']}) }}>{{
     'This lists all discovered component plug-ins across all enabled modules. Information about the component system and the source for each component can be found on <a href="@GitHubURL">@GitHub</a> and <a href="@GitLabURL">@GitLab</a>.'|t({
       '@GitHub':    ambientimpact_icon('github', 'brands', 'GitHub'),
       '@GitHubURL': 'https://github.com/Ambient-Impact/drupal-modules',
