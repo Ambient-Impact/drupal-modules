@@ -5,7 +5,7 @@
 @import '../../../../ambientimpact_core/stylesheets/_common.scss';
 
 .ambientimpact-component-list {
-  .item-list ul {
+  &__items-list {
     // Flow this list into 2 or 3 columns when the space allows for it.
     columns:    3 12em;
     column-gap: $general-spacing * 2;
