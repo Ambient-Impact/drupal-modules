@@ -1,59 +1,76 @@
 // -----------------------------------------------------------------------------
-//	Layout helpers
+//   Layout helpers
 // -----------------------------------------------------------------------------
 
-
-// Contain floats in an element.
-// http://perishablepress.com/press/2009/12/06/new-clearfix-hack
+///
+/// Contain floats in an element.
+///
+/// @link http://perishablepress.com/press/2009/12/06/new-clearfix-hack
+///
 @mixin contain-floats {
-	&:after {
-		content: '';
+  &:after {
+    content: '';
 
-		display: block;
-		width:	0;
-		height: 0;
+    display: block;
+    width:  0;
+    height: 0;
 
-		visibility: hidden;
+    visibility: hidden;
 
-		font-size:		0;
-		line-height:	0;
+    font-size:    0;
+    line-height:  0;
 
-		clear: both;
-	}
+    clear: both;
+  }
 }
 
-// Wrap any CSS Grid stuff in this so it can be disabled for testing via the
-// 'disable-grid' query string on a URL. See:
-// ambientimpact_core.theme.inc -> ambientimpact_core_preprocess_html().
-@mixin use-grid(
-	// Should we include an @supports check?
-	$supports-check: true,
-	// Should we use only the final spec, as opposed to including the old
-	// Edge/IE implementation?
-	$modern-grid-only: true
-) {
-	@include root-conditions('.use-grid', 'body') {
-		@if $supports-check == true {
-			// Whether we want to include only browsers with the final Grid spec
-			// or also include the old Edge/IE implementation:
+///
+/// Apply styles if CSS Grid is supported and allowed.
+///
+/// This is used to both automate checking for grid support and to allow easy
+/// development of non-grid fallbacks by appending the 'disable-grid' query
+/// string to any URL, which will instruct ambientimpact_core to not apply the
+/// .use-grid class to the <body> element.
+///
+/// @param {Boolean} $supports-check [true]
+///   Whether to wrap @content in an @supports block.
+///
+/// @param {Boolean} $modern-grid-only [true]
+///   Whether to only apply @content to the final CSS Grid spec, or to also
+///   include the old Edge/IE implementation.
+///
+/// @require {mixin} root-conditions
+///
+/// @content
+///   The styles to conditionally apply when CSS Grid is supported and enabled,
+///   depending on the passed parameters.
+///
+/// @see \Drupal\ambientimpact_core\EventSubscriber\Preprocess\PreprocessHTMLEventSubscriber::preprocessHTML()
+///   The PHP class where .use-grid is conditionally applied based on the
+///   presence or lack of presence of the 'disable-grid' query string.
+///
+/// @link https://ambientimpact.com/web/snippets/excluding-microsoft-edges-old-css-grid-implementation-with-feature-queries
+///   Details on how we exclude the old Edge/IE CSS Grid implementation.
+///
+/// @link https://ambientimpact.com/web/snippets/should-i-try-to-use-the-ie-implementation-of-css-grid-layout
+///   The limitations/issues with  the old Edge/IE CSS Grid implementation.
+///
+@mixin use-grid($supports-check: true, $modern-grid-only: true) {
+  @include root-conditions('.use-grid', 'body') {
+    @if $supports-check == true {
+      @if $modern-grid-only == true {
+        @supports (grid-area: auto) {
+          @content;
+        }
 
-			// https://ambientimpact.com/web/snippets/excluding-microsoft-edges-old-css-grid-implementation-with-feature-queries
+      } @else {
+        @supports (display: grid) {
+          @content;
+        }
+      }
 
-			// If you do want to use the old Edge/IE implementation, be very
-			// aware of the limitations:
-
-			// https://ambientimpact.com/web/snippets/should-i-try-to-use-the-ie-implementation-of-css-grid-layout
-			@if $modern-grid-only == true {
-				@supports (grid-area: auto) {
-					@content;
-				}
-			} @else {
-				@supports (display: grid) {
-					@content;
-				}
-			}
-		} @else {
-			@content;
-		}
-	}
+    } @else {
+      @content;
+    }
+  }
 }

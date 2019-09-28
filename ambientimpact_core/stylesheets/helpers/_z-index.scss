@@ -1,11 +1,10 @@
 // -----------------------------------------------------------------------------
-//	z-index helpers
+//   z-index helpers
 // -----------------------------------------------------------------------------
 
 // This is adapted from Matt Stow's functions:
 // https://codepen.io/stowball/post/sassier-z-index-management-for-complex-layouts
 // https://gist.github.com/stowball/080e77b8831e57f275f2a906f4d66697
-
 
 ///
 /// Default z-index hierarchy. Later in the maps/lists means higher z-index.
@@ -16,37 +15,37 @@
 /// will not always work as expected.
 ///
 $z-indices: (
-	// Secondary content, such as sidebars, footer, etc.
-	page-secondary:	(),
-	// Main page content.
-	page-main:		(),
-	// Sections that are always above other content; may be position: fixed
-	// or sticky, but not necessarily.
-	page-floating:	(),
+  // Secondary content, such as sidebars, footer, etc.
+  page-secondary: (),
+  // Main page content.
+  page-main:      (),
+  // Sections that are always above other content; may be position: fixed
+  // or sticky, but not necessarily.
+  page-floating:  (),
 
-	// Right under floating elements.
-	floating-below:	(),
-	// Floating elements, usually visible to all site visitors.
-	floating:			(),
-	// Right above floating elements.
-	floating-above: 	(),
+  // Right under floating elements.
+  floating-below: (),
+  // Floating elements, usually visible to all site visitors.
+  floating:       (),
+  // Right above floating elements.
+  floating-above:   (),
 
-	// Administration controls - such as contextual links - that need to be on
-	// top of most other page elements.
-	admin:		(),
+  // Administration controls - such as contextual links - that need to be on
+  // top of most other page elements.
+  admin:    (),
 
-	// Administration toolbar and child elements.
-	toolbar:	(
-		// Inactive/hidden trays.
-		tray-inactive,
-		// Active/visible trays.
-		tray-active,
-		// The black bar itself along the top of the viewport.
-		bar,
-	),
+  // Administration toolbar and child elements.
+  toolbar:  (
+    // Inactive/hidden trays.
+    tray-inactive,
+    // Active/visible trays.
+    tray-active,
+    // The black bar itself along the top of the viewport.
+    bar,
+  ),
 
-	// Modal elements that block access to the rest of the document.
-	modal:		(),
+  // Modal elements that block access to the rest of the document.
+  modal:    (),
 );
 
 ///
@@ -59,28 +58,28 @@ $z-indices: (
 /// @author Matt Stow
 ///
 @function z-index($keys...) {
-	$map:			$z-indices;
-	$found-index:	null;
+  $map:     $z-indices;
+  $found-index: null;
 
-	@each $key in $keys {
-		// If this level is a map, get the index and recurse down.
-		@if (type-of($map) == 'map') {
-			$found-index:	index(map-keys($map), $key);
-			$map:			map-get($map, $key);
+  @each $key in $keys {
+    // If this level is a map, get the index and recurse down.
+    @if (type-of($map) == 'map') {
+      $found-index: index(map-keys($map), $key);
+      $map:     map-get($map, $key);
 
-		// Otherwise, assume this is a list and try to get the key's index.
-		} @else {
-			$found-index:	index($map, $key);
-		}
-	}
+    // Otherwise, assume this is a list and try to get the key's index.
+    } @else {
+      $found-index: index($map, $key);
+    }
+  }
 
-	// You did a bad.
-	@if $found-index == null {
-		@debug $keys;
-		@error 'Could not find index for keys!';
-	}
+  // You did a bad.
+  @if $found-index == null {
+    @debug $keys;
+    @error 'Could not find index for keys!';
+  }
 
-	@return $found-index;
+  @return $found-index;
 }
 
 ///
@@ -91,21 +90,21 @@ $z-indices: (
 /// @requires {function} z-index
 ///
 @mixin z-index($keys...) {
-	z-index: z-index($keys...);
+  z-index: z-index($keys...);
 }
 
 // @mixin add-z-index($new) {
-// 	$z-indices: map-merge($z-indices, $new) !global;
+//  $z-indices: map-merge($z-indices, $new) !global;
 // }
 
 // @include add-z-index((
-// 	admin: (
-// 		offcanvas: (
-// 			butts: (
-// 				plz,
-// 			),
-// 		),
-// 	),
+//  admin: (
+//    offcanvas: (
+//      butts: (
+//        plz,
+//      ),
+//    ),
+//  ),
 // ));
 // @debug $z-indices;
 
@@ -114,42 +113,42 @@ $z-indices: (
 // https://github.com/at-import/Sassy-Maps
 
 // @mixin add-z-index($keys...) {
-// 	// $map: $z-indices;
+//  // $map: $z-indices;
 
-// 	@if (length($keys) - 2 > 0) {
-// 		// There is at least one map level.
-// 	} @else if (length($keys) - 1 > 0)
+//  @if (length($keys) - 2 > 0) {
+//    // There is at least one map level.
+//  } @else if (length($keys) - 1 > 0)
 
-// 	@debug $keys;
+//  @debug $keys;
 
-// 	// @for $i from 1 through length($keys) {
-// 	// 	$key: nth($keys, $i);
-// 	// 	@debug $key;
+//  // @for $i from 1 through length($keys) {
+//  //  $key: nth($keys, $i);
+//  //  @debug $key;
 
-// 	// 	// Is the current level a map?
-// 	// 	@if (type-of($map) == 'map') {
-// 	// 		@debug 'Is map!';
-// 	// 		@if (map-has-key($map, $key)) {
-// 	// 			@debug 'Has key, recursing!';
-// 	// 			$map: map-get($map, $key);
-// 	// 		} @else if ($i < (length($keys) - 1)) {
-// 	// 			@debug 'Key not found, creating map and recursing!';
-// 	// 		} @else {
-// 	// 			@debug 'Key not found, creating list!';
-// 	// 		}
+//  //  // Is the current level a map?
+//  //  @if (type-of($map) == 'map') {
+//  //    @debug 'Is map!';
+//  //    @if (map-has-key($map, $key)) {
+//  //      @debug 'Has key, recursing!';
+//  //      $map: map-get($map, $key);
+//  //    } @else if ($i < (length($keys) - 1)) {
+//  //      @debug 'Key not found, creating map and recursing!';
+//  //    } @else {
+//  //      @debug 'Key not found, creating list!';
+//  //    }
 
-// 	// 	// If this is a list, this is the deepest container, and we just need to
-// 	// 	// append the value.
-// 	// 	} @else if (type-of($map) == 'list') {
-// 	// 		@debug 'Is list, appending value!';
-// 	// 		$map: append($map, $key);
-// 	// 	}
-// 	// 	@debug '------------------------------';
-// 	// }
+//  //  // If this is a list, this is the deepest container, and we just need to
+//  //  // append the value.
+//  //  } @else if (type-of($map) == 'list') {
+//  //    @debug 'Is list, appending value!';
+//  //    $map: append($map, $key);
+//  //  }
+//  //  @debug '------------------------------';
+//  // }
 // }
 
 // @include add-z-index(page, floating, butts, plz);
-// 			// map  , map , map      , list , index;
+//      // map  , map , map      , list , index;
 
 // // 'modal' ->
 // // 'modal', 'offcanvas' ->

@@ -1,6 +1,8 @@
 // -----------------------------------------------------------------------------
-//	Variables - General
+//   Variables - General partial
 // -----------------------------------------------------------------------------
 
-
-$general-spacing: 1em;
+///
+/// General spacing value used as a base for many other variables.
+///
+$general-spacing: 1em !default;

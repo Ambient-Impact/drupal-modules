@@ -1,7 +1,6 @@
 // -----------------------------------------------------------------------------
-//	Responsive helpers
+//   Responsive helpers
 // -----------------------------------------------------------------------------
-
 
 ///
 /// Calculate a value based on the screen width, with minimum and maximum.
@@ -23,27 +22,27 @@
 /// @link https://codepen.io/MadeByMike/pen/7744b5fc445e2b34a9e2bb1e21e8b09c
 ///
 @function calc-responsive-value(
-	$min-screen, $min-value, $max-screen, $max-value
+  $min-screen, $min-value, $max-screen, $max-value
 ) {
-	// Throw an error if different unit types are passed. This can cause Sass to
-	// get confused and generate invalid units for whatever reason. E.g. mixing
-	// 'em' and 'rem' causes $a to be set to '<value>em/rem' instead of dividing
-	// as it's supposed to.
-	@if	unit($min-screen) != unit($min-value) or
-		unit($min-screen) != unit($max-screen) or
-		unit($min-screen) != unit($max-value)
-	{
-		@error 'You must pass only the same unit types to calc-responsive-value()!';
-	}
+  // Throw an error if different unit types are passed. This can cause Sass to
+  // get confused and generate invalid units for whatever reason. E.g. mixing
+  // 'em' and 'rem' causes $a to be set to '<value>em/rem' instead of dividing
+  // as it's supposed to.
+  @if unit($min-screen) != unit($min-value) or
+    unit($min-screen) != unit($max-screen) or
+    unit($min-screen) != unit($max-value)
+  {
+    @error 'You must pass only the same unit types to calc-responsive-value()!';
+  }
 
-	$a: ($max-value - $min-value) / ($max-screen - $min-screen);
-	$b: $min-value - $a * $min-screen;
+  $a: ($max-value - $min-value) / ($max-screen - $min-screen);
+  $b: $min-value - $a * $min-screen;
 
-	$sign: '+';
-	@if ($b < 0) {
-		$sign: '-';
-		$b: abs($b);
-	}
+  $sign: '+';
+  @if ($b < 0) {
+    $sign: '-';
+    $b: abs($b);
+  }
 
-	@return calc(#{$a * 100}vw #{$sign} #{$b});
+  @return calc(#{$a * 100}vw #{$sign} #{$b});
 }

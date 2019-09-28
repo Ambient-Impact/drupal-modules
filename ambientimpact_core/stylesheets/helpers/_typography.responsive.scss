@@ -1,7 +1,6 @@
 // -----------------------------------------------------------------------------
-//	Responsive typography helpers
+//   Responsive typography helpers
 // -----------------------------------------------------------------------------
-
 
 ///
 /// Generate responsive type properties based on screen size, within a range.
@@ -10,19 +9,22 @@
 /// maximum values. This removes the screen media query found in the original
 /// by Mike Riethmuller this is based on.
 ///
-/// @param $properties {List} - List of properties to modify.
+/// @param $properties {List}
+///   List of properties to modify.
 ///
-/// @param $min-screen {Number} - The minimum screen width to interpolate
-///                               property values to.
+/// @param $min-screen {Number}
+///   The minimum screen width to interpolate property values to.
 ///
-/// @param $max-screen {Number} - The maximum screen width to interpolate
-///                               property values to.
+/// @param $max-screen {Number}
+///   The maximum screen width to interpolate property values to.
 ///
-/// @param $min-value {Number} - The minimum value to interpolate property
-///                              values to at the minimum screen width.
+/// @param $min-value {Number}
+///   The minimum value to interpolate property values to at the minimum screen
+///   width.
 ///
-/// @param $max-value {Number} - The maximum value to interpolate property
-///                              values to at the maximum screen width.
+/// @param $max-value {Number}
+///   The maximum value to interpolate property values to at the maximum screen
+///   width.
 ///
 /// @link https://codepen.io/MadeByMike/pen/7744b5fc445e2b34a9e2bb1e21e8b09c
 /// @link https://codepen.io/MadeByMike/pen/VvwqvW
@@ -31,29 +33,29 @@
 /// @require {Function} calc-responsive-value
 ///
 @mixin responsive-type(
-	$properties, $min-screen, $max-screen, $min-value, $max-value
+  $properties, $min-screen, $max-screen, $min-value, $max-value
 ) {
-	@supports (font-size: calc(1vw * 2)) {
-		// Set property minimum values.
-		@each $property in $properties {
-			#{$property}: $min-value;
-		}
+  @supports (font-size: calc(1vw * 2)) {
+    // Set property minimum values.
+    @each $property in $properties {
+      #{$property}: $min-value;
+    }
 
-		// When we're wider than the minimum screen width, use the interpolated
-		// value.
-		@media (min-width: $min-screen) {
-			@each $property in $properties {
-				#{$property}: calc-responsive-value(
-					$min-screen, $min-value, $max-screen, $max-value
-				);
-			}
-		}
+    // When we're wider than the minimum screen width, use the interpolated
+    // value.
+    @media (min-width: $min-screen) {
+      @each $property in $properties {
+        #{$property}: calc-responsive-value(
+          $min-screen, $min-value, $max-screen, $max-value
+        );
+      }
+    }
 
-		// When we're at or wider than the maximum width, use the maximum value.
-		@media (min-width: $max-screen) {
-			@each $property in $properties {
-				#{$property}: $max-value;
-			}
-		}
-	}
+    // When we're at or wider than the maximum width, use the maximum value.
+    @media (min-width: $max-screen) {
+      @each $property in $properties {
+        #{$property}: $max-value;
+      }
+    }
+  }
 }

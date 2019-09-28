@@ -1,16 +1,30 @@
 // -----------------------------------------------------------------------------
-//	Value helpers
+//   Generic value helpers
 // -----------------------------------------------------------------------------
 
+///
+/// Repeat a value a specified number of times.
+///
+/// @param {Mixed} $value
+///   The value to repeat.
+///
+/// @param {Number} $times [2]
+///   The number of times to repeat $value.
+///
+/// @param {String} $separator [comma]
+///   The separator to use to append() items together.
+///
+/// @return {List}
+///   A list of $value, repeated $times, separated by $separator.
+///
+@function repeat-value($value, $times: 2, $separator: comma) {
+  $result: ($value);
 
-@function repeat-value($value: '', $times: 2) {
-	$result: $value;
+  @if $times > 1 {
+    @for $i from 2 through $times {
+      $result: append($result, $value, $separator);
+    }
+  }
 
-	@if $times > 1 {
-		@for $i from 2 through $times {
-			$result: $result, $value;
-		}
-	}
-
-	@return $result;
+  @return $result;
 }

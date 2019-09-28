@@ -1,25 +1,24 @@
 // -----------------------------------------------------------------------------
-//	Breakpoint helpers
+//   Breakpoint helpers
 // -----------------------------------------------------------------------------
 
 // It's recommended that min-width/height is reference using the greater than or
 // equal expression ('>=') in @include media() calls, for consistency.
 
-
 ///
 /// Default set of breakpoints.
 ///
 $breakpoints: (
-	'height-tiny'	: 30em,
-	'height-small'	: 45em
+  'height-tiny':  30em,
+  'height-small': 45em
 );
 
 ///
 /// Default set of breakpoints. This is the deprecated, pre-include-media set.
 ///
 $breakpoints-legacy: (
-	'height-tiny'	: '(min-height: 30em)',
-	'height-small'	: '(min-height: 45em)'
+  'height-tiny':  '(min-height: 30em)',
+  'height-small': '(min-height: 45em)'
 );
 
 ///
@@ -36,15 +35,15 @@ $breakpoints-legacy: (
 /// @deprecated Use @include media() instead.
 ///
 @mixin breakpoint($name) {
-	@warn 'Mixin \'breakpoint\' is deprecated, use \'@include media()\' instead.';
+  @warn 'Mixin "breakpoint" is deprecated, use "@include media()" instead.';
 
-	@if map-has-key($breakpoints-legacy, $name) {
-		@media #{inspect(map-get($breakpoints-legacy, $name))} {
-			@content;
-		}
-	} @else {
-		@warn 'Couldn\'t find a breakpoint named `#{$name}`.';
-	}
+  @if map-has-key($breakpoints-legacy, $name) {
+    @media #{inspect(map-get($breakpoints-legacy, $name))} {
+      @content;
+    }
+  } @else {
+    @warn 'Couldn\'t find a breakpoint named "#{$name}".';
+  }
 }
 
 ///
@@ -56,34 +55,35 @@ $breakpoints-legacy: (
 /// @require $breakpoints-legacy
 ///
 @mixin add-breakpoints($new-breakpoints) {
-	$legacy: false;
+  $legacy: false;
 
-	// Determine if this is a set of legacy breakpoints. If one contains any of
-	// the tested min/max keywords, the whole set is assumed to be legacy.
-	@each $name, $value in $new-breakpoints {
-		// Convert to a string to avoid errors.
-		$value: inspect($value);
-		@if	str-index($value, 'min-width') != null or
-			str-index($value, 'max-width') != null or
-			str-index($value, 'min-height') != null or
-			str-index($value, 'max-height') != null
-		{
-			$legacy: true;
-		}
-	}
+  // Determine if this is a set of legacy breakpoints. If one contains any of
+  // the tested min/max keywords, the whole set is assumed to be legacy.
+  @each $name, $value in $new-breakpoints {
+    // Convert to a string to avoid errors.
+    $value: inspect($value);
 
-	// include-media breakpoint.
-	@if $legacy == false {
-		$breakpoints: map-merge($breakpoints, $new-breakpoints) !global;
+    @if str-index($value, 'min-width') != null or
+      str-index($value, 'max-width') != null or
+      str-index($value, 'min-height') != null or
+      str-index($value, 'max-height') != null
+    {
+      $legacy: true;
+    }
+  }
 
-	// Legacy breakpoint.
-	} @else {
-		@warn 'You are adding a legacy breakpoint. Please use the include-media format instead: https://include-media.com/';
+  // include-media breakpoint.
+  @if $legacy == false {
+    $breakpoints: map-merge($breakpoints, $new-breakpoints) !global;
 
-		$breakpoints-legacy: map-merge(
-			$breakpoints-legacy, $new-breakpoints
-		) !global;
-	}
+  // Legacy breakpoint.
+  } @else {
+    @warn 'You are adding a legacy breakpoint. Please use the include-media format instead: https://include-media.com/';
+
+    $breakpoints-legacy: map-merge(
+      $breakpoints-legacy, $new-breakpoints
+    ) !global;
+  }
 }
 
 ///
@@ -95,9 +95,9 @@ $breakpoints-legacy: (
 /// @require $breakpoints-legacy
 ///
 @mixin remove-breakpoints($names...) {
-	$breakpoints-legacy: map-remove($breakpoints-legacy, $names...) !global;
+  $breakpoints-legacy: map-remove($breakpoints-legacy, $names...) !global;
 
-	$breakpoints: map-remove($breakpoints, $names...) !global;
+  $breakpoints: map-remove($breakpoints, $names...) !global;
 }
 
 ///
@@ -113,19 +113,20 @@ $breakpoints-legacy: (
 /// @throw Will throw a warning if the breakpoint isn't defined.
 ///
 @function get-breakpoint-value($name, $legacy: false) {
-	// Exists and is not legacy.
-	@if $legacy == false and map-has-key($breakpoints, $name) {
-		@return map-get($breakpoints, $name);
+  // Exists and is not legacy.
+  @if $legacy == false and map-has-key($breakpoints, $name) {
+    @return map-get($breakpoints, $name);
 
-	// Exists and is legacy.
-	} @else if $legacy == true and map-has-key($breakpoints-legacy, $name) {
-		@return map-get($breakpoints-legacy, $name);
+  // Exists and is legacy.
+  } @else if $legacy == true and map-has-key($breakpoints-legacy, $name) {
+    @return map-get($breakpoints-legacy, $name);
 
-	// Display a warning if the breakpoint is not found.
-	} @else {
-		@warn 'Couldn\'t find a breakpoint named `#{$name}`.';
-		@return '';
-	}
+  // Display a warning if the breakpoint is not found.
+  } @else {
+    @warn 'Couldn\'t find a breakpoint named "#{$name}".';
+
+    @return '';
+  }
 }
 
 ///
@@ -138,5 +139,5 @@ $breakpoints-legacy: (
 /// @require $breakpoints
 ///
 @function breakpoint-exists($name) {
-	@return map-has-key($breakpoints, $name);
+  @return map-has-key($breakpoints, $name);
 }

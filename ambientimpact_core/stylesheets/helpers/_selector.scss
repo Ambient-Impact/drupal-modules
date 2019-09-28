@@ -1,7 +1,6 @@
 // -----------------------------------------------------------------------------
-//	Selector helpers
+//   Selector helpers
 // -----------------------------------------------------------------------------
-
 
 ///
 /// Attempts to append a condition to the specified root element.
@@ -11,165 +10,166 @@
 /// the & selector, it is prepended. It's recommended to use this instead of
 /// declaring 'body.condition-class' yourself, for example.
 ///
-/// @param {List|String} $conditions - The classes, attributes, etc. to add to
-///                                    the specified root element. Each list
-///                                    index is treated as a separate condtion.
-///                                    See examples.
+/// @param {List|String} $conditions
+///   The classes, attributes, etc. to add to the specified root element. Each
+///   list index is treated as a separate condtion. See examples.
 ///
-/// @param {String} $target          - The root element to search for, usually
-///                                    'html' or 'body'. Compound selectors are
-///                                    not currently supported.
+/// @param {String} $target
+///   The root element to search for, usually 'html' or 'body'. Compound not
+///   currently supported.
 ///
-/// @throw $target must be a simple selector and not a compound selector!
+/// @throw $target must be a simple selector and not a compound selector.
 ///
-/// @content [The passed content wrapped in the modified & selector.]
+/// @content
+///   The passed content wrapped in the modified & selector.
 ///
-/// @todo This fails badly when double nested with a selector in between the
-///       two. See commented out code underneath.
-///
-/// @example
-/// 	// This is the preferred way to declare root conditions, without
-/// 	// declaring body yourself higher up the selector chain.
-/// 	.element {
-/// 		@include root-conditions(('.condition-class'), 'body') {
-/// 			@include root-conditions(
-/// 				('.another-condition-class'), 'body'
-/// 			) {
-/// 				// Content.
-/// 			}
-/// 		}
-/// 	}
-/// 	// This results in:
-/// 	body.condition-class.another-condition-class .element {
-/// 		// Content.
-/// 	}
+/// @todo
+///   This fails badly when double nested with a selector in between the two.
+///   See commented out code underneath.
 ///
 /// @example
-/// 	// When passing multiple conditions as separate indices, they are output
-/// 	// as an alternate condition, separated by a comma.
-/// 	.element {
-/// 		@include root-conditions(
-/// 			('.condition-class', '.another-condition-class'), 'body'
-/// 		) {
-/// 			// Content.
-/// 		}
-/// 	}
-/// 	// This results in:
-/// 	body.condition-class .element,
-/// 	body.another-condition-class .element {
-/// 		// Content.
-/// 	}
+///   // This is the preferred way to declare root conditions, without
+///   // declaring body yourself higher up the selector chain.
+///   .element {
+///     @include root-conditions(('.condition-class'), 'body') {
+///       @include root-conditions(
+///         ('.another-condition-class'), 'body'
+///       ) {
+///         // Content.
+///       }
+///     }
+///   }
+///   // This results in:
+///   body.condition-class.another-condition-class .element {
+///     // Content.
+///   }
 ///
 /// @example
-/// 	// You can do this if you want, but it's not recommended. It's supported
-/// 	// for cases when you don't have control over the whole selector chain.
-/// 	body.condition-class .element {
-/// 		@include root-conditions(
-/// 			('.another-condition-class'), 'body'
-/// 		) {
-/// 			// Content.
-/// 		}
-/// 	}
-/// 	// This results in:
-/// 	body.condition-class.another-condition-class .element {
-/// 		// Content.
-/// 	}
+///   // When passing multiple conditions as separate indices, they are output
+///   // as an alternate condition, separated by a comma.
+///   .element {
+///     @include root-conditions(
+///       ('.condition-class', '.another-condition-class'), 'body'
+///     ) {
+///       // Content.
+///     }
+///   }
+///   // This results in:
+///   body.condition-class .element,
+///   body.another-condition-class .element {
+///     // Content.
+///   }
+///
+/// @example
+///   // You can do this if you want, but it's not recommended. It's supported
+///   // for cases when you don't have control over the whole selector chain.
+///   body.condition-class .element {
+///     @include root-conditions(
+///       ('.another-condition-class'), 'body'
+///     ) {
+///       // Content.
+///     }
+///   }
+///   // This results in:
+///   body.condition-class.another-condition-class .element {
+///     // Content.
+///   }
 ///
 @mixin root-conditions($conditions, $target) {
-	@if length(simple-selectors($target)) > 1 {
-		@error '$target must be a simple selector and not a compound selector! Was provided \'#{$target}\'.';
-	}
+  @if length(simple-selectors($target)) > 1 {
+    @error '$target must be a simple selector and not a compound selector! Was provided \'#{$target}\'.';
+  }
 
-	// Grab the current selector. Note that attempting to use sl-remove-
-	// duplicates(&) here to remove duplicates, which can occur when double
-	// nesting this mixin with a selector in between, will result in a long
-	// compile time and then an error.
-	$current-selectors: &;
+  // Grab the current selector. Note that attempting to use sl-remove-
+  // duplicates(&) here to remove duplicates, which can occur when double
+  // nesting this mixin with a selector in between, will result in a long
+  // compile time and then an error.
+  $current-selectors: &;
 
-	$new-selectors: ();
+  $new-selectors: ();
 
-	@each $selector in $current-selectors {
-		@each $condition in $conditions {
-			$modified-target: selector-append($target, $condition);
+  @each $selector in $current-selectors {
+    @each $condition in $conditions {
+      $modified-target: selector-append($target, $condition);
 
-			// Check that the current selector isn't null, because if it is it
-			// means that this mixin was probably called in the root and
-			// selector-replace() will throw an error.
-			@if $selector != null {
-				$replaced-selector: selector-replace(
-					$selector, $target, $modified-target
-				);
+      // Check that the current selector isn't null, because if it is it
+      // means that this mixin was probably called in the root and
+      // selector-replace() will throw an error.
+      @if $selector != null {
+        $replaced-selector: selector-replace(
+          $selector, $target, $modified-target
+        );
 
-				// Check if the string representations of the original $selector
-				// and $replaced-selector match. Note that comparing them as
-				// lists doesn't seem to work as expected, hence the conversion
-				// to string. If they don't match, it should mean that we've
-				// successfully replaced. The additional checks for a valid
-				// single index in $replaced-selector is to extract a string
-				// representation of the selector, which can happen and may
-				// prevent headaches down the road.
-				@if	inspect($selector) != inspect($replaced-selector) and
-					type-of($replaced-selector) == 'list' and
-					length($replaced-selector) == 1 and
-					type-of(inspect(nth($replaced-selector, 1))) == 'string'
-				{
-					$new-selectors: join(
-						$new-selectors,
-						inspect(nth($replaced-selector, 1)),
-						comma
-					);
+        // Check if the string representations of the original $selector
+        // and $replaced-selector match. Note that comparing them as
+        // lists doesn't seem to work as expected, hence the conversion
+        // to string. If they don't match, it should mean that we've
+        // successfully replaced. The additional checks for a valid
+        // single index in $replaced-selector is to extract a string
+        // representation of the selector, which can happen and may
+        // prevent headaches down the road.
+        @if inspect($selector) != inspect($replaced-selector) and
+          type-of($replaced-selector) == 'list' and
+          length($replaced-selector) == 1 and
+          type-of(inspect(nth($replaced-selector, 1))) == 'string'
+        {
+          $new-selectors: join(
+            $new-selectors,
+            inspect(nth($replaced-selector, 1)),
+            comma
+          );
 
-				// If the selector does match, it should mean that we haven't
-				// replaced anything and therefore the $target doesn't exist in
-				// $selector. In this case, we nest $selector under $target.
-				} @else {
-					$new-selectors: join(
-						$new-selectors,
-						selector-nest($modified-target, $selector),
-						comma
-					);
-				}
+        // If the selector does match, it should mean that we haven't
+        // replaced anything and therefore the $target doesn't exist in
+        // $selector. In this case, we nest $selector under $target.
+        } @else {
+          $new-selectors: join(
+            $new-selectors,
+            selector-nest($modified-target, $selector),
+            comma
+          );
+        }
 
-			} @else {
-				$new-selectors: join(
-					$new-selectors,
-					($modified-target,),
-					comma
-				);
-			}
-		}
-	}
+      } @else {
+        $new-selectors: join(
+          $new-selectors,
+          ($modified-target,),
+          comma
+        );
+      }
+    }
+  }
 
-	@at-root #{$new-selectors} {
-		@content;
-	}
+  @at-root #{$new-selectors} {
+    @content;
+  }
 }
 
 // Uncomment below for testing.
 
 // .sidebar {
-// 	@include root-conditions(('.two-sidebars', '.one-sidebar'), 'body') {
-// 		@debug &;
-// 		@include root-conditions('.use-grid', 'body') {
-// 			@debug &;
-// 		}
-// 	}
+//  @include root-conditions(('.two-sidebars', '.one-sidebar'), 'body') {
+//    @debug &;
+//    @include root-conditions('.use-grid', 'body') {
+//      @debug &;
+//    }
+//  }
 // }
 
 // body.stuff .ahem {
-// 	@include root-conditions(('.two-sidebars', '.one-sidebar'), 'body') {
-// 		@debug &;
-// 		@include root-conditions('.use-grid', 'body') {
-// 			@debug &;
-// 		}
-// 	}
+//  @include root-conditions(('.two-sidebars', '.one-sidebar'), 'body') {
+//    @debug &;
+//    @include root-conditions('.use-grid', 'body') {
+//      @debug &;
+//    }
+//  }
 // }
 
 // @include root-conditions(('.two-sidebars', '.one-sidebar'), 'body') {
-// 	@debug &;
-// 	@include root-conditions('.use-grid', 'body') {
-// 		@debug &;
-// 	}
+//  @debug &;
+//  @include root-conditions('.use-grid', 'body') {
+//    @debug &;
+//  }
 // }
 
 
@@ -178,12 +178,12 @@
 // crash and not even output any debug information. D:
 
 // body.stuff .ahem {
-// 	@include root-conditions(('.two-sidebars', '.one-sidebar'), 'body') {
-// 		@debug &;
-// 		.blarg {
-// 			@include root-conditions('.use-grid', 'body') {
-// 				@debug &;
-// 			}
-// 		}
-// 	}
+//  @include root-conditions(('.two-sidebars', '.one-sidebar'), 'body') {
+//    @debug &;
+//    .blarg {
+//      @include root-conditions('.use-grid', 'body') {
+//        @debug &;
+//      }
+//    }
+//  }
 // }
