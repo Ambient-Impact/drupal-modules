@@ -113,9 +113,14 @@ AmbientImpact.addComponent('link.underline.transition', function(
     tweenSettings[linkUnderlineCurrentColourProperty] =
       properties['link-underline-normal-colour'];
 
-    // This doesn't work, but the enter handler clears this anyways, so leave
-    // this here for now in case GSAP starts removing it as it should.
-    tweenSettings.clearProps = linkUnderlineCurrentColourProperty;
+    // We need to clear the custom property when it's no longer needed - i.e.
+    // when the fade is complete - so that we don't end up with links stuck with
+    // the wrong colours if the colour scheme is changed after the link has been
+    // interacted with, such as when switching between dark and light schemes.
+    // tweenSettings.clearProps doesn't seem to work for this.
+    tweenSettings.onComplete = function() {
+      this.target.style.removeProperty(linkUnderlineCurrentColourProperty);
+    };
 
     // Run the tween.
     $element.data(underlineTweenDataName, TweenLite.to(
