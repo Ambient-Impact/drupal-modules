@@ -376,12 +376,16 @@ AmbientImpact.addComponent('menuDropDown', function(aiMenuDropDown, $) {
       .removeClass([menuItemClosedClass, menuItemOpenClass].join(' '))
       .off({
         'focusin.aiMenuDropDown':   focusInHandler,
-        'focusout.aiMenuDropDown':  focusOutHandler,
-        // hoverIntent doesn't have an off, so we have to manually unbind the
-        // handlers it attaches.
-        'mouseenter.hoverIntent':   mouseEnterHandler,
-        'mouseleave.hoverIntent':   mouseLeaveHandler
+        'focusout.aiMenuDropDown':  focusOutHandler
       })
+      .off([
+        // hoverIntent doesn't yet have a way to unbind easily, so we have to
+        // manually unbind the handlers it attaches.
+        //
+        // @see https://github.com/briancherne/jquery-hoverIntent/issues/55
+        'mouseenter.hoverIntent',
+        'mouseleave.hoverIntent',
+      ].join(' '))
       // Remove hoverIntent data.
       .removeData('hoverIntent');
   };
