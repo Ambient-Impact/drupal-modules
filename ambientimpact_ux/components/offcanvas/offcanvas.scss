@@ -87,6 +87,19 @@ $offcanvas-panel-max-size: 17em;
   transition-duration:        $offcanvas-transition-duration;
   transition-timing-function: $easing-sharp;
 
+  // Auto panel theme; switches between light and dark based on
+  // prefers-colour-scheme media feature.
+  &.offcanvas-panel--theme-auto {
+    @include set-colours(
+      $background: $material-panel-background-colour-light
+    );
+
+    @include on-dark-colour-scheme {
+      @include set-colours(
+        $background: $material-panel-background-colour-dark
+      );
+    }
+  }
   // Light panel theme.
   &.offcanvas-panel--theme-light {
     @include set-colours(

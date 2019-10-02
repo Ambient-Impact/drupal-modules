@@ -53,7 +53,7 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
     // for every instance, or weird stuff will happen!
     panelSelector:    '',
     // Classes to add to the panel on init.
-    panelClasses:   ['offcanvas-panel', 'offcanvas-panel--theme-light'],
+    panelClasses:   ['offcanvas-panel', 'offcanvas-panel--theme-auto'],
     // Either 'left' or 'right'.
     panelLocation:    'left',
 
