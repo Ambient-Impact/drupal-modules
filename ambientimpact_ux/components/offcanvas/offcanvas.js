@@ -30,6 +30,20 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
     panelLocation:  ['left', 'right', 'top', 'bottom']
   };
 
+  /**
+   * Panel base class.
+   *
+   * @type {String}
+   */
+  var panelBaseClass = 'offcanvas-panel';
+
+  /**
+   * Overlay base class.
+   *
+   * @type {String}
+   */
+  var overlayBaseClass = 'offcanvas-overlay';
+
   this.defaults = {
     // If this is an HTML element or jQuery collection, it will be used for
     // the open button(s). If this is anything else, an open button will be
@@ -47,13 +61,13 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
     // The close button text, if a button is to be generated.
     closeButtonText:  Drupal.t('Close'),
     // The classes to add to the close button.
-    closeButtonClasses: ['offcanvas-panel__close', 'offcanvas-close'],
+    closeButtonClasses: [panelBaseClass + '__close', 'offcanvas-close'],
 
     // This is the selector to pass to Froffcanvas. Make sure this is unique
     // for every instance, or weird stuff will happen!
     panelSelector:    '',
     // Classes to add to the panel on init.
-    panelClasses:   ['offcanvas-panel', 'offcanvas-panel--theme-auto'],
+    panelClasses:   [panelBaseClass, panelBaseClass + '--theme-auto'],
     // Either 'left' or 'right'.
     panelLocation:    'left',
 
@@ -62,7 +76,7 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
     modal:        true,
 
     // Classes to add to the overlay on init.
-    overlayClasses:   ['offcanvas-overlay']
+    overlayClasses:   [overlayBaseClass]
   };
 
   // Update the viewport offsets for each panel if/when the offset change
@@ -243,7 +257,7 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
     // Add a modifier class indicating the location of the panel, i.e.
     // 'left' or 'right'.
     $panel.addClass(
-      settings.panelClasses[0] + '--' + settings.panelLocation
+      panelBaseClass + '--' + settings.panelLocation
     );
 
     // Set up the open button.
@@ -297,11 +311,11 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
 
       // String - Class name that will be added to the panel when the
       // component has been initialised.
-      readyClass:   settings.panelClasses[0] + '--is-ready',
+      readyClass:   panelBaseClass + '--is-ready',
 
       // String - Class name that will be added to the panel when the
       // panel is visible.
-      activeClass:  settings.panelClasses[0] + '--is-active'
+      activeClass:  panelBaseClass + '--is-active'
     });
 
     // Save settings to the element.
@@ -323,15 +337,15 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
 
       $panel
         .before($overlay)
-        .addClass(settings.panelClasses[0] + '--modal')
+        .addClass(panelBaseClass + '--modal')
         .on('openOffcanvas.aiOffcanvasOverlay', function(event) {
           $overlay.addClass(
-            settings.overlayClasses[0] + '--active'
+            overlayBaseClass + '--active'
           );
         })
         .on('closeOffcanvas.aiOffcanvasOverlay', function(event) {
           $overlay.removeClass(
-            settings.overlayClasses[0] + '--active'
+            overlayBaseClass + '--active'
           );
 
           // Re-enable disabled elements on the page.
@@ -486,8 +500,8 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
     // Remove classes from the panel.
     $panel.removeClass(settings.panelClasses.join(' '));
     $panel.removeClass([
-      settings.panelClasses[0] + '--' + settings.panelLocation,
-      settings.panelClasses[0] + '--modal',
+      panelBaseClass + '--' + settings.panelLocation,
+      panelBaseClass + '--modal',
     ].join(' '));
 
 
