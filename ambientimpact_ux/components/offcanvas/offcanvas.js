@@ -229,6 +229,7 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
   this.init = function(panel, options) {
     var settings  = $.extend(true, {}, this.defaults, options),
       $panel    = $(panel),
+      $content,
       $openButton,
       $closeButton,
       $overlay;
@@ -296,6 +297,18 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
     $closeButton.addClass(settings.closeButtonClasses.join(' '));
 
     panel.aiOffcanvas.elements.close = $closeButton;
+
+    // Set up the content wrapper. This is provided to allow more flexibility in
+    // the contents of the panel, e.g. to match page layout centring and
+    // max-width.
+    $content = $('<div></div>');
+
+    $content
+      .addClass(panelBaseClass + '__content')
+      .append($panel.contents())
+      .appendTo($panel)
+
+    panel.aiOffcanvas.elements.content = $content;
 
 
     // Initialize the Froffcanvas instance and save it to the element.
@@ -466,6 +479,11 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
 
       delete panel.aiOffcanvas.overlayFocusDisabledHandle;
     }
+
+    // Move content wrapper contents back to where they were on attach and
+    // remove the content wrapper.
+    elements.content.contents().insertAfter(elements.content);
+    elements.content.remove();
 
     // Undo changes to the close button, and remove it if we generated it.
     if (settings.closeButton.attr || settings.closeButton.tagName) {
