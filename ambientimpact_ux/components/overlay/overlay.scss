@@ -1,0 +1,35 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Overlay component
+// -----------------------------------------------------------------------------
+
+.overlay {
+  position: fixed;
+
+  top:    0;
+  bottom: 0;
+  left:   0;
+  right:  0;
+
+  transition-duration:        0.2s;
+  transition-property:        opacity;
+  transition-timing-function: linear;
+
+  // If pointer-events is not supported, outright hide the overlay. Transitions
+  // won't work, but at least it won't block the page.
+  visibility: hidden;
+
+  opacity: 0;
+
+  @supports (pointer-events: none) {
+    visibility:     visible;
+    pointer-events: none;
+  }
+
+  // Theme is expected to set the background colour.
+
+  &--is-active {
+    visibility:     visible;
+    // Theme is expected to set opacity.
+    pointer-events: auto;
+  }
+}
