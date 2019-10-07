@@ -8,6 +8,7 @@ component.offcanvas:
     - ambientimpact_core/ally.js
     - ambientimpact_ux/frend-offcanvas
     - ambientimpact_ux/component.overlay
+    - ambientimpact_ux/component.pointer_focus_hide
 
 component.offcanvas.demo:
   js:

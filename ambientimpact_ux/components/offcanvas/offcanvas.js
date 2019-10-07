@@ -19,7 +19,9 @@
 // @see https://trello.com/c/ZTG48eoc/527-offcanvas-panels-should-close-when-pressing-esc
 
 AmbientImpact.onGlobals(['Froffcanvas', 'ally.maintain.disabled'], function() {
-AmbientImpact.on('overlay', function(aiOverlay) {
+AmbientImpact.on([
+  'overlay', 'pointerFocusHide',
+], function(aiOverlay, aiPointerFocusHide) {
 AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
   'use strict';
 
@@ -385,9 +387,18 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
           $overlay[0].aiOverlay.hide(disabledPromise);
 
           disabledPromise.then(function() {
+            // Lock the focus source so our programmatic focusing of the open
+            // button doesn't cause a focus outline to display on it unless the
+            // overlay was closed by a non-pointer method, e.g. hitting ESC or
+            // focusing the close button and hitting Enter.
+            aiPointerFocusHide.lock();
+
             // Focus the open button, as Froffcanvas will have failed to do so
             // because the button was disabled at the time.
             panel.aiOffcanvas.elements.open.trigger('focus');
+
+            // Unlock the focus source.
+            aiPointerFocusHide.unlock();
           });
         });
 
