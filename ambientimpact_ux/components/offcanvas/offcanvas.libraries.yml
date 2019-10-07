@@ -7,6 +7,7 @@ component.offcanvas:
   dependencies:
     - ambientimpact_core/ally.js
     - ambientimpact_ux/frend-offcanvas
+    - ambientimpact_ux/component.overlay
 
 component.offcanvas.demo:
   js:

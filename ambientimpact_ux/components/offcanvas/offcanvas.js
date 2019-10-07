@@ -19,6 +19,7 @@
 // @see https://trello.com/c/ZTG48eoc/527-offcanvas-panels-should-close-when-pressing-esc
 
 AmbientImpact.onGlobals(['Froffcanvas', 'ally.maintain.disabled'], function() {
+AmbientImpact.on('overlay', function(aiOverlay) {
 AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
   'use strict';
 
@@ -344,7 +345,10 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
 
     // If we're modal, create and insert an overlay element.
     if (settings.modal) {
-      $overlay = $('<div></div>');
+      $overlay = aiOverlay.create({
+        modal:        true,
+        modalFilter:  $panel
+      });
 
       $overlay.addClass(settings.overlayClasses.join(' '));
 
@@ -352,50 +356,39 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
         .before($overlay)
         .addClass(panelBaseClass + '--modal')
         .on('openOffcanvas.aiOffcanvasOverlay', function(event) {
-          $overlay.addClass(
-            overlayBaseClass + '--active'
-          );
-        })
-        .on('closeOffcanvas.aiOffcanvasOverlay', function(event) {
-          $overlay.removeClass(
-            overlayBaseClass + '--active'
-          );
+          var disabledPromise = new Promise(function(resolve, reject) {
+            $panel.one('transitionend.aiOffcanvasOverlay', function(event) {
+              resolve();
+            });
+          });
 
-          // Re-enable disabled elements on the page.
-          if (
-            'overlayFocusDisabledHandle' in panel.aiOffcanvas &&
-            'disengage' in
-              panel.aiOffcanvas.overlayFocusDisabledHandle
-          ) {
-            panel.aiOffcanvas.overlayFocusDisabledHandle
-              .disengage();
+          // Show the overlay.
+          $overlay[0].aiOverlay.show(disabledPromise);
 
-            delete panel.aiOffcanvas.overlayFocusDisabledHandle;
-
-            // Focus the open button, as Froffcanvas will have
-            // failed to do so because the button was disabled.
-            panel.aiOffcanvas.elements.open.trigger('focus');
-          }
-        })
-        .on('transitionend.aiOffcanvasOverlay', function(event) {
-          if (
-            event.target === panel &&
-            isPanelOpen($panel) &&
-            !('overlayFocusDisabledHandle' in panel.aiOffcanvas)
-          ) {
-            panel.aiOffcanvas.overlayFocusDisabledHandle =
-              ally.maintain.disabled({
-                filter: $panel
-              });
-
-            // This fixes a bug where Gecko/Firefox would not
-            // register the ESC key being used until you would tab
-            // to a child element. While Froffcanvas seems to focus
-            // the panel, this doesn't seem to stick with Gecko,
-            // either because it was getting blurred or something
+          disabledPromise.then(function() {
+            // This fixes a bug where Gecko/Firefox would not register the ESC
+            // key being used until you would tab to a child element. While
+            // Froffcanvas seems to focus the panel, this doesn't seem to stick
+            // with Gecko, either because it was getting blurred or something
             // else was happening.
             $panel.trigger('focus');
-          }
+          });
+        })
+        .on('closeOffcanvas.aiOffcanvasOverlay', function(event) {
+          var disabledPromise = new Promise(function(resolve, reject) {
+            $panel.one('transitionend.aiOffcanvasOverlay', function(event) {
+              resolve();
+            });
+          });
+
+          // Hide the overlay.
+          $overlay[0].aiOverlay.hide(disabledPromise);
+
+          disabledPromise.then(function() {
+            // Focus the open button, as Froffcanvas will have failed to do so
+            // because the button was disabled at the time.
+            panel.aiOffcanvas.elements.open.trigger('focus');
+          });
         });
 
       panel.aiOffcanvas.elements.overlay = $overlay;
@@ -457,27 +450,14 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
     }
 
 
-    // If we have an overlay, remove it and its event listeners.
+    // If we have an overlay, destroy it and remove the related event listeners.
     if (elements.overlay) {
-      elements.overlay.remove();
+      elements.overlay[0].aiOverlay.destroy();
 
       $panel.off([
         'openOffcanvas.aiOffcanvasOverlay',
         'closeOffcanvas.aiOffcanvasOverlay',
-        'transitionend.aiOffcanvasOverlay',
       ].join(' '));
-    }
-
-    // Disengage the focus disabled handle if it's active. This can happen
-    // if we're told to destroy while the panel is open.
-    if (
-      'overlayFocusDisabledHandle' in panel.aiOffcanvas &&
-      'disengage' in panel.aiOffcanvas.overlayFocusDisabledHandle
-    ) {
-      panel.aiOffcanvas.overlayFocusDisabledHandle
-        .disengage();
-
-      delete panel.aiOffcanvas.overlayFocusDisabledHandle;
     }
 
     // Move content wrapper contents back to where they were on attach and
@@ -551,5 +531,6 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
   this.disable = function(panel) {
     $(panel)[0].aiOffcanvas.instance.destroy();
   };
+});
 });
 });
