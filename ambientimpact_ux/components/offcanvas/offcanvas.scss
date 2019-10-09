@@ -28,6 +28,10 @@ $offcanvas-panel-max-size: 17em;
 .offcanvas-panel--is-ready {
   position: fixed !important;
 
+  display: flex;
+
+  flex-direction: column;
+
   &.offcanvas-panel--left,
   &.offcanvas-panel--right {
     top:    0;
@@ -45,24 +49,65 @@ $offcanvas-panel-max-size: 17em;
     max-height: $offcanvas-panel-max-size;
   }
 
-  // Firefox doesn't properly scroll the bottom of the panel content to the
-  // bottom padding point, but the very bottom of the border box, so we have to
-  // set the bottom padding as a generated content box. This was observed in
-  // Firefox Developer Edition 60.0b10.
-  padding:  $offcanvas-panel-padding
-            $offcanvas-panel-padding
-            0
-            $offcanvas-panel-padding;
+  .offcanvas-panel__content,
+  .offcanvas-panel__ui {
+    padding-left:   $offcanvas-panel-padding;
+    padding-right:  $offcanvas-panel-padding;
 
-  &::after {
-    content:  '';
-
-    display:  block;
-
-    height:   $offcanvas-panel-padding;
+    box-sizing: border-box;
   }
 
-  overflow:   auto;
+  .offcanvas-panel__content {
+    height:   100%;
+    overflow: auto;
+
+    // These provide top and bottom padding within the scrollable content
+    // container.
+    &::before,
+    &::after {
+      content:  '';
+
+      display:  block;
+    }
+
+    // This is the top padding.
+    &::before {
+      height:   $offcanvas-panel-padding;
+    }
+
+    // This is the bottom padding. Note that we're adding roughly the vertical
+    // height of the close button and the panel padding twice for the bottom and
+    // top of the button space. This allows the bottom of the content to scroll
+    // high enough so that the button clears it and doesn't obstruct anything.
+    &::after {
+      height:   ($offcanvas-panel-padding * 2) + 2.5em;
+    }
+  }
+
+  .offcanvas-panel__ui {
+    display: flex;
+
+    // This right-aligns the button(s).
+    //
+    // @todo Left-handed mode?
+    justify-content: flex-end;
+
+    position: absolute;
+
+    bottom: 0;
+
+    width: 100%;
+
+    padding-bottom: $offcanvas-panel-padding;
+
+    // As this can overlay the content, make it click-through.
+    pointer-events: none;
+
+    > * {
+      // Revert pointer-events on direct children, so they're clickable.
+      pointer-events: auto;
+    }
+  }
 
   z-index:    1;
 
@@ -142,12 +187,5 @@ $offcanvas-panel-max-size: 17em;
     &[aria-hidden="true"] {
       transform: translateY(100%);
     }
-  }
-
-  // Right-align the close button as most people are right-handed.
-  // @todo What about left-handed people?
-  .offcanvas-close {
-    display:      block;
-    margin-left:  auto;
   }
 }

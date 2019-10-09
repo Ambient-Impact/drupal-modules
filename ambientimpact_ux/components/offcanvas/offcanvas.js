@@ -235,6 +235,7 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
       $content,
       $openButton,
       $closeButton,
+      $ui,
       $overlay;
 
     // Make sure this is an HTMLElement and not a jQuery object.
@@ -285,22 +286,6 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
     panel.aiOffcanvas.elements.open = $openButton;
 
 
-    // Set up the close button.
-    if (settings.closeButton.attr || settings.closeButton.tagName) {
-      $closeButton = $(settings.closeButton).first();
-
-    } else {
-      $closeButton = $('<button></button>');
-
-      $closeButton.text(settings.closeButtonText);
-
-      $panel.append($closeButton);
-    }
-
-    $closeButton.addClass(settings.closeButtonClasses.join(' '));
-
-    panel.aiOffcanvas.elements.close = $closeButton;
-
     // Set up the content wrapper. This is provided to allow more flexibility in
     // the contents of the panel, e.g. to match page layout centring and
     // max-width.
@@ -312,6 +297,34 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
       .appendTo($panel)
 
     panel.aiOffcanvas.elements.content = $content;
+
+
+    // Set up the UI wrapper. This currently exists as a container for the close
+    // button. This is provided to allow more flexibility in laying out the
+    // contents.
+    $ui = $('<div></div>');
+
+    $ui
+      .addClass(panelBaseClass + '__ui')
+      .appendTo($panel);
+
+    panel.aiOffcanvas.elements.ui = $ui;
+
+    // Set up the close button.
+    if (settings.closeButton.attr || settings.closeButton.tagName) {
+      $closeButton = $(settings.closeButton).first();
+
+    } else {
+      $closeButton = $('<button></button>');
+
+      $closeButton.text(settings.closeButtonText);
+    }
+
+    $closeButton
+      .addClass(settings.closeButtonClasses.join(' '))
+      .appendTo($ui);
+
+    panel.aiOffcanvas.elements.close = $closeButton;
 
 
     // Initialize the Froffcanvas instance and save it to the element.
@@ -481,7 +494,9 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
       // If it was passed to us, just find it and remove the classes.
       $closeButton = $(settings.closeButton).first();
 
-      $closeButton.removeClass(settings.closeButtonClasses.join(' '));
+      $closeButton
+        .removeClass(settings.closeButtonClasses.join(' '))
+        .insertAfter(elements.ui);
     } else {
       // If it was generated, to find it and remove it.
       $closeButton = elements.close;
@@ -489,6 +504,7 @@ AmbientImpact.addComponent('offcanvas', function(aiOffcanvas, $) {
       $closeButton.remove();
     }
 
+    elements.ui.remove();
 
     // Undo changes to the open button, removing it if we generated it.
     if (settings.openButton.attr || settings.openButton.tagName) {
