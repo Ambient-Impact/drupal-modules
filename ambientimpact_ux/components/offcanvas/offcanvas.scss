@@ -32,6 +32,14 @@ $offcanvas-panel-max-size: 17em;
 
   flex-direction: column;
 
+  // Remove the default focus outline on the panel as it can't be activated and
+  // is outside of the tabbing order (tabindex="-1"), but is focused when the
+  // panel opens in case the user does use keyboard navigation to focus one of
+  // the elements in the panel, which do show focus outlines.
+  &:focus {
+    outline: none;
+  }
+
   &.offcanvas-panel--left,
   &.offcanvas-panel--right {
     top:    0;
