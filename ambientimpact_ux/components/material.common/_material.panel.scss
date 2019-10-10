@@ -5,37 +5,79 @@
 ///
 /// Material panel background colour, light variant.
 ///
-$material-panel-background-colour-light:	white				!default;
+$material-panel-background-colour-light: white !default;
 
 ///
 /// Material panel background colour, dark variant.
 ///
-$material-panel-background-colour-dark:		greyscale(10%)		!default;
+$material-panel-background-colour-dark: greyscale(10%) !default;
 
 ///
 /// Material panel background colour.
 ///
-/// @deprecated This is here for legacy purposes, to not break stuff. Use the
+/// @deprecated This is here for legacy purposes to not break stuff. Use the
 /// light and dark variables instead.
 ///
 /// @see {variable} $material-panel-background-colour-light
 /// @see {variable} $material-panel-background-colour-dark
 ///
-$material-panel-colour:
-	$material-panel-background-colour-light						!default;
+$material-panel-colour: $material-panel-background-colour-light !default;
 
-$material-panel-padding-small:		1.5rem						!default;
-$material-panel-padding-large:		3rem						!default;
-$material-panel-padding-breakpoint:	'>=material-panel-padding'	!default;
+///
+/// Material panel default padding, small.
+///
+/// @see {mixin} material-panel-padding
+///
+$material-panel-padding-small: 1.5rem !default;
 
-$material-panel-divider-colour:		$material-line-colour		!default;
-$material-panel-divider-height:		1px							!default;
-$material-panel-divider-padding-multiplier:	0.3					!default;
+///
+/// Material panel default padding, large.
+///
+/// @see {mixin} material-panel-padding
+///
+$material-panel-padding-large: 3rem !default;
+
+///
+/// Material panel default padding breakpoint.
+///
+/// This is the name and @include media() operator used by default in the
+/// material-panel-padding mixin to switch between the small and large padding
+/// values.
+///
+/// @see {mixin} material-panel-padding
+///
+$material-panel-padding-breakpoint: '>=material-panel-padding' !default;
+
+///
+/// Material panel divider colour.
+///
+/// @see {mixin} material-panel-divider
+///
+$material-panel-divider-colour: $material-line-colour !default;
+
+///
+/// Material panel divider thickness.
+///
+/// @see {mixin} material-panel-divider
+///
+$material-panel-divider-thickness: 1px !default;
+
+///
+/// Material panel divider padding multiplier.
+///
+/// This is used to scale the padding on either side of the divider relative to
+/// the overall panel padding. The default value of 0.3 means it will use 30%
+/// of the panel padding values.
+///
+/// @see {mixin} material-panel-divider
+///
+$material-panel-divider-padding-multiplier: 0.3 !default;
 
 @include add-breakpoints((
-	'material-panel-padding': 30em
+  // The viewport width where Material panels switch between their small and
+  // large padding values.
+  'material-panel-padding': 30em
 ));
-
 
 ///
 /// Styles to present an element as a Material panel/card.
@@ -66,37 +108,42 @@ $material-panel-divider-padding-multiplier:	0.3					!default;
 ///   more light than dark.
 ///
 /// @param {Number} $shadow-depth [2]
-///   The shadow depth to pass to mixin material-shadow.
+///   The shadow depth to pass to the material-shadow mixin.
 ///
-/// @see {mixin} material-panel-padding
-/// @see {mixin} material-shadow
-///
-/// @author Matei "Ambient.Impact" Stanca
+/// @require {mixin} material-panel-padding
+/// @require {mixin} material-shadow
+/// @require {variable} $material-border-radius
+/// @require {variable} $material-panel-padding-small
+/// @require {variable} $material-panel-padding-large
+/// @require {variable} $material-panel-padding-breakpoint
+/// @require {variable} $material-panel-background-colour-light
+/// @require {variable} $foreground-colour-on-light
+/// @require {variable} $foreground-colour-on-dark
 ///
 @mixin material-panel(
-	$padding-small:					$material-panel-padding-small,
-	$padding-large:					$material-panel-padding-large,
-	$padding-breakpoint:			$material-panel-padding-breakpoint,
-	$background-colour:				$material-panel-background-colour-light,
-	$foreground-colour-on-light:	$foreground-colour-on-light,
-	$foreground-colour-on-dark:		$foreground-colour-on-dark,
-	$shadow-depth:					2
+  $padding-small:               $material-panel-padding-small,
+  $padding-large:               $material-panel-padding-large,
+  $padding-breakpoint:          $material-panel-padding-breakpoint,
+  $background-colour:           $material-panel-background-colour-light,
+  $foreground-colour-on-light:  $foreground-colour-on-light,
+  $foreground-colour-on-dark:   $foreground-colour-on-dark,
+  $shadow-depth:                2
 ) {
-	@include material-panel-padding(
-		$padding-small:			$padding-small,
-		$padding-large:			$padding-large,
-		$padding-breakpoint:	$padding-breakpoint
-	);
+  @include material-panel-padding(
+    $padding-small:       $padding-small,
+    $padding-large:       $padding-large,
+    $padding-breakpoint:  $padding-breakpoint
+  );
 
-	border-radius:				$material-border-radius;
+  border-radius: $material-border-radius;
 
-	@include set-colours(
-		$background:			$background-colour,
-		$foreground-on-light:	$foreground-colour-on-light,
-		$foreground-on-dark:	$foreground-colour-on-dark
-	);
+  @include set-colours(
+    $background:          $background-colour,
+    $foreground-on-light: $foreground-colour-on-light,
+    $foreground-on-dark:  $foreground-colour-on-dark
+  );
 
-	@include material-shadow($shadow-depth);
+  @include material-shadow($shadow-depth);
 }
 
 ///
@@ -120,92 +167,159 @@ $material-panel-divider-padding-multiplier:	0.3					!default;
 ///   The axis/axes to apply padding to. Valid values are 'horizontal',
 ///   'vertical', and 'both'.
 ///
-/// @see {mixin} media
-///
-/// @author Matei "Ambient.Impact" Stanca
+/// @require {mixin} media
+/// @require {variable} $material-panel-padding-small
+/// @require {variable} $material-panel-padding-large
+/// @require {variable} $material-panel-padding-breakpoint
 ///
 @mixin material-panel-padding(
-	$padding-small:			$material-panel-padding-small,
-	$padding-large:			$material-panel-padding-large,
-	$padding-breakpoint:	$material-panel-padding-breakpoint,
-	$padding-axis:			'both'
+  $padding-small:       $material-panel-padding-small,
+  $padding-large:       $material-panel-padding-large,
+  $padding-breakpoint:  $material-panel-padding-breakpoint,
+  $padding-axis:        'both'
 ) {
-	@if $padding-axis == 'horizontal' {
-		padding-left:	$padding-small;
-		padding-right:	$padding-small;
+  // Horizontal padding.
+  @if $padding-axis == 'horizontal' {
+    padding-left:   $padding-small;
+    padding-right:  $padding-small;
 
-	} @else if $padding-axis == 'vertical' {
-		padding-top:	$padding-small;
-		padding-bottom:	$padding-small;
+  // Vertical padding.
+  } @else if $padding-axis == 'vertical' {
+    padding-top:    $padding-small;
+    padding-bottom: $padding-small;
 
-	} @else {
-		padding:		$padding-small;
-	}
+  // Both axes padding.
+  } @else {
+    padding: $padding-small;
+  }
 
-	// Don't bother with the breakpoint and large padding if both padding
-	// parameters are the same.
-	@if $padding-small != $padding-large {
-		@include media($padding-breakpoint) {
-			@if $padding-axis == 'horizontal' {
-				padding-left:	$padding-large;
-				padding-right:	$padding-large;
+  // Switch to large padding on the provided breakpoint if the small and large
+  // padding values are not identical.
+  @if $padding-small != $padding-large {
+    @include media($padding-breakpoint) {
+      // Horizontal padding.
+      @if $padding-axis == 'horizontal' {
+        padding-left:   $padding-large;
+        padding-right:  $padding-large;
 
-			} @else if $padding-axis == 'vertical' {
-				padding-top:	$padding-large;
-				padding-bottom:	$padding-large;
+      // Vertical padding.
+      } @else if $padding-axis == 'vertical' {
+        padding-top:    $padding-large;
+        padding-bottom: $padding-large;
 
-			} @else {
-				padding:		$padding-large;
-			}
-		}
-	}
+      // Both axes padding.
+      } @else {
+        padding: $padding-large;
+      }
+    }
+  }
 }
 
-
+///
+/// Style an element as a Material panel divider.
+///
+/// @param {Color} $colour [$material-panel-divider-colour]
+///   The divider colour.
+///
+/// @param {Number} $thickness [$material-panel-divider-thickness]
+///   The divider thickness.
+///
+/// @param {Number} $padding-small [$material-panel-padding-small]
+///   The padding to use if the breakpoint named in the $padding-breakpoint
+///   parameter *hasn't* been exceeded.
+///
+/// @param {Number} $padding-large [$material-panel-padding-large]
+///   The padding to use if the breakpoint named in the $padding-breakpoint
+///   parameter *has* been exceeded.
+///
+/// @param {String} $padding-breakpoint [$material-panel-padding-breakpoint]
+///   The breakpoint to switch from small to large padding.
+///
+/// @param {Number} $padding-multiplier [$material-panel-divider-padding-multiplier]
+///   The multiplier to use to scale the padding values up or down. By default,
+///   this shrinks the panel padding values.
+///
+/// @require {mixin} media
+/// @require {variable} $material-panel-divider-colour
+/// @require {variable} $material-panel-divider-thickness
+/// @require {variable} $material-panel-padding-small
+/// @require {variable} $material-panel-padding-large
+/// @require {variable} $material-panel-padding-breakpoint
+/// @require {variable} $material-panel-divider-padding-multiplier
+///
 @mixin material-panel-divider(
-	$padding-small:			$material-panel-padding-small,
-	$padding-large:			$material-panel-padding-large,
-	$padding-breakpoint:	$material-panel-padding-breakpoint,
-	$padding-multiplier:	$material-panel-divider-padding-multiplier
+  $colour:              $material-panel-divider-colour,
+  $thickness:           $material-panel-divider-thickness,
+  $padding-small:       $material-panel-padding-small,
+  $padding-large:       $material-panel-padding-large,
+  $padding-breakpoint:  $material-panel-padding-breakpoint,
+  $padding-multiplier:  $material-panel-divider-padding-multiplier
 ) {
-	content: '';
+  height: $thickness;
 
-	display: block;
+  margin: ($padding-small * $padding-multiplier) (-$padding-small);
 
-	height:	$material-panel-divider-height;
+  @include media($padding-breakpoint) {
+    margin: ($padding-large * $padding-multiplier) (-$padding-large);
+  }
 
-	margin: ($padding-small * $padding-multiplier) (-$padding-small);
-
-	@include media($padding-breakpoint) {
-		margin: ($padding-large * $padding-multiplier) (-$padding-large);
-	}
-
-	background-color: $material-panel-divider-colour;
+  background-color: $colour;
 }
 
-
+///
+/// Style an element as a Material panel footer.
+///
+/// @param {Number} $padding-small [$material-panel-padding-small]
+///   The padding to use if the breakpoint named in the $padding-breakpoint
+///   parameter *hasn't* been exceeded.
+///
+/// @param {Number} $padding-large [$material-panel-padding-large]
+///   The padding to use if the breakpoint named in the $padding-breakpoint
+///   parameter *has* been exceeded.
+///
+/// @param {String} $padding-breakpoint [$material-panel-padding-breakpoint]
+///   The breakpoint to switch from small to large padding.
+///
+/// @param {Number} $padding-multiplier [$material-panel-divider-padding-multiplier]
+///   The multiplier to use to scale the padding values up or down. By default,
+///   this shrinks the panel padding values.
+///
+/// @require {mixin} media
+/// @require {mixin} material-panel-divider
+/// @require {variable} $material-panel-padding-small
+/// @require {variable} $material-panel-padding-large
+/// @require {variable} $material-panel-padding-breakpoint
+/// @require {variable} $material-panel-divider-padding-multiplier
+///
 @mixin material-panel-footer(
-	$padding-small:			$material-panel-padding-small,
-	$padding-large:			$material-panel-padding-large,
-	$padding-breakpoint:	$material-panel-padding-breakpoint,
-	$padding-multiplier:	$material-panel-divider-padding-multiplier
+  $padding-small:       $material-panel-padding-small,
+  $padding-large:       $material-panel-padding-large,
+  $padding-breakpoint:  $material-panel-padding-breakpoint,
+  $padding-multiplier:  $material-panel-divider-padding-multiplier
 ) {
-	margin-top:		$padding-small;
-	margin-bottom:	-$padding-small;
-	padding-bottom:	($padding-small * $padding-multiplier);
+  margin-top:     $padding-small;
+  margin-bottom:  -$padding-small;
+  padding-bottom: ($padding-small * $padding-multiplier);
 
-	@include media($padding-breakpoint) {
-		margin-top:		$padding-large;
-		margin-bottom:	-$padding-large;
-		padding-bottom:	($padding-large * $padding-multiplier);
-	}
+  @if $padding-small != $padding-large {
+    @include media($padding-breakpoint) {
+      margin-top:     $padding-large;
+      margin-bottom:  -$padding-large;
+      padding-bottom: ($padding-large * $padding-multiplier);
+    }
+  }
 
-	&::before {
-		@include material-panel-divider(
-			$padding-small:			$padding-small,
-			$padding-large:			$padding-large,
-			$padding-breakpoint:	$padding-breakpoint,
-			$padding-multiplier:	$padding-multiplier
-		);
-	}
+  // This is the divider between the footer and any preceding content.
+  &::before {
+    content: '';
+
+    display: block;
+
+    @include material-panel-divider(
+      $padding-small:       $padding-small,
+      $padding-large:       $padding-large,
+      $padding-breakpoint:  $padding-breakpoint,
+      $padding-multiplier:  $padding-multiplier
+    );
+  }
 }
