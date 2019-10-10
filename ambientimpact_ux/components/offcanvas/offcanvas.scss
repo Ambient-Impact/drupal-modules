@@ -42,11 +42,15 @@ $offcanvas-panel-max-size: 17em;
 
   &.offcanvas-panel--left,
   &.offcanvas-panel--right {
-    top:    0;
+    // This pulls the panel up past the viewport top a bit so that the shadow is
+    // consistent all the way up as it's offset downwards.
+    top:    -1em;
     bottom: 0;
 
     width:      100%;
     max-width:  $offcanvas-panel-max-size;
+
+    padding-top:  1em;
   }
   &.offcanvas-panel--top,
   &.offcanvas-panel--bottom {
