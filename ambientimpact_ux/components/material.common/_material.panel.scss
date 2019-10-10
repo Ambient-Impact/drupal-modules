@@ -5,12 +5,32 @@
 ///
 /// Material panel background colour, light variant.
 ///
-$material-panel-background-colour-light: white !default;
+$material-panel-background-colour-light: $background-colour-light !default;
+
+///
+/// Material panel background colour, light on light variant.
+///
+/// This is mixed with the foreground colour a bit to give it some contrast
+/// against a light background, if needed.
+///
+$material-panel-background-colour-light-on-light: mix(
+  $background-colour-light, $foreground-colour-on-light, 90%
+) !default;
 
 ///
 /// Material panel background colour, dark variant.
 ///
-$material-panel-background-colour-dark: greyscale(10%) !default;
+$material-panel-background-colour-dark: $background-colour-dark !default;
+
+///
+/// Material panel background colour, dark on dark variant.
+///
+/// This is mixed with the foreground colour a bit to give it some contrast
+/// against a dark background, if needed.
+///
+$material-panel-background-colour-dark-on-dark: mix(
+  $background-colour-dark, $foreground-colour-on-dark, 90%
+) !default;
 
 ///
 /// Material panel background colour.
