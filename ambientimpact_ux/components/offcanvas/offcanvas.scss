@@ -140,7 +140,15 @@ $offcanvas-panel-max-size: 17em;
   transform:    translateX(0) translateY(0);
   will-change:  transform;
 
-  transition-property:        transform, visibility;
+  // Don't transition transforms if the user indicates they prefer reduced
+  // motion but use opacity instead.
+  //
+  // @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion
+  @media (prefers-reduced-motion: reduce) {
+    opacity: 1;
+  }
+
+  transition-property:        transform, opacity, visibility;
   transition-duration:        $offcanvas-transition-duration;
   transition-timing-function: $easing-sharp;
 
@@ -198,6 +206,22 @@ $offcanvas-panel-max-size: 17em;
 
     &[aria-hidden="true"] {
       transform: translateY(100%);
+    }
+  }
+
+  // Don't transition transforms if the user indicates they prefer reduced
+  // motion but use opacity instead.
+  //
+  // @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion
+  @media (prefers-reduced-motion: reduce) {
+    &.offcanvas-panel--left,
+    &.offcanvas-panel--right,
+    &.offcanvas-panel--top,
+    &.offcanvas-panel--bottom {
+      &[aria-hidden="true"] {
+        transform:  translateX(0) translateY(0);
+        opacity:    0;
+      }
     }
   }
 }
