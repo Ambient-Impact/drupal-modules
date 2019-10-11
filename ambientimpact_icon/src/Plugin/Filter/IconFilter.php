@@ -71,7 +71,7 @@ class IconFilter extends FilterBase implements ContainerFactoryPluginInterface {
     // Find all valid tags, matching the bundle, name, and text as named capture
     // groups.
     preg_match_all(
-      '%\[icon:(?\'bundle\'\w+):(?\'name\'\w+):(?\'text\'[^:\]]+)\]%',
+      '%\[icon:(?\'bundle\'[^:\]]+):(?\'name\'[^:\]]+):(?\'text\'[^:\]]+)\]%',
       $text, $matches, PREG_SET_ORDER
     );
 
