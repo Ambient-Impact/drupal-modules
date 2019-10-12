@@ -19,3 +19,11 @@ services:
     arguments: []
     tags:
       - { name: 'event_subscriber' }
+
+
+  # template_preprocess_html() event subscriber.
+  ambientimpact_ux.preprocess_html_event_subscriber:
+    class: \Drupal\ambientimpact_ux\EventSubscriber\Preprocess\PreprocessHTMLEventSubscriber
+    arguments: ['@theme.manager']
+    tags:
+      - { name: 'event_subscriber' }
