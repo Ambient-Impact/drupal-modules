@@ -1,0 +1,41 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Toolbar placeholder component
+// -----------------------------------------------------------------------------
+
+@supports (--test: orange) {
+  body:not(.toolbar-placeholder-disabled) {
+    // This is to ensure the page doesn't jump vertically while the fixed
+    // toolbar is being initialized. Unfortunately, all relevant classes are
+    // added by the back-end for the horizontal tray, so we can't depend on them
+    // in a :not() as they're there before the toolbar has initialized.
+    padding-top: var(--toolbar-placeholder-top) !important;
+
+    #toolbar-administration:not(.toolbar-oriented) {
+      // This is to counter-act the padding above for any vertical tray that was
+      // open.
+      margin-top: calc(var(--toolbar-placeholder-top) * -1) !important;
+    }
+
+    &:not(.toolbar-vertical) {
+      // This is to account for any vertical tray that was open, to prevent
+      // sideways shifting. Note that this supports both LTR and RTL layouts.
+      margin-left:  var(--toolbar-placeholder-left) !important;
+      margin-right: var(--toolbar-placeholder-right) !important;
+
+      #toolbar-administration {
+        // This is to counter-act the margins above for any vertical tray that
+        // was open.
+        margin-left:  calc(var(--toolbar-placeholder-left) * -1) !important;
+        margin-right: calc(var(--toolbar-placeholder-right) * -1) !important;
+
+        // This is needed as the toolbar will have a reduced width due to the
+        // body margins, if any.
+        width: calc(
+          100% +
+          var(--toolbar-placeholder-left) +
+          var(--toolbar-placeholder-right)
+        ) !important;
+      }
+    }
+  }
+}

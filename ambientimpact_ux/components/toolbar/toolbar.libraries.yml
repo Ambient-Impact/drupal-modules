@@ -4,10 +4,22 @@ component.toolbar:
       toolbar.css: {}
     state:
       toolbar.state.css: {}
+      toolbar.placeholder.css: {}
     theme:
       toolbar.typography.css: {}
   js:
     toolbar.offset.js: {}
+    toolbar.placeholder.store.js: {}
   dependencies:
+    - core/drupal.debounce
     - ambientimpact_core/component.media_query
     - ambientimpact_ux/component.displace
+    - ambientimpact_ux/component.toolbar.placeholder.apply
+
+# This applies any stored offsets to the viewport as early as possible to reduce
+# layout shifting, and as such, is placed in the <head> and not deferred, so
+# it's render-blocking.
+component.toolbar.placeholder.apply:
+  header: true
+  js:
+    toolbar.placeholder.apply.js: {attributes: {defer: false}}
