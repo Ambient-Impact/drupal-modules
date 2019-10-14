@@ -6,10 +6,10 @@
  * This attaches the toolbar component to the toolbar element.
  */
 function ambientimpact_ux_element_info_alter(array &$info) {
- if (isset($info['toolbar'])) {
-   $info['toolbar']['#attached']['library'][] =
-     'ambientimpact_ux/component.toolbar';
- }
+  if (isset($info['toolbar'])) {
+    $info['toolbar']['#attached']['library'][] =
+      'ambientimpact_ux/component.toolbar';
+  }
 }
 
 /**
