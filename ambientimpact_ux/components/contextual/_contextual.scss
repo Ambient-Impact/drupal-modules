@@ -1,0 +1,15 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Drupal contextual links component partial
+// -----------------------------------------------------------------------------
+
+///
+/// Contextual links background colour on light backgrounds.
+///
+$contextual-background-colour-on-light:
+  $material-panel-background-colour-light !default;
+
+///
+/// Contextual links background colour on dark backgrounds.
+///
+$contextual-background-colour-on-dark:
+  $material-panel-background-colour-dark-on-dark !default;

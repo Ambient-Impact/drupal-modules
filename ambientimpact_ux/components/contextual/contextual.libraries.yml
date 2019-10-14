@@ -1,0 +1,4 @@
+component.contextual:
+  css:
+    theme:
+      contextual.css: {}
