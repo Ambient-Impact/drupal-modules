@@ -60,18 +60,20 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
 ///
 /// Sets transform transition properties on an .ambientimpact-icon element.
 ///
-/// @param {Number} $transition-duration [200ms]
+/// @param {Number} $transition-duration [400ms]
 ///   The duration to set for the transition-duration.
 ///
-/// @param {String} $transition-easing [linear]
+/// @param {String} $transition-easing [$easing-decelerate]
 ///   The easing to set for the transition-timing-function.
 ///
 /// @content
 ///   Any additional properties to include after the transition properies.
 ///
+/// @require {variable} $easing-decelerate
+///
 @mixin icon-transform-transition(
-  $transition-duration: 200ms,
-  $transition-easing:   linear
+  $transition-duration: 400ms,
+  $transition-easing:   $easing-decelerate
 ) {
   @include on-icon-icon {
     transition-property:        transform;
