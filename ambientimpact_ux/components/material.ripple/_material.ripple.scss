@@ -51,6 +51,12 @@ $material-ripple-base-class: 'material-ripple';
   @supports #{'(--test: orange)'} {
     --material-ripple-duration: 0.8s;
 
+    // Setting this to 1px anti-aliases the edge, which can be jagged depending
+    // on the browser. This is normally only visible if a new page is navigated
+    // to before the ripple completes, in which case it will get frozen in place
+    // until the new page starts rendering.
+    --material-ripple-blur-radius: 1px;
+
     &:active,
     &.#{$material-ripple-base-class}--ripple-active {
       &:not(:disabled) {
@@ -60,7 +66,7 @@ $material-ripple-base-class: 'material-ripple';
             circle closest-side at center,
             var(--material-ripple-colour) 0%,
             var(--material-ripple-colour)
-              calc(100% - var(--material-ripple-blur-radius, 0px)),
+              calc(100% - var(--material-ripple-blur-radius)),
             transparent 100%
           ),
           // This is used for simulating a fade out.
