@@ -187,7 +187,7 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
   $link-align-inline: -0.25em;
   $link-align-grid:   -0.35em;
 
-  // Centre vertically. 'center' is accepted for backwards compatibility.
+  // Centre vertically. 'center' is also accepted.
   @if $align == centre or $align == center {
     align-items: center;
 
@@ -202,42 +202,43 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
 
         align-self: center;
 
-        vertical-align: 0;
+        // vertical-align has no effect when CSS Grid is in effect.
       }
     }
 
   // Align to text baseline but account for link underlines.
   } @else if $align == link {
-    align-items: baseline;
-
     .ambientimpact-icon__icon {
       vertical-align: $link-align-inline;
 
       @include use-grid {
         bottom: $link-align-grid;
-
-        // This is required to fix discrepancies between Gecko and Blink so that
-        // they both (mostly) agree on where to align the icon relative to text.
-        align-self: start;
-
-        vertical-align: 0;
       }
     }
-  // Default is to align roughly to the text baseline.
-  } @else {
-    align-items: baseline;
 
+  // Any other $align value is treated as the default of 'text', which attempts
+  // to align to the text baseline.
+  } @else {
     .ambientimpact-icon__icon {
       vertical-align: $text-align-inline;
 
       @include use-grid {
         bottom: $text-align-grid;
+      }
+    }
+  }
 
+  // Common stuff for all alignments that aren't centre/center.
+  @if $align != centre and $align != center {
+    align-items: baseline;
+
+    .ambientimpact-icon__icon {
+      @include use-grid {
         // This is required to fix discrepancies between Gecko and Blink so that
         // they both (mostly) agree on where to align the icon relative to text.
         align-self: start;
 
-        vertical-align: 0;
+        // vertical-align has no effect when CSS Grid is in effect.
       }
     }
   }
