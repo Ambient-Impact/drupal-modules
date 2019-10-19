@@ -181,24 +181,26 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
 @mixin set-icon-vertical-alignment($align: text) {
   // Icons next to plain text.
   $text-align-inline: -0.2em;
-  $text-align-grid:   -0.15em;
+  $text-align-grid:   -0.25em;
 
   // Icons within a link next to text.
   $link-align-inline: -0.25em;
-  $link-align-grid:   -0.25em;
+  $link-align-grid:   -0.35em;
 
   // Centre vertically. 'center' is accepted for backwards compatibility.
   @if $align == centre or $align == center {
-    align-items:  center;
+    align-items: center;
 
     .ambientimpact-icon__icon {
       // We can't use a value of 0 or baseline as that still looks off. We
       // can align to the first line, which is better than nothing.
-      vertical-align:   $text-align-inline;
+      vertical-align: $text-align-inline;
 
       // Reset, in case we've set these previously.
       @include use-grid {
-        bottom:         0;
+        bottom: 0;
+
+        align-self: center;
 
         vertical-align: 0;
       }
@@ -206,26 +208,34 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
 
   // Align to text baseline but account for link underlines.
   } @else if $align == link {
-    align-items:  baseline;
+    align-items: baseline;
 
     .ambientimpact-icon__icon {
-      vertical-align:   $link-align-inline;
+      vertical-align: $link-align-inline;
 
       @include use-grid {
-        bottom:         $link-align-grid;
+        bottom: $link-align-grid;
+
+        // This is required to fix discrepancies between Gecko and Blink so that
+        // they both (mostly) agree on where to align the icon relative to text.
+        align-self: start;
 
         vertical-align: 0;
       }
     }
   // Default is to align roughly to the text baseline.
   } @else {
-    align-items:  baseline;
+    align-items: baseline;
 
     .ambientimpact-icon__icon {
-      vertical-align:   $text-align-inline;
+      vertical-align: $text-align-inline;
 
       @include use-grid {
-        bottom:     $text-align-grid;
+        bottom: $text-align-grid;
+
+        // This is required to fix discrepancies between Gecko and Blink so that
+        // they both (mostly) agree on where to align the icon relative to text.
+        align-self: start;
 
         vertical-align: 0;
       }
