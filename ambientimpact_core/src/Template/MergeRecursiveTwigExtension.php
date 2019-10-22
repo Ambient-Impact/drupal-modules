@@ -43,11 +43,11 @@ class MergeRecursiveTwigExtension extends \Twig_Extension {
    *    'orange': {'type': 'fruit', 'not': 'car'}
    *  } #}
    *
-   * @param array|\Traversable $arr1
+   * @param array|\Traversable $array1
    *   An array or Traversable, the latter of which will be converted to an
    *   array before merging.
    *
-   * @param array|\Traversable $arr2
+   * @param array|\Traversable $array2
    *   An array or Traversable, the latter of which will be converted to an
    *   array before merging.
    *
@@ -70,7 +70,7 @@ class MergeRecursiveTwigExtension extends \Twig_Extension {
       if ($array instanceof \Traversable) {
         $arrays[$i] = iterator_to_array($array, true);
       } else if (!\is_array($array)) {
-        throw new RuntimeError(sprintf('The merge_recursive filter only works with arrays or "Traversable", got "%s" as argument %s.', \gettype($arr1), $i));
+        throw new RuntimeError(sprintf('The merge_recursive filter only works with arrays or "Traversable", got "%s" as argument %s.', \gettype($array), $i));
       }
     }
 
