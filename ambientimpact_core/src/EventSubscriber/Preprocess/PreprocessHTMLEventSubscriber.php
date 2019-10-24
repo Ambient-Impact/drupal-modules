@@ -23,7 +23,7 @@ class PreprocessHTMLEventSubscriber implements EventSubscriberInterface {
    * Event subscriber constructor; saves dependencies.
    *
    * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
-   *          The Symfony request stack.
+   *   The Symfony request stack.
    */
   public function __construct(
     RequestStack $requestStack
