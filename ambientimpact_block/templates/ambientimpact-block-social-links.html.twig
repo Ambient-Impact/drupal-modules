@@ -13,25 +13,25 @@
  */
 #}
 <ol{{ create_attribute({'class': [
-	base_class,
-	base_class ~ '--display-'		~ display|clean_class,
-	base_class ~ '--orientation-'	~ orientation|clean_class,
-	base_class ~ '--alignment-'		~ alignment|clean_class,
+  base_class,
+  base_class ~ '--display-'   ~ display|clean_class,
+  base_class ~ '--orientation-' ~ orientation|clean_class,
+  base_class ~ '--alignment-'   ~ alignment|clean_class,
 ]}) }}>
 {% for network in networks %}
-	<li{{ create_attribute({'class': [
-		base_class ~ '__network',
-	]}) }}>
-		{{ link(
-			network.content,
-			network.url,
-			{
-				'title':	network.titleAttribute,
-				'class':	[
-					base_class ~ '__network-link',
-				]
-			}
-		) }}
-	</li>
+  <li{{ create_attribute({'class': [
+    base_class ~ '__network',
+  ]}) }}>
+    {{ link(
+      network.content,
+      network.url,
+      {
+        'title':  network.titleAttribute,
+        'class':  [
+          base_class ~ '__network-link',
+        ]
+      }
+    ) }}
+  </li>
 {% endfor %}
 </ol>
