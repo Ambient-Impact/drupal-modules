@@ -4,7 +4,7 @@
  * Default implementation for the Ambient.Impact Component list.
  *
  * Available variables:
- * - list: A render array containing the list of Components as an 'item_list'.
+ * - list: A render array containing the list of Components.
  *
  * @see \Drupal\ambientimpact_web_components\Controller\ComponentListController::componentList()
  *   Used in this method.
@@ -19,14 +19,21 @@
 }) %}
 
 <div{{ create_attribute({'class': [baseClass]}) }}>
-  <p{{ create_attribute({'class': [baseClass ~ '__intro']}) }}>{{
-    'This lists all discovered component plug-ins across all enabled modules. Information about the component system and the source for each component can be found on <a href="@GitHubURL">@GitHub</a> and <a href="@GitLabURL">@GitLab</a>.'|t({
-      '@GitHub':    ambientimpact_icon('github', 'brands', 'GitHub'),
-      '@GitHubURL': 'https://github.com/Ambient-Impact/drupal-modules',
-      '@GitLab':    ambientimpact_icon('gitlab', 'brands', 'GitLab'),
-      '@GitLabURL': 'https://gitlab.com/Ambient.Impact/drupal-modules',
-    })
-  }}</p>
+  {# These have to be rendered here because trying to render them in the
+     {% trans %} blocks won't work.
+
+     @see https://getlevelten.com/blog/mark-carver/drupal-8-twig-templates-and-translations
+  #}
+  {% set github = link(
+    ambientimpact_icon('github', 'brands', 'GitHub'),
+    'https://github.com/Ambient-Impact/drupal-modules'
+  )|render %}
+  {% set gitlab = link(
+    ambientimpact_icon('gitlab', 'brands', 'GitLab'),
+    'https://gitlab.com/Ambient.Impact/drupal-modules'
+  )|render %}
+
+  <p{{ create_attribute({'class': [baseClass ~ '__intro']}) }}>{% trans %}This lists all discovered component plug-ins across all enabled modules. Information about the component system and the source for each component can be found on {{ github }} and {{ gitlab }}.{% endtrans %}</p>
 
   {{ list }}
 </div>
