@@ -94,45 +94,48 @@ class SocialLinks extends BlockBase implements BlockPluginInterface {
 				continue;
 			}
 
-			// The content for this link. Note that we don't include
-			// @accessibilitytext as that's replaced in the template with
-			// markup. Drupal's translation system should also strip out/escape
-			// any harmful markup from the content.
+			$networkAccessibilityContent = $this->t(
+				$blockConfig['link_text_accessibility'],
+				[
+					'@network' => $network['title'],
+				]
+			);
+
+			$networkContent = $this->t(
+				// Wrap @accessibilitytext in an element so that it can be conditionally
+				// hidden.
+				//
+				// @todo Should this be made a render array?
+				str_replace(
+					'@accessibilitytext',
+					'<span class="' . $renderArray['social_links']['#base_class'] .
+						'__network-link-accessibility-text">@accessibilitytext</span>',
+					$blockConfig['link_text']
+				),
+				[
+					'@pronoun'						=> $blockConfig['link_text_pronoun'],
+					'@accessibilitytext'	=> $networkAccessibilityContent,
+				]
+			);
+
+			// The content for this link.
 			if ($blockConfig['display'] === 'text_only') {
-				$network['content'] = $this->t(
-					$blockConfig['link_text'], [
-						'@pronoun'	=> $blockConfig['link_text_pronoun'],
-					]
-				);
+				$network['content'] = $networkContent;
 			} else {
 				$network['content'] = [
-					'#type'					=> 'ambientimpact_icon',
-					'#bundle'				=> 'brands',
-					'#icon'					=> $machineName,
-					'#text'					=> $this->t(
-						$blockConfig['link_text'], [
-							'@pronoun'	=> $blockConfig['link_text_pronoun'],
-						]
-					),
+					'#type'		=> 'ambientimpact_icon',
+					'#bundle'	=> 'brands',
+					'#icon'		=> $machineName,
+					'#text'		=> $networkContent,
 				];
 			}
-
-			// Pass the accessibility text separately to the template. Since
-			// this is run through Drupal's translation system, it should strip
-			// out/escape any harmful markup from the content.
-			$network['contentAccessibilityText'] = $this->t(
-				$blockConfig['link_text_accessibility'],
-				['@network' => $network['title']]
-			);
 
 			// Title attribute for the link, displayed as a tooltip. Contains
 			// full text.
 			$network['titleAttribute'] = $this->t(
 				$blockConfig['link_text'], [
-					'@pronoun'				=>
-						$blockConfig['link_text_pronoun'],
-					'@accessibilitytext'	=>
-						$network['contentAccessibilityText'],
+					'@pronoun'						=> $blockConfig['link_text_pronoun'],
+					'@accessibilitytext'	=> $networkAccessibilityContent,
 				]
 			);
 
@@ -201,7 +204,7 @@ class SocialLinks extends BlockBase implements BlockPluginInterface {
 			'link_text_accessibility'	=> [
 				'#type'				=> 'textfield',
 				'#title'			=> $this->t('Accessibility text'),
-				'#description'		=> $this->t('This text is placed replaces the <code>@accessibilitytext</code> in the "Text" field. This provides additional information to people accessing the site with a screen reader and other assitive technology, and will be visible in the tooltip (if displaying only icons or icons and text) and will be placed in the text itself if set to display text only. The <code>@network</code> tag is replaced with the name of the social network, and is required. Setting this to an empty value will reset it to the default value.'),
+				'#description'		=> $this->t('This text replaces the <code>@accessibilitytext</code> in the "Text" field. This provides additional information to people accessing the site with a screen reader and other assitive technology, and will be visible in the tooltip (if displaying only icons or icons and text) and will be placed in the text itself if set to display text only. The <code>@network</code> tag is replaced with the name of the social network, and is required. Setting this to an empty value will reset it to the default value.'),
 				'#default_value'	=> $blockConfig['link_text_accessibility'],
 			],
 
