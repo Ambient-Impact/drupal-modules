@@ -1,11 +1,9 @@
 component.link.underline:
   js:
     link.underline.js: {}
-    link.underline.image.js: {}
     link.underline.transition.js: {}
   dependencies:
     - ambientimpact_core/ally.js
     - ambientimpact_ux/gsap.tweenlite
     - ambientimpact_ux/gsap.plugin.css
     - ambientimpact_ux/gsap.plugin.colorprops
-    - ambientimpact_ux/component.link.image

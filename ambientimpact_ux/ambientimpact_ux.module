@@ -162,3 +162,33 @@ function ambientimpact_ux_node_links_alter(
     unset($links['node']['#links']['node-readmore']);
   }
 }
+
+/**
+ * Implements hook_link_alter().
+ *
+ * @param array &$variables
+ *   An associative array of variables defining a link.
+ *
+ * @see \hook_link_alter()
+ *   Documents this hook.
+ *
+ * @see \Drupal\ambientimpact_ux\Plugin\AmbientImpact\Component\LinkExternal::processExternalLink()
+ *   The $variables array is passed to this method to mark links as external.
+ *
+ * @see \Drupal\ambientimpact_ux\Plugin\AmbientImpact\Component\LinkImage::processLink()
+ *   The $variables array is passed to this method to detect if the link points
+ *   to an image file, contains an image, and to alter it based on those.
+ */
+function ambientimpact_ux_link_alter(&$variables) {
+  $componentManager = \Drupal::service(
+    'plugin.manager.ambientimpact_component'
+  );
+
+  if ($variables['url']->isExternal()) {
+    $componentManager->getComponentInstance('link.external')
+      ->processExternalLink($variables);
+  }
+
+  $componentManager->getComponentInstance('link.image')
+    ->processLink($variables);
+}

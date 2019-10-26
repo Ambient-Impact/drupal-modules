@@ -22,10 +22,23 @@ services:
     tags:
       - { name: 'event_subscriber' }
 
-
   # template_preprocess_html() event subscriber.
   ambientimpact_ux.preprocess_html_event_subscriber:
     class: \Drupal\ambientimpact_ux\EventSubscriber\Preprocess\PreprocessHTMLEventSubscriber
     arguments: ['@theme.manager']
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Link: external 'ambientimpact_core.dom_filter_process' event subscriber.
+  ambientimpact_ux.link_external_dom_filter_event_subscriber:
+    class: \Drupal\ambientimpact_ux\EventSubscriber\AmbientImpact\LinkExternalDOMFilterEventSubscriber
+    arguments: ['@plugin.manager.ambientimpact_component']
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Link: image 'ambientimpact_core.dom_filter_process' event subscriber.
+  ambientimpact_ux.link_image_dom_filter_event_subscriber:
+    class: \Drupal\ambientimpact_ux\EventSubscriber\AmbientImpact\LinkImageDOMFilterEventSubscriber
+    arguments: ['@plugin.manager.ambientimpact_component']
     tags:
       - { name: 'event_subscriber' }

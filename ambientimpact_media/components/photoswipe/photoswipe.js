@@ -9,9 +9,7 @@
 // @see http://photoswipe.com/documentation/getting-started.html#dom-to-slide-objects
 
 AmbientImpact.onGlobals(['PhotoSwipe'], function() {
-AmbientImpact.on([
-  'jquery', 'mediaQuery', 'link.image'
-], function(aiJQuery, aiMediaQuery, aiLinkImage) {
+AmbientImpact.on(['jquery', 'mediaQuery'], function(aiJQuery, aiMediaQuery) {
 AmbientImpact.addComponent('photoswipe', function(aiPhotoSwipe, $) {
   'use strict';
 

@@ -19,7 +19,6 @@ component.photoswipe:
     - ambientimpact_media/photoswipe
     - ambientimpact_core/ally.js
     - ambientimpact_core/component.media_query
-    - ambientimpact_ux/component.link.image
     - ambientimpact_icon/component.icon
     - ambientimpact_ux/component.immerse
     - ambientimpact_ux/component.pointer_focus_hide

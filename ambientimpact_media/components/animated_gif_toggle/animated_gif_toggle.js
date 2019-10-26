@@ -8,10 +8,7 @@
 // @todo Use IntersectionObserver to automatically stop GIF animation when the
 // field goes off screen?
 
-AmbientImpact.on([
-  'link.external',
-  'mediaPlayOverlay',
-], function(aiLinkExternal, aiMediaPlayOverlay) {
+AmbientImpact.on(['mediaPlayOverlay'], function(aiMediaPlayOverlay) {
 AmbientImpact.addComponent('animatedGIFToggle', function(
   aiAnimatedGIFToggle, $
 ) {
