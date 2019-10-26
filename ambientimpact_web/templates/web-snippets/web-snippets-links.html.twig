@@ -34,9 +34,11 @@
         baseClass ~ '-list-item',
         baseClass ~ '-list-item--' ~ key
       ]}) }}>
-        <a{{ item.linkAttributes.addClass(baseClass ~ '-list-item-link') }}>{{
-          item.content
-        }}</a>
+        {{ link(
+          item.content,
+          item.linkURL,
+          item.linkAttributes.addClass(baseClass ~ '-list-item-link')
+        ) }}
       </li>
     {%- endfor -%}
   </ul>
