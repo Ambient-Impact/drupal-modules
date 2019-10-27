@@ -4,6 +4,7 @@ namespace Drupal\ambientimpact_ux\Plugin\AmbientImpact\Component;
 
 use Drupal\Core\Url;
 use Drupal\Component\Utility\UrlHelper;
+use Symfony\Component\DomCrawler\Crawler;
 use Drupal\ambientimpact_core\ComponentBase;
 
 /**
@@ -92,23 +93,14 @@ class LinkExternal extends ComponentBase {
   public function processExternalLink(&$link) {
     $externalClass = $this->getConfiguration()['externalClass'];
 
-    // Check if this is an instance of \Symfony\Component\DomCrawler\Crawler or
-    // similar class that supports the 'getNode' method, and extract the
-    // \DOMElement from it if so.
-    if (
-      is_object($link) &&
-      method_exists($link, 'attr') &&
-      method_exists($link, 'getNode')
-    ) {
+    // Check if this is an instance of \Symfony\Component\DomCrawler\Crawler and
+    // extract the \DOMElement from it if so.
+    if ($link instanceof Crawler) {
       $link = $link->getNode(0);
     }
 
-    // Check if this is a \DOMElement or similar class that has a 'getAttribute'
-    // method.
-    if (
-      is_object($link) &&
-      method_exists($link, 'getAttribute')
-    ) {
+    // Check if this is a \DOMElement instance.
+    if ($link instanceof \DOMElement) {
       if ($link->hasAttribute('class')) {
         $classes = explode(' ', $link->getAttribute('class'));
       } else {
