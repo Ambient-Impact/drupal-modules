@@ -32,7 +32,8 @@ class LinkImageDOMCrawlerEventSubscriber implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return [
-      'ambientimpact.dom_filter_process' => 'process',
+      'ambientimpact.dom_filter_process'  => 'process',
+      'ambientimpact.markup_process'      => 'process',
     ];
   }
 
