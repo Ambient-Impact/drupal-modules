@@ -6,12 +6,12 @@ use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * DOM input filter event.
+ * DOM crawler event.
  *
- * @see \Drupal\ambientimpact_core\Plugin\Filter\DOMFilter
- *   Dispatches this event.
+ * This generic event provides methods to store and retrieve a Symfony
+ * DomCrawler instance.
  */
-class DOMFilterEvent extends Event {
+class DOMCrawlerEvent extends Event {
   /**
    * The current Symfony DomCrawler instance.
    *

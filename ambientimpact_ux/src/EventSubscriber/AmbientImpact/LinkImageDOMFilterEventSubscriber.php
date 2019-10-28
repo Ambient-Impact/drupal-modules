@@ -5,7 +5,7 @@ namespace Drupal\ambientimpact_ux\EventSubscriber\AmbientImpact;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
-use Drupal\ambientimpact_core\Event\DOMFilterEvent;
+use Drupal\ambientimpact_core\Event\DOMCrawlerEvent;
 
 class LinkImageDOMFilterEventSubscriber implements EventSubscriberInterface {
   /**
@@ -39,10 +39,10 @@ class LinkImageDOMFilterEventSubscriber implements EventSubscriberInterface {
   /**
    * DOM filter event handler.
    *
-   * @param \Drupal\ambientimpact_core\Event\DOMFilterEvent $event
+   * @param \Drupal\ambientimpact_core\Event\DOMCrawlerEvent $event
    *   The event object.
    */
-  public function process(DOMFilterEvent $event) {
+  public function process(DOMCrawlerEvent $event) {
     $crawler = $event->getCrawler();
 
     $links = $crawler->filter('a');

@@ -8,7 +8,7 @@ use Drupal\filter\Plugin\FilterBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Drupal\ambientimpact_core\Event\DOMFilterEvent;
+use Drupal\ambientimpact_core\Event\DOMCrawlerEvent;
 
 /**
  * Provides a filter to alter the DOM tree of input text.
@@ -89,7 +89,7 @@ class DOMFilter extends FilterBase implements ContainerFactoryPluginInterface {
     $crawler = $crawler->filter('body');
 
     // Create the event object.
-    $event = new DOMFilterEvent($crawler);
+    $event = new DOMCrawlerEvent($crawler);
 
     // Dispatch the event with the event object.
     $this->eventDispatcher->dispatch(

@@ -5,7 +5,7 @@ namespace Drupal\ambientimpact_ux\EventSubscriber\AmbientImpact;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
-use Drupal\ambientimpact_core\Event\DOMFilterEvent;
+use Drupal\ambientimpact_core\Event\DOMCrawlerEvent;
 
 /**
  * Link: external DOM filter process event subscriber.
@@ -47,7 +47,7 @@ class LinkExternalDOMFilterEventSubscriber implements EventSubscriberInterface {
    * This uses the Symfony DomCrawler to find any external links and pass them
    * to the 'link.external' component for processing.
    *
-   * @param \Drupal\ambientimpact_core\Event\DOMFilterEvent $event
+   * @param \Drupal\ambientimpact_core\Event\DOMCrawlerEvent $event
    *   The event object.
    *
    * @see \Drupal\ambientimpact_ux\Plugin\AmbientImpact\Component\LinkExternal::isURIExternal()
@@ -59,7 +59,7 @@ class LinkExternalDOMFilterEventSubscriber implements EventSubscriberInterface {
    * @see https://symfony.com/doc/3.4/components/dom_crawler.html
    *   Symfony DomCrawler documentation.
    */
-  public function process(DOMFilterEvent $event) {
+  public function process(DOMCrawlerEvent $event) {
     $crawler = $event->getCrawler();
 
     $links = $crawler->filter('a');
