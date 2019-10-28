@@ -2,13 +2,14 @@
 
 namespace Drupal\ambientimpact_web_components\Controller;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
 use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Yaml\Yaml;
+use Drupal\ambientimpact_core\Service\MarkupProcessorInterface;
 
 /**
  * Controller for the 'ambientimpact_web_components.component_item' route.
@@ -22,22 +23,36 @@ class ComponentItemController extends ControllerBase {
   protected $componentManager;
 
   /**
+   * The Ambient.Impact markup processor service.
+   *
+   * @var \Drupal\ambientimpact_core\Service\MarkupProcessorInterface
+   */
+  protected $markupProcessor;
+
+  /**
    * Controller constructor; saves dependencies.
    *
    * @param \Drupal\ambientimpact_core\ComponentPluginManagerInterface $componentManager
    *   The Ambient.Impact Component plug-in manager service.
+   *
+   * @param \Drupal\ambientimpact_core\Service\MarkupProcessorInterface $markupProcessor
    */
-  public function __construct(ComponentPluginManagerInterface $componentManager) {
+  public function __construct(
+    ComponentPluginManagerInterface $componentManager,
+    MarkupProcessorInterface $markupProcessor
+  ) {
     $this->componentManager = $componentManager;
+    $this->markupProcessor  = $markupProcessor;
   }
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static($container->get(
-      'plugin.manager.ambientimpact_component'
-    ));
+    return new static(
+      $container->get('plugin.manager.ambientimpact_component'),
+      $container->get('ambientimpact.markup_processor')
+    );
   }
 
   /**
@@ -113,7 +128,10 @@ class ComponentItemController extends ControllerBase {
     $renderArray = [
       '#theme'          => 'ambientimpact_component_item',
       '#machineName'    => $componentMachineName,
-      '#description'    => $pluginDefinition['description'],
+      // Run the description markup through the markup processor service so that
+      // it can be manipulated by various components.
+      '#description'    => $this->markupProcessor
+        ->process($pluginDefinition['description']),
     ];
 
     if ($componentInstance->hasDemo() === true) {

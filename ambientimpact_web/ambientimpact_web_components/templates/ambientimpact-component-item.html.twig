@@ -4,7 +4,9 @@
  * Default implementation for an Ambient.Impact Component item.
  *
  * Available variables:
- * - description: The Component's description.
+ * - description: The Component's description. Note that this is expected to
+ *   have been parsed into a DOM and then rendered again, which automatically
+ *   wraps standalone text nodes in <p> elements so we don't need to do that.
  * - demoLink: The Component's demo link, if it provides a demo.
  * - definition: A render array containing this Component's Drupal plug-in
  *   definition array.
@@ -20,7 +22,7 @@
 {% set baseClass = 'ambientimpact-component-item' %}
 
 <div{{ create_attribute({'class': [baseClass]}) }}>
-  <p>{{ description }}</p>
+  {{ description }}
 
   {% if demoLink %}
     <span{{ create_attribute({
