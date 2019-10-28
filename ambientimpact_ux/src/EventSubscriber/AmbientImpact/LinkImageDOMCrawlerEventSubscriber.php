@@ -7,7 +7,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Drupal\ambientimpact_core\Event\DOMCrawlerEvent;
 
-class LinkImageDOMFilterEventSubscriber implements EventSubscriberInterface {
+class LinkImageDOMCrawlerEventSubscriber implements EventSubscriberInterface {
   /**
    * The Ambient.Impact Component plug-in manager service.
    *
@@ -37,7 +37,7 @@ class LinkImageDOMFilterEventSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * DOM filter event handler.
+   * DOM crawler event handler.
    *
    * @param \Drupal\ambientimpact_core\Event\DOMCrawlerEvent $event
    *   The event object.

@@ -8,11 +8,12 @@ use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Drupal\ambientimpact_core\Event\DOMCrawlerEvent;
 
 /**
- * Link: external DOM filter process event subscriber.
+ * Link: external DOM crawler event subscriber.
  *
  * This passes any found links to the 'link.external' component to process.
  */
-class LinkExternalDOMFilterEventSubscriber implements EventSubscriberInterface {
+class LinkExternalDOMCrawlerEventSubscriber
+implements EventSubscriberInterface {
   /**
    * The Ambient.Impact Component plug-in manager service.
    *
@@ -42,7 +43,7 @@ class LinkExternalDOMFilterEventSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * DOM filter event handler.
+   * DOM crawler event handler.
    *
    * This uses the Symfony DomCrawler to find any external links and pass them
    * to the 'link.external' component for processing.
