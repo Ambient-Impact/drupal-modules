@@ -32,7 +32,7 @@ class LinkImageDOMFilterEventSubscriber implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return [
-      'ambientimpact_core.dom_filter_process' => 'process',
+      'ambientimpact.dom_filter_process' => 'process',
     ];
   }
 

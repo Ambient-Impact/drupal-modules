@@ -77,7 +77,7 @@ class DOMFilter extends FilterBase implements ContainerFactoryPluginInterface {
     // text as-is without parsing it so that we don't do unnecessary work.
     if (
       !$this->eventDispatcher
-        ->hasListeners('ambientimpact_core.dom_filter_process')
+        ->hasListeners('ambientimpact.dom_filter_process')
     ) {
       return new FilterProcessResult($text);
     }
@@ -93,7 +93,7 @@ class DOMFilter extends FilterBase implements ContainerFactoryPluginInterface {
 
     // Dispatch the event with the event object.
     $this->eventDispatcher->dispatch(
-      'ambientimpact_core.dom_filter_process',
+      'ambientimpact.dom_filter_process',
       $event
     );
 

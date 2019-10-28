@@ -29,14 +29,14 @@ services:
     tags:
       - { name: 'event_subscriber' }
 
-  # Link: external 'ambientimpact_core.dom_filter_process' event subscriber.
+  # Link: external 'ambientimpact.dom_filter_process' event subscriber.
   ambientimpact_ux.link_external_dom_filter_event_subscriber:
     class: \Drupal\ambientimpact_ux\EventSubscriber\AmbientImpact\LinkExternalDOMFilterEventSubscriber
     arguments: ['@plugin.manager.ambientimpact_component']
     tags:
       - { name: 'event_subscriber' }
 
-  # Link: image 'ambientimpact_core.dom_filter_process' event subscriber.
+  # Link: image 'ambientimpact.dom_filter_process' event subscriber.
   ambientimpact_ux.link_image_dom_filter_event_subscriber:
     class: \Drupal\ambientimpact_ux\EventSubscriber\AmbientImpact\LinkImageDOMFilterEventSubscriber
     arguments: ['@plugin.manager.ambientimpact_component']
