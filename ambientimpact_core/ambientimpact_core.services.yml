@@ -19,6 +19,11 @@ services:
     tags:
       - { name: twig.extension }
 
+  # Markup processor service.
+  ambientimpact.markup_processor:
+    class: Drupal\ambientimpact_core\Service\MarkupProcessor
+    arguments: ['@event_dispatcher']
+
   # Description list hook_theme() event subscriber.
   ambientimpact_core.hook_theme_description_list_event_subscriber:
     class: \Drupal\ambientimpact_core\EventSubscriber\Theme\HookThemeDescriptionListEventSubscriber
