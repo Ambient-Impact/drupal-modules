@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: content_image_large
+label: 'Content image (large)'
+effects:
+  946ff4b0-3d10-428f-8cf6-9e3bd1c37271:
+    uuid: 946ff4b0-3d10-428f-8cf6-9e3bd1c37271
+    id: image_scale
+    weight: 1
+    data:
+      width: 1440
+      height: 1440
+      upscale: false
