@@ -14,6 +14,7 @@ use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\ambientimpact_core\ComponentBase;
+use Drupal\ambientimpact_core\Utility\HTML;
 
 /**
  * Link: image component.
@@ -303,7 +304,10 @@ class LinkImage extends ComponentBase {
     if ($hasImageElement === true && $hasText === true) {
       foreach ($textCrawler as $textNode) {
         $textContainer = $textNode->ownerDocument
-          ->createElement('span', $textNode->wholeText);
+          // Note that we have to escape any special HTML characters like '<',
+          // '>', '&', etc., or we'll get a DOM warning the text won't be
+          // parsed correctly.
+          ->createElement('span', HTML::escape($textNode->wholeText));
 
         $textContainer->setAttribute(
           'class',
