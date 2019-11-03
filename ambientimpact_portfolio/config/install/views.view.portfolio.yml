@@ -348,6 +348,7 @@ display:
         options:
           relationship: none
           view_mode: teaser
+      block_hide_empty: true
     cache_metadata:
       max-age: -1
       contexts:
