@@ -51,8 +51,9 @@ class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
   /**
    * Preprocess variables for the 'web_snippets' view.
    *
-   * This adds links to the view header to search snippets, view all web
-   * development tags, and to view the web snippets RSS feed.
+   * This adds links to the view header when in the 'page' display to search
+   * snippets, view all web development tags, and to view the web snippets RSS
+   * feed.
    *
    * Note that we could use '#theme' => 'links', but that doesn't provide a
    * simple way to define attributes for the <li> elements other than a single
@@ -71,7 +72,10 @@ class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
     $variables = $event->getVariables();
     $view = $variables->getView();
 
-    if ($view->id() !== 'web_snippets') {
+    if (
+      $view->id() !== 'web_snippets' ||
+      $view->current_display !== 'page'
+    ) {
       return;
     }
 
