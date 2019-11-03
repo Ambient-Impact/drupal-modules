@@ -44,6 +44,8 @@ implements EventSubscriberInterface {
   /**
    * Prepares variables for field_project_images templates.
    *
+   * Removes all but the first two items when in the 'teaser' view mode.
+   *
    * This replaces the image style on odd numbered last items from
    * 'project_image_small' to 'project_image_large' so that the image is high
    * resolution enough to look good when spanning the full width of the field.
@@ -56,13 +58,27 @@ implements EventSubscriberInterface {
    */
   public function preprocessField(FieldPreprocessEvent $event) {
     /* @var \Drupal\hook_event_dispatcher\Event\Preprocess\Variables\FieldEventVariables $variables */
-    $variables  = $event->getVariables();
-    $items      = &$variables->getItems();
+    $variables = $event->getVariables();
 
+    if ($variables->get('field_name') !== 'field_project_images') {
+      return;
+    }
+
+    $items = &$variables->getItems();
+
+    $element = &$variables->getElement();
+
+    // Remove all but the first two items when in the 'teaser' view mode.
     if (
-      $variables->get('field_name') !== 'field_project_images' ||
+      $element['#view_mode'] === 'teaser' &&
+      count($items) > 2
+    ) {
+      $items = \array_slice($items, 0, 2);
+    }
+
+    // Bail past this point if the field doesn't have an odd number of items.
+    if (
       empty($items) ||
-      // Skip fields that don't have an odd number of items.
       count($items) % 2 === 0
     ) {
       return;
