@@ -43,3 +43,4 @@ config_devel:
   optional:
   - core.entity_view_mode.node.compact
   - pathauto.pattern.node_web_snippet
+  - pathauto.pattern.taxonomy_term_web_tags
