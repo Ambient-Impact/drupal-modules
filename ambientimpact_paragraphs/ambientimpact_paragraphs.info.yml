@@ -13,3 +13,36 @@ dependencies:
   - paragraphs:paragraphs
   - geshifield:geshifield
   - video_embed_field:video_embed_field
+
+config_devel:
+  install:
+  - core.entity_form_display.paragraph.animated_gifs.default
+  - core.entity_form_display.paragraph.code.default
+  - core.entity_form_display.paragraph.images.default
+  - core.entity_form_display.paragraph.text.default
+  - core.entity_form_display.paragraph.video.default
+  - core.entity_view_display.paragraph.animated_gifs.default
+  - core.entity_view_display.paragraph.animated_gifs.compact
+  - core.entity_view_display.paragraph.code.default
+  - core.entity_view_display.paragraph.images.default
+  - core.entity_view_display.paragraph.images.compact
+  - core.entity_view_display.paragraph.text.default
+  - core.entity_view_display.paragraph.video.default
+  - core.entity_view_mode.paragraph.compact
+  - field.field.paragraph.animated_gifs.field_animated_gifs
+  - field.field.paragraph.code.field_code
+  - field.field.paragraph.code.field_code_tab_size
+  - field.field.paragraph.images.field_images
+  - field.field.paragraph.text.field_text
+  - field.field.paragraph.video.field_remote_video
+  - field.storage.paragraph.field_animated_gifs
+  - field.storage.paragraph.field_code
+  - field.storage.paragraph.field_code_tab_size
+  - field.storage.paragraph.field_images
+  - field.storage.paragraph.field_remote_video
+  - field.storage.paragraph.field_text
+  - paragraphs.paragraphs_type.animated_gifs
+  - paragraphs.paragraphs_type.code
+  - paragraphs.paragraphs_type.images
+  - paragraphs.paragraphs_type.text
+  - paragraphs.paragraphs_type.video
