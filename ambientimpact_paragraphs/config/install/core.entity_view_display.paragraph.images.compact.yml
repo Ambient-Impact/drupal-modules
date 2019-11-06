@@ -2,24 +2,24 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.paragraph.compact
     - field.field.paragraph.images.field_images
     - field.field.paragraph.images.field_images_migrated
     - paragraphs.paragraphs_type.images
-  module:
-    - media_library
-id: paragraph.images.default
+id: paragraph.images.compact
 targetEntityType: paragraph
 bundle: images
-mode: default
+mode: compact
 content:
   field_images:
-    type: media_library_widget
+    type: entity_reference_entity_view
     weight: 0
+    label: hidden
     settings:
-      media_types: {  }
+      view_mode: compact
+      link: false
     third_party_settings: {  }
     region: content
 hidden:
-  created: true
   field_images_migrated: true
-  status: true
+  search_api_excerpt: true

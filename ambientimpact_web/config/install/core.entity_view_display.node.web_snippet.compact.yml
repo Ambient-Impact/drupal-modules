@@ -1,8 +1,8 @@
 langcode: en
-status: false
+status: true
 dependencies:
   config:
-    - core.entity_view_mode.node.teaser
+    - core.entity_view_mode.node.compact
     - field.field.node.web_snippet.field_paragraphs
     - field.field.node.web_snippet.field_source_link
     - field.field.node.web_snippet.field_web_tags
@@ -10,20 +10,20 @@ dependencies:
   module:
     - entity_reference_revisions
     - user
-id: node.web_snippet.teaser
+id: node.web_snippet.compact
 targetEntityType: node
 bundle: web_snippet
-mode: teaser
+mode: compact
 content:
   field_paragraphs:
-    type: entity_reference_revisions_entity_view
-    weight: 0
-    region: content
     label: hidden
+    weight: 0
+    type: entity_reference_revisions_entity_view
     settings:
-      view_mode: teaser
+      view_mode: compact
       link: ''
     third_party_settings: {  }
+    region: content
 hidden:
   field_source_link: true
   field_web_tags: true

@@ -2,24 +2,24 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.paragraph.compact
     - field.field.paragraph.animated_gifs.field_animated_gifs
     - field.field.paragraph.animated_gifs.field_animated_gifs_migrated
     - paragraphs.paragraphs_type.animated_gifs
-  module:
-    - media_library
-id: paragraph.animated_gifs.default
+id: paragraph.animated_gifs.compact
 targetEntityType: paragraph
 bundle: animated_gifs
-mode: default
+mode: compact
 content:
   field_animated_gifs:
-    type: media_library_widget
+    type: entity_reference_entity_view
     weight: 0
+    label: hidden
     settings:
-      media_types: {  }
+      view_mode: compact
+      link: false
     third_party_settings: {  }
     region: content
 hidden:
-  created: true
   field_animated_gifs_migrated: true
-  status: true
+  search_api_excerpt: true

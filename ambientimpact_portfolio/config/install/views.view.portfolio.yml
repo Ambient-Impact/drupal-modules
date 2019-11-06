@@ -2,8 +2,8 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.node.compact
     - core.entity_view_mode.node.full
-    - core.entity_view_mode.node.teaser
     - entityqueue.entity_queue.portfolio
     - node.type.project
     - system.menu.main
@@ -347,7 +347,7 @@ display:
         type: 'entity:node'
         options:
           relationship: none
-          view_mode: teaser
+          view_mode: compact
       block_hide_empty: true
     cache_metadata:
       max-age: -1

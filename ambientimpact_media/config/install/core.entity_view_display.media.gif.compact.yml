@@ -1,17 +1,17 @@
 langcode: en
-status: false
+status: true
 dependencies:
   config:
-    - core.entity_view_mode.media.teaser
+    - core.entity_view_mode.media.compact
     - field.field.media.gif.field_media_image
     - image.style.content_image_large
     - media.type.gif
   module:
     - ambientimpact_media
-id: media.gif.teaser
+id: media.gif.compact
 targetEntityType: media
 bundle: gif
-mode: teaser
+mode: compact
 content:
   field_media_image:
     weight: 0

@@ -44,7 +44,7 @@ implements EventSubscriberInterface {
   /**
    * Prepares variables for field_project_images templates.
    *
-   * Removes all but the first two items when in the 'teaser' view mode.
+   * Removes all but the first two items when in the 'compact' view mode.
    *
    * This replaces the image style on odd numbered last items from
    * 'project_image_small' to 'project_image_large' so that the image is high
@@ -68,9 +68,9 @@ implements EventSubscriberInterface {
 
     $element = &$variables->getElement();
 
-    // Remove all but the first two items when in the 'teaser' view mode.
+    // Remove all but the first two items when in the 'compact' view mode.
     if (
-      $element['#view_mode'] === 'teaser' &&
+      $element['#view_mode'] === 'compact' &&
       count($items) > 2
     ) {
       $items = \array_slice($items, 0, 2);

@@ -1,8 +1,8 @@
 langcode: en
-status: false
+status: true
 dependencies:
   config:
-    - core.entity_view_mode.node.teaser
+    - core.entity_view_mode.node.compact
     - field.field.node.project.body
     - field.field.node.project.field_project_categories
     - field.field.node.project.field_project_images
@@ -13,10 +13,10 @@ dependencies:
     - ambientimpact_media
     - text
     - user
-id: node.project.teaser
+id: node.project.compact
 targetEntityType: node
 bundle: project
-mode: teaser
+mode: compact
 content:
   body:
     label: hidden

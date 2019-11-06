@@ -2,8 +2,8 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.node.compact
     - core.entity_view_mode.node.full
-    - core.entity_view_mode.node.teaser
     - node.type.web_snippet
     - system.menu.main
   enforced:
@@ -231,7 +231,7 @@ display:
         type: 'entity:node'
         options:
           relationship: none
-          view_mode: teaser
+          view_mode: compact
       fields:
         title:
           id: title
