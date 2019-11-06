@@ -8,13 +8,14 @@ label: 'Content - Project'
 type: 'canonical_entities:node'
 pattern: 'portfolio/[node:title]'
 selection_criteria:
-  -
+  7ec4fd59-3999-479a-8779-bbfdf12a2f86:
     id: node_type
     bundles:
       project: project
     negate: false
     context_mapping:
       node: node
+    uuid: 7ec4fd59-3999-479a-8779-bbfdf12a2f86
 selection_logic: and
 weight: -9
 relationships: {  }
