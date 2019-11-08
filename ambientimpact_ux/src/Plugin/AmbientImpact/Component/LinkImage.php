@@ -303,6 +303,12 @@ class LinkImage extends ComponentBase {
     // nodes in an element.
     if ($hasImageElement === true && $hasText === true) {
       foreach ($textCrawler as $textNode) {
+        // Skip text nodes that have no content or contain only white-space
+        // characters.
+        if ($textNode->isWhitespaceInElementContent()) {
+          continue;
+        }
+
         $textContainer = $textNode->ownerDocument
           // Note that we have to escape any special HTML characters like '<',
           // '>', '&', etc., or we'll get a DOM warning the text won't be
