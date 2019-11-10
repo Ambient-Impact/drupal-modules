@@ -26,5 +26,4 @@ config_devel:
   - core.entity_view_display.media.gif.default
   - core.entity_view_display.media.gif.compact
   - core.entity_view_display.media.gif.media_library
-  - core.entity_view_display.media.gif.teaser
   - field.field.media.gif.field_media_image
