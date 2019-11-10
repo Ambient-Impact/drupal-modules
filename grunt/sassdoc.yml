@@ -1,7 +1,7 @@
 module:
   options:
   files:
-    - src: '{<%= modulePaths %>}/{<%= stylesheetPaths %>}/**/*.scss'
+    - src: '<%= extensionPaths %>/<%= stylesheetPaths %>/**/*.scss'
       ext: .scss
       extDot: last
       expand: true
