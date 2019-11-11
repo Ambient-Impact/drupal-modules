@@ -3,7 +3,6 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.images.field_images
-    - field.field.paragraph.images.field_images_migrated
     - paragraphs.paragraphs_type.images
 id: paragraph.images.default
 targetEntityType: paragraph
@@ -20,5 +19,4 @@ content:
     third_party_settings: {  }
     region: content
 hidden:
-  field_images_migrated: true
   search_api_excerpt: true

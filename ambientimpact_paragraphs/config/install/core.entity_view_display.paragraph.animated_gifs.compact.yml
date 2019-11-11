@@ -4,7 +4,6 @@ dependencies:
   config:
     - core.entity_view_mode.paragraph.compact
     - field.field.paragraph.animated_gifs.field_animated_gifs
-    - field.field.paragraph.animated_gifs.field_animated_gifs_migrated
     - paragraphs.paragraphs_type.animated_gifs
 id: paragraph.animated_gifs.compact
 targetEntityType: paragraph
@@ -21,5 +20,4 @@ content:
     third_party_settings: {  }
     region: content
 hidden:
-  field_animated_gifs_migrated: true
   search_api_excerpt: true

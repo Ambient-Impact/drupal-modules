@@ -3,7 +3,6 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.animated_gifs.field_animated_gifs
-    - field.field.paragraph.animated_gifs.field_animated_gifs_migrated
     - paragraphs.paragraphs_type.animated_gifs
   module:
     - media_library
@@ -21,5 +20,4 @@ content:
     region: content
 hidden:
   created: true
-  field_animated_gifs_migrated: true
   status: true
