@@ -21,8 +21,29 @@ class LinkExternal extends ComponentBase {
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
+    $class = 'external-link';
+
     return [
-      'externalClass' => 'external-link',
+      // Class added to all external links, provided in case it's needed by
+      // other code to find these links.
+      'externalClass' => $class,
+
+      // Attributes to be added to external links.
+      'attributes' => [
+        'class'   => [
+          $class,
+        ],
+        'target'  => [
+          '_blank'
+        ],
+        // window.opener security hardening.
+        //
+        // @see https://dev.to/ben/the-targetblank-vulnerability-by-example
+        'rel'     => [
+          'noopener',
+          'noreferrer',
+        ],
+      ],
     ];
   }
 
@@ -67,6 +88,45 @@ class LinkExternal extends ComponentBase {
   }
 
   /**
+   * Alter link attributes array, adding our own attributes to it.
+   *
+   * @param array &$attributes
+   *   An array of attributes, keyed by attribute name and containing either an
+   *   array of values for each attribute or a string that's space-delimited.
+   */
+  protected function alterLinkAttributes(array &$attributes) {
+    foreach ($this->getConfiguration()['attributes'] as $name => $values) {
+      if (isset($attributes[$name])) {
+        // If the attribute is already an array, just save it to a variable.
+        if (is_array($attributes[$name])) {
+          $attribute = $attributes[$name];
+
+        // Otherwise, assume a string and explode it by spaces.
+        } else {
+          $attribute = explode(' ', $attributes[$name]);
+        }
+
+      // Create a new array if the attribute doesn't already exist.
+      } else {
+        $attribute = [];
+      }
+
+      // Add each value if it doesn't already exist.
+      foreach ($values as $value) {
+        if (!in_array($value, $attribute)) {
+          $attribute[] = $value;
+        }
+      }
+
+      // Save the new attribute value back to $attributes but don't implode(),
+      // as Drupal's Attribute does that for us and can cause exceptions in
+      // other code that may be altering this, and if it's a \DOMElement, we
+      // implode that ourselves.
+      $attributes[$name] = $attribute;
+    }
+  }
+
+  /**
    * Process an external link to add a class and target="_blank" attribute.
    *
    * @param mixed &$link
@@ -89,10 +149,11 @@ class LinkExternal extends ComponentBase {
    *   Drupal Link render element.
    *
    * @see \hook_link_alter()
+   *
+   * @see $this->alterLinkAttributes()
+   *   Adds our attributes.
    */
   public function processExternalLink(&$link) {
-    $externalClass = $this->getConfiguration()['externalClass'];
-
     // Check if this is an instance of \Symfony\Component\DomCrawler\Crawler and
     // extract the \DOMElement from it if so.
     if ($link instanceof Crawler) {
@@ -101,17 +162,21 @@ class LinkExternal extends ComponentBase {
 
     // Check if this is a \DOMElement instance.
     if ($link instanceof \DOMElement) {
-      if ($link->hasAttribute('class')) {
-        $classes = explode(' ', $link->getAttribute('class'));
-      } else {
-        $classes = [];
+      $attributes = [];
+
+      // Grab attribute values from the element if a given attribute exists.
+      foreach ([$this->getConfiguration()['attributes']] as $name => $values) {
+        if ($link->hasAttribute($name)) {
+          $attributes[$name] = $link->getAttribute($name);
+        }
       }
 
-      $classes[] = $externalClass;
+      $this->alterLinkAttributes($attributes);
 
-      $link->setAttribute('target', '_blank');
-
-      $link->setAttribute('class', implode(' ', $classes));
+      // Implode the attribute arrays and set the values on the element.
+      foreach ($attributes as $name => $value) {
+        $link->setAttribute($name, implode(' ', $value));
+      }
 
     // If not, check if this is a Link element render array.
     } else if (
@@ -119,8 +184,11 @@ class LinkExternal extends ComponentBase {
       isset($link['#type']) &&
       $link['#type'] === 'link'
     ) {
-      $link['#attributes']['target']  = '_blank';
-      $link['#attributes']['class'][] = $externalClass;
+      if (!isset($link['#attributes'])) {
+        $link['#attributes'] = [];
+      }
+
+      $this->alterLinkAttributes($link['options']['attributes']);
 
     // If not, check if this is a link settings array, like that found in
     // \hook_link_alter().
@@ -128,8 +196,11 @@ class LinkExternal extends ComponentBase {
       is_array($link) &&
       isset($link['options'])
     ) {
-      $link['options']['attributes']['target']  = '_blank';
-      $link['options']['attributes']['class'][] = $externalClass;
+      if (!isset($link['options']['attributes'])) {
+        $link['options']['attributes'] = [];
+      }
+
+      $this->alterLinkAttributes($link['options']['attributes']);
     }
   }
 }
