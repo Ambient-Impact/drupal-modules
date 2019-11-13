@@ -13,7 +13,10 @@
   transition-duration:        200ms;
   transition-timing-function: linear;
 
-  .toolbar-icon {
+  .toolbar-icon,
+  // Menu links in trays other than the "Manage" tray don't have the
+  // .toolbar-icon class applied to them, so we have to target them directly.
+  :link {
     @include transition-fade-base;
 
     @include link-hover {
