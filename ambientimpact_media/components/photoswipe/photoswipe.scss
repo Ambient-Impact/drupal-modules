@@ -172,16 +172,26 @@
   }
 }
 
-// PhotoSwipe clones the current thumbnail and uses that as a placeholder, which
-// it transitions to the full size, so hiding the original thumbnail while
-// PhotoSwipe is open makes visual sense, in case its bounding box is visible.
-// We use opacity instead of visibility: hidden; as the former is done on the
-// GPU and thus hardware accelerated, while the latter is far less performant.
+// PhotoSwipe clones the activated thumbnail image and transforms that to the
+// full size, while leaving the original in place. We add a class to the
+// original when it's the currently active item in PhotoSwipe, both on open and
+// when switching between slides in a gallery so that the original is not
+// visible during transitions such as open or close.
+//
+// Also of note is that we use opacity as that's hardware accelerated and allows
+// for a clean transition between the original thumbnail and the clone that
+// PhotoSwipe creates.
+//
+// IMPORTANT: do not use will-change: opacity or any other method of promoting
+// the thumbnail to its own compositor layer as that can cause performance
+// issues and/or bugs if there are many thumbnails on a page. One notable
+// example is Gecko on Android, which ends up not being able to promote
+// position: sticky/fixed items to their own layers, resulting in them lagging
+// visibly during scrolling.
 .photoswipe-enabled-thumbnail {
-  opacity:      1;
-  will-change:  opacity;
+  opacity: 1;
 
   &--hidden {
-    opacity:  0;
+    opacity: 0;
   }
 }
