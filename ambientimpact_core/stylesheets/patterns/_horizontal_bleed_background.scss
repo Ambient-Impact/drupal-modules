@@ -20,42 +20,63 @@
   $shadow:        false,
   $shadow-depth:  2
 ) {
-  $background-width: 100vw;
-
   position: relative;
 
+  // Fallback just in case the browser doesn't support generated content, though
+  // that's ancient by 2019 standards.
   @include set-colours(
-    $background:  $colour
+    $background: $colour
   );
 
-  &::before {
-    content:  '';
+  // Set the background to transparent but use the provided background colour as
+  // the reference to set the contrasing foreground colour against, as the
+  // background colour will be set on the absolutely positioned generated
+  // content element below.
+  @supports (content: '') {
+    @include set-colours(
+      $background:            transparent,
+      $background-reference:  $colour
+    );
+  }
 
-    // This is in case the element has a .clearfix class, which would cause this
-    // generated content block to be display: table; which would mess everything
-    // up.
+  &::before {
+    content: '';
+
+    // This is in case the element has a .clearfix class, which defaults to
+    // display: table.
     display:  block;
 
     position: absolute;
 
-    left: calc(-#{$background-width} + 1px);
-    right:  0;
-    top:  0;
+    top:    0;
     bottom: 0;
 
-    // Use a border-left to provide the left side bleed.
-    border-left:  $background-width solid $colour;
+    left:   0;
 
-    // Use a box-shadow with a zero blur to provide the right side bleed.
-    $box-shadow:  $background-width 0 0 $colour;
+    width:  100%;
+
+    // Only attempt full viewport width if the browser says it supports viewport
+    // units.
+    @supports (width: 100vw) {
+      left: 50%;
+
+      width: 100vw;
+
+      margin-left: -50vw;
+    }
+
+    @include set-colours(
+      $background: $colour
+    );
 
     @if $shadow == true {
       $shadow: (true, true, true);
     }
 
+    $shadow-list: ();
+
     @if type-of($shadow) == 'list' and length($shadow) == 3 {
       $material-shadow: material-shadow($shadow-depth);
-      $shadow-list:   ();
 
       // Use the parts of the shadow that we're asked to.
       @for $i from 1 through length($shadow) {
@@ -64,20 +85,9 @@
             append($shadow-list, nth($material-shadow, $i), 'comma');
         }
       }
-
-      // Override the Material shadow's x offset to position the shadow
-      // correctly centred under entire width.
-      @for $i from 1 through length($shadow-list) {
-        $shadow-list: set-nth($shadow-list, $i, set-nth(
-          nth($shadow-list, $i), 1, #{$background-width / 2}
-        ));
-      }
-
-      // Append the shadows to the $box-shadow variable.
-      $box-shadow:  $box-shadow, $shadow-list;
     }
 
-    box-shadow: $box-shadow;
+    box-shadow: $shadow-list;
 
     z-index: $z-index;
   }
@@ -100,38 +110,40 @@
   $z-index: 1,
   $height:  1rem
 ) {
-  $shadow-width:    100vw;
   // Generate a Material shadow with the required depth.
   $material-shadow: material-shadow($depth);
+
   // Grab the first item in the list, which is the top peek shadow.
-  $shadow:      nth($material-shadow, 1);
+  $shadow: nth($material-shadow, 1);
 
   // Since this tends to be used on generated elements, set the content property
   // to ensure the block is displayed.
-  content:    '';
+  content: '';
 
-  // Override Drupal's .clearfix which uses the ::after element, in case we're
-  // set on such an element.
-  // 2019-08-28: Disabled because it's not really needed and is causing issues.
-  // visibility:   visible;
-
-  position:   absolute;
+  position: absolute;
 
   // This places the element's top right at the bottom edge of the offset
   // parent, allowing the shadow to be aligned precisely.
-  top: 100%;
+  top:  100%;
 
-  // Position exactly centred in the current context.
-  left:         50%;
-  margin-left:  -($shadow-width / 2);
+  left: 0;
 
-  // Set to larger than the width of the viewport, along with a bit of height.
-  width:      $shadow-width;
-  height:     $height;
+  width:  100%;
+  height: $height;
 
-  z-index:    $z-index;
+  // Only attempt full viewport width if the browser says it supports viewport
+  // units.
+  @supports (width: 100vw) {
+    left: 50%;
+
+    width: 100vw;
+
+    margin-left: -50vw;
+  }
 
   // We're increasing the Material shadow top peek opacity a bit, to make it
   // more visible.
-  box-shadow:   set-nth($shadow, 4, opacify(nth($shadow, 4), 0.3));
+  box-shadow: set-nth($shadow, 4, opacify(nth($shadow, 4), 0.3));
+
+  z-index: $z-index;
 }
