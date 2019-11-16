@@ -2,18 +2,31 @@
 //   Horizontal bleed background from within constrained container
 // -----------------------------------------------------------------------------
 
-/**
- * Sets a full viewport width background from inside a width-limited container.
- *
- * Loosely based on: https://css-tricks.com/full-browser-width-bars/
- *
- * @param {Colour} $colour - the background colour.
- * @param {Number} $z-index - the z-index of the generated element.
- * @param {Mixed} $shadow - whether to use a Material shadow. Can be a boolean,
- *   or a list of 3 booleans. In the case of the list, controls which parts of
- *   the material-shadow() returned list is used, true for use, false to not.
- * @param {Number} $shadow-depth - the depth value passed to material-shadow().
- */
+///
+/// Sets a full viewport width background from inside a width-limited container.
+///
+/// @param {Colour} $colour
+///   The background colour to use.
+///
+/// @param {Number} $z-index [1]
+///   The z-index of the generated content element.
+///
+/// @param {Boolean|List} $shadow [false]
+///   Whether to use a Material shadow. Can be a boolean or a list of 3
+///   booleans. In the case of a list, controls which parts of the list returned
+///   by material-shadow() are used; if an index is true, that part of the
+///   shadow will be used; if an index is false, that part of the shadow will
+///   not be used.
+///
+/// @param {Number} $shadow-depth [2]
+///   The depth value passed to material-shadow().
+///
+/// @require {mixin} set-colours
+/// @require {function } material-shadow
+///
+/// @link https://css-tricks.com/full-browser-width-bars/
+///   Loosely inspired by this.
+///
 @mixin horizontal-bleed-background(
   $colour,
   $z-index:       1,
@@ -93,18 +106,28 @@
   }
 }
 
-/**
- * Sets the targetted element as a full viewport width top edge shadow.
- *
- * Meant to be used when you pass $shadow: (false, true, true) to
- * horizontal-bleed-background, and need to set the top peek shadow on another
- * element to prevent the top peek shadow from being set on top of certain
- * elements, e.g. to maintain visual continuity.
- *
- * @param {Number} $depth - the depth value passed to material-shadow().
- * @param {Number} $z-index - the z-index of the generated element.
- * @param {Number} $height - the height to set on the generated element.
- */
+///
+/// Sets the targetted element as a full viewport width top edge shadow.
+///
+/// Meant to be used when you pass $shadow: (false, true, true) to
+/// horizontal-bleed-background, and need to set the top peek shadow on another
+/// element to prevent the top peek shadow from being set on top of certain
+/// elements, e.g. to maintain visual continuity.
+///
+/// @param {Number} $depth [2]
+///   The depth value passed to material-shadow().
+///
+/// @param {Number} $z-index [1]
+///   The z-index of the generated element.
+///
+/// @param {Number} $height [1rem]
+///   The height to set on the generated element.
+///
+/// @require {function } material-shadow
+///
+/// @see {mixin} horizontal-bleed-background
+///   Meant to be used along with this.
+///
 @mixin horizontal-bleed-background-top-peek-shadow(
   $depth:   2,
   $z-index: 1,
