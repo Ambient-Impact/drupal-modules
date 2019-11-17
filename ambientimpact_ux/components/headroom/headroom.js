@@ -26,6 +26,18 @@ AmbientImpact.on([
   )) {
     return;
   }
+
+  // Don't do anything if Headroom can't be used due to lack of browser support.
+  // This primarily targets IE at the moment.
+  //
+  // @see https://github.com/WickyNilliams/headroom.js/releases/tag/v0.10.3
+  //
+  // @see https://github.com/WickyNilliams/headroom.js/issues/347
+  //   This may be renamed to Headroom.isSupported when 1.0 is released.
+  if (!Headroom.cutsTheMustard) {
+    return;
+  }
+
 AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
   'use strict';
 

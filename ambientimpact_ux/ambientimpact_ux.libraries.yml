@@ -92,7 +92,7 @@ gsap.plugin.scrollto:
 
 headroom.js:
   remote: https://wicky.nillia.ms/headroom.js/
-  version: 0.9.4
+  version: 0.10.3
   license:
     name: MIT
     url: https://github.com/WickyNilliams/headroom.js/blob/master/LICENSE
