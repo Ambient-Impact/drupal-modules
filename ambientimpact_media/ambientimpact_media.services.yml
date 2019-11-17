@@ -1,4 +1,11 @@
 services:
+  # Intrinsic ratio template_preprocess_image() event subscriber.
+  ambientimpact_media.preprocess_image_intrinsic_ratio_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Preprocess\PreprocessImageIntrinsicRatioEventSubscriber
+    arguments: []
+    tags:
+      - { name: 'event_subscriber' }
+
   # PhotoSwipe template_preprocess_field() event subscriber.
   ambientimpact_media.preprocess_field_photoswipe_event_subscriber:
     class: \Drupal\ambientimpact_media\EventSubscriber\Preprocess\PreprocessFieldPhotoSwipeEventSubscriber

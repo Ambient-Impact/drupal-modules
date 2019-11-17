@@ -198,6 +198,8 @@ function ambientimpact_media_field_formatter_settings_summary_alter(
  * 'image_caption_formatter' items so that that setting can make it through to
  * our preprocess functions.
  *
+ * This defines the 'ratio' variable for the 'image' element.
+ *
  * @see ambientimpact_media_preprocess_image_formatter()
  *   Passes variables to the Animated GIF toggle component.
  *
@@ -216,6 +218,10 @@ function ambientimpact_media_theme_registry_alter(&$themeRegistry) {
     if (isset($themeRegistry[$type])) {
       $themeRegistry[$type]['variables']['use_animated_gif_toggle'] = false;
     }
+  }
+
+  if (isset($themeRegistry['image'])) {
+    $themeRegistry['image']['variables']['ratio'] = null;
   }
 }
 
