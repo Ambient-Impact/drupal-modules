@@ -200,6 +200,9 @@ function ambientimpact_media_field_formatter_settings_summary_alter(
  *
  * This defines the 'ratio' variable for the 'image' element.
  *
+ * This defines the 'constrainWidth' variable for 'image' and 'image_style'
+ * elements.
+ *
  * @see ambientimpact_media_preprocess_image_formatter()
  *   Passes variables to the Animated GIF toggle component.
  *
@@ -222,6 +225,15 @@ function ambientimpact_media_theme_registry_alter(&$themeRegistry) {
 
   if (isset($themeRegistry['image'])) {
     $themeRegistry['image']['variables']['ratio'] = null;
+  }
+
+  foreach ([
+    'image',
+    'image_style',
+  ] as $type) {
+    if (isset($themeRegistry[$type])) {
+      $themeRegistry[$type]['variables']['constrainWidth'] = true;
+    }
   }
 }
 
@@ -294,4 +306,43 @@ function ambientimpact_media_preprocess_image_caption_formatter(&$variables) {
   \Drupal::service('plugin.manager.ambientimpact_component')
     ->getComponentInstance('animated_gif_toggle')
       ->preprocessImageFormatter($variables);
+}
+
+/**
+ * Prepares variables for image style templates.
+ *
+ * Default template: image-style.html.twig.
+ *
+ * This copies the 'constrainWidth' variable over to
+ * $variables['image']['#constrainWidth'] so that the value is inherited to the
+ * generated image.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - width: The width of the image.
+ *   - height: The height of the image.
+ *   - style_name: The name of the image style to be applied.
+ *   - uri: URI of the source image before styling.
+ *   - alt: The alternative text for text-based browsers. HTML 4 and XHTML 1.0
+ *     always require an alt attribute. The HTML 5 draft allows the alt
+ *     attribute to be omitted in some cases. Therefore, this variable defaults
+ *     to an empty string, but can be set to NULL for the attribute to be
+ *     omitted. Usually, neither omission nor an empty string satisfies
+ *     accessibility requirements, so it is strongly encouraged for code using
+ *     '#theme' => 'image_style' to pass a meaningful value for this variable.
+ *     - http://www.w3.org/TR/REC-html40/struct/objects.html#h-13.8
+ *     - http://www.w3.org/TR/xhtml1/dtds.html
+ *     - http://dev.w3.org/html5/spec/Overview.html#alt
+ *   - title: The title text is displayed when the image is hovered in some
+ *     popular browsers.
+ *   - attributes: Associative array of additional attributes to be placed in
+ *     the img tag.
+ *   - constrainWidth: if true, templates should set a max-width equal to the
+ *     natural width of the generated image to prevent phantom clickable areas
+ *     if this image is in a link and less wide than the link itself.
+ */
+function ambientimpact_media_preprocess_image_style(&$variables) {
+  if (isset($variables['constrainWidth'])) {
+    $variables['image']['#constrainWidth'] = $variables['constrainWidth'];
+  }
 }
