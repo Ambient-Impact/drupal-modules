@@ -13,7 +13,7 @@ services:
     tags:
       - { name: 'event_subscriber' }
 
-  # Aniamted GIF toggle template_preprocess_field() event subscriber.
+  # Animated GIF toggle template_preprocess_field() event subscriber.
   ambientimpact_media.preprocess_field_animated_gif_toggle_event_subscriber:
     class: \Drupal\ambientimpact_media\EventSubscriber\Preprocess\PreprocessFieldAnimatedGIFToggleEventSubscriber
     arguments:
@@ -22,7 +22,7 @@ services:
     tags:
       - { name: 'event_subscriber' }
 
-  # media-play-overlay hook_theme() event subscriber.
+  # 'media_play_overlay' element hook_theme() event subscriber.
   ambientimpact_media.hook_theme_media_play_overlay_event_subscriber:
     class: \Drupal\ambientimpact_media\EventSubscriber\Theme\HookThemeMediaPlayOverlayEventSubscriber
     arguments: ['@module_handler']
