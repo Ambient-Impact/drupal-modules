@@ -60,3 +60,17 @@
     border-bottom: $toolbar-tray-item-border;
   }
 }
+
+// Set the toolbar expand/collapse handles to a width equal to their height, as
+// they're awkwardly wide by default.
+.toolbar .toolbar-icon.toolbar-icon.toolbar-handle {
+  // This seems to be exactly the equal to the height.
+  width: 3em;
+
+  // This centre-aligns the icon.
+  &::before {
+    left: 50%;
+    // Icon is 20px wide, so half that.
+    margin-left: -10px;
+  }
+}
