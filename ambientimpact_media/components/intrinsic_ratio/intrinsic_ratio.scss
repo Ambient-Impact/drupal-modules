@@ -2,12 +2,13 @@
 //   Ambient.Impact - Media - Intrinsic ratio component
 // -----------------------------------------------------------------------------
 
-// Intrinsic ratio wrapper for images and other content. This contains just the
-// CSS, while the template and preprocess live in the ambientimpact_base theme.
-
+// Intrinsic ratio wrapper for images and other replaced content.
+//
+// @see ambientimpact_media_theme_registry_alter()
+//
+// @see \Drupal\ambientimpact_media\EventSubscriber\Preprocess\PreprocessImageIntrinsicRatioEventSubscriber::preprocessField()
+//
 // @see ambientimpact_base/templates/field/image.html.twig
-// @see ambientimpact_base_theme_registry_alter()
-// @see ambientimpact_base_preprocess_image()
 
 .intrinsic-ratio {
   &__ratio {

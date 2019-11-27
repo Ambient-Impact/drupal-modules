@@ -245,10 +245,14 @@ function ambientimpact_media_theme_registry_alter(&$themeRegistry) {
  *
  * @param array $variables
  *   An associative array containing:
+ *
  *   - item: An ImageItem object.
+ *
  *   - item_attributes: An optional associative array of html attributes to be
  *     placed in the img tag.
+ *
  *   - image_style: An optional image style.
+ *
  *   - url: An optional \Drupal\Core\Url object.
  *
  * @see \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\AnimatedGIFToggle::preprocessImageFormatter()
@@ -267,12 +271,17 @@ function ambientimpact_media_preprocess_image_formatter(&$variables) {
  *
  * @param array $variables
  *   An associative array containing:
+ *
  *   - item: An ImageItem object.
+ *
  *   - item_attributes: An optional associative array of html attributes to be
  *     placed in the img tag.
+ *
  *   - url: A \Drupal\Core\Url object.
+ *
  *   - url_attributes: An optional associative array of html attributes to be
  *     placed in the a tag.
+ *
  *   - image_style: An optional image style.
  *
  * @see \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\AnimatedGIFToggle::preprocessImageFormatter()
@@ -293,11 +302,16 @@ function ambientimpact_media_preprocess_image_formatter_link_to_image_style_form
  *
  * @param array $variables
  *   An associative array containing:
+ *
  *   - item: An ImageItem object.
+ *
  *   - item_attributes: An optional associative array of html attributes to be
  *     placed in the img tag.
+ *
  *   - image_style: An optional image style.
+ *
  *   - url: An optional \Drupal\Core\Url object.
+ *
  *   - caption: An optional caption text.
  *
  * @see \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\AnimatedGIFToggle::preprocessImageFormatter()
@@ -319,10 +333,15 @@ function ambientimpact_media_preprocess_image_caption_formatter(&$variables) {
  *
  * @param array $variables
  *   An associative array containing:
+ *
  *   - width: The width of the image.
+ *
  *   - height: The height of the image.
+ *
  *   - style_name: The name of the image style to be applied.
+ *
  *   - uri: URI of the source image before styling.
+ *
  *   - alt: The alternative text for text-based browsers. HTML 4 and XHTML 1.0
  *     always require an alt attribute. The HTML 5 draft allows the alt
  *     attribute to be omitted in some cases. Therefore, this variable defaults
@@ -333,13 +352,17 @@ function ambientimpact_media_preprocess_image_caption_formatter(&$variables) {
  *     - http://www.w3.org/TR/REC-html40/struct/objects.html#h-13.8
  *     - http://www.w3.org/TR/xhtml1/dtds.html
  *     - http://dev.w3.org/html5/spec/Overview.html#alt
+ *
  *   - title: The title text is displayed when the image is hovered in some
  *     popular browsers.
+ *
  *   - attributes: Associative array of additional attributes to be placed in
  *     the img tag.
+ *
  *   - useRatio: if true, will instruct templates to wrap the image in an
  *     intrinsic ratio wrapper to act as a placeholder before the image loads,
  *     which prevents layout shifting during loading.
+ *
  *   - constrainWidth: if true, templates should set a max-width equal to the
  *     natural width of the generated image to prevent phantom clickable areas
  *     if this image is in a link and less wide than the link itself.
