@@ -200,8 +200,8 @@ function ambientimpact_media_field_formatter_settings_summary_alter(
  *
  * This defines the 'ratio' variable for the 'image' element.
  *
- * This defines the 'constrainWidth' variable for 'image' and 'image_style'
- * elements.
+ * This defines the 'useRatio' and 'constrainWidth' variables for
+ * 'image' and 'image_style' elements.
  *
  * @see ambientimpact_media_preprocess_image_formatter()
  *   Passes variables to the Animated GIF toggle component.
@@ -232,6 +232,7 @@ function ambientimpact_media_theme_registry_alter(&$themeRegistry) {
     'image_style',
   ] as $type) {
     if (isset($themeRegistry[$type])) {
+      $themeRegistry[$type]['variables']['useRatio'] = true;
       $themeRegistry[$type]['variables']['constrainWidth'] = true;
     }
   }
@@ -313,9 +314,8 @@ function ambientimpact_media_preprocess_image_caption_formatter(&$variables) {
  *
  * Default template: image-style.html.twig.
  *
- * This copies the 'constrainWidth' variable over to
- * $variables['image']['#constrainWidth'] so that the value is inherited to the
- * generated image.
+ * This copies the 'useRatio' and 'constrainWidth' variables over to
+ * $variables['image'] so that the values are inherited to the generated image.
  *
  * @param array $variables
  *   An associative array containing:
@@ -337,12 +337,17 @@ function ambientimpact_media_preprocess_image_caption_formatter(&$variables) {
  *     popular browsers.
  *   - attributes: Associative array of additional attributes to be placed in
  *     the img tag.
+ *   - useRatio: if true, will instruct templates to wrap the image in an
+ *     intrinsic ratio wrapper to act as a placeholder before the image loads,
+ *     which prevents layout shifting during loading.
  *   - constrainWidth: if true, templates should set a max-width equal to the
  *     natural width of the generated image to prevent phantom clickable areas
  *     if this image is in a link and less wide than the link itself.
  */
 function ambientimpact_media_preprocess_image_style(&$variables) {
-  if (isset($variables['constrainWidth'])) {
-    $variables['image']['#constrainWidth'] = $variables['constrainWidth'];
+  foreach (['useRatio', 'constrainWidth'] as $variableName) {
+    if (isset($variables[$variableName])) {
+      $variables['image']['#' . $variableName] = $variables[$variableName];
+    }
   }
 }

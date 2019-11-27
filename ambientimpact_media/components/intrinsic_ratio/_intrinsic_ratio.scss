@@ -1,0 +1,23 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - Media - Intrinsic ratio component partial
+// -----------------------------------------------------------------------------
+
+///
+/// Disable an intrinsic ratio wrapper, removing the ratio behaviour.
+///
+@mixin disable-intrinsic-ratio {
+  .intrinsic-ratio {
+    &__ratio {
+      height: auto;
+
+      padding-top: 0 !important;
+    }
+    &__content,
+    a {
+      position: relative;
+
+      width:  auto;
+      height: auto;
+    }
+  }
+}
