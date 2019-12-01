@@ -1,0 +1,7 @@
+services:
+  # hook_entity_type_build() event subscriber.
+  ambientimpact_paragraphs.entity_type_build_event_subscriber:
+    class: \Drupal\ambientimpact_paragraphs\EventSubscriber\EntityType\EntityTypeBuildEventSubscriber
+    arguments: []
+    tags:
+      - { name: 'event_subscriber' }
