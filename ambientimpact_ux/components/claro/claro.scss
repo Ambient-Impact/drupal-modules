@@ -1,0 +1,33 @@
+// -----------------------------------------------------------------------------
+//  Ambient.Impact - UX - Claro theme component
+// -----------------------------------------------------------------------------
+
+@import '../../../ambientimpact_core/stylesheets/_common.scss';
+
+html {
+  // Always show the vertical scrollbar which avoids layout jumps on platforms
+  // where the scrollbar takes up space, i.e. is not floating.
+  overflow-y: scroll;
+}
+
+// This gives layout containers a maximum width and centres them horizontally.
+.layout-container {
+  $gutter-small:  1.5em;
+  $gutter-large:  3em;
+
+  max-width:      80em;
+
+  padding-left:   $gutter-small;
+  padding-right:  $gutter-small;
+
+  @include media('>=38em') {
+    padding-left:   $gutter-large;
+    padding-right:  $gutter-large;
+  }
+
+  // The Claro CSS has multiple breakpoints where it applies horizontal margins,
+  // so rather than try to replicate all instances and potentially break if/when
+  // they update the CSS, just use !important.
+  margin-left:    auto !important;
+  margin-right:   auto !important;
+}

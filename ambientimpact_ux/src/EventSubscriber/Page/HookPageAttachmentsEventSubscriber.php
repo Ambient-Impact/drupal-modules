@@ -57,6 +57,8 @@ class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
    *
    * This adds the following:
    *
+   * - The 'claro' component if the current theme is Claro.
+   *
    * - The 'seven' component if the current theme is Seven.
    *
    * - The 'to_top' component on every page, regardless of theme. This is done
@@ -77,8 +79,16 @@ class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
   public function pageAttachments(PageAttachmentsEvent $event) {
     $attached = &$event->getAttachments()['#attached'];
 
-    if ($this->themeManager->getActiveTheme()->getName() === 'seven') {
-      $attached['library'][] = 'ambientimpact_ux/component.seven';
+    switch ($this->themeManager->getActiveTheme()->getName()) {
+      case 'claro':
+        $attached['library'][] = 'ambientimpact_ux/component.claro';
+
+        break;
+
+      case 'seven':
+        $attached['library'][] = 'ambientimpact_ux/component.seven';
+
+        break;
     }
 
     $attached['library'][] = 'ambientimpact_ux/component.to_top';
