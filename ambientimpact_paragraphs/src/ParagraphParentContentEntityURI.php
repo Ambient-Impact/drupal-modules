@@ -19,6 +19,9 @@ class ParagraphParentContentEntityURI {
    * @param \Drupal\paragraphs\Entity\Paragraph $paragraph
    *   A paragraph entity.
    *
+   * @return \Drupal\Core\Url
+   *   A Drupal Url object.
+   *
    * @see \Drupal\paragraphs\Entity\Paragraph::getParentEntity()
    *   Gets the parent entity of the paragraph.
    *
@@ -33,6 +36,16 @@ class ParagraphParentContentEntityURI {
   public static function URICallback(Paragraph $paragraph) {
     $parent = $paragraph->getParentEntity();
 
-    return Url::fromRoute('entity.node.canonical', ['node' => $parent->id()]);
+    // Only try to get the node ID if the method exists on the object. This also
+    // ensures that we only try to use the method if it is indeed an object and
+    // not null, which would otherwise cause a fatal error.
+    if (\method_exists($parent, 'id')) {
+      return Url::fromRoute('entity.node.canonical', ['node' => $parent->id()]);
+
+    // No ID? Just return the node entity route without parameters to avoid a
+    // fatal error as Drupal expects a Url object.
+    } else {
+      return Url::fromRoute('entity.node.canonical');
+    }
   }
 }
