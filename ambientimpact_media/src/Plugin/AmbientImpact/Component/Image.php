@@ -129,62 +129,27 @@ class Image extends ComponentBase {
    */
   public function preprocessFieldSetImageFieldMaxWidth(array &$items) {
     foreach ($items as $delta => &$item) {
-      // First, we need to get the URI to the file, if available.
+      // First, we need to get the URI to the file and the original file's
+      // dimensions, if available.
 
-      // Is this is a plain image field?
-      if (isset($item['content']['#item']->target_id)) {
-        $file = File::load($item['content']['#item']->target_id);
+      $file = File::load($item['content']['#item']->target_id);
 
-        // If we couldn't load a valid Drupal file entity, skip this item.
-        if (empty($file)) {
-          continue;
-        }
-
-        $fileURI = $file->getFileUri();
-
-      // Is this is a field that uses a 'media_play_overlay' with a '#preview'
-      // property containing an 'image' or 'image_style'?
-      } else if (
-        isset($item['content']['#title']['#type']) &&
-        $item['content']['#title']['#type'] === 'media_play_overlay' &&
-        isset($item['content']['#title']['#preview']['#theme']) && (
-          $item['content']['#title']['#preview']['#theme'] === 'image' ||
-          $item['content']['#title']['#preview']['#theme'] === 'image_style'
-        )
-      ) {
-        $fileURI = $item['content']['#title']['#preview']['#uri'];
-
-      // Is this a linked field that has an 'image' or 'image_style' under the
-      // '#title' property, such as Video Embed Fields outputting a thumbnail?
-      } else if (
-        isset($item['content']['#title']['#theme']) && (
-          $item['content']['#title']['#theme'] === 'image' ||
-          $item['content']['#title']['#theme'] === 'image_style'
-        )
-      ) {
-        $fileURI = $item['content']['#title']['#uri'];
-
-      // If we couldn't identify a field item format that we're expecting, skip
-      // this item.
-      } else {
+      // If we couldn't load a valid Drupal file entity, skip this item.
+      if (empty($file)) {
         continue;
       }
 
+      $fileURI = $file->getFileUri();
+
+      $dimensions = [
+        'width'   => $item['content']['#item']->width,
+        'height'  => $item['content']['#item']->height,
+      ];
+
       // If the item uses an image style, we have to try to load it to get the
       // URI to the derivative image.
-
-      // Is this a plain image field?
       if (!empty($item['content']['#image_style'])) {
         $imageStyleName = $item['content']['#image_style'];
-
-      // Is this is a linked field that uses a 'media_play_overlay' with a
-      // '#preview' property, e.g. a Video Embed Field?
-      } else if (isset($item['content']['#title']['#preview']['#style_name'])) {
-        $imageStyleName = $item['content']['#title']['#preview']['#style_name'];
-
-      // Is this a linked field that directly contains an 'image_style'?
-      } else if (isset($item['content']['#title']['#style_name'])) {
-        $imageStyleName = $item['content']['#title']['#style_name'];
       }
 
       if (isset($imageStyleName)) {
@@ -205,33 +170,29 @@ class Image extends ComponentBase {
 
         $imageStyle = $this->imageStyleInstances[$imageStyleName];
 
-        // We got a bad image style.
+        // If we weren't able to load an image style, set it to null and skip to
+        // the next field item.
         if ($imageStyle === null) {
           $this->imageStyleInstances[$imageStyleName] = null;
 
           continue;
         }
-
-        // If we've gotten this far, replace $fileURI (containing the original
-        // image URI) with the URI to the image style derivative.
-        $fileURI = $imageStyle->buildUri($fileURI);
       }
 
-      // Create an Image instance.
-      $imageInstance = $this->imageFactory->get($fileURI);
-
-      // If we get null for the width, skip this image as it likely means the
-      // derivative hasn't been created yet. While getting the original image
-      // width would technically work, there's no guarantee that it's the same
-      // width and may cause more problems.
-      if ($imageInstance->getWidth() === null) {
-        continue;
+      // If we got a valid image style object, have it transform the original
+      // dimensions to that of the derivative image, whether or not it has been
+      // generated yet.
+      if (
+        isset($imageStyle) &&
+        \method_exists($imageStyle, 'transformDimensions')
+      ) {
+        $imageStyle->transformDimensions($dimensions, $fileURI);
       }
 
       // If a 'style' attribute already exists, try to explode so that we can
       // remove any existing max-width for the sake of cleanliness.
       if ($item['attributes']->offsetExists('style')) {
-        $styleArray = explode(';', $item['attributes']->offsetGet('style'));
+        $styleArray = \explode(';', $item['attributes']->offsetGet('style'));
       } else {
         $styleArray = [];
       }
@@ -240,7 +201,7 @@ class Image extends ComponentBase {
         // Remove any empty values and values that contain a max-width.
         if (
           empty($value) ||
-          mb_strpos($value, 'max-width:') !== false
+          \mb_strpos($value, 'max-width:') !== false
         ) {
           unset($styleArray[$delta]);
         }
@@ -250,11 +211,11 @@ class Image extends ComponentBase {
       // removed any.
       $styleArray = \array_values($styleArray);
 
-      $styleArray[] = 'max-width: ' . $imageInstance->getWidth() . 'px';
+      $styleArray[] = 'max-width: ' . $dimensions['width'] . 'px';
 
-      // Glue it all back together into a string.
+      // Glue it all together into a string.
       $item['attributes']->setAttribute(
-        'style', implode(';', $styleArray) . ';'
+        'style', \implode(';', $styleArray) . ';'
       );
     }
   }
