@@ -47,3 +47,4 @@ config_devel:
   - paragraphs.paragraphs_type.images
   - paragraphs.paragraphs_type.text
   - paragraphs.paragraphs_type.video
+  - views.view.paragraph_items
