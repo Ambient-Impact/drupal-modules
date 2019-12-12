@@ -34,6 +34,9 @@
   },
   "extra": {
     "patches": {
+      "drupal/core": {
+        "Add a hook to modify oEmbed resource data [#3042423] https://www.drupal.org/project/drupal/issues/3042423": "https://www.drupal.org/files/issues/2019-03-25/media_hook-oembed-resource-data-alter__example.patch"
+      },
       "drupal/image_field_caption": {
         "Fatal error fixes https://www.drupal.org/project/image_field_caption/issues/2413809#comment-13202041": "https://www.drupal.org/files/issues/2019-07-30/image_field_caption-fatal_error_fixes-2413809-9-8.x.patch"
       },
