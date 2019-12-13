@@ -4,6 +4,7 @@ namespace Drupal\ambientimpact_media\Plugin\AmbientImpact\Component;
 
 use Drupal\ambientimpact_core\ComponentBase;
 use Drupal\Component\Serialization\SerializationInterface;
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Image\ImageFactory;
@@ -123,12 +124,11 @@ class Image extends ComponentBase {
    * This is useful to avoid linked fields having phantom space on the sides if
    * the link is display: block but the image doesn't span the full width.
    *
-   * @param array &$items
-   *   An array of field items from $variables['items'] via
-   *   template_preprocess_field().
+   * @param array &$variables
+   *   An array of variables from template_preprocess_field().
    */
-  public function preprocessFieldSetImageFieldMaxWidth(array &$items) {
-    foreach ($items as $delta => &$item) {
+  public function preprocessFieldSetImageFieldMaxWidth(array &$variables) {
+    foreach ($variables['items'] as $delta => &$item) {
       // First, we need to get the URI to the file and the original file's
       // dimensions, if available.
 
@@ -211,11 +211,29 @@ class Image extends ComponentBase {
       // removed any.
       $styleArray = \array_values($styleArray);
 
-      $styleArray[] = 'max-width: ' . $dimensions['width'] . 'px';
+      // Save the max-width to a variable in case we need this for the
+      // 'wrapper_attributes' at the end.
+      $maxWidth = 'max-width: ' . $dimensions['width'] . 'px';
+
+      $styleArray[] = $maxWidth;
 
       // Glue it all together into a string.
       $item['attributes']->setAttribute(
         'style', \implode(';', $styleArray) . ';'
+      );
+    }
+
+    // If there's only one item, save the max-width to the field wrapper
+    // attributes. If there's only one field item and no label (i.e. the label
+    // is set to "- Hidden -" rather than "- Visually Hidden -"), Drupal will
+    // make the field wrapper the field item container, merging in the classes
+    // but not other attributes
+    if ($variables['multiple'] === false) {
+      $variables['attributes'] = NestedArray::mergeDeep(
+        $variables['attributes'],
+        [
+          'style' => $maxWidth . ';',
+        ]
       );
     }
   }
