@@ -1,6 +1,7 @@
 <?php
 
 use Drupal\file\Entity\File;
+use GuzzleHttp\Client as GuzzleClient;
 
 /**
  * Implements hook_field_formatter_info_alter().
@@ -373,6 +374,100 @@ function ambientimpact_media_preprocess_image_style(&$variables) {
   foreach (['useRatio', 'constrainWidth'] as $variableName) {
     if (isset($variables[$variableName])) {
       $variables['image']['#' . $variableName] = $variables[$variableName];
+    }
+  }
+}
+
+/**
+ * Implements hook_oembed_resource_url_alter().
+ *
+ * This informs Vimeo to return the thumbnail at the maximum size they support,
+ * which is currently 1280 pixels wide.
+ *
+ * @param array $parsedURL
+ *   A parsed URL, as returned by \Drupal\Component\Utility\UrlHelper::parse().
+ *
+ * @param \Drupal\media\OEmbed\Provider $provider
+ *   The oEmbed provider for the resource.
+ *
+ * @see \Drupal\media\OEmbed\UrlResolverInterface::getResourceUrl()
+ */
+function ambientimpact_media_oembed_resource_url_alter(
+  array &$parsedURL,
+  \Drupal\media\OEmbed\Provider $provider
+) {
+  if (strpos($parsedURL['path'], 'https://vimeo.com/') === 0) {
+    $parsedURL['query']['width'] = '1280';
+  }
+}
+
+/**
+ * Implements hook_oembed_resource_data_alter().
+ *
+ * This tries to fetch the highest available YouTube video thumbnail by sending
+ * requests via Guzzle for the various formats from highest to lowest, using the
+ * first one that doesn't return a 404.
+ *
+ * @param array &$data
+ *   The oEmbed data, parsed into an array.
+ *
+ * @param string $url
+ *   The oEmbed URL that $data was retrieved from.
+ *
+ * @see https://www.drupal.org/project/drupal/issues/3042423
+ *   This hook won't be invoked unless this Drupal core patch is applied.
+ */
+function ambientimpact_media_oembed_resource_data_alter(array &$data, $url) {
+  if (
+    $data['provider_name'] === 'YouTube' &&
+    strpos($data['thumbnail_url'], 'hqdefault.jpg') !== false
+  ) {
+    // Array of thumbnail sizes above 'hqdefault' to try, started with the
+    // largest size.
+    //
+    // @see https://stackoverflow.com/a/20542029
+    $thumbnailTypes = [
+      'maxresdefault' => [
+        'width'   => 1920,
+        'height'  => 1080,
+      ],
+      'sddefault' => [
+        'width'   => 640,
+        'height'  => 480,
+      ],
+    ];
+
+    $client = new GuzzleClient();
+
+    foreach ($thumbnailTypes as $thumbnailName => $thumbnailDimensions) {
+      // Replace 'hqdefault' in the thumbnail URL with the current type we're
+      // testing for.
+      $testThumbnailURL = str_replace(
+        'hqdefault',
+        $thumbnailName,
+        $data['thumbnail_url']
+      );
+
+      // We need to wrap the request in a try {} catch {} because Guzzle will
+      // throw an exception on a 404.
+      try {
+        $response = $client->request('GET', $testThumbnailURL);
+
+      // Got an exception? Skip to the next thumbnail size, assuming this
+      // returned a 404 or ran into some other error.
+      } catch (Exception $exception) {
+        continue;
+      }
+
+      // If this was a 200 response, update the thumbnail URL and dimensions
+      // with the higher resolution and break out of the loop.
+      if ($response->getStatusCode() === 200) {
+        $data['thumbnail_url']    = $testThumbnailURL;
+        $data['thumbnail_width']  = $thumbnailDimensions['width'];
+        $data['thumbnail_height'] = $thumbnailDimensions['height'];
+
+        break;
+      }
     }
   }
 }
