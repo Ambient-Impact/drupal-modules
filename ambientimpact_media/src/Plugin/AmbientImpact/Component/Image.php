@@ -230,6 +230,7 @@ class Image extends ComponentBase {
     // container, merging in the classes but not other attributes
     if (
       $variables['multiple'] === false &&
+      $variables['label_hidden'] === true &&
       $variables['items'][0]['content']['#constrainWidth'] === true
     ) {
       $variables['attributes'] = NestedArray::mergeDeep(
