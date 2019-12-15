@@ -224,11 +224,14 @@ class Image extends ComponentBase {
     }
 
     // If there's only one item, save the max-width to the field wrapper
-    // attributes. If there's only one field item and no label (i.e. the label
-    // is set to "- Hidden -" rather than "- Visually Hidden -"), Drupal will
-    // make the field wrapper the field item container, merging in the classes
-    // but not other attributes
-    if ($variables['multiple'] === false) {
+    // attributes if constrainWidth is set to true. If there's only one field
+    // item and no label (i.e. the label is set to "- Hidden -" rather than "-
+    // Visually Hidden -"), Drupal will make the field wrapper the field item
+    // container, merging in the classes but not other attributes
+    if (
+      $variables['multiple'] === false &&
+      $variables['items'][0]['content']['#constrainWidth'] === true
+    ) {
       $variables['attributes'] = NestedArray::mergeDeep(
         $variables['attributes'],
         [
