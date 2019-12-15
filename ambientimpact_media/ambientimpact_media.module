@@ -204,7 +204,7 @@ function ambientimpact_media_field_formatter_settings_summary_alter(
  * This defines the 'ratio' variable for the 'image' element.
  *
  * This defines the 'useRatio' and 'constrainWidth' variables for
- * 'image' and 'image_style' elements.
+ * 'image', 'image_style', and 'image_caption_formatter' elements.
  *
  * @see ambientimpact_media_preprocess_image_formatter()
  *   Passes variables to the Animated GIF toggle component.
@@ -233,6 +233,7 @@ function ambientimpact_media_theme_registry_alter(&$themeRegistry) {
   foreach ([
     'image',
     'image_style',
+    'image_caption_formatter',
   ] as $type) {
     if (isset($themeRegistry[$type])) {
       $themeRegistry[$type]['variables']['useRatio'] = true;
@@ -324,6 +325,9 @@ function ambientimpact_media_preprocess_image_caption_formatter(&$variables) {
   \Drupal::service('plugin.manager.ambientimpact_component')
     ->getComponentInstance('animated_gif_toggle')
       ->preprocessImageFormatter($variables);
+
+  // Pass the constrainWidth variable on to the image element.
+  $variables['image']['#constrainWidth'] = $variables['constrainWidth'];
 }
 
 /**
