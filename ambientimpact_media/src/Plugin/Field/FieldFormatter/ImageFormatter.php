@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\image\Plugin\Field\FieldFormatter\ImageFormatter as CoreImageFormatter;
 use Drupal\ambientimpact_core\Config\Entity\ThirdPartySettingsDefaultsTrait;
@@ -114,6 +115,41 @@ class ImageFormatter extends CoreImageFormatter {
   /**
    * {@inheritdoc}
    *
+   * This adds the 'remote' image link option if the entity is a media entity of
+   * the 'remote_video' bundle.
+   */
+  public function settingsForm(array $form, FormStateInterface $formState) {
+    $element = parent::settingsForm($form, $formState);
+
+    if (
+      $form['#entity_type'] === 'media' &&
+      $form['#bundle'] === 'remote_video'
+    ) {
+      $element['image_link']['#options']['remote'] =
+        $this->t('Remote video page');
+    }
+
+    return $element;
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * This adds the 'remote' image link summary.
+   */
+  public function settingsSummary() {
+    $summary = parent::settingsSummary();
+
+    if ($this->getSetting('image_link') === 'remote') {
+      $summary[] = $this->t('Linked to remote video page');
+    }
+
+    return $summary;
+  }
+
+  /**
+   * {@inheritdoc}
+   *
    * This extends the parent::viewElements() to alter the element render arrays
    * for the PhotoSwipe and AnimatedGIFToggle components.
    *
@@ -129,10 +165,24 @@ class ImageFormatter extends CoreImageFormatter {
 
     $settings = $this->getThirdPartySettings('ambientimpact_media');
 
+    $imageLinkSetting = $this->getSetting('image_link');
+
     // Use the image caption formatter template. See this module's readme.md for
     // details and requirements.
     foreach ($elements as $delta => $element) {
       $elements[$delta]['#theme'] = 'image_caption_formatter';
+    }
+
+    // Link to remote media if set to do so. Note that this setting is currently
+    // only available on the 'remote_video' media entity.
+    if ($imageLinkSetting === 'remote') {
+      $entity = $items->getEntity();
+
+      // The standard install profile config for the 'remote_video' media entity
+      // type limits this field to a single value, so we assume there is only
+      // the one value.
+      $elements[0]['#url'] = $entity->get('field_media_oembed_video')
+        ->getValue()[0]['value'];
     }
 
     // Allow the Animated GIF toggle component to alter $elements if set to
@@ -141,8 +191,8 @@ class ImageFormatter extends CoreImageFormatter {
       !empty($elements) &&
       $this->getSetting('image_style') !== '' &&
       (
-        $this->getSetting('image_link') === 'file' ||
-        $this->getSetting('image_link') === 'content'
+        $imageLinkSetting === 'file' ||
+        $imageLinkSetting === 'content'
       )
     ) {
       $this->componentManager->getComponentInstance('animated_gif_toggle')
@@ -156,7 +206,7 @@ class ImageFormatter extends CoreImageFormatter {
     // image file, or PhotoSwipe is not to be used.
     if (
       empty($elements) ||
-      $this->getSetting('image_link') !== 'file' ||
+      $imageLinkSetting !== 'file' ||
       $settings['use_photoswipe'] !== true
     ) {
       return $elements;
