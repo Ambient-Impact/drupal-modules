@@ -6,9 +6,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
-use Drupal\Core\Image\ImageFactory;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Utility\LinkGeneratorInterface;
+use Drupal\file\Entity\File;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\image_formatter_link_to_image_style\Plugin\Field\FieldFormatter\ImageFormatterLinkToImageStyleFormatter as DefaultImageFormatterLinkToImageStyleFormatter;
 use Drupal\ambientimpact_core\Config\Entity\ThirdPartySettingsDefaultsTrait;
@@ -25,13 +25,6 @@ use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 class ImageFormatterLinkToImageStyleFormatter
 extends DefaultImageFormatterLinkToImageStyleFormatter {
   use ThirdPartySettingsDefaultsTrait;
-
-  /**
-   * The Drupal image factory service.
-   *
-   * @var \Drupal\Core\Image\ImageFactory
-   */
-  protected $imageFactory;
 
   /**
    * The Component plug-in manager instance.
@@ -73,9 +66,6 @@ extends DefaultImageFormatterLinkToImageStyleFormatter {
    * @param \Drupal\Core\Entity\EntityStorageInterface $imageStyleStorage
    *   The image style storage.
    *
-   * @param \Drupal\Core\Image\ImageFactory $imageFactory
-   *   The Drupal image factory service.
-   *
    * @param \Drupal\ambientimpact_core\ComponentPluginManagerInterface $componentManager
    *   The Ambient.Impact Component manager service.
    */
@@ -90,7 +80,6 @@ extends DefaultImageFormatterLinkToImageStyleFormatter {
     AccountInterface $currentUser,
     LinkGeneratorInterface $linkGenerator,
     EntityStorageInterface $imageStyleStorage,
-    ImageFactory $imageFactory,
     ComponentPluginManagerInterface $componentManager
   ) {
     parent::__construct(
@@ -99,7 +88,6 @@ extends DefaultImageFormatterLinkToImageStyleFormatter {
       $imageStyleStorage
     );
 
-    $this->imageFactory     = $imageFactory;
     $this->componentManager = $componentManager;
 
     // Set our default third-party settings.
@@ -129,7 +117,6 @@ extends DefaultImageFormatterLinkToImageStyleFormatter {
       $container->get('current_user'),
       $container->get('link_generator'),
       $container->get('entity.manager')->getStorage('image_style'),
-      $container->get('image.factory'),
       $container->get('plugin.manager.ambientimpact_component')
     );
   }
@@ -185,31 +172,47 @@ extends DefaultImageFormatterLinkToImageStyleFormatter {
 
     // Check if an image style name is available; if no style is chosen in the
     // field formatter settings, this will be an empty string.
-    if (!empty($linkedImageStyleName)) {
-      $linkedImageStyle = ImageStyle::load($linkedImageStyleName);
+    if (empty($linkedImageStyleName)) {
+      return $elements;
+    }
 
-      // Check that we've loaded a valid image style; this will be null if
-      // Drupal cannot load the entity.
-      if (!empty($linkedImageStyle)) {
-        $files = $this->getEntitiesToView($items, $langCode);
+    $linkedImageStyle = ImageStyle::load($linkedImageStyleName);
 
-        foreach ($files as $delta => $file) {
-          $imageStyleURI = $linkedImageStyle->buildUri($file->getFileUri());
+    // Check that we've loaded a valid image style; this will be null if Drupal
+    // cannot load the entity.
+    if (
+      $linkedImageStyle === null ||
+      !\method_exists($linkedImageStyle, 'transformDimensions')
+    ) {
+      return $elements;
+    }
 
-          // Create an Image instance.
-          $imageInstance = $this->imageFactory->get($imageStyleURI);
+    foreach ($items as $delta => $item) {
+      $file = File::load($item->target_id);
 
-          $width  = $imageInstance->getWidth();
-          $height = $imageInstance->getHeight();
+      // If we couldn't load a valid Drupal file entity, skip this item.
+      if (empty($file)) {
+        continue;
+      }
 
-          // If the width and height are numeric (i.e. either integers, floats,
-          // or strings that contain the former two), set them on the image
-          // render array so that intrinsic ratio works correctly.
-          if (is_numeric($width) && is_numeric($height)) {
-            $elements[$delta]['#photoswipe_width']  = $width;
-            $elements[$delta]['#photoswipe_height'] = $height;
-          }
-        }
+      $fileURI = $file->getFileUri();
+
+      $dimensions = [
+        'width'   => $item->width,
+        'height'  => $item->height,
+      ];
+
+      $linkedImageStyle->transformDimensions($dimensions, $fileURI);
+
+      // If the width and height are numeric (i.e. either integers, floats, or
+      // strings that contain the former two), set them on the image render
+      // array so that intrinsic ratio works correctly.
+      if (
+        is_numeric($dimensions['width']) &&
+        is_numeric($dimensions['height'])
+      ) {
+        $elements[$delta]['#photoswipe_width']  = $dimensions['width'];
+        $elements[$delta]['#photoswipe_height'] = $dimensions['height'];
       }
     }
 
