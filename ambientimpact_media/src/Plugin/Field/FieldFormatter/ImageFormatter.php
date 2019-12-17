@@ -9,6 +9,7 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\image\Plugin\Field\FieldFormatter\ImageFormatter as CoreImageFormatter;
+use Drupal\media\OEmbed\UrlResolverInterface;
 use Drupal\ambientimpact_core\Config\Entity\ThirdPartySettingsDefaultsTrait;
 use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 
@@ -29,6 +30,13 @@ class ImageFormatter extends CoreImageFormatter {
    * @var \Drupal\ambientimpact_core\ComponentPluginManagerInterface
    */
   protected $componentManager;
+
+  /**
+   * The Drupal media oEmbed URL resolver service.
+   *
+   * @var \Drupal\media\OEmbed\UrlResolverInterface
+   */
+  protected $mediaoEmbedURLResolver;
 
   /**
    * Constructor; saves dependencies and sets default third-party settings.
@@ -62,6 +70,9 @@ class ImageFormatter extends CoreImageFormatter {
    *
    * @param \Drupal\ambientimpact_core\ComponentPluginManagerInterface $componentManager
    *   The Ambient.Impact Component manager service.
+   *
+   * @param \Drupal\media\OEmbed\UrlResolverInterface $mediaoEmbedURLResolver
+   *   The Drupal media oEmbed URL resolver service.
    */
   public function __construct(
     $pluginID,
@@ -73,14 +84,16 @@ class ImageFormatter extends CoreImageFormatter {
     array $thirdPartySettings,
     AccountInterface $currentUser,
     EntityStorageInterface $imageStyleStorage,
-    ComponentPluginManagerInterface $componentManager
+    ComponentPluginManagerInterface $componentManager,
+    UrlResolverInterface $mediaoEmbedURLResolver
   ) {
     parent::__construct(
       $pluginID, $pluginDefinition, $fieldDefinition, $settings, $label,
       $viewMode, $thirdPartySettings, $currentUser, $imageStyleStorage
     );
 
-    $this->componentManager = $componentManager;
+    $this->componentManager       = $componentManager;
+    $this->mediaoEmbedURLResolver = $mediaoEmbedURLResolver;
 
     // Set our default third-party settings.
     $this->componentManager->getComponentInstance('photoswipe')
@@ -108,7 +121,8 @@ class ImageFormatter extends CoreImageFormatter {
       $configuration['third_party_settings'],
       $container->get('current_user'),
       $container->get('entity.manager')->getStorage('image_style'),
-      $container->get('plugin.manager.ambientimpact_component')
+      $container->get('plugin.manager.ambientimpact_component'),
+      $container->get('media.oembed.url_resolver')
     );
   }
 
@@ -183,6 +197,35 @@ class ImageFormatter extends CoreImageFormatter {
       // the one value.
       $elements[0]['#url'] = $entity->get('field_media_oembed_video')
         ->getValue()[0]['value'];
+
+      // Attempt to get the oEmbed provider from the URL. Note that the media
+      // oEmbed URL resolver will throw an exception if it can't identify the
+      // provider, so we wrap this in a try {} catch {} block.
+      try {
+        $provider = $this->mediaoEmbedURLResolver
+          ->getProviderByUrl($elements[0]['#url']);
+
+        $providerName = $provider->getName();
+      } catch (Exception $exception) {
+      }
+
+      if (\method_exists($entity, 'getName')) {
+        $mediaName = $entity->getName();
+      }
+
+      if (
+        isset($providerName) &&
+        isset($mediaName) &&
+        !isset($elements[0]['#linkAttributes']['title'])
+      ) {
+        $elements[0]['#linkAttributes']['title'] = $this->t(
+          'Watch @videoTitle on @providerTitle',
+          [
+            '@videoTitle'     => $mediaName,
+            '@providerTitle'  => $providerName
+          ]
+        );
+      }
     }
 
     // Allow the Animated GIF toggle component to alter $elements if set to
