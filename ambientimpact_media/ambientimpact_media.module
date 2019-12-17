@@ -1,5 +1,6 @@
 <?php
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\file\Entity\File;
 use GuzzleHttp\Client as GuzzleClient;
 
@@ -201,10 +202,17 @@ function ambientimpact_media_field_formatter_settings_summary_alter(
  * 'image_caption_formatter' items so that that setting can make it through to
  * our preprocess functions.
  *
+ * This defines the 'linkAttributes' variable for the 'image_formatter',
+ * 'image_formatter_link_to_image_style_formatter', and
+ * 'image_caption_formatter' elements.
+ *
  * This defines the 'ratio' variable for the 'image' element.
  *
- * This defines the 'useRatio' and 'constrainWidth' variables for
- * 'image', 'image_style', and 'image_caption_formatter' elements.
+ * This changes the 'image_formatter_link_to_image_style_formatter' default
+ * value for the 'url_attributes' variable to an empty array, from null.
+ *
+ * This defines the 'useRatio' and 'constrainWidth' variables for the 'image',
+ * 'image_style', and 'image_caption_formatter' elements.
  *
  * @see ambientimpact_media_preprocess_image_formatter()
  *   Passes variables to the Animated GIF toggle component.
@@ -223,11 +231,17 @@ function ambientimpact_media_theme_registry_alter(&$themeRegistry) {
   ] as $type) {
     if (isset($themeRegistry[$type])) {
       $themeRegistry[$type]['variables']['use_animated_gif_toggle'] = false;
+      $themeRegistry[$type]['variables']['linkAttributes'] = [];
     }
   }
 
   if (isset($themeRegistry['image'])) {
     $themeRegistry['image']['variables']['ratio'] = null;
+  }
+
+  if (isset($themeRegistry['image_formatter_link_to_image_style_formatter'])) {
+    $themeRegistry['image_formatter_link_to_image_style_formatter']['variables']
+      ['url_attributes'] = [];
   }
 
   foreach ([
@@ -281,12 +295,12 @@ function ambientimpact_media_preprocess_image_formatter(&$variables) {
  *   - item_attributes: An optional associative array of html attributes to be
  *     placed in the img tag.
  *
+ *   - image_style: An optional image style.
+ *
  *   - url: A \Drupal\Core\Url object.
  *
- *   - url_attributes: An optional associative array of html attributes to be
- *     placed in the a tag.
- *
- *   - image_style: An optional image style.
+ *   - linkAttributes: An array of attributes to add to the link if 'url' is
+ *     set.
  *
  * @see \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\AnimatedGIFToggle::preprocessImageFormatter()
  *   Variables are passed to this for modification.
@@ -294,6 +308,13 @@ function ambientimpact_media_preprocess_image_formatter(&$variables) {
 function ambientimpact_media_preprocess_image_formatter_link_to_image_style_formatter(
   array &$variables
 ) {
+  if (!empty($variables['url_attributes'])) {
+    $variables['linkAttributes'] = NestedArray::mergeDeep(
+      $variables['url_attributes'],
+      $variables['linkAttributes']
+    );
+  }
+
   \Drupal::service('plugin.manager.ambientimpact_component')
     ->getComponentInstance('animated_gif_toggle')
       ->preprocessImageFormatter($variables);
@@ -315,6 +336,9 @@ function ambientimpact_media_preprocess_image_formatter_link_to_image_style_form
  *   - image_style: An optional image style.
  *
  *   - url: An optional \Drupal\Core\Url object.
+ *
+ *   - linkAttributes: An array of attributes to add to the link if 'url' is
+ *     set.
  *
  *   - caption: An optional caption text.
  *
