@@ -5,17 +5,18 @@ dependencies:
     - field.field.paragraph.video.field_remote_video
     - paragraphs.paragraphs_type.video
   module:
-    - video_embed_field
+    - media_library
 id: paragraph.video.default
 targetEntityType: paragraph
 bundle: video
 mode: default
 content:
   field_remote_video:
+    type: media_library_widget
     weight: 0
-    settings: {  }
+    settings:
+      media_types: {  }
     third_party_settings: {  }
-    type: video_embed_field_textfield
     region: content
 hidden:
   created: true

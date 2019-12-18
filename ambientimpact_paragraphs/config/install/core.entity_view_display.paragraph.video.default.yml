@@ -3,25 +3,20 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.video.field_remote_video
-    - image.style.content_image_large
     - paragraphs.paragraphs_type.video
-  module:
-    - ambientimpact_media
 id: paragraph.video.default
 targetEntityType: paragraph
 bundle: video
 mode: default
 content:
   field_remote_video:
+    type: entity_reference_entity_view
     weight: 0
     label: hidden
     settings:
-      image_style: content_image_large
-      link_image_to: provider
-    third_party_settings:
-      ambientimpact_media:
-        play_icon: true
-    type: video_embed_field_thumbnail
+      view_mode: default
+      link: false
+    third_party_settings: {  }
     region: content
 hidden:
   search_api_excerpt: true

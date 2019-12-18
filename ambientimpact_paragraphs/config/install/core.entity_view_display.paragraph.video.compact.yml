@@ -4,25 +4,20 @@ dependencies:
   config:
     - core.entity_view_mode.paragraph.compact
     - field.field.paragraph.video.field_remote_video
-    - image.style.content_image_large
     - paragraphs.paragraphs_type.video
-  module:
-    - ambientimpact_media
 id: paragraph.video.compact
 targetEntityType: paragraph
 bundle: video
 mode: compact
 content:
   field_remote_video:
+    type: entity_reference_entity_view
     weight: 0
+    region: content
     label: hidden
     settings:
-      image_style: content_image_large
-      link_image_to: ''
-    third_party_settings:
-      ambientimpact_media:
-        play_icon: false
-    type: video_embed_field_thumbnail
-    region: content
+      view_mode: compact
+      link: false
+    third_party_settings: {  }
 hidden:
   search_api_excerpt: true
