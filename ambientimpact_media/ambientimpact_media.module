@@ -388,6 +388,11 @@ function ambientimpact_media_preprocess_image_formatter_link_to_image_style_form
  *   Variables are passed to this for modification.
  */
 function ambientimpact_media_preprocess_image_caption_formatter(&$variables) {
+  // Pass the constrainWidth variable on to the image element. This must be
+  // placed before we pass anything to the components below or the variable may
+  // not make it through all the way to the image template.
+  $variables['image']['#constrainWidth'] = $variables['constrainWidth'];
+
   /** @var \Drupal\ambientimpact_coreComponentPluginManagerInterface The component manager service. */
   $componentManager =
     \Drupal::service('plugin.manager.ambientimpact_component');
@@ -397,9 +402,6 @@ function ambientimpact_media_preprocess_image_caption_formatter(&$variables) {
 
   $componentManager->getComponentInstance('remote_video')
     ->preprocessImageFormatter($variables);
-
-  // Pass the constrainWidth variable on to the image element.
-  $variables['image']['#constrainWidth'] = $variables['constrainWidth'];
 }
 
 /**
