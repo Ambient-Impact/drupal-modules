@@ -560,7 +560,7 @@ function ambientimpact_media_oembed_resource_data_alter(array &$data, $url) {
  * Note that a media entity needs to be saved either programmatically or via the
  * Drupal UI for this to take effect.
  *
- * @param  Drupal\Core\Entity\EntityInterface $entity
+ * @param \Drupal\Core\Entity\EntityInterface $entity
  *   The media entity object.
  *
  * @see https://www.drupal.org/project/drupal/issues/3088168

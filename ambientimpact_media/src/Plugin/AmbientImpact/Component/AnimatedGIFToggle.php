@@ -153,7 +153,7 @@ class AnimatedGIFToggle extends ComponentBase {
   }
 
   /**
-   * Alter an image formatter elements array to for the animated GIF toggle.
+   * Alter an image formatter elements array for the animated GIF toggle.
    *
    * @param mixed $formatterInstance
    *   An image field formatter instance to apply the settings to.
