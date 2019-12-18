@@ -15,7 +15,7 @@ mode: compact
 content:
   field_media_image:
     weight: 0
-    label: visually_hidden
+    label: hidden
     settings:
       image_style: content_image_large
       image_link: ''
