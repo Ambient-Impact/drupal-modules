@@ -54,7 +54,8 @@ function ambientimpact_media_field_formatter_info_alter(array &$info) {
 /**
  * Implements hook_field_formatter_third_party_settings_form().
  *
- * This adds the video embed field provider/play icon form elements.
+ * This adds provider/play icon form elements for image formatters on
+ * remote_video media entities and for video embed fields.
  *
  * This adds the PhotoSwipe image field formatter form elements.
  *
@@ -73,6 +74,20 @@ function ambientimpact_media_field_formatter_third_party_settings_form(
 ) {
   $elements = [];
   $pluginID = $plugin->getPluginId();
+
+  if (
+    $pluginID === 'image' &&
+    $form['#entity_type'] === 'media' &&
+    $form['#bundle'] === 'remote_video'
+  ) {
+    $elements['play_icon'] = [
+      '#type'           => 'checkbox',
+      '#title'          => t('Show provider/play icon'),
+      '#description'    => t('If enabled, will overlay a provider-specific play icon (e.g. YouTube or Vimeo) over the thumbnail, or a generic play icon if the provider is not recognized.'),
+      '#default_value'  =>
+        $plugin->getThirdPartySetting('ambientimpact_media', 'play_icon'),
+    ];
+  }
 
   if ($pluginID === 'video_embed_field_thumbnail') {
     $elements['play_icon'] = [
@@ -129,8 +144,9 @@ function ambientimpact_media_field_formatter_third_party_settings_form(
 /**
  * Implements hook_field_formatter_settings_summary_alter().
  *
- * This displays a message on the video embed field thumbnail formatter summary
- * if the provider/play icon is shown over the thumbnail.
+ * This displays a message on image formatters linked to 'remote' and on video
+ * embed field thumbnail formatters if the provider/play icon is shown over the
+ * thumbnail.
  *
  * This displays PhotoSwipe summary information for image field formatters.
  *
@@ -144,6 +160,21 @@ function ambientimpact_media_field_formatter_settings_summary_alter(
   &$summary, $context
 ) {
   $pluginID = $context['formatter']->getPluginId();
+
+  if (
+    $pluginID === 'image' &&
+    // The 'remote' image link option is currently on available on the
+    // 'remote_video' media entity.
+    $context['formatter']->getSetting('image_link') === 'remote' &&
+    // This is passed to us as a string ('1' or '0'), despite the schema
+    // specifying it as boolean, likely because this is at the Form API stage
+    // where checkbox values are treated as strings.
+    (bool) $context['formatter']->getThirdPartySetting(
+      'ambientimpact_media', 'play_icon'
+    ) === true
+  ) {
+    $summary[] = t('Play icon shown');
+  }
 
   if (
     $pluginID === 'video_embed_field_thumbnail' &&
@@ -206,6 +237,11 @@ function ambientimpact_media_field_formatter_settings_summary_alter(
  * 'image_formatter_link_to_image_style_formatter', and
  * 'image_caption_formatter' elements.
  *
+ * This defines the 'useRemoteVideoPlayIcon', 'remoteVideoProviderName', and
+ * 'remoteVideoMediaName' variables for the 'image_formatter',
+ * 'image_formatter_link_to_image_style_formatter', and
+ * 'image_caption_formatter' elements.
+ *
  * This defines the 'ratio' variable for the 'image' element.
  *
  * This changes the 'image_formatter_link_to_image_style_formatter' default
@@ -231,6 +267,9 @@ function ambientimpact_media_theme_registry_alter(&$themeRegistry) {
   ] as $type) {
     if (isset($themeRegistry[$type])) {
       $themeRegistry[$type]['variables']['use_animated_gif_toggle'] = false;
+      $themeRegistry[$type]['variables']['useRemoteVideoPlayIcon'] = false;
+      $themeRegistry[$type]['variables']['remoteVideoProviderName'] = false;
+      $themeRegistry[$type]['variables']['remoteVideoMediaName'] = false;
       $themeRegistry[$type]['variables']['linkAttributes'] = [];
     }
   }
@@ -344,11 +383,20 @@ function ambientimpact_media_preprocess_image_formatter_link_to_image_style_form
  *
  * @see \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\AnimatedGIFToggle::preprocessImageFormatter()
  *   Variables are passed to this for modification.
+ *
+ * @see \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\RemoteVideo::preprocessImageFormatter()
+ *   Variables are passed to this for modification.
  */
 function ambientimpact_media_preprocess_image_caption_formatter(&$variables) {
-  \Drupal::service('plugin.manager.ambientimpact_component')
-    ->getComponentInstance('animated_gif_toggle')
-      ->preprocessImageFormatter($variables);
+  /** @var \Drupal\ambientimpact_coreComponentPluginManagerInterface The component manager service. */
+  $componentManager =
+    \Drupal::service('plugin.manager.ambientimpact_component');
+
+  $componentManager->getComponentInstance('animated_gif_toggle')
+    ->preprocessImageFormatter($variables);
+
+  $componentManager->getComponentInstance('remote_video')
+    ->preprocessImageFormatter($variables);
 
   // Pass the constrainWidth variable on to the image element.
   $variables['image']['#constrainWidth'] = $variables['constrainWidth'];

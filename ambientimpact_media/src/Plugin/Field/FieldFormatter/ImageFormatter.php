@@ -100,6 +100,8 @@ class ImageFormatter extends CoreImageFormatter {
       ->setImageFormatterDefaults($this);
     $this->componentManager->getComponentInstance('animated_gif_toggle')
       ->setImageFormatterDefaults($this);
+    $this->componentManager->getComponentInstance('remote_video')
+      ->setImageFormatterDefaults($this);
   }
 
   /**
@@ -225,6 +227,18 @@ class ImageFormatter extends CoreImageFormatter {
             '@providerTitle'  => $providerName
           ]
         );
+      }
+
+      if (
+        isset($providerName) &&
+        isset($mediaName)
+      ) {
+        $elements[0]['#remoteVideoProviderName']  = $providerName;
+        $elements[0]['#remoteVideoMediaName']     = $mediaName;
+      }
+
+      if (isset($settings['play_icon'])) {
+        $elements[0]['#useRemoteVideoPlayIcon'] = $settings['play_icon'];
       }
     }
 
