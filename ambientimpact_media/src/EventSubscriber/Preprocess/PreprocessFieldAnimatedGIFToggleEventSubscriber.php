@@ -114,14 +114,10 @@ implements EventSubscriberInterface {
         );
 
         // Add a title attribute with a helpful hint.
-        // @todo Can this be moved to the link itself? Neither
-        // image-formatter.html.twig nor
-        // image-formatter-link-to-image-style-formatter.html.twig allow adding
-        // arbitrary attributes to the links.
-        if (!$item['attributes']->offsetExists('title')) {
-          $item['attributes']->setAttribute('title', $this->t(
+        if (empty($item['content']['#linkAttributes']['title'])) {
+          $item['content']['#linkAttributes']['title'] = $this->t(
             'Play or pause this animated GIF'
-          ));
+          );
         }
       }
     }
