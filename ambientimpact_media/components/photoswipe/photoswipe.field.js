@@ -20,9 +20,12 @@ AmbientImpact.addComponent('photoswipe.field', function(aiPhotoSwipeField, $) {
       var $this = $(this),
           $galleries;
 
-      // If field items are to be placed in the same gallery, set the attached
-      // element as the gallery element.
-      if ($this.attr(fieldAttributes.gallery) === 'true') {
+      // If field items are to be placed in the same gallery or the field is the
+      // .field__item, set the attached element as the gallery element.
+      if (
+        $this.attr(fieldAttributes.gallery) === 'true' ||
+        $this.is('.field__item')
+      ) {
         $galleries = $this;
 
       // If field items are to be placed in their own, separate galleries, set
