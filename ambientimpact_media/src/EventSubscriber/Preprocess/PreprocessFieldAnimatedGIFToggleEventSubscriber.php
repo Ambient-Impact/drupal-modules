@@ -61,9 +61,9 @@ implements EventSubscriberInterface {
   /**
    * Prepare variables for field templates.
    *
-   * This attaches the 'ambientimpact_media/component.photoswipe.field' library
-   * and required attributes to fields that have PhotoSwipe enabled via the
-   * field formatter settings.
+   * This attaches the 'ambientimpact_media/component.animated_gif_toggle' library
+   * and required attributes to fields that have the animated GIF toggle enabled
+   * via the field formatter settings.
    *
    * @param \Drupal\hook_event_dispatcher\Event\Preprocess\FieldPreprocessEvent $event
    *   Event.
