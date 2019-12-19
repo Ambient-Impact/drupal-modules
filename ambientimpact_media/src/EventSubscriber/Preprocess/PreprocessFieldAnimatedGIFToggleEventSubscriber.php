@@ -4,6 +4,7 @@ namespace Drupal\ambientimpact_media\EventSubscriber\Preprocess;
 
 use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Drupal\hook_event_dispatcher\Event\Preprocess\FieldPreprocessEvent;
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -93,7 +94,6 @@ implements EventSubscriberInterface {
 
     $fieldAttributeMap = $config['fieldAttributes'];
 
-    $firstItem  = &$items[0]['content'];
     $attached   = $variables->get('#attached', []);
 
     foreach ($items as $delta => &$item) {
@@ -126,9 +126,29 @@ implements EventSubscriberInterface {
       }
     }
 
+    // If there's only one item and the field label will not be output at all,
+    // Drupal will not output the .field__item element but merge that with the
+    // .field element itself, so we need to copy over our attributes from the
+    // first item for them to be output.
+    if (
+      $variables->get('multiple') === false &&
+      $variables->get('label_hidden') === true &&
+      $items[0]['attributes']->offsetExists($fieldAttributeMap['enabled'])
+    ) {
+      $variables->set('attributes', NestedArray::mergeDeep(
+        $variables->get('attributes'),
+        [
+          $fieldAttributeMap['enabled'] => $items[0]['attributes']
+            ->offsetGet($fieldAttributeMap['enabled']),
+          $fieldAttributeMap['url'] => $items[0]['attributes']
+            ->offsetGet($fieldAttributeMap['url']),
+        ]
+      ));
+    }
+
     // Remove the #animated_gif_toggle_used_in_array property from the first
     // item as it's no longer needed.
-    unset($firstItem['#animated_gif_toggle_used_in_array']);
+    unset($items[0]['content']['#animated_gif_toggle_used_in_array']);
 
     // Attach the field library.
     $attached['library'][] =
