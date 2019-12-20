@@ -29,11 +29,12 @@ migrations from the [```ambientimpact_media```](../../ambientimpact_media)
 module to have been run beforehand and the [LoadEntity process plug-in patch for
 Migrate
 Plus](https://www.drupal.org/project/migrate_plus/issues/3018849#comment-12928073)
-applied. Once the Paragraph items have been migrated, you can safely delete/roll
+applied. ~~Once the Paragraph items have been migrated, you can safely delete/roll
 back the ```d7_file_entity_vimeo``` and ```d7_file_entity_youtube``` migrations,
 as those media entities are no longer needed ([Video Embed
 Field](https://www.drupal.org/project/video_embed_field) stores the video URL
-directly in the field).
+directly in the field).~~ [Video Embed Field is now marked as "maintenance fixes only"](https://www.drupal.org/project/video_embed_field/issues/3089599), so core media
+entities are the recommended path forward.
 
 # File field to media field migration
 

@@ -13,7 +13,6 @@ dependencies:
   - paragraphs:paragraphs
   - geshifield:geshifield
   - hook_event_dispatcher:hook_event_dispatcher
-  - video_embed_field:video_embed_field
 
 config_devel:
   install:

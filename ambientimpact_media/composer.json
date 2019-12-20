@@ -29,7 +29,6 @@
     "cweagans/composer-patches": "^1.6.5",
     "drupal/hook_event_dispatcher": "^1.23",
     "drupal/image_field_caption": "1.x-dev",
-    "drupal/video_embed_field": "^2.0.0",
     "guzzlehttp/guzzle": "^6.3",
     "bower-asset/photoswipe": "4.1.3"
   },
@@ -40,10 +39,6 @@
       },
       "drupal/image_field_caption": {
         "Fatal error fixes https://www.drupal.org/project/image_field_caption/issues/2413809#comment-13202041": "https://www.drupal.org/files/issues/2019-07-30/image_field_caption-fatal_error_fixes-2413809-9-8.x.patch"
-      },
-      "drupal/video_embed_field": {
-        "Retrieve title & description for videos https://www.drupal.org/project/video_embed_field/issues/2913925": "https://www.drupal.org/files/issues/2018-07-09/retrieve-title-2913925-5.patch",
-        "Load bigger Vimeo Thumbnails [#2954954] https://www.drupal.org/project/video_embed_field/issues/2954954#comment-13150506 ": "https://www.drupal.org/files/issues/2019-06-17/video_embed_field-bigger_vimeo_thumbnails-2954954-7-8.x-2.x.patch"
       }
     }
   }
