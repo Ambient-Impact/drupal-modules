@@ -1,5 +1,5 @@
 {
-  "name": "ambient.impact/drupal-module-core",
+  "name": "drupal/ambientimpact_core",
   "description": "Ambient.Impact - Core",
   "type": "project",
   "license": "GPL-2.0-or-later",

@@ -1,5 +1,5 @@
 {
-  "name": "ambient.impact/drupal-module-paragraphs",
+  "name": "drupal/ambientimpact_paragraphs",
   "description": "Ambient.Impact - Paragraphs",
   "type": "project",
   "license": "GPL-2.0-or-later",

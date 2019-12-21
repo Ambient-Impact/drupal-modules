@@ -1,5 +1,5 @@
 {
-  "name": "ambient.impact/drupal-module-paragraphs-migrate",
+  "name": "drupal/ambientimpact_paragraphs_migrate",
   "description": "Ambient.Impact - Paragraphs migrate",
   "type": "project",
   "license": "GPL-2.0-or-later",

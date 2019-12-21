@@ -1,5 +1,5 @@
 {
-  "name": "ambient.impact/drupal-module-portfolio-migrate",
+  "name": "drupal/ambientimpact_portfolio_migrate",
   "description": "Ambient.Impact - Portfolio migrate",
   "type": "project",
   "license": "GPL-2.0-or-later",

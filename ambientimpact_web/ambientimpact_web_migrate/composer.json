@@ -1,5 +1,5 @@
 {
-  "name": "ambient.impact/drupal-module-web-migrate",
+  "name": "drupal/ambientimpact_web_migrate",
   "description": "Ambient.Impact - Web migrate",
   "type": "project",
   "license": "GPL-2.0-or-later",

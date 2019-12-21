@@ -1,5 +1,5 @@
 {
-  "name": "ambient.impact/drupal-module-web",
+  "name": "drupal/ambientimpact_web",
   "description": "Ambient.Impact - Web",
   "type": "project",
   "license": "GPL-2.0-or-later",
