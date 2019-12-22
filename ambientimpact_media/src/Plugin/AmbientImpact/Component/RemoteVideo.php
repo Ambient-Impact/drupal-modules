@@ -42,16 +42,16 @@ class RemoteVideo extends ComponentBase {
    */
   public function preprocessImageFormatter(array &$variables) {
     // Don't do anything if the icon is not enabled for this element.
-    if (empty($variables['useRemoteVideoPlayIcon'])) {
+    if (empty($variables['use_remote_video_play_icon'])) {
       return;
     }
 
     // Determine what icon and text to use based on provider.
-    switch ($variables['remoteVideoProviderName']) {
+    switch ($variables['remote_video_provider_name']) {
       // These have their own brand icons.
       case 'YouTube':
       case 'Vimeo':
-        $iconName   = strtolower($variables['remoteVideoProviderName']);
+        $iconName   = strtolower($variables['remote_video_provider_name']);
         $iconBundle = 'brands';
 
         // Include the video title in a visually hidden element for
@@ -59,8 +59,8 @@ class RemoteVideo extends ComponentBase {
         $text       = $this->t(
           '<span class="visually-hidden">Watch @videoTitle on </span>@providerTitle',
           [
-            '@videoTitle'     => $variables['remoteVideoMediaName'],
-            '@providerTitle'  => $variables['remoteVideoProviderName'],
+            '@videoTitle'     => $variables['remote_video_media_name'],
+            '@providerTitle'  => $variables['remote_video_provider_name'],
           ]
         );
 
@@ -74,7 +74,7 @@ class RemoteVideo extends ComponentBase {
         $text       = $this->t(
           'Play<span class="visually-hidden"> @videoTitle</span>',
           [
-            '@videoTitle' => $variables['remoteVideoMediaName'],
+            '@videoTitle' => $variables['remote_video_media_name'],
           ]
         );
     }

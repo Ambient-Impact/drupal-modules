@@ -114,8 +114,8 @@ implements EventSubscriberInterface {
         );
 
         // Add a title attribute with a helpful hint.
-        if (empty($item['content']['#linkAttributes']['title'])) {
-          $item['content']['#linkAttributes']['title'] = $this->t(
+        if (empty($item['content']['#link_attributes']['title'])) {
+          $item['content']['#link_attributes']['title'] = $this->t(
             'Play or pause this animated GIF'
           );
         }

@@ -117,7 +117,7 @@ class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
       ],
     ] as $key => $data) {
       $items[$key] = [
-        'linkAttributes'  => new Attribute(),
+        'link_attributes' => new Attribute(),
         'linkURL'         => Url::fromRoute($data['route']),
         // Define the icon here rather than using {{ ambientimpact_icon() }} in
         // the template to ensure any HTML in the text doesn't get escaped. This
@@ -132,7 +132,7 @@ class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
 
       // Add a 'title' attribute to the link, if one is available.
       if (!empty($data['titleAttr'])) {
-        $items[$key]['linkAttributes']
+        $items[$key]['link_attributes']
           ->setAttribute('title', $data['titleAttr']);
       }
     }

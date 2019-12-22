@@ -218,9 +218,9 @@ class ImageFormatter extends CoreImageFormatter {
       if (
         isset($providerName) &&
         isset($mediaName) &&
-        !isset($elements[0]['#linkAttributes']['title'])
+        !isset($elements[0]['#link_attributes']['title'])
       ) {
-        $elements[0]['#linkAttributes']['title'] = $this->t(
+        $elements[0]['#link_attributes']['title'] = $this->t(
           'Watch @videoTitle on @providerTitle',
           [
             '@videoTitle'     => $mediaName,
@@ -233,12 +233,12 @@ class ImageFormatter extends CoreImageFormatter {
         isset($providerName) &&
         isset($mediaName)
       ) {
-        $elements[0]['#remoteVideoProviderName']  = $providerName;
-        $elements[0]['#remoteVideoMediaName']     = $mediaName;
+        $elements[0]['#remote_video_provider_name']  = $providerName;
+        $elements[0]['#remote_video_media_name']     = $mediaName;
       }
 
       if (isset($settings['play_icon'])) {
-        $elements[0]['#useRemoteVideoPlayIcon'] = $settings['play_icon'];
+        $elements[0]['#use_remote_video_play_icon'] = $settings['play_icon'];
       }
     }
 

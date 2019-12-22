@@ -5,7 +5,7 @@
  *
  * Available variables
  * - items: An array of items, keyed by a machine name; each item contains:
- *   - linkAttributes: An Attribute() object for the item's link.
+ *   - link_attributes: An Attribute() object for the item's link.
  *   - content: The item's renderable content to be placed in the item's link.
  *
  * @see \Drupal\ambientimpact_web\EventSubscriber\Preprocess\ViewPreprocessWebSnippetsLinks::preprocessView()
@@ -37,7 +37,7 @@
         {{ link(
           item.content,
           item.linkURL,
-          item.linkAttributes.addClass(baseClass ~ '-list-item-link')
+          item.link_attributes.addClass(baseClass ~ '-list-item-link')
         ) }}
       </li>
     {%- endfor -%}

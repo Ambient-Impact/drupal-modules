@@ -197,12 +197,12 @@ function ambientimpact_media_field_formatter_settings_summary_alter(
  * 'image_caption_formatter' items so that that setting can make it through to
  * our preprocess functions.
  *
- * This defines the 'linkAttributes' variable for the 'image_formatter',
+ * This defines the 'link_attributes' variable for the 'image_formatter',
  * 'image_formatter_link_to_image_style_formatter', and
  * 'image_caption_formatter' elements.
  *
- * This defines the 'useRemoteVideoPlayIcon', 'remoteVideoProviderName', and
- * 'remoteVideoMediaName' variables for the 'image_formatter',
+ * This defines the 'use_remote_video_play_icon', 'remote_video_provider_name', and
+ * 'remote_video_media_name' variables for the 'image_formatter',
  * 'image_formatter_link_to_image_style_formatter', and
  * 'image_caption_formatter' elements.
  *
@@ -211,7 +211,7 @@ function ambientimpact_media_field_formatter_settings_summary_alter(
  * This changes the 'image_formatter_link_to_image_style_formatter' default
  * value for the 'url_attributes' variable to an empty array, from null.
  *
- * This defines the 'useRatio' and 'constrainWidth' variables for the 'image',
+ * This defines the 'use_ratio' and 'constrain_width' variables for the 'image',
  * 'image_style', and 'image_caption_formatter' elements.
  *
  * @see ambientimpact_media_preprocess_image_formatter()
@@ -231,10 +231,10 @@ function ambientimpact_media_theme_registry_alter(&$themeRegistry) {
   ] as $type) {
     if (isset($themeRegistry[$type])) {
       $themeRegistry[$type]['variables']['use_animated_gif_toggle'] = false;
-      $themeRegistry[$type]['variables']['useRemoteVideoPlayIcon'] = false;
-      $themeRegistry[$type]['variables']['remoteVideoProviderName'] = false;
-      $themeRegistry[$type]['variables']['remoteVideoMediaName'] = false;
-      $themeRegistry[$type]['variables']['linkAttributes'] = [];
+      $themeRegistry[$type]['variables']['use_remote_video_play_icon'] = false;
+      $themeRegistry[$type]['variables']['remote_video_provider_name'] = false;
+      $themeRegistry[$type]['variables']['remote_video_media_name'] = false;
+      $themeRegistry[$type]['variables']['link_attributes'] = [];
     }
   }
 
@@ -253,8 +253,8 @@ function ambientimpact_media_theme_registry_alter(&$themeRegistry) {
     'image_caption_formatter',
   ] as $type) {
     if (isset($themeRegistry[$type])) {
-      $themeRegistry[$type]['variables']['useRatio'] = true;
-      $themeRegistry[$type]['variables']['constrainWidth'] = true;
+      $themeRegistry[$type]['variables']['use_ratio'] = true;
+      $themeRegistry[$type]['variables']['constrain_width'] = true;
     }
   }
 }
@@ -302,7 +302,7 @@ function ambientimpact_media_preprocess_image_formatter(&$variables) {
  *
  *   - url: A \Drupal\Core\Url object.
  *
- *   - linkAttributes: An array of attributes to add to the link if 'url' is
+ *   - link_attributes: An array of attributes to add to the link if 'url' is
  *     set.
  *
  * @see \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\AnimatedGIFToggle::preprocessImageFormatter()
@@ -312,9 +312,9 @@ function ambientimpact_media_preprocess_image_formatter_link_to_image_style_form
   array &$variables
 ) {
   if (!empty($variables['url_attributes'])) {
-    $variables['linkAttributes'] = NestedArray::mergeDeep(
+    $variables['link_attributes'] = NestedArray::mergeDeep(
       $variables['url_attributes'],
-      $variables['linkAttributes']
+      $variables['link_attributes']
     );
   }
 
@@ -340,7 +340,7 @@ function ambientimpact_media_preprocess_image_formatter_link_to_image_style_form
  *
  *   - url: An optional \Drupal\Core\Url object.
  *
- *   - linkAttributes: An array of attributes to add to the link if 'url' is
+ *   - link_attributes: An array of attributes to add to the link if 'url' is
  *     set.
  *
  *   - caption: An optional caption text.
@@ -352,10 +352,10 @@ function ambientimpact_media_preprocess_image_formatter_link_to_image_style_form
  *   Variables are passed to this for modification.
  */
 function ambientimpact_media_preprocess_image_caption_formatter(&$variables) {
-  // Pass the constrainWidth variable on to the image element. This must be
+  // Pass the constrain_width variable on to the image element. This must be
   // placed before we pass anything to the components below or the variable may
   // not make it through all the way to the image template.
-  $variables['image']['#constrainWidth'] = $variables['constrainWidth'];
+  $variables['image']['#constrain_width'] = $variables['constrain_width'];
 
   /** @var \Drupal\ambientimpact_coreComponentPluginManagerInterface The component manager service. */
   $componentManager =
@@ -373,7 +373,7 @@ function ambientimpact_media_preprocess_image_caption_formatter(&$variables) {
  *
  * Default template: image-style.html.twig.
  *
- * This copies the 'useRatio' and 'constrainWidth' variables over to
+ * This copies the 'use_ratio' and 'constrain_width' variables over to
  * $variables['image'] so that the values are inherited to the generated image.
  *
  * @param array $variables
@@ -404,16 +404,16 @@ function ambientimpact_media_preprocess_image_caption_formatter(&$variables) {
  *   - attributes: Associative array of additional attributes to be placed in
  *     the img tag.
  *
- *   - useRatio: if true, will instruct templates to wrap the image in an
+ *   - use_ratio: if true, will instruct templates to wrap the image in an
  *     intrinsic ratio wrapper to act as a placeholder before the image loads,
  *     which prevents layout shifting during loading.
  *
- *   - constrainWidth: if true, templates should set a max-width equal to the
+ *   - constrain_width: if true, templates should set a max-width equal to the
  *     natural width of the generated image to prevent phantom clickable areas
  *     if this image is in a link and less wide than the link itself.
  */
 function ambientimpact_media_preprocess_image_style(&$variables) {
-  foreach (['useRatio', 'constrainWidth'] as $variableName) {
+  foreach (['use_ratio', 'constrain_width'] as $variableName) {
     if (isset($variables[$variableName])) {
       $variables['image']['#' . $variableName] = $variables[$variableName];
     }
