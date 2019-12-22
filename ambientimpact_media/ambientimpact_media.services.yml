@@ -1,4 +1,11 @@
 services:
+  # Media entity hook_entity_presave() event subscriber.
+  ambientimpact_media.media_hook_entity_presave_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Entity\MediaEntityPresaveEventSubscriber
+    arguments: ['@image.factory']
+    tags:
+      - { name: 'event_subscriber' }
+
   # Intrinsic ratio template_preprocess_image() event subscriber.
   ambientimpact_media.preprocess_image_intrinsic_ratio_event_subscriber:
     class: \Drupal\ambientimpact_media\EventSubscriber\Preprocess\PreprocessImageIntrinsicRatioEventSubscriber
