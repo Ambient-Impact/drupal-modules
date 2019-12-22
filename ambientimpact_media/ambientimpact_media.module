@@ -3,6 +3,7 @@
 use Drupal\Component\Utility\NestedArray;
 use Drupal\file\Entity\File;
 use GuzzleHttp\Client as GuzzleClient;
+use Drupal\ambientimpact_media\Event\OEmbed\OEmbedResourceDataAlterEvent;
 
 /**
  * Implements hook_field_formatter_info_alter().
@@ -446,6 +447,8 @@ function ambientimpact_media_oembed_resource_url_alter(
 /**
  * Implements hook_oembed_resource_data_alter().
  *
+ * Provides a Hook Event Dispatcher event for this hook.
+ *
  * This tries to fetch the highest available YouTube video thumbnail by sending
  * requests via Guzzle for the various formats from highest to lowest, using the
  * first one that doesn't return a 404.
@@ -458,8 +461,15 @@ function ambientimpact_media_oembed_resource_url_alter(
  *
  * @see https://www.drupal.org/project/drupal/issues/3042423
  *   This hook won't be invoked unless this Drupal core patch is applied.
+ *
+ * @see \Drupal\ambientimpact_media\Event\OEmbed\OEmbedResourceDataAlterEvent
  */
 function ambientimpact_media_oembed_resource_data_alter(array &$data, $url) {
+  /* @var \Drupal\hook_event_dispatcher\Manager\HookEventDispatcherManagerInterface $manager */
+  $manager = \Drupal::service('hook_event_dispatcher.manager');
+
+  $manager->register(new OEmbedResourceDataAlterEvent($data, $url));
+
   if (
     $data['provider_name'] === 'YouTube' &&
     strpos($data['thumbnail_url'], 'hqdefault.jpg') !== false
