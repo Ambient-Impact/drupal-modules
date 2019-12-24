@@ -42,3 +42,31 @@ services:
     arguments: ['@module_handler']
     tags:
       - { name: 'event_subscriber' }
+
+  # Animated GIF toggle hook_theme_registry_alter() event subscriber.
+  ambientimpact_media.hook_theme_registry_alter_animated_gif_toggle_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Theme\HookThemeRegistryAlterAnimatedGIFToggleEventSubscriber
+    arguments: []
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Image link attributes hook_theme_registry_alter() event subscriber.
+  ambientimpact_media.hook_theme_registry_alter_image_link_attributes_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Theme\HookThemeRegistryAlterImageLinkAttributesEventSubscriber
+    arguments: []
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Intrinsic ratio hook_theme_registry_alter() event subscriber.
+  ambientimpact_media.hook_theme_registry_alter_intrinsic_ratio_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Theme\HookThemeRegistryAlterIntrinsicRatioEventSubscriber
+    arguments: []
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Remote video hook_theme_registry_alter() event subscriber.
+  ambientimpact_media.hook_theme_registry_alter_remote_video_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Theme\HookThemeRegistryAlterRemoteVideoEventSubscriber
+    arguments: []
+    tags:
+      - { name: 'event_subscriber' }
