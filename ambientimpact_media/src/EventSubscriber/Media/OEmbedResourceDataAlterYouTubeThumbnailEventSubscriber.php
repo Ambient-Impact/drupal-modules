@@ -2,7 +2,6 @@
 
 namespace Drupal\ambientimpact_media\EventSubscriber\Media;
 
-use Drupal\hook_event_dispatcher\Event\Entity\EntityPresaveEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\ambientimpact_media\AmbientImpactMediaEventInterface;
 use Drupal\ambientimpact_media\Event\Media\OEmbedResourceDataAlterEvent;
