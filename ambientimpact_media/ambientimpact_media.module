@@ -350,29 +350,6 @@ function ambientimpact_media_preprocess_image_style(&$variables) {
 }
 
 /**
- * Implements hook_oembed_resource_url_alter().
- *
- * This informs Vimeo to return the thumbnail at the maximum size they support,
- * which is currently 1280 pixels wide.
- *
- * @param array $parsedURL
- *   A parsed URL, as returned by \Drupal\Component\Utility\UrlHelper::parse().
- *
- * @param \Drupal\media\OEmbed\Provider $provider
- *   The oEmbed provider for the resource.
- *
- * @see \Drupal\media\OEmbed\UrlResolverInterface::getResourceUrl()
- */
-function ambientimpact_media_oembed_resource_url_alter(
-  array &$parsedURL,
-  \Drupal\media\OEmbed\Provider $provider
-) {
-  if (strpos($parsedURL['path'], 'https://vimeo.com/') === 0) {
-    $parsedURL['query']['width'] = '1280';
-  }
-}
-
-/**
  * Implements hook_oembed_resource_data_alter().
  *
  * Provides a Hook Event Dispatcher event for this hook.
