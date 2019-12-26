@@ -1,7 +1,7 @@
 <?php
 
 use Drupal\Component\Utility\NestedArray;
-use Drupal\ambientimpact_media\Event\OEmbed\OEmbedResourceDataAlterEvent;
+use Drupal\ambientimpact_media\Event\Media\OEmbedResourceDataAlterEvent;
 
 /**
  * Implements hook_field_formatter_info_alter().
@@ -456,7 +456,7 @@ function ambientimpact_media_oembed_resource_url_alter(
  * @see https://www.drupal.org/project/drupal/issues/3042423
  *   This hook won't be invoked unless this Drupal core patch is applied.
  *
- * @see \Drupal\ambientimpact_media\Event\OEmbed\OEmbedResourceDataAlterEvent
+ * @see \Drupal\ambientimpact_media\Event\Media\OEmbedResourceDataAlterEvent
  */
 function ambientimpact_media_oembed_resource_data_alter(array &$data, $url) {
   /* @var \Drupal\hook_event_dispatcher\Manager\HookEventDispatcherManagerInterface $manager */

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_media\Event\OEmbed;
+namespace Drupal\ambientimpact_media\Event\Media;
 
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Symfony\Component\EventDispatcher\Event;

@@ -8,7 +8,7 @@ services:
 
   # YouTube thumbnail oEmbed hook_oembed_resource_data_alter() event subscriber.
   ambientimpact_media.youtube_thumbnail_hook_oembed_resource_data_alter_event_subscriber:
-    class: \Drupal\ambientimpact_media\EventSubscriber\OEmbed\OEmbedResourceDataAlterYouTubeThumbnailEventSubscriber
+    class: \Drupal\ambientimpact_media\EventSubscriber\Media\OEmbedResourceDataAlterYouTubeThumbnailEventSubscriber
     arguments: []
     tags:
       - { name: 'event_subscriber' }
