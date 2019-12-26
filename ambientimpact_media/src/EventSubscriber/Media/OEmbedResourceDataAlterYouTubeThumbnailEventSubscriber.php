@@ -7,6 +7,9 @@ use Drupal\ambientimpact_media\AmbientImpactMediaEventInterface;
 use Drupal\ambientimpact_media\Event\Media\OEmbedResourceDataAlterEvent;
 use GuzzleHttp\Client as GuzzleClient;
 
+/**
+ * YouTube thumbnail oEmbed hook_oembed_resource_data_alter() event subscriber.
+ */
 class OEmbedResourceDataAlterYouTubeThumbnailEventSubscriber implements
 EventSubscriberInterface {
   /**
