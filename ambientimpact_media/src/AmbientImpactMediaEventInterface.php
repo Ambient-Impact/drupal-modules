@@ -7,7 +7,7 @@ namespace Drupal\ambientimpact_media;
  */
 interface AmbientImpactMediaEventInterface {
   /**
-   * Alters the information provided by the oEmbed resource url.
+   * Alters the information provided by an oEmbed resource URL.
    *
    * @Event
    *
@@ -19,5 +19,5 @@ interface AmbientImpactMediaEventInterface {
    * @see https://www.drupal.org/project/drupal/issues/3042423
    *   Requires this Drupal core patch.
    */
-  const OEMBED_RESOURCE_DATA_ALTER = 'ambientimpact.oembed.data_alter';
+  const MEDIA_OEMBED_RESOURCE_DATA_ALTER = 'ambientimpact.media.oembed.data_alter';
 }

@@ -38,7 +38,7 @@ EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return [
-      AmbientImpactMediaEventInterface::OEMBED_RESOURCE_DATA_ALTER =>
+      AmbientImpactMediaEventInterface::MEDIA_OEMBED_RESOURCE_DATA_ALTER =>
         'oEmbedResourceDataAlter',
     ];
   }
