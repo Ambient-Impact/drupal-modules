@@ -32,7 +32,7 @@ EventSubscriberInterface {
    */
   public function oEmbedResourceURLAlter(OEmbedResourceUrlAlterEvent $event) {
     /** @var array */
-    $parsedURL = &$event->getParsedURL();
+    $parsedURL = &$event->getParsedUrl();
 
     if (
       \strpos($parsedURL['path'], 'https://vimeo.com/') === 0 &&
