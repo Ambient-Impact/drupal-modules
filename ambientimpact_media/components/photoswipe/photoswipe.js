@@ -237,7 +237,7 @@ AmbientImpact.addComponent('photoswipe', function(aiPhotoSwipe, $) {
           // Note that we're using $().attr() instead of $().data(),
           // as the data attribute names are passed to us from the
           // backend with the 'data-' prefix.
-          linkedDimension = $image.attr(dataAttributeName);
+          linkedDimension = $link.attr(dataAttributeName);
         }
 
         // Save the parsed value if it was successfully retrieved, is a

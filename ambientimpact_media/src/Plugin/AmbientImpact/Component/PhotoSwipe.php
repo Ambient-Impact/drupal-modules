@@ -140,7 +140,11 @@ class PhotoSwipe extends ComponentBase {
     $elements[0]['#use_photoswipe_gallery'] = $gallery;
 
     foreach ($items as $delta => $item) {
-      $attributes = &$elements[$delta]['#item_attributes'];
+      if (!isset($elements[$delta]['#link_attributes'])) {
+        $elements[$delta]['#link_attributes'] = [];
+      }
+
+      $attributes = &$elements[$delta]['#link_attributes'];
 
       // If the width and height have been provided by the formatter, use those.
       if (
