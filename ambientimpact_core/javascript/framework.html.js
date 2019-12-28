@@ -118,14 +118,18 @@ AmbientImpact.onGlobals([
   AmbientImpact.delayComponents(settings.html.haveHTML,
   new Promise(function(resolve, reject) {
     if (!updateNeeded()) {
-      for (var i = settings.html.haveHTML.length - 1; i >= 0; i--) {
-        insertHTML(
-          settings.html.haveHTML[i],
-          getCachedHTML(settings.html.haveHTML[i])
-        );
-      }
+      // Wait for document ready in case the framework is attached in the <head>
+      // rather than at the end of the document.
+      $(function() {
+        for (var i = settings.html.haveHTML.length - 1; i >= 0; i--) {
+          insertHTML(
+            settings.html.haveHTML[i],
+            getCachedHTML(settings.html.haveHTML[i])
+          );
+        }
 
-      resolve();
+        resolve();
+      });
 
       return;
     }
@@ -135,19 +139,24 @@ AmbientImpact.onGlobals([
     $.get(settings.html.endpointPath).done(function(data) {
       receivedHTML = data;
 
-      // Append the returned HTML to the <body>. In the future, this may be made
-      // configurable.
-      for (var componentName in data) {
-        if (data.hasOwnProperty(componentName)) {
-          saveHTMLToCache(componentName, data[componentName]);
+      // Wait for document ready in case the framework is attached in the <head>
+      // rather than at the end of the document and the response comes in before
+      // the DOM is available.
+      $(function() {
+        // Append the returned HTML to the <body>. In the future, this may be
+        // made configurable.
+        for (var componentName in data) {
+          if (data.hasOwnProperty(componentName)) {
+            saveHTMLToCache(componentName, data[componentName]);
 
-          insertHTML(componentName, data[componentName]);
+            insertHTML(componentName, data[componentName]);
+          }
         }
-      }
 
-      // When the response from the server has come in, resolve the component
-      // delay Promise.
-      resolve();
+        // When the response from the server has come in, resolve the component
+        // delay Promise.
+        resolve();
+      });
     });
   }));
 
