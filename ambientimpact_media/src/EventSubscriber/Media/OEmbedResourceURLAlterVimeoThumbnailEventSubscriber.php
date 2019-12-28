@@ -3,7 +3,7 @@
 namespace Drupal\ambientimpact_media\EventSubscriber\Media;
 
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Drupal\hook_event_dispatcher\Event\Media\OEmbedResourceUrlAlterEvent;
+use Drupal\media_event_dispatcher\Event\Media\OEmbedResourceUrlAlterEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -27,7 +27,7 @@ EventSubscriberInterface {
    * This informs Vimeo to return the thumbnail at the maximum size they
    * support, which is currently 1280 pixels wide.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Media\OEmbedResourceUrlAlterEvent $event
+   * @param \Drupal\media_event_dispatcher\Event\Media\OEmbedResourceUrlAlterEvent $event
    *   The event object.
    */
   public function oEmbedResourceURLAlter(OEmbedResourceUrlAlterEvent $event) {
