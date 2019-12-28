@@ -277,14 +277,25 @@ ContainerFactoryPluginInterface, ConfigurableInterface, ComponentInterface {
         // Save a reference to the 'js' array, if found.
         $files[] = &$library['js'];
 
-        // If there no dependencies or the framework isn't found in the
-        // dependencies, insert it.
+        // Add the JavaScript framework as a dependency if:
         if (
-          !isset($library['dependencies']) ||
-          is_array($library['dependencies']) &&
-          !in_array(
-            'ambientimpact_core/framework',
-            $library['dependencies']
+          // This library isn't to be attached in the header. The reason for
+          // this is that this would cause Drupal to place the framework in the
+          // header as well, which would contribute to a page that's slower to
+          // render. If a library attaches itself to the header, it must not
+          // expect the framework to be available.
+          (
+            !isset($library['header']) ||
+            $library['header'] === false
+          ) && (
+            // The library either doesn't have any dependencies defined, or it
+            // does but does not have the framework listed as a dependency.
+            !isset($library['dependencies']) ||
+            is_array($library['dependencies']) &&
+            !in_array(
+              'ambientimpact_core/framework',
+              $library['dependencies']
+            )
           )
         ) {
           $library['dependencies'][] = 'ambientimpact_core/framework';
