@@ -3,3 +3,12 @@ component.font:
     font.js: {}
   dependencies:
     - ambientimpact_ux/fontfaceobserver
+    - ambientimpact_ux/component.font.preload
+
+# This applies <body> classes for any fonts that have been loaded as early as
+# possible, and as such, is placed in the <head> and not deferred, so it's
+# render-blocking.
+component.font.preload:
+  header: true
+  js:
+    font.preload.js: {attributes: {defer: false}}
