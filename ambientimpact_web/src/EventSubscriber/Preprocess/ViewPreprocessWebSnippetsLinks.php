@@ -6,7 +6,7 @@ use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
-use Drupal\hook_event_dispatcher\Event\Preprocess\ViewPreprocessEvent;
+use Drupal\preprocess_event_dispatcher\Event\ViewPreprocessEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -15,7 +15,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * This adds links to the view header to search snippets, view all web
  * development tags, and to view the web snippets RSS feed.
  *
- * @see \Drupal\hook_event_dispatcher\Event\Preprocess\ViewPreprocessEvent
+ * @see \Drupal\preprocess_event_dispatcher\Event\ViewPreprocessEvent
  */
 class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
   use StringTranslationTrait;
@@ -61,14 +61,14 @@ class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
    * key will be joined together by Drupal with the '-' character, so that
    * hack from Drupal 7 no longer works.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Preprocess\ViewPreprocessEvent $event
+   * @param \Drupal\preprocess_event_dispatcher\Event\ViewPreprocessEvent $event
    *   The event object.
    *
    * @see \Drupal\ambientimpact_web\EventSubscriber\Theme\HookThemeWebSnippetsLinks::theme()
    *   Defines the 'web_snippets_links' render element.
    */
   public function preprocessView(ViewPreprocessEvent $event) {
-    /* @var \Drupal\hook_event_dispatcher\Event\Preprocess\Variables\ViewEventVariables $variables */
+    /* @var \Drupal\preprocess_event_dispatcher\Event\Variables\ViewEventVariables $variables */
     $variables = $event->getVariables();
     $view = $variables->getView();
 

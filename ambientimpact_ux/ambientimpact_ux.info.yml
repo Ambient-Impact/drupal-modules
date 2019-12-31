@@ -9,3 +9,4 @@ dependencies:
   - ambientimpact_core:ambientimpact_core
   - ambientimpact_icon:ambientimpact_icon
   - hook_event_dispatcher:hook_event_dispatcher
+  - hook_event_dispatcher:preprocess_event_dispatcher
