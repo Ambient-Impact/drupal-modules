@@ -4,6 +4,13 @@
 
 @import '../../../ambientimpact_core/stylesheets/_common.scss';
 
+///
+/// Toolbar tray contents stacking order.
+///
+/// Ordered from lowest z-index to highest.
+///
+$toolbar-tray-contents-stacking-order: content, top-shadow;
+
 .toolbar {
   // Hide when in immerse mode.
   @include hide-on-immerse;
@@ -30,11 +37,11 @@
   position: relative;
 }
 
-// This adds a slight shadow along the top of vertical trays so that the current
-// tab indicator contrasts against the tray, as they're both the same colour. It
+// This adds a slight shadow along the top of trays so that the current tab
+// indicator contrasts against the tray, as they're both the same colour. It
 // also gives the tray a sense of being attached to but coming out from under
 // the tab bar.
-.toolbar .toolbar-tray-vertical::before {
+.toolbar .toolbar-tray::before {
   content: '';
 
   position: absolute;
@@ -43,9 +50,17 @@
   left: 0;
   right: 0;
 
+  z-index: index($toolbar-tray-contents-stacking-order, top-shadow);
+
   height: 1em;
 
   box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.25);
+}
+
+// This is required to ensure the above top shadow is placed over the tray
+// contents, not under.
+.toolbar .toolbar-lining {
+    z-index: index($toolbar-tray-contents-stacking-order, content);
 }
 
 // Borders between vertical tray items. Unlike the default Toolbar CSS, this
