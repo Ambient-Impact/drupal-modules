@@ -6,6 +6,20 @@ services:
     tags:
       - { name: 'event_subscriber' }
 
+  # Image formatter hook_field_formatter_info_alter() event subscriber.
+  ambientimpact_media.image_hook_field_formatter_info_alter_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterInfoAlterImageEventSubscriber
+    arguments: []
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Image link to image style formatter hook_field_formatter_info_alter() event subscriber.
+  ambientimpact_media.image_link_to_image_style_hook_field_formatter_info_alter_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterInfoAlterImageLinkToImageStyleEventSubscriber
+    arguments: []
+    tags:
+      - { name: 'event_subscriber' }
+
   # Vimeo thumbnail oEmbed hook_oembed_resource_url_alter() event subscriber.
   ambientimpact_media.vimeo_thumbnail_hook_oembed_resource_url_alter_event_subscriber:
     class: \Drupal\ambientimpact_media\EventSubscriber\Media\OEmbedResourceURLAlterVimeoThumbnailEventSubscriber

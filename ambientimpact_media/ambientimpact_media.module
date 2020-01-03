@@ -4,39 +4,6 @@ use Drupal\Component\Utility\NestedArray;
 use Drupal\ambientimpact_media\Event\Media\OEmbedResourceDataAlterEvent;
 
 /**
- * Implements hook_field_formatter_info_alter().
- *
- * This replaces the core 'image' and contrib
- * 'image_formatter_link_to_image_style' formatters with our own, which extend
- * the default formatters with functionality that the PhotoSwipe component
- * requires.
- *
- * @see \Drupal\ambientimpact_media\Plugin\Field\FieldFormatter\ImageFormatter
- *   Our 'image' field formatter override class.
- *
- * @see \Drupal\ambientimpact_media\Plugin\Field\FieldFormatter\ImageFormatterLinkToImageStyleFormatter
- *   Our 'image_formatter_link_to_image_style' field formatter override class.
- */
-function ambientimpact_media_field_formatter_info_alter(array &$info) {
-  if (
-    isset($info['image']) &&
-    // Only if this is the core formatter class to avoid breaking other modules.
-    $info['image']['class'] ===
-      'Drupal\image\Plugin\Field\FieldFormatter\ImageFormatter'
-  ) {
-    $info['image']['class'] =
-      'Drupal\ambientimpact_media\Plugin\Field\FieldFormatter\ImageFormatter';
-    $info['image']['provider'] = 'ambientimpact_media';
-  }
-
-  if (isset($info['image_formatter_link_to_image_style'])) {
-    $info['image_formatter_link_to_image_style']['class'] =
-      'Drupal\ambientimpact_media\Plugin\Field\FieldFormatter\ImageFormatterLinkToImageStyleFormatter';
-    $info['image_formatter_link_to_image_style']['provider'] = 'ambientimpact_media';
-  }
-}
-
-/**
  * Implements hook_field_formatter_third_party_settings_form().
  *
  * This adds provider/play icon form elements for image formatters on
