@@ -20,6 +20,27 @@ services:
     tags:
       - { name: 'event_subscriber' }
 
+  # Animated GIF toggle hook_field_formatter_settings_summary_alter() event subscriber.
+  ambientimpact_media.animated_gif_toggle_hook_field_formatter_settings_summary_alter_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterSettingsSummaryAlterAnimatedGIFToggleEventSubscriber
+    arguments: ['@string_translation']
+    tags:
+      - { name: 'event_subscriber' }
+
+  # PhotoSwipe hook_field_formatter_settings_summary_alter() event subscriber.
+  ambientimpact_media.photoswipe_hook_field_formatter_settings_summary_alter_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterSettingsSummaryAlterPhotoSwipeEventSubscriber
+    arguments: ['@string_translation']
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Remote video hook_field_formatter_settings_summary_alter() event subscriber.
+  ambientimpact_media.remote_video_hook_field_formatter_settings_summary_alter_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterSettingsSummaryAlterRemoteVideoEventSubscriber
+    arguments: ['@string_translation']
+    tags:
+      - { name: 'event_subscriber' }
+
   # Vimeo thumbnail oEmbed hook_oembed_resource_url_alter() event subscriber.
   ambientimpact_media.vimeo_thumbnail_hook_oembed_resource_url_alter_event_subscriber:
     class: \Drupal\ambientimpact_media\EventSubscriber\Media\OEmbedResourceURLAlterVimeoThumbnailEventSubscriber
