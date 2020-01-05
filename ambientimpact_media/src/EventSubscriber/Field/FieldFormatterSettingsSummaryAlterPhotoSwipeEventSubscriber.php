@@ -50,7 +50,7 @@ EventSubscriberInterface {
    * This displays a message on image formatters linked an image file if
    * PhotoSwipe is set to be used.
    *
-   * @param \Drupal\media_event_dispatcher\Event\Field\FieldFormatterSettingsSummaryAlterEvent $event
+   * @param \Drupal\field_event_dispatcher\Event\Field\FieldFormatterSettingsSummaryAlterEvent $event
    *   The event object.
    *
    * @see https://www.drupal.org/node/2130757

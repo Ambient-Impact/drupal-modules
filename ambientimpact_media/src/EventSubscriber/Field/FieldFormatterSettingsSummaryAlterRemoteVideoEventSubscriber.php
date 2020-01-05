@@ -50,7 +50,7 @@ EventSubscriberInterface {
    * This displays a message on image formatters linked to 'remote' if the play
    * icon is set to be shown over the thumbnail.
    *
-   * @param \Drupal\media_event_dispatcher\Event\Field\FieldFormatterSettingsSummaryAlterEvent $event
+   * @param \Drupal\field_event_dispatcher\Event\Field\FieldFormatterSettingsSummaryAlterEvent $event
    *   The event object.
    *
    * @see https://www.drupal.org/node/2130757
