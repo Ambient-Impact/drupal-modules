@@ -41,6 +41,27 @@ services:
     tags:
       - { name: 'event_subscriber' }
 
+  # Animated GIF toggle hook_field_formatter_third_party_settings_form() event subscriber.
+  ambientimpact_media.animated_gif_toggle_hook_field_formatter_third_party_settings_form_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterThirdPartySettingsFormAnimatedGIFToggleEventSubscriber
+    arguments: ['@string_translation']
+    tags:
+      - { name: 'event_subscriber' }
+
+  # PhotoSwipe hook_field_formatter_third_party_settings_form() event subscriber.
+  ambientimpact_media.photoswipe_hook_field_formatter_third_party_settings_form_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterThirdPartySettingsFormPhotoSwipeEventSubscriber
+    arguments: ['@string_translation']
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Remote video hook_field_formatter_third_party_settings_form() event subscriber.
+  ambientimpact_media.remote_video_hook_field_formatter_third_party_settings_form_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterThirdPartySettingsFormRemoteVideoEventSubscriber
+    arguments: ['@string_translation']
+    tags:
+      - { name: 'event_subscriber' }
+
   # Vimeo thumbnail oEmbed hook_oembed_resource_url_alter() event subscriber.
   ambientimpact_media.vimeo_thumbnail_hook_oembed_resource_url_alter_event_subscriber:
     class: \Drupal\ambientimpact_media\EventSubscriber\Media\OEmbedResourceURLAlterVimeoThumbnailEventSubscriber
