@@ -5,7 +5,7 @@ namespace Drupal\ambientimpact_ux\EventSubscriber\Page;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Theme\ThemeManagerInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Drupal\hook_event_dispatcher\Event\Page\PageAttachmentsEvent;
+use Drupal\core_event_dispatcher\Event\Theme\PageAttachmentsEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**

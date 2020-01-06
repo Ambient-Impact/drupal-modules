@@ -13,6 +13,7 @@ dependencies:
   - ambientimpact_icon:ambientimpact_icon
   - ambientimpact_ux:ambientimpact_ux
   - hook_event_dispatcher:hook_event_dispatcher
+  - hook_event_dispatcher:core_event_dispatcher
   - hook_event_dispatcher:media_event_dispatcher
   - hook_event_dispatcher:preprocess_event_dispatcher
   - image_field_caption:image_field_caption

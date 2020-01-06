@@ -5,7 +5,7 @@ namespace Drupal\ambientimpact_media\EventSubscriber\Entity;
 use Drupal\file\Entity\File;
 use Drupal\Core\Image\ImageFactory;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Drupal\hook_event_dispatcher\Event\Entity\EntityPresaveEvent;
+use Drupal\core_event_dispatcher\Event\Entity\EntityPresaveEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**

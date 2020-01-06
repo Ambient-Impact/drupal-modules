@@ -7,4 +7,4 @@ core_version_requirement: ^8 || ^9
 
 dependencies:
   - ambientimpact_core:ambientimpact_core
-  - hook_event_dispatcher:hook_event_dispatcher
+  - hook_event_dispatcher:core_event_dispatcher

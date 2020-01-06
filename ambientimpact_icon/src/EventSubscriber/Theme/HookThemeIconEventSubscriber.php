@@ -5,7 +5,7 @@ namespace Drupal\ambientimpact_icon\EventSubscriber\Theme;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Drupal\hook_event_dispatcher\Event\Theme\ThemeEvent;
+use Drupal\core_event_dispatcher\Event\Theme\ThemeEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**

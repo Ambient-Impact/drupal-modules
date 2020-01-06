@@ -4,7 +4,7 @@ namespace Drupal\ambientimpact_ux\EventSubscriber\Page;
 
 use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Drupal\hook_event_dispatcher\Event\Page\PageTopEvent;
+use Drupal\core_event_dispatcher\Event\Theme\PageTopEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -47,7 +47,7 @@ class HookPageTopEventSubscriber implements EventSubscriberInterface {
    * - An anchor to the very top of the page for the 'to_top' component to
    *   scroll to.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Page\PageTopEvent $event
+   * @param \Drupal\hook_event_dispatcher\Event\Theme\PageTopEvent $event
    *   The event object.
    */
   public function pageTop(PageTopEvent $event) {

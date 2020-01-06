@@ -3,7 +3,7 @@
 namespace Drupal\ambientimpact_ux\EventSubscriber\Form;
 
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Drupal\hook_event_dispatcher\Event\Form\FormAlterEvent;
+use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**

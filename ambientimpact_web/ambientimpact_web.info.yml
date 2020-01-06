@@ -15,7 +15,7 @@ dependencies:
   - ambientimpact_icon:ambientimpact_icon
   - ambientimpact_paragraphs:ambientimpact_paragraphs
   - entity_reference_revisions:entity_reference_revisions
-  - hook_event_dispatcher:hook_event_dispatcher
+  - hook_event_dispatcher:core_event_dispatcher
   - hook_event_dispatcher:preprocess_event_dispatcher
   - paragraphs:paragraphs
   - search_api:search_api

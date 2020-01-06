@@ -5,7 +5,7 @@ namespace Drupal\ambientimpact_core\EventSubscriber\Page;
 use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Drupal\Core\State\StateInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Drupal\hook_event_dispatcher\Event\Page\PageAttachmentsEvent;
+use Drupal\core_event_dispatcher\Event\Theme\PageAttachmentsEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -66,7 +66,7 @@ class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
    *   usually attached to because they may use shared global settings and/or
    *   counters.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Page\PageAttachmentsEvent $event
+   * @param \Drupal\hook_event_dispatcher\Event\Theme\PageAttachmentsEvent $event
    *   The event object.
    */
   public function pageAttachments(PageAttachmentsEvent $event) {
