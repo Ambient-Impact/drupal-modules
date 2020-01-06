@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_core\EventSubscriber\Page;
+namespace Drupal\ambientimpact_core\EventSubscriber\Theme;
 
 use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Drupal\Core\State\StateInterface;

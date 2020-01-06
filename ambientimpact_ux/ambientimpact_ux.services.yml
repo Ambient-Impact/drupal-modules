@@ -1,7 +1,7 @@
 services:
   # hook_page_attachments() event subscriber.
   ambientimpact_ux.hook_page_attachments_event_subscriber:
-    class: \Drupal\ambientimpact_ux\EventSubscriber\Page\HookPageAttachmentsEventSubscriber
+    class: \Drupal\ambientimpact_ux\EventSubscriber\Theme\HookPageAttachmentsEventSubscriber
     arguments:
       - '@theme.manager'
       - '@current_user'
@@ -10,7 +10,7 @@ services:
 
   # hook_page_top() event subscriber.
   ambientimpact_ux.hook_page_top_event_subscriber:
-    class: \Drupal\ambientimpact_ux\EventSubscriber\Page\HookPageTopEventSubscriber
+    class: \Drupal\ambientimpact_ux\EventSubscriber\Theme\HookPageTopEventSubscriber
     arguments: ['@plugin.manager.ambientimpact_component']
     tags:
       - { name: 'event_subscriber' }

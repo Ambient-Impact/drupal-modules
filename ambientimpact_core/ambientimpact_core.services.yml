@@ -47,7 +47,7 @@ services:
 
   # hook_page_attachments() event subscriber.
   ambientimpact_core.hook_page_attachments_event_subscriber:
-    class: \Drupal\ambientimpact_core\EventSubscriber\Page\HookPageAttachmentsEventSubscriber
+    class: \Drupal\ambientimpact_core\EventSubscriber\Theme\HookPageAttachmentsEventSubscriber
     arguments:
       - '@plugin.manager.ambientimpact_component'
       - '@state'

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_ux\EventSubscriber\Page;
+namespace Drupal\ambientimpact_ux\EventSubscriber\Theme;
 
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Theme\ThemeManagerInterface;
