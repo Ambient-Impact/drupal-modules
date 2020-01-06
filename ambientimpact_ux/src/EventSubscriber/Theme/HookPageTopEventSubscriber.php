@@ -47,7 +47,7 @@ class HookPageTopEventSubscriber implements EventSubscriberInterface {
    * - An anchor to the very top of the page for the 'to_top' component to
    *   scroll to.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Theme\PageTopEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Theme\PageTopEvent $event
    *   The event object.
    */
   public function pageTop(PageTopEvent $event) {

@@ -58,7 +58,7 @@ class MediaEntityPresaveEventSubscriber implements EventSubscriberInterface {
    * as a fallback in case it's needed. Will be removed once the Drupal core bug
    * is fixed.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Entity\EntityPresaveEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Entity\EntityPresaveEvent $event
    *   The event object.
    *
    * @see https://www.drupal.org/project/drupal/issues/3088168

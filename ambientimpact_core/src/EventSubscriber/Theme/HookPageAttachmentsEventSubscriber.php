@@ -66,7 +66,7 @@ class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
    *   usually attached to because they may use shared global settings and/or
    *   counters.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Theme\PageAttachmentsEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Theme\PageAttachmentsEvent $event
    *   The event object.
    */
   public function pageAttachments(PageAttachmentsEvent $event) {

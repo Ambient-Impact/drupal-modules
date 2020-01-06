@@ -26,7 +26,7 @@ class HookFormAlterEventSubscriber implements EventSubscriberInterface {
    *
    * - Attaches the form component library.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Form\FormAlterEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Form\FormAlterEvent $event
    *   The event object.
    */
   public function formAlter(FormAlterEvent $event) {

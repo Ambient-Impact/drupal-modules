@@ -31,7 +31,7 @@ EventSubscriberInterface {
    * This changes the 'image_formatter_link_to_image_style_formatter' default
    * value for the 'url_attributes' variable from null to an empty array.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Theme\ThemeRegistryAlterEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Theme\ThemeRegistryAlterEvent $event
    *   The event object.
    */
   public function themeRegistryAlter(ThemeRegistryAlterEvent $event) {

@@ -29,7 +29,7 @@ EventSubscriberInterface {
    * the 'image_formatter', 'image_formatter_link_to_image_style_formatter', and
    * 'image_caption_formatter' elements.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Theme\ThemeRegistryAlterEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Theme\ThemeRegistryAlterEvent $event
    *   The event object.
    */
   public function themeRegistryAlter(ThemeRegistryAlterEvent $event) {

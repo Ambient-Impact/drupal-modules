@@ -70,7 +70,7 @@ class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
    *   be ignored, probably because of how contextual links are rendered
    *   separately from the page and fetched via Ajax.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Page\PageAttachmentsEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Theme\PageAttachmentsEvent $event
    *   The event object.
    *
    * @see \contextual_page_attachments()

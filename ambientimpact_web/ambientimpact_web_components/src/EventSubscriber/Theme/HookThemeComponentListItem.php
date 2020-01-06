@@ -42,7 +42,7 @@ class HookThemeComponentListItem implements EventSubscriberInterface {
   /**
    * Defines the 'ambientimpact_component_list_item' theme element.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Theme\ThemeEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Theme\ThemeEvent $event
    *   The event object.
    */
   public function theme(ThemeEvent $event) {

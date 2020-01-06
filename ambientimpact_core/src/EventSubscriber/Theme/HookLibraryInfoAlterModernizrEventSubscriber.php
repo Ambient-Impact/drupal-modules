@@ -60,7 +60,7 @@ implements EventSubscriberInterface {
   /**
    * Replace core's Modernizr with our own.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Theme\LibraryInfoAlterEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Theme\LibraryInfoAlterEvent $event
    *   The event object.
    */
   public function libraryInfoAlter(LibraryInfoAlterEvent $event) {

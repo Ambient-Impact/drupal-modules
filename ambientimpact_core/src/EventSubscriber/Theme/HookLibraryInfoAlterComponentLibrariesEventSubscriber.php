@@ -46,7 +46,7 @@ implements EventSubscriberInterface {
   /**
    * Register Ambient.Impact Component libraries.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Theme\LibraryInfoAlterEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Theme\LibraryInfoAlterEvent $event
    *   The event object.
    *
    * @see \Drupal\ambientimpact_core\ComponentPluginManagerInterface::getComponentLibraries()

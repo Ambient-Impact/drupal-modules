@@ -43,7 +43,7 @@ implements EventSubscriberInterface {
   /**
    * Defines the 'media_play_overlay' theme element.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Theme\ThemeEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Theme\ThemeEvent $event
    *   The event object.
    */
   public function theme(ThemeEvent $event) {

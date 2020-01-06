@@ -29,7 +29,7 @@ EventSubscriberInterface {
    * 'image_caption_formatter' items so that that setting can make it through to
    * our preprocess functions.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Theme\ThemeRegistryAlterEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Theme\ThemeRegistryAlterEvent $event
    *   The event object.
    *
    * @see ambientimpact_media_preprocess_image_formatter()
