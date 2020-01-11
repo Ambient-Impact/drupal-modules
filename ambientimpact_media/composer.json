@@ -27,7 +27,7 @@
   },
   "require": {
     "cweagans/composer-patches": "^1.6.5",
-    "drupal/hook_event_dispatcher": "^1.23",
+    "drupal/hook_event_dispatcher": "dev-8.x-2.x-AmbientImpactDev",
     "drupal/image_field_caption": "1.x-dev",
     "guzzlehttp/guzzle": "^6.3",
     "bower-asset/photoswipe": "4.1.3"

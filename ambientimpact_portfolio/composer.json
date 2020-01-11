@@ -12,6 +12,6 @@
   ],
   "require": {
     "drupal/entityqueue": "^1.0",
-    "drupal/hook_event_dispatcher": "^1.23"
+    "drupal/hook_event_dispatcher": "dev-8.x-2.x-AmbientImpactDev"
   }
 }
