@@ -64,7 +64,7 @@ class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
    * @param \Drupal\preprocess_event_dispatcher\Event\ViewPreprocessEvent $event
    *   The event object.
    *
-   * @see \Drupal\ambientimpact_web\EventSubscriber\Theme\HookThemeWebSnippetsLinks::theme()
+   * @see \Drupal\ambientimpact_web\EventSubscriber\Theme\ThemeWebSnippetsLinks::theme()
    *   Defines the 'web_snippets_links' render element.
    */
   public function preprocessView(ViewPreprocessEvent $event) {

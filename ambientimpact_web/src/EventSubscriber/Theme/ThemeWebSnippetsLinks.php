@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ambientimpact_media\EventSubscriber\Theme;
+namespace Drupal\ambientimpact_web\EventSubscriber\Theme;
 
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
@@ -8,10 +8,9 @@ use Drupal\core_event_dispatcher\Event\Theme\ThemeEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * hook_theme() event subscriber class to define 'media_play_overlay' element.
+ * hook_theme() event subscriber class to define 'web_snippets_links' element.
  */
-class HookThemeMediaPlayOverlayEventSubscriber
-implements EventSubscriberInterface {
+class ThemeWebSnippetsLinks implements EventSubscriberInterface {
   /**
    * The Drupal module handler service.
    *
@@ -41,27 +40,21 @@ implements EventSubscriberInterface {
   }
 
   /**
-   * Defines the 'media_play_overlay' theme element.
+   * Defines the 'web_snippets_links' theme element.
    *
    * @param \Drupal\core_event_dispatcher\Event\Theme\ThemeEvent $event
    *   The event object.
    */
   public function theme(ThemeEvent $event) {
-    $event->addNewTheme('media_play_overlay', [
+    $event->addNewTheme('web_snippets_links', [
       'variables' => [
-        'iconName'    => '',
-        'iconBundle'  => '',
-        'text'        => '',
-        'iconOptions' => [
-          'containerAttributes' => ['class' => []],
-        ],
-        'preview'     => '',
+        'items'     => [],
       ],
-      'template'  => 'media-play-overlay',
+      'template'  => 'web-snippets-links',
       // Path is required.
       // @see https://www.drupal.org/project/hook_event_dispatcher/issues/3038311
-      'path'      => $this->moduleHandler->getModule('ambientimpact_media')
-                     ->getPath() . '/templates/field',
+      'path'      => $this->moduleHandler ->getModule('ambientimpact_web')
+                     ->getPath() . '/templates/web-snippets',
     ]);
   }
 }

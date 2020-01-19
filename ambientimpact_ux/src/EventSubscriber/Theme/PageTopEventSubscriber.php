@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * hook_page_top() event subscriber class.
  */
-class HookPageTopEventSubscriber implements EventSubscriberInterface {
+class PageTopEventSubscriber implements EventSubscriberInterface {
   /**
    * The Ambient.Impact Component plug-in manager service.
    *

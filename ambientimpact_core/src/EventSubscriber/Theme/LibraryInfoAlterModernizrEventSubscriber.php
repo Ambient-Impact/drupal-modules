@@ -15,7 +15,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * options core's does, plus others. Note that we only do this if the core
  * Modernizr path is used, so as not to replace another module's override.
  */
-class HookLibraryInfoAlterModernizrEventSubscriber
+class LibraryInfoAlterModernizrEventSubscriber
 implements EventSubscriberInterface {
   /**
    * The Drupal module handler service.

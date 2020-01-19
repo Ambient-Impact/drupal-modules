@@ -11,7 +11,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * hook_theme() event subscriber class to define 'ambientimpact_icon' element.
  */
-class HookThemeIconEventSubscriber implements EventSubscriberInterface {
+class ThemeIconEventSubscriber implements EventSubscriberInterface {
   /**
    * The Ambient.Impact Component plug-in manager service.
    *

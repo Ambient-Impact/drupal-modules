@@ -9,7 +9,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * hook_theme_registry_alter() event subscriber for Intrinsic ratio.
  */
-class HookThemeRegistryAlterIntrinsicRatioEventSubscriber implements
+class ThemeRegistryAlterIntrinsicRatioEventSubscriber implements
 EventSubscriberInterface {
   /**
    * {@inheritdoc}

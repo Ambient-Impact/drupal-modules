@@ -11,7 +11,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * hook_page_attachments() event subscriber class.
  */
-class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
+class PageAttachmentsEventSubscriber implements EventSubscriberInterface {
   /**
    * The Drupal theme manager service.
    *

@@ -1,7 +1,7 @@
 services:
   # Web snippets links hook_theme() event subscriber.
-  ambientimpact_web.hook_theme_web_snippets_links_event_subscriber:
-    class: \Drupal\ambientimpact_web\EventSubscriber\Theme\HookThemeWebSnippetsLinks
+  ambientimpact_web.theme_web_snippets_links_event_subscriber:
+    class: \Drupal\ambientimpact_web\EventSubscriber\Theme\ThemeWebSnippetsLinks
     arguments: ['@module_handler']
     tags:
       - { name: 'event_subscriber' }

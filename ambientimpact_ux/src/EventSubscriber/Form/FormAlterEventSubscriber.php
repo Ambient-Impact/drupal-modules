@@ -9,7 +9,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * hook_form_alter() event subscriber class.
  */
-class HookFormAlterEventSubscriber implements EventSubscriberInterface {
+class FormAlterEventSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */

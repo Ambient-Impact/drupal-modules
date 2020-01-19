@@ -7,9 +7,9 @@ use Drupal\core_event_dispatcher\Event\Theme\ThemeRegistryAlterEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * hook_theme_registry_alter() event subscriber for image link attributes.
+ * hook_theme_registry_alter() event subscriber for Remote video.
  */
-class HookThemeRegistryAlterImageLinkAttributesEventSubscriber implements
+class ThemeRegistryAlterRemoteVideoEventSubscriber implements
 EventSubscriberInterface {
   /**
    * {@inheritdoc}
@@ -22,14 +22,12 @@ EventSubscriberInterface {
   }
 
   /**
-   * Define and alter various image link variables.
+   * Define various remote video variables for image-related elements.
    *
-   * This defines the 'link_attributes' variable for the 'image_formatter',
-   * 'image_formatter_link_to_image_style_formatter', and
+   * This defines the 'use_remote_video_play_icon',
+   * 'remote_video_provider_name', and 'remote_video_media_name' variables for
+   * the 'image_formatter', 'image_formatter_link_to_image_style_formatter', and
    * 'image_caption_formatter' elements.
-   *
-   * This changes the 'image_formatter_link_to_image_style_formatter' default
-   * value for the 'url_attributes' variable from null to an empty array.
    *
    * @param \Drupal\core_event_dispatcher\Event\Theme\ThemeRegistryAlterEvent $event
    *   The event object.
@@ -43,15 +41,12 @@ EventSubscriberInterface {
       'image_caption_formatter',
     ] as $type) {
       if (isset($themeRegistry[$type])) {
-        $themeRegistry[$type]['variables']['link_attributes'] = [];
-      }
-    }
+        $variables = &$themeRegistry[$type]['variables'];
 
-    if (isset(
-      $themeRegistry['image_formatter_link_to_image_style_formatter']
-    )) {
-      $themeRegistry['image_formatter_link_to_image_style_formatter']
-        ['variables']['url_attributes'] = [];
+        $variables['use_remote_video_play_icon']  = false;
+        $variables['remote_video_provider_name']  = false;
+        $variables['remote_video_media_name']     = false;
+      }
     }
   }
 }

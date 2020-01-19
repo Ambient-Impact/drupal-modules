@@ -11,7 +11,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * hook_theme() event to define the 'ambientimpact_block_social_links' element.
  */
-class HookThemeBlockSocialLinks implements EventSubscriberInterface {
+class ThemeBlockSocialLinks implements EventSubscriberInterface {
   /**
    * The Drupal configuration object factory service.
    *
@@ -77,7 +77,7 @@ class HookThemeBlockSocialLinks implements EventSubscriberInterface {
       // Path is required.
       // @see https://www.drupal.org/project/hook_event_dispatcher/issues/3038311
       'path'      => $this->moduleHandler->getModule('ambientimpact_block')
-                     ->getPath() . '/templates',
+        ->getPath() . '/templates',
     ]);
   }
 }

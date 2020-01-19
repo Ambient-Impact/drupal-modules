@@ -8,9 +8,9 @@ use Drupal\core_event_dispatcher\Event\Theme\ThemeEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * hook_theme() event to define the 'ambientimpact_component_list_item' element.
+ * hook_theme() event to define the 'ambientimpact_component_demo' element.
  */
-class HookThemeComponentListItem implements EventSubscriberInterface {
+class ThemeComponentDemo implements EventSubscriberInterface {
   /**
    * The Drupal module handler service.
    *
@@ -40,22 +40,23 @@ class HookThemeComponentListItem implements EventSubscriberInterface {
   }
 
   /**
-   * Defines the 'ambientimpact_component_list_item' theme element.
+   * Defines the 'ambientimpact_component_demo' theme element.
    *
    * @param \Drupal\core_event_dispatcher\Event\Theme\ThemeEvent $event
    *   The event object.
    */
   public function theme(ThemeEvent $event) {
-    $event->addNewTheme('ambientimpact_component_list_item', [
+    $event->addNewTheme('ambientimpact_component_demo', [
       'variables' => [
-        'pageLink'  => [],
-        'demoLink'  => [],
+        'intro' => [],
+        'demo'  => [],
       ],
-      'template'  => 'ambientimpact-component-list-item',
+      'template'  => 'ambientimpact-component-demo',
       // Path is required.
       // @see https://www.drupal.org/project/hook_event_dispatcher/issues/3038311
       'path'      => $this->moduleHandler
-        ->getModule('ambientimpact_web_components')->getPath() . '/templates',
+        ->getModule('ambientimpact_web_components')
+                     ->getPath() . '/templates',
     ]);
   }
 }

@@ -1,28 +1,28 @@
 services:
   # hook_theme() event to define the 'ambientimpact_component_list' element.
-  ambientimpact_web_components.hook_theme_component_list_event_subscriber:
-    class: \Drupal\ambientimpact_web_components\EventSubscriber\Theme\HookThemeComponentList
+  ambientimpact_web_components.theme_component_list_event_subscriber:
+    class: \Drupal\ambientimpact_web_components\EventSubscriber\Theme\ThemeComponentList
     arguments: ['@module_handler']
     tags:
       - { name: 'event_subscriber' }
 
   # hook_theme() event to define the 'ambientimpact_component_list_item' element.
-  ambientimpact_web_components.hook_theme_component_list_item_event_subscriber:
-    class: \Drupal\ambientimpact_web_components\EventSubscriber\Theme\HookThemeComponentListItem
+  ambientimpact_web_components.theme_component_list_item_event_subscriber:
+    class: \Drupal\ambientimpact_web_components\EventSubscriber\Theme\ThemeComponentListItem
     arguments: ['@module_handler']
     tags:
       - { name: 'event_subscriber' }
 
   # hook_theme() event to define the 'ambientimpact_component_item' element.
-  ambientimpact_web_components.hook_theme_component_item_event_subscriber:
-    class: \Drupal\ambientimpact_web_components\EventSubscriber\Theme\HookThemeComponentItem
+  ambientimpact_web_components.theme_component_item_event_subscriber:
+    class: \Drupal\ambientimpact_web_components\EventSubscriber\Theme\ThemeComponentItem
     arguments: ['@module_handler']
     tags:
       - { name: 'event_subscriber' }
 
   # hook_theme() event to define the 'ambientimpact_component_demo' element.
-  ambientimpact_web_components.hook_theme_component_demo_event_subscriber:
-    class: \Drupal\ambientimpact_web_components\EventSubscriber\Theme\HookThemeComponentDemo
+  ambientimpact_web_components.theme_component_demo_event_subscriber:
+    class: \Drupal\ambientimpact_web_components\EventSubscriber\Theme\ThemeComponentDemo
     arguments: ['@module_handler']
     tags:
       - { name: 'event_subscriber' }

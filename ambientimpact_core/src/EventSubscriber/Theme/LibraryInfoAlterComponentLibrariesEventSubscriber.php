@@ -13,7 +13,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * This registers the libraries defined in individual Ambient.Impact Components,
  * as returned by the 'plugin.manager.ambientimpact_component' service.
  */
-class HookLibraryInfoAlterComponentLibrariesEventSubscriber
+class LibraryInfoAlterComponentLibrariesEventSubscriber
 implements EventSubscriberInterface {
   /**
    * The Ambient.Impact Component plug-in manager service.

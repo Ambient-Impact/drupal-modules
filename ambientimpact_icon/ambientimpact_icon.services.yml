@@ -5,8 +5,8 @@ services:
     parent: default_plugin_manager
 
   # Icon hook_theme() event subscriber.
-  ambientimpact_icon.hook_theme_icon_event_subscriber:
-    class: \Drupal\ambientimpact_icon\EventSubscriber\Theme\HookThemeIconEventSubscriber
+  ambientimpact_icon.theme_icon_event_subscriber:
+    class: \Drupal\ambientimpact_icon\EventSubscriber\Theme\ThemeIconEventSubscriber
     arguments: ['@plugin.manager.ambientimpact_component', '@module_handler']
     tags:
       - { name: 'event_subscriber' }

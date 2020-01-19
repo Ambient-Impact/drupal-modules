@@ -9,7 +9,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * hook_theme_registry_alter() event subscriber for Animated GIF toggle.
  */
-class HookThemeRegistryAlterAnimatedGIFToggleEventSubscriber implements
+class ThemeRegistryAlterAnimatedGIFToggleEventSubscriber implements
 EventSubscriberInterface {
   /**
    * {@inheritdoc}
