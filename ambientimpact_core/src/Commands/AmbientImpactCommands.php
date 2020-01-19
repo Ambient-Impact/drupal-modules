@@ -427,6 +427,7 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
     ],
     'delete' => true,
     'target-post-drush-commands' => [
+      'config-import',
       'updb',
       'cr',
     ],
