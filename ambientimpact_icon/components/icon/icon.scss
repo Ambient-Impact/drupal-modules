@@ -25,6 +25,9 @@
   // http://css-tricks.com/cascading-svg-fill-color/
   @include set-icon-colour(currentColor);
 
+  // Required so icon text displays underlines correctly when in a link.
+  text-decoration: inherit;
+
   &__icon {
     position: relative;
 
