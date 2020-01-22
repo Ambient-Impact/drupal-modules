@@ -5,22 +5,22 @@
 ///
 /// The text underline colour.
 ///
-$text-underline-colour:   currentColor  !default;
+$text-underline-colour: currentColor !default;
 
 ///
 /// The text underline vertical position, as a background-position-y value.
 ///
-$text-underline-position: 96%       !default;
+$text-underline-position: 96% !default;
 
 ///
 /// The text underline thickness.
 ///
-$text-underline-thickness:  2px       !default;
+$text-underline-thickness: 2px !default;
 
 ///
 /// The text underline style; should be one of solid, dotted, or dashed.
 ///
-$text-underline-style:    solid     !default;
+$text-underline-style: solid !default;
 
 ///
 /// Wrap styles to only serve them to browsers that support our underlines.
@@ -75,7 +75,7 @@ $text-underline-style:    solid     !default;
 ///
 @function text-underline-background(
   $underline-colour:  $text-underline-colour,
-  $underline-style: $text-underline-style
+  $underline-style:   $text-underline-style
 ) {
   // Dotted and dashed gradients are identical, with the difference being only
   // the background-size that mixin text-underline-background sets.
@@ -128,7 +128,7 @@ $text-underline-style:    solid     !default;
   $underline-colour:    $text-underline-colour,
   $underline-position:  $text-underline-position,
   $underline-thickness: $text-underline-thickness,
-  $underline-style:   $text-underline-style
+  $underline-style:     $text-underline-style
 ) {
   // Set underline values as custom properties so that they can be altered on
   // a per-element basis at run-time.
@@ -299,7 +299,7 @@ $text-underline-style:    solid     !default;
   $underline-colour:    $text-underline-colour,
   $underline-position:  $text-underline-position,
   $underline-thickness: $text-underline-thickness,
-  $underline-style:   $text-underline-style,
+  $underline-style:     $text-underline-style,
   $background-colour:   custom-property('background-colour')
 ) {
 
@@ -308,12 +308,12 @@ $text-underline-style:    solid     !default;
       $underline-colour:    $underline-colour,
       $underline-position:  $underline-position,
       $underline-thickness: $underline-thickness,
-      $underline-style:   $underline-style
+      $underline-style:     $underline-style
     );
 
     @include text-underline-crop($background-colour);
-    // For whatever reason, we have to explicitly declare the crop when text
-    // is selected.
+    // For whatever reason, we have to explicitly declare the crop when text is
+    // selected.
     @include selection-active {
       @include text-underline-crop($background-colour);
     }
