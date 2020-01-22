@@ -27,7 +27,7 @@ $transition-fade-out-duration: 0.5s !default;
 ///
 $transition-fade-properties:
   color, background-color, border-color, outline-color, opacity, box-shadow,
-  filter !default;
+  filter, text-decoration-color !default;
 
 ///
 /// Set base fade transition properties.
