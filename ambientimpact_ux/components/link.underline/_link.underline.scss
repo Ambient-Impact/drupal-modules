@@ -106,10 +106,14 @@ $fancy-link-underlines-has-image-text-class:
       $underline-thickness:
         custom-property('fancy-link-underline-thickness'),
       $underline-style: $underline-style
-    ) {
-      // Remove the native underlines.
-      text-decoration: none;
-    };
+    );
+
+    // @include supports-cleared-text-underline {
+    //   @include fancy-link-underlines-link {
+    //     // Remove the native underlines.
+    //     text-decoration: none;
+    //   }
+    // }
   }
 
   @include supports-cleared-text-underline {
@@ -122,12 +126,12 @@ $fancy-link-underlines-has-image-text-class:
       custom-property('link-underline-normal-colour')
     );
 
-    &.#{$fancy-link-underlines-has-image-class} {
-      // Remove the native underlines as these can show up on top of the
-      // fancy underlines for links that contain images, since we don't
-      // target those links directly.
-      text-decoration: none;
-    }
+    // &.#{$fancy-link-underlines-has-image-class} {
+    //   // Remove the native underlines as these can show up on top of the
+    //   // fancy underlines for links that contain images, since we don't
+    //   // target those links directly.
+    //   text-decoration: none;
+    // }
 
     // Remove crop on selected links when the window is blurred.
     &.ambientimpact-link-underline-window-blur {

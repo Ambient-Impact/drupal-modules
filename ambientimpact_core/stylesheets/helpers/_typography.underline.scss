@@ -36,6 +36,8 @@ $text-underline-style: solid !default;
 ///
 /// * CSS custom properties
 ///
+/// * That native text-decoration-thickness is *not* supported
+///
 /// @content
 ///   The styles to wrap in the @supports block.
 ///
@@ -45,7 +47,8 @@ $text-underline-style: solid !default;
   @supports
     (background-size: calc(1px * 1) 1px) and
     (background-image:  text-underline-background(white)) and
-    #{'(--test: orange)'}
+    #{'(--test: orange)'} and
+    (not (text-decoration-thickness: 1px))
   {
     @content;
   }
