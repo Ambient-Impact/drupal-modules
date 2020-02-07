@@ -27,9 +27,21 @@ $link-normal-colour-on-light: $link-base-colour !default;
 /// most colours that aren't too dark, but you may have to adjust it if the base
 /// colour is fairly dark.
 ///
+/// Additionally, we use a custom value if the default $link-base-colour or the
+/// default $material-primary-colour are in use, as inverting the lightness of
+/// that still results in a colour without enough contrast against dark
+/// background colours.
+///
+/// @require {variable} $link-base-colour
 /// @require {function} invert-lightness
 ///
-$link-normal-colour-on-dark: invert-lightness($link-base-colour) !default;
+$link-normal-colour-on-dark:
+  if(
+    // Default $link-base-colour or default $material-primary-colour.
+    $link-base-colour == #3B53BF or $link-base-colour == rgb(63, 81, 181),
+    #7280ff,
+    invert-lightness($link-base-colour)
+  ) !default;
 
 ///
 /// Link colour on light backgrounds when hovered/focused.
