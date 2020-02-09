@@ -25,8 +25,8 @@ EventSubscriberInterface {
    * Define and alter various image link variables.
    *
    * This defines the 'link_attributes' variable for the 'image_formatter',
-   * 'image_formatter_link_to_image_style_formatter', and
-   * 'image_caption_formatter' elements.
+   * 'image_formatter_link_to_image_style_formatter', 'image_caption_formatter',
+   * and 'responsive_image_formatter' elements.
    *
    * This changes the 'image_formatter_link_to_image_style_formatter' default
    * value for the 'url_attributes' variable from null to an empty array.
@@ -41,6 +41,7 @@ EventSubscriberInterface {
       'image_formatter',
       'image_formatter_link_to_image_style_formatter',
       'image_caption_formatter',
+      'responsive_image_formatter',
     ] as $type) {
       if (isset($themeRegistry[$type])) {
         $themeRegistry[$type]['variables']['link_attributes'] = [];
