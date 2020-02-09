@@ -197,8 +197,8 @@ function ambientimpact_media_field_formatter_settings_summary_alter(
  * our preprocess functions.
  *
  * This defines the 'link_attributes' variable for the 'image_formatter',
- * 'image_formatter_link_to_image_style_formatter', and
- * 'image_caption_formatter' elements.
+ * 'image_formatter_link_to_image_style_formatter', 'image_caption_formatter',
+ * and 'responsive_image_formatter' elements.
  *
  * This defines the 'use_remote_video_play_icon', 'remote_video_provider_name', and
  * 'remote_video_media_name' variables for the 'image_formatter',
@@ -254,6 +254,14 @@ function ambientimpact_media_theme_registry_alter(&$themeRegistry) {
     if (isset($themeRegistry[$type])) {
       $themeRegistry[$type]['variables']['use_ratio'] = true;
       $themeRegistry[$type]['variables']['constrain_width'] = true;
+    }
+  }
+
+  foreach ([
+    'responsive_image_formatter',
+  ] as $type) {
+    if (isset($themeRegistry[$type])) {
+      $themeRegistry[$type]['variables']['link_attributes'] = [];
     }
   }
 }
