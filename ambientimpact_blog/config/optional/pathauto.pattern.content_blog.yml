@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+  enforced:
+    module:
+      - ambientimpact_blog
+id: content_blog
+label: 'Content - Blog post'
+type: 'canonical_entities:node'
+pattern: 'blog/[node:created:custom:Y]/[node:created:custom:m]/[node:created:custom:d]/[node:title]'
+selection_criteria:
+  d4faecbb-a415-4348-8f14-b577dd84eb08:
+    id: node_type
+    bundles:
+      blog: blog
+    negate: false
+    context_mapping:
+      node: node
+    uuid: d4faecbb-a415-4348-8f14-b577dd84eb08
+selection_logic: and
+weight: -5
+relationships: {  }
