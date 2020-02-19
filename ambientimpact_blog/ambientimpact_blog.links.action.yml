@@ -1,0 +1,7 @@
+ambientimpact_blog.new_blog_post:
+  route_name: node.add
+  route_parameters:
+    node_type: 'blog'
+  title: 'New blog post'
+  appears_on:
+    - view.blog.page
