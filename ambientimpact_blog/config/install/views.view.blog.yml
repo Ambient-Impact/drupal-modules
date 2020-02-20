@@ -280,9 +280,9 @@ display:
         - user.permissions
       max-age: -1
       tags: {  }
-  block:
-    id: block
-    display_title: Block
+  block_archive:
+    id: block_archive
+    display_title: 'Block (Archive)'
     display_plugin: block
     position: 2
     display_options:
