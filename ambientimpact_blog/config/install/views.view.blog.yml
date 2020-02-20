@@ -4,12 +4,12 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - node.type.blog
-  module:
-    - node
-    - user
   enforced:
     module:
       - ambientimpact_blog
+  module:
+    - node
+    - user
 id: blog
 label: Blog
 module: node

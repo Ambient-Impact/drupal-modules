@@ -4,11 +4,11 @@ dependencies:
   config:
     - field.storage.node.body
     - node.type.blog
-  module:
-    - text
   enforced:
     module:
       - ambientimpact_blog
+  module:
+    - text
 id: node.blog.body
 field_name: body
 entity_type: node

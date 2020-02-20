@@ -1,11 +1,11 @@
 langcode: en
 status: true
 dependencies:
-  module:
-    - node
   enforced:
     module:
       - ambientimpact_blog
+  module:
+    - node
 id: content_blog
 label: 'Content - Blog post'
 type: 'canonical_entities:node'
