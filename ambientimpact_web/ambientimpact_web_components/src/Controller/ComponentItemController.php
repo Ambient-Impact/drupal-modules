@@ -36,6 +36,7 @@ class ComponentItemController extends ControllerBase {
    *   The Ambient.Impact Component plug-in manager service.
    *
    * @param \Drupal\ambientimpact_core\Service\MarkupProcessorInterface $markupProcessor
+   *   The Ambient.Impact markup processor service.
    */
   public function __construct(
     ComponentPluginManagerInterface $componentManager,
