@@ -21,3 +21,23 @@
     }
   }
 }
+
+///
+/// Disable the inline max-width set on intrinsic ratio wrappers and links.
+///
+/// @param {String} $self [true]
+///   Whether to also disable max-width on the & selector, which is useful in
+///   the case of links containing an intrinsic ratio wrapper, which require a
+///   max-width to avoid phantom clickable space. Defaults to true.
+///
+@mixin disable-intrinsic-ratio-max-width($self: true) {
+  .intrinsic-ratio {
+    max-width: none !important;
+  }
+
+  @if ($self == true) {
+    & {
+      max-width: none !important;
+    }
+  }
+}
