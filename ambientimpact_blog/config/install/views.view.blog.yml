@@ -356,6 +356,11 @@ display:
         page: page
         default: '0'
         block: '0'
+      sitename_title: true
+      title: Blog
+      defaults:
+        title: false
+        sitename_title: false
     cache_metadata:
       max-age: -1
       contexts:
