@@ -40,10 +40,7 @@ class MarkupProcessor implements MarkupProcessorInterface {
 
     // If there aren't any listeners attached to the event, just return the
     // markup as-is without parsing it so that we don't do unnecessary work.
-    if (
-      !$this->eventDispatcher
-        ->hasListeners('ambientimpact.markup_process')
-    ) {
+    if (!$this->eventDispatcher->hasListeners('ambientimpact.markup_process')) {
       return $markup;
     }
 
@@ -61,10 +58,7 @@ class MarkupProcessor implements MarkupProcessorInterface {
     $event = new DOMCrawlerEvent($crawler);
 
     // Dispatch the event with the event object.
-    $this->eventDispatcher->dispatch(
-      'ambientimpact.markup_process',
-      $event
-    );
+    $this->eventDispatcher->dispatch('ambientimpact.markup_process', $event);
 
     // Get the crawler with any modifications listeners/subscribers may have
     // made to it.
