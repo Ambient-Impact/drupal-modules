@@ -22,7 +22,7 @@ class MarkupProcessor implements MarkupProcessorInterface {
   /**
    * Constructs this service object.
    *
-   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface
+   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
    *   The Drupal/Symfony event dispatcher service.
    */
   public function __construct(EventDispatcherInterface $eventDispatcher) {
