@@ -343,6 +343,15 @@ class LinkImage extends ComponentBase {
       // content crawler.
       if ($linkContentCrawlerNormalized->count() > 0) {
         $linkContentCrawler = $linkContentCrawlerNormalized;
+
+      // If the structure didn't contain a <p> element, try again with just the
+      // <body>. Yes, this can happen.
+      } else {
+        $linkContentCrawlerNormalized = $linkContentCrawler->filter('body');
+
+        if ($linkContentCrawlerNormalized->count() > 0) {
+          $linkContentCrawler = $linkContentCrawlerNormalized;
+        }
       }
 
       // Render the content.
