@@ -128,36 +128,47 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
 }
 
 ///
-/// Sets the icon display property, using grid layout if available.
+/// Sets the icon display mode.
 ///
-/// Note that grid is only applied to non-standalone icons and standalone icons
-/// that haven't loaded yet, the latter having text visible until the icon loads
-/// and thus being treated as non-standalone until the icon is loaded.
+/// Note that CSS Grid is only applied to non-standalone icons and standalone icons
+/// that haven't loaded yet, the latter functioning like the former until the
+/// bundle is marked as loaded.
+///
+/// Note that this does not use display: inline-grid; for the inline mode as
+/// Chrome on Android has a pretty horrendous bug that causes random forced line
+/// breaks when using this display value - this has been observed up to the time
+/// of writing in March 2020 as of Chrome 80.
 ///
 /// @param {String} $display [inline]
 ///   Valid values are:
 ///
-///   - inline: This sets display: inline; if grid is not supported or allowed,
-///     and display: inline-grid; otherwise.
+///   - inline: This sets display: inline; on the icon container.
 ///
-///   - block: This sets display: block; if grid is not supported or allowed,
-///     and display: grid; otherwise.
+///   - block: This sets display: block; display: flex; and lastly display:
+///     grid; if the browser supports it and is allowed.
 ///
-/// @require {Mixin} use-grid
+/// @require {mixin} use-grid
+/// @require {mixin} on-icon-icon
 ///
 @mixin set-icon-display($display: inline) {
   @if ($display == inline) {
-    display:  inline;
-  } @else if ($display == block) {
-    display:  block;
-  }
+    display: inline;
 
-  &:not(.ambientimpact-icon--icon-standalone-loaded) {
-    @include use-grid {
-      @if ($display == inline) {
-        display:  inline-grid;
-      } @else if ($display == block) {
-        display:  grid;
+  } @else if ($display == block) {
+    display: block;
+    // Use flexbox if supported so that changing the order of the icon and text
+    // is still possible if a browser doesn't support CSS Grid.
+    display: flex;
+
+    &:not(.ambientimpact-icon--icon-standalone-loaded) {
+      @include use-grid {
+        display: grid;
+
+        @include on-icon-icon {
+          // Remove horizontal padding added by the set-icon-text-spacing mixin.
+          padding-left:   0;
+          padding-right:  0;
+        }
       }
     }
   }
@@ -181,11 +192,9 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
 @mixin set-icon-vertical-alignment($align: text) {
   // Icons next to plain text.
   $text-align-inline: -0.2em;
-  $text-align-grid:   -0.25em;
 
   // Icons within a link next to text.
   $link-align-inline: -0.25em;
-  $link-align-grid:   -0.35em;
 
   // Centre vertically. 'center' is also accepted.
   @if $align == centre or $align == center {
@@ -198,8 +207,6 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
 
       // Reset, in case we've set these previously.
       @include use-grid {
-        bottom: 0;
-
         align-self: center;
 
         // vertical-align has no effect when CSS Grid is in effect.
@@ -210,10 +217,6 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
   } @else if $align == link {
     .ambientimpact-icon__icon {
       vertical-align: $link-align-inline;
-
-      @include use-grid {
-        bottom: $link-align-grid;
-      }
     }
 
   // Any other $align value is treated as the default of 'text', which attempts
@@ -221,10 +224,6 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
   } @else {
     .ambientimpact-icon__icon {
       vertical-align: $text-align-inline;
-
-      @include use-grid {
-        bottom: $text-align-grid;
-      }
     }
   }
 
@@ -253,24 +252,13 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
   @include use-grid {
     grid-column-gap: $spacing;
   }
+
   .ambientimpact-icon__icon {
-    @include root-conditions(('[dir=ltr]'), 'html') {
-      padding-right: $spacing;
-    }
-
-    @include root-conditions(('[dir=rtl]'), 'html') {
-      padding-left: $spacing;
-    }
-
-    @include use-grid {
-      @include root-conditions(('[dir=ltr]'), 'html') {
-        padding-right: 0;
-      }
-
-      @include root-conditions(('[dir=rtl]'), 'html') {
-        padding-left: 0;
-      }
-    }
+    // Apply padding to both sides as we don't know here on which side the icon
+    // is respective to the text. Note that this is removed in the
+    // set-icon-display mixin if CSS Grid is available.
+    padding-right:  $spacing;
+    padding-left:   $spacing;
   }
 }
 
@@ -353,8 +341,7 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
 /// Sets text indent on lines after the first on an .ambientimpact-icon element.
 ///
 /// Usually this is the icon width plus the spacing between the icon and text to
-/// line up the start of the first line and subsequent lines. This is removed
-/// if CSS Grid is supported.
+/// line up the start of the first line and subsequent lines.
 ///
 /// @param {Number} $indent
 ///
@@ -363,10 +350,5 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
     display:      inline-block;
     margin-left:  $indent;
     text-indent:  -$indent;
-
-    @include use-grid {
-      margin-left:  0;
-      text-indent:  0;
-    }
   }
 }
