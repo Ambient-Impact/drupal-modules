@@ -50,8 +50,18 @@
 
     font-size:      150%;
 
-    // Don't indent the icon, as this messes with the background.
-    @include set-icon-text-indent(0);
+    &:not(.ambientimpact-icon--icon-standalone-loaded) { // Specificity.
+      // Don't indent the icon, as this messes with the background.
+      @include set-icon-text-indent(0);
+
+      @include set-icon-display(block);
+
+      // Reset the default icon-in-link vertical alignment to a centre value
+      // because we don't have underlines to worry about.
+      a & {
+        @include set-icon-vertical-alignment(centre);
+      }
+    }
 
     // Center this vertically, as we don't have the underline to offset the
     // vertical alignment.
