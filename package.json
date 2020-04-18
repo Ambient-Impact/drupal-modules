@@ -12,7 +12,7 @@
     "grunt-sassdoc": "^2.0.3",
     "grunt-svgstore": "^2.0.0",
     "load-grunt-config": "^3.0.1",
-    "modernizr": "^3.9.1",
+    "modernizr": "^3.10.0",
     "node-sass": "^4.13.1",
     "sassdoc-extras": "^3.0.0"
   },
