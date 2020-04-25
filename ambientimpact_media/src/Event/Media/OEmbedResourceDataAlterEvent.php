@@ -67,7 +67,7 @@ class OEmbedResourceDataAlterEvent extends Event implements EventInterface {
   /**
    * {@inheritdoc}
    */
-  public function getDispatcherType() {
+  public function getDispatcherType(): string {
     return AmbientImpactMediaEventInterface::MEDIA_OEMBED_RESOURCE_DATA_ALTER;
   }
 }
