@@ -86,7 +86,7 @@ interface ComponentPluginManagerInterface {
    * @see $this->htmlEndpointRoute
    *   Contains the route name.
    *
-   * @see \Drupal\ambientimpact_core\EventSubscriber\HookPageAttachmentsEventSubscriber::pageAttachments()
+   * @see \Drupal\ambientimpact_core\EventSubscriber\Theme\PageAttachmentsEventSubscriber::pageAttachments()
    *   Passes the path to the front-end.
    */
   public function getHTMLEndpointPath(): string;

@@ -1,13 +1,76 @@
 services:
   # Media entity hook_entity_presave() event subscriber.
-  ambientimpact_media.media_hook_entity_presave_event_subscriber:
+  ambientimpact_media.media_entity_presave_event_subscriber:
     class: \Drupal\ambientimpact_media\EventSubscriber\Entity\MediaEntityPresaveEventSubscriber
     arguments: ['@image.factory']
     tags:
       - { name: 'event_subscriber' }
 
+  # Image formatter hook_field_formatter_info_alter() event subscriber.
+  ambientimpact_media.image_field_formatter_info_alter_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterInfoAlterImageEventSubscriber
+    arguments: []
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Image link to image style formatter hook_field_formatter_info_alter() event subscriber.
+  ambientimpact_media.image_link_to_image_style_field_formatter_info_alter_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterInfoAlterImageLinkToImageStyleEventSubscriber
+    arguments: []
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Animated GIF toggle hook_field_formatter_settings_summary_alter() event subscriber.
+  ambientimpact_media.animated_gif_toggle_field_formatter_settings_summary_alter_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterSettingsSummaryAlterAnimatedGIFToggleEventSubscriber
+    arguments: ['@string_translation']
+    tags:
+      - { name: 'event_subscriber' }
+
+  # PhotoSwipe hook_field_formatter_settings_summary_alter() event subscriber.
+  ambientimpact_media.photoswipe_field_formatter_settings_summary_alter_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterSettingsSummaryAlterPhotoSwipeEventSubscriber
+    arguments: ['@string_translation']
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Remote video hook_field_formatter_settings_summary_alter() event subscriber.
+  ambientimpact_media.remote_video_field_formatter_settings_summary_alter_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterSettingsSummaryAlterRemoteVideoEventSubscriber
+    arguments: ['@string_translation']
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Animated GIF toggle hook_field_formatter_third_party_settings_form() event subscriber.
+  ambientimpact_media.animated_gif_toggle_field_formatter_third_party_settings_form_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterThirdPartySettingsFormAnimatedGIFToggleEventSubscriber
+    arguments: ['@string_translation']
+    tags:
+      - { name: 'event_subscriber' }
+
+  # PhotoSwipe hook_field_formatter_third_party_settings_form() event subscriber.
+  ambientimpact_media.photoswipe_field_formatter_third_party_settings_form_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterThirdPartySettingsFormPhotoSwipeEventSubscriber
+    arguments: ['@string_translation']
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Remote video hook_field_formatter_third_party_settings_form() event subscriber.
+  ambientimpact_media.remote_video_field_formatter_third_party_settings_form_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterThirdPartySettingsFormRemoteVideoEventSubscriber
+    arguments: ['@string_translation']
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Vimeo thumbnail oEmbed hook_oembed_resource_url_alter() event subscriber.
+  ambientimpact_media.vimeo_thumbnail_oembed_resource_url_alter_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Media\OEmbedResourceURLAlterVimeoThumbnailEventSubscriber
+    arguments: []
+    tags:
+      - { name: 'event_subscriber' }
+
   # YouTube thumbnail oEmbed hook_oembed_resource_data_alter() event subscriber.
-  ambientimpact_media.youtube_thumbnail_hook_oembed_resource_data_alter_event_subscriber:
+  ambientimpact_media.youtube_thumbnail_oembed_resource_data_alter_event_subscriber:
     class: \Drupal\ambientimpact_media\EventSubscriber\Media\OEmbedResourceDataAlterYouTubeThumbnailEventSubscriber
     arguments: []
     tags:
@@ -37,8 +100,36 @@ services:
       - { name: 'event_subscriber' }
 
   # 'media_play_overlay' element hook_theme() event subscriber.
-  ambientimpact_media.hook_theme_media_play_overlay_event_subscriber:
-    class: \Drupal\ambientimpact_media\EventSubscriber\Theme\HookThemeMediaPlayOverlayEventSubscriber
+  ambientimpact_media.theme_media_play_overlay_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Theme\ThemeMediaPlayOverlayEventSubscriber
     arguments: ['@module_handler']
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Animated GIF toggle hook_theme_registry_alter() event subscriber.
+  ambientimpact_media.theme_registry_alter_animated_gif_toggle_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Theme\ThemeRegistryAlterAnimatedGIFToggleEventSubscriber
+    arguments: []
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Image link attributes hook_theme_registry_alter() event subscriber.
+  ambientimpact_media.theme_registry_alter_image_link_attributes_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Theme\ThemeRegistryAlterImageLinkAttributesEventSubscriber
+    arguments: []
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Intrinsic ratio hook_theme_registry_alter() event subscriber.
+  ambientimpact_media.theme_registry_alter_intrinsic_ratio_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Theme\ThemeRegistryAlterIntrinsicRatioEventSubscriber
+    arguments: []
+    tags:
+      - { name: 'event_subscriber' }
+
+  # Remote video hook_theme_registry_alter() event subscriber.
+  ambientimpact_media.theme_registry_alter_remote_video_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Theme\ThemeRegistryAlterRemoteVideoEventSubscriber
+    arguments: []
     tags:
       - { name: 'event_subscriber' }

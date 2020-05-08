@@ -5,13 +5,13 @@ namespace Drupal\ambientimpact_icon\EventSubscriber\Theme;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Drupal\hook_event_dispatcher\Event\Theme\ThemeEvent;
+use Drupal\core_event_dispatcher\Event\Theme\ThemeEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * hook_theme() event subscriber class to define 'ambientimpact_icon' element.
  */
-class HookThemeIconEventSubscriber implements EventSubscriberInterface {
+class ThemeIconEventSubscriber implements EventSubscriberInterface {
   /**
    * The Ambient.Impact Component plug-in manager service.
    *
@@ -55,7 +55,7 @@ class HookThemeIconEventSubscriber implements EventSubscriberInterface {
   /**
    * Defines the 'ambientimpact_icon' theme element.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Theme\ThemeEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Theme\ThemeEvent $event
    *   The event object.
    */
   public function theme(ThemeEvent $event) {

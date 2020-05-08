@@ -3,13 +3,13 @@
 namespace Drupal\ambientimpact_portfolio\EventSubscriber\Preprocess;
 
 use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
-use Drupal\hook_event_dispatcher\Event\Preprocess\FieldPreprocessEvent;
+use Drupal\preprocess_event_dispatcher\Event\FieldPreprocessEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Project images template_preprocess_field() event subscriber service class.
  *
- * @see \Drupal\hook_event_dispatcher\Event\Preprocess\FieldPreprocessEvent
+ * @see \Drupal\preprocess_event_dispatcher\Event\FieldPreprocessEvent
  */
 class PreprocessFieldProjectImagesEventSubscriber
 implements EventSubscriberInterface {
@@ -50,14 +50,14 @@ implements EventSubscriberInterface {
    * 'project_image_small' to 'project_image_large' so that the image is high
    * resolution enough to look good when spanning the full width of the field.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Preprocess\FieldPreprocessEvent $event
+   * @param \Drupal\preprocess_event_dispatcher\Event\FieldPreprocessEvent $event
    *   The template_preprocess_field event.
    *
    * @see \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\Image::preprocessFieldSetImageFieldMaxWidth()
    *   This adds a max-width on each field item.
    */
   public function preprocessField(FieldPreprocessEvent $event) {
-    /* @var \Drupal\hook_event_dispatcher\Event\Preprocess\Variables\FieldEventVariables $variables */
+    /* @var \Drupal\preprocess_event_dispatcher\Event\Variables\FieldEventVariables $variables */
     $variables = $event->getVariables();
 
     if ($variables->get('field_name') !== 'field_project_images') {

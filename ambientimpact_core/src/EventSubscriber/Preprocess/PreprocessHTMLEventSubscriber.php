@@ -2,14 +2,14 @@
 
 namespace Drupal\ambientimpact_core\EventSubscriber\Preprocess;
 
-use Drupal\hook_event_dispatcher\Event\Preprocess\HtmlPreprocessEvent;
+use Drupal\preprocess_event_dispatcher\Event\HtmlPreprocessEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * template_preprocess_html() event subscriber service class.
  *
- * @see \Drupal\hook_event_dispatcher\Event\Preprocess\HtmlPreprocessEvent
+ * @see \Drupal\preprocess_event_dispatcher\Event\HtmlPreprocessEvent
  */
 class PreprocessHTMLEventSubscriber implements EventSubscriberInterface {
   /**
@@ -46,11 +46,11 @@ class PreprocessHTMLEventSubscriber implements EventSubscriberInterface {
    * This adds a 'use-grid' class to the <html> element if 'disable-grid' is not
    * found in the request query.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Preprocess\HtmlPreprocessEvent $event
+   * @param \Drupal\preprocess_event_dispatcher\Event\HtmlPreprocessEvent $event
    *   Event.
    */
   public function preprocessHTML(HtmlPreprocessEvent $event) {
-    /* @var \Drupal\hook_event_dispatcher\Event\Preprocess\Variables\HtmlEventVariables $variables */
+    /* @var \Drupal\preprocess_event_dispatcher\Event\Variables\HtmlEventVariables $variables */
     $variables = $event->getVariables();
 
     $requestQuery = $this->requestStack->getCurrentRequest()->query;

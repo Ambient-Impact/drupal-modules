@@ -1,7 +1,7 @@
 services:
   # hook_page_attachments() event subscriber.
-  ambientimpact_ux.hook_page_attachments_event_subscriber:
-    class: \Drupal\ambientimpact_ux\EventSubscriber\Page\HookPageAttachmentsEventSubscriber
+  ambientimpact_ux.page_attachments_event_subscriber:
+    class: \Drupal\ambientimpact_ux\EventSubscriber\Theme\PageAttachmentsEventSubscriber
     arguments:
       - '@theme.manager'
       - '@current_user'
@@ -9,15 +9,15 @@ services:
       - { name: 'event_subscriber' }
 
   # hook_page_top() event subscriber.
-  ambientimpact_ux.hook_page_top_event_subscriber:
-    class: \Drupal\ambientimpact_ux\EventSubscriber\Page\HookPageTopEventSubscriber
+  ambientimpact_ux.page_top_event_subscriber:
+    class: \Drupal\ambientimpact_ux\EventSubscriber\Theme\PageTopEventSubscriber
     arguments: ['@plugin.manager.ambientimpact_component']
     tags:
       - { name: 'event_subscriber' }
 
   # hook_form_alter() event subscriber.
-  ambientimpact_ux.hook_form_alter_event_subscriber:
-    class: \Drupal\ambientimpact_ux\EventSubscriber\Form\HookFormAlterEventSubscriber
+  ambientimpact_ux.form_alter_event_subscriber:
+    class: \Drupal\ambientimpact_ux\EventSubscriber\Form\FormAlterEventSubscriber
     arguments: []
     tags:
       - { name: 'event_subscriber' }

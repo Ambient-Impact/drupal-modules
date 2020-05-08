@@ -6,4 +6,5 @@ core: 8.x
 core_version_requirement: ^8 || ^9
 
 dependencies:
-  - hook_event_dispatcher:hook_event_dispatcher
+  - hook_event_dispatcher:core_event_dispatcher
+  - hook_event_dispatcher:preprocess_event_dispatcher

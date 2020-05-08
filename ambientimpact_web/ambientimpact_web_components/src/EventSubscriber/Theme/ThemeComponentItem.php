@@ -1,17 +1,16 @@
 <?php
 
-namespace Drupal\ambientimpact_media\EventSubscriber\Theme;
+namespace Drupal\ambientimpact_web_components\EventSubscriber\Theme;
 
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Drupal\hook_event_dispatcher\Event\Theme\ThemeEvent;
+use Drupal\core_event_dispatcher\Event\Theme\ThemeEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * hook_theme() event subscriber class to define 'media_play_overlay' element.
+ * hook_theme() event to define the 'ambientimpact_component_item' element.
  */
-class HookThemeMediaPlayOverlayEventSubscriber
-implements EventSubscriberInterface {
+class ThemeComponentItem implements EventSubscriberInterface {
   /**
    * The Drupal module handler service.
    *
@@ -41,27 +40,26 @@ implements EventSubscriberInterface {
   }
 
   /**
-   * Defines the 'media_play_overlay' theme element.
+   * Defines the 'ambientimpact_component_item' theme element.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Theme\ThemeEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Theme\ThemeEvent $event
    *   The event object.
    */
   public function theme(ThemeEvent $event) {
-    $event->addNewTheme('media_play_overlay', [
+    $event->addNewTheme('ambientimpact_component_item', [
       'variables' => [
-        'iconName'    => '',
-        'iconBundle'  => '',
-        'text'        => '',
-        'iconOptions' => [
-          'containerAttributes' => ['class' => []],
-        ],
-        'preview'     => '',
+        'description'     => '',
+        'demoLink'        => [],
+        'definition'      => [],
+        'configuration'   => [],
+        'libraries'       => [],
       ],
-      'template'  => 'media-play-overlay',
+      'template'  => 'ambientimpact-component-item',
       // Path is required.
       // @see https://www.drupal.org/project/hook_event_dispatcher/issues/3038311
-      'path'      => $this->moduleHandler->getModule('ambientimpact_media')
-                     ->getPath() . '/templates/field',
+      'path'      => $this->moduleHandler
+        ->getModule('ambientimpact_web_components')
+                     ->getPath() . '/templates',
     ]);
   }
 }

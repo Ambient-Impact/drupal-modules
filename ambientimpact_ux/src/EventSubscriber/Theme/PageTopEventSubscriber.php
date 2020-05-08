@@ -1,16 +1,16 @@
 <?php
 
-namespace Drupal\ambientimpact_ux\EventSubscriber\Page;
+namespace Drupal\ambientimpact_ux\EventSubscriber\Theme;
 
 use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Drupal\hook_event_dispatcher\Event\Page\PageTopEvent;
+use Drupal\core_event_dispatcher\Event\Theme\PageTopEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * hook_page_top() event subscriber class.
  */
-class HookPageTopEventSubscriber implements EventSubscriberInterface {
+class PageTopEventSubscriber implements EventSubscriberInterface {
   /**
    * The Ambient.Impact Component plug-in manager service.
    *
@@ -47,7 +47,7 @@ class HookPageTopEventSubscriber implements EventSubscriberInterface {
    * - An anchor to the very top of the page for the 'to_top' component to
    *   scroll to.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Page\PageTopEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Theme\PageTopEvent $event
    *   The event object.
    */
   public function pageTop(PageTopEvent $event) {

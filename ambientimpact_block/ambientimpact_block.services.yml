@@ -1,7 +1,7 @@
 services:
   # Social links block hook_theme() event subscriber.
-  ambientimpact_block.hook_theme_block_social_links_event_subscriber:
-    class: \Drupal\ambientimpact_block\EventSubscriber\Theme\HookThemeBlockSocialLinks
+  ambientimpact_block.theme_block_social_links_event_subscriber:
+    class: \Drupal\ambientimpact_block\EventSubscriber\Theme\ThemeBlockSocialLinks
     arguments: ['@config.factory', '@module_handler']
     tags:
       - { name: 'event_subscriber' }

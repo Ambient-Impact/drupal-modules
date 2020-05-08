@@ -15,7 +15,7 @@
     "drupal/paragraphs": "^1.8.0",
     "drupal/geshifilter": "^1.2.0",
     "geshi/geshi": "^1.0",
-    "drupal/hook_event_dispatcher": "^1.23"
+    "drupal/hook_event_dispatcher": "^2.0"
   },
   "extra": {
     "patches": {}

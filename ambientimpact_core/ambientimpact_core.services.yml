@@ -4,7 +4,7 @@ services:
     class: Drupal\ambientimpact_core\ComponentPluginManager
     parent: default_plugin_manager
 
-  # The Component HTML cache bin.
+  # Component HTML cache bin.
   cache.ambientimpact_component_html:
     class: Drupal\Core\Cache\CacheBackendInterface
     tags:
@@ -25,29 +25,29 @@ services:
     arguments: ['@event_dispatcher']
 
   # Description list hook_theme() event subscriber.
-  ambientimpact_core.hook_theme_description_list_event_subscriber:
-    class: \Drupal\ambientimpact_core\EventSubscriber\Theme\HookThemeDescriptionListEventSubscriber
+  ambientimpact_core.theme_description_list_event_subscriber:
+    class: \Drupal\ambientimpact_core\EventSubscriber\Theme\ThemeDescriptionListEventSubscriber
     arguments: ['@module_handler']
     tags:
       - { name: 'event_subscriber' }
 
   # Component libraries hook_library_info_alter() event subscriber.
-  ambientimpact_core.hook_library_info_alter_component_libraries_event_subscriber:
-    class: \Drupal\ambientimpact_core\EventSubscriber\Theme\HookLibraryInfoAlterComponentLibrariesEventSubscriber
+  ambientimpact_core.library_info_alter_component_libraries_event_subscriber:
+    class: \Drupal\ambientimpact_core\EventSubscriber\Theme\LibraryInfoAlterComponentLibrariesEventSubscriber
     arguments: ['@plugin.manager.ambientimpact_component']
     tags:
       - { name: 'event_subscriber' }
 
   # Modernizr hook_library_info_alter() event subscriber.
-  ambientimpact_core.hook_library_info_alter_modernizr_event_subscriber:
-    class: \Drupal\ambientimpact_core\EventSubscriber\Theme\HookLibraryInfoAlterModernizrEventSubscriber
+  ambientimpact_core.library_info_alter_modernizr_event_subscriber:
+    class: \Drupal\ambientimpact_core\EventSubscriber\Theme\LibraryInfoAlterModernizrEventSubscriber
     arguments: ['@module_handler', '@logger.factory']
     tags:
       - { name: 'event_subscriber' }
 
   # hook_page_attachments() event subscriber.
-  ambientimpact_core.hook_page_attachments_event_subscriber:
-    class: \Drupal\ambientimpact_core\EventSubscriber\Page\HookPageAttachmentsEventSubscriber
+  ambientimpact_core.page_attachments_event_subscriber:
+    class: \Drupal\ambientimpact_core\EventSubscriber\Theme\PageAttachmentsEventSubscriber
     arguments:
       - '@plugin.manager.ambientimpact_component'
       - '@state'

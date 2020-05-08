@@ -2,13 +2,13 @@
 
 namespace Drupal\ambientimpact_media\EventSubscriber\Preprocess;
 
-use Drupal\hook_event_dispatcher\Event\Preprocess\ImagePreprocessEvent;
+use Drupal\preprocess_event_dispatcher\Event\ImagePreprocessEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Intrinsic ratio template_preprocess_image() event subscriber service class.
  *
- * @see \Drupal\hook_event_dispatcher\Event\Preprocess\ImagePreprocessEvent
+ * @see \Drupal\preprocess_event_dispatcher\Event\ImagePreprocessEvent
  */
 class PreprocessImageIntrinsicRatioEventSubscriber
 implements EventSubscriberInterface {
@@ -29,11 +29,11 @@ implements EventSubscriberInterface {
    * This adds the calculated 'ratio' variable, if width and height are
    * available.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Preprocess\ImagePreprocessEvent $event
+   * @param \Drupal\preprocess_event_dispatcher\Event\ImagePreprocessEvent $event
    *   The event object.
    */
   public function preprocessField(ImagePreprocessEvent $event) {
-    /* @var \Drupal\hook_event_dispatcher\Event\Preprocess\Variables\ImageEventVariables $variables */
+    /* @var \Drupal\preprocess_event_dispatcher\Event\Variables\ImageEventVariables $variables */
     $variables = $event->getVariables();
 
     $width  = $variables->get('width');

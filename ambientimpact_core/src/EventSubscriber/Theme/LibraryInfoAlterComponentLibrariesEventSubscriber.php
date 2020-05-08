@@ -4,7 +4,7 @@ namespace Drupal\ambientimpact_core\EventSubscriber\Theme;
 
 use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Drupal\hook_event_dispatcher\Event\Theme\LibraryInfoAlterEvent;
+use Drupal\core_event_dispatcher\Event\Theme\LibraryInfoAlterEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -13,7 +13,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * This registers the libraries defined in individual Ambient.Impact Components,
  * as returned by the 'plugin.manager.ambientimpact_component' service.
  */
-class HookLibraryInfoAlterComponentLibrariesEventSubscriber
+class LibraryInfoAlterComponentLibrariesEventSubscriber
 implements EventSubscriberInterface {
   /**
    * The Ambient.Impact Component plug-in manager service.
@@ -46,7 +46,7 @@ implements EventSubscriberInterface {
   /**
    * Register Ambient.Impact Component libraries.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Theme\LibraryInfoAlterEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Theme\LibraryInfoAlterEvent $event
    *   The event object.
    *
    * @see \Drupal\ambientimpact_core\ComponentPluginManagerInterface::getComponentLibraries()

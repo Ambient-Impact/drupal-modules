@@ -3,13 +3,13 @@
 namespace Drupal\ambientimpact_ux\EventSubscriber\Preprocess;
 
 use Drupal\Core\Theme\ThemeManagerInterface;
-use Drupal\hook_event_dispatcher\Event\Preprocess\HtmlPreprocessEvent;
+use Drupal\preprocess_event_dispatcher\Event\HtmlPreprocessEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * template_preprocess_html() event subscriber service class.
  *
- * @see \Drupal\hook_event_dispatcher\Event\Preprocess\HtmlPreprocessEvent
+ * @see \Drupal\preprocess_event_dispatcher\Event\HtmlPreprocessEvent
  */
 class PreprocessHTMLEventSubscriber implements EventSubscriberInterface {
   /**
@@ -48,11 +48,11 @@ class PreprocessHTMLEventSubscriber implements EventSubscriberInterface {
    * component so that it can easily identify the current theme, even before
    * drupalSettings becomes available.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Preprocess\HtmlPreprocessEvent $event
+   * @param \Drupal\preprocess_event_dispatcher\Event\HtmlPreprocessEvent $event
    *   Event.
    */
   public function preprocessHTML(HtmlPreprocessEvent $event) {
-    /* @var \Drupal\hook_event_dispatcher\Event\Preprocess\Variables\HtmlEventVariables $variables */
+    /* @var \Drupal\preprocess_event_dispatcher\Event\Variables\HtmlEventVariables $variables */
     $variables = $event->getVariables();
 
     $variables->getByReference('html_attributes')->setAttribute(

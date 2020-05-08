@@ -1,17 +1,16 @@
 <?php
 
-namespace Drupal\ambientimpact_core\EventSubscriber\Theme;
+namespace Drupal\ambientimpact_web_components\EventSubscriber\Theme;
 
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Drupal\hook_event_dispatcher\Event\Theme\ThemeEvent;
+use Drupal\core_event_dispatcher\Event\Theme\ThemeEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * hook_theme() event subscriber class to define 'description_list' element.
+ * hook_theme() event to define the 'ambientimpact_component_demo' element.
  */
-class HookThemeDescriptionListEventSubscriber
-implements EventSubscriberInterface {
+class ThemeComponentDemo implements EventSubscriberInterface {
   /**
    * The Drupal module handler service.
    *
@@ -41,21 +40,22 @@ implements EventSubscriberInterface {
   }
 
   /**
-   * Defines the 'description_list' theme element.
+   * Defines the 'ambientimpact_component_demo' theme element.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Theme\ThemeEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Theme\ThemeEvent $event
    *   The event object.
    */
   public function theme(ThemeEvent $event) {
-    $event->addNewTheme('description_list', [
+    $event->addNewTheme('ambientimpact_component_demo', [
       'variables' => [
-        'groups'    => [],
-        'attributes'  => [],
+        'intro' => [],
+        'demo'  => [],
       ],
-      'template'  => 'description-list',
+      'template'  => 'ambientimpact-component-demo',
       // Path is required.
       // @see https://www.drupal.org/project/hook_event_dispatcher/issues/3038311
-      'path'      => $this->moduleHandler->getModule('ambientimpact_core')
+      'path'      => $this->moduleHandler
+        ->getModule('ambientimpact_web_components')
                      ->getPath() . '/templates',
     ]);
   }

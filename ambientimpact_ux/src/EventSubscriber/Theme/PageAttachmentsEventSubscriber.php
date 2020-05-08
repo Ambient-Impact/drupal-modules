@@ -1,17 +1,17 @@
 <?php
 
-namespace Drupal\ambientimpact_ux\EventSubscriber\Page;
+namespace Drupal\ambientimpact_ux\EventSubscriber\Theme;
 
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Theme\ThemeManagerInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Drupal\hook_event_dispatcher\Event\Page\PageAttachmentsEvent;
+use Drupal\core_event_dispatcher\Event\Theme\PageAttachmentsEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * hook_page_attachments() event subscriber class.
  */
-class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
+class PageAttachmentsEventSubscriber implements EventSubscriberInterface {
   /**
    * The Drupal theme manager service.
    *
@@ -70,7 +70,7 @@ class HookPageAttachmentsEventSubscriber implements EventSubscriberInterface {
    *   be ignored, probably because of how contextual links are rendered
    *   separately from the page and fetched via Ajax.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Page\PageAttachmentsEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Theme\PageAttachmentsEvent $event
    *   The event object.
    *
    * @see \contextual_page_attachments()

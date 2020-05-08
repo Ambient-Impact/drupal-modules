@@ -18,6 +18,7 @@ dependencies:
   - ambientimpact_media:ambientimpact_media
   - entityqueue:entityqueue
   - hook_event_dispatcher:hook_event_dispatcher
+  - hook_event_dispatcher:preprocess_event_dispatcher
 
 config_devel:
   install:

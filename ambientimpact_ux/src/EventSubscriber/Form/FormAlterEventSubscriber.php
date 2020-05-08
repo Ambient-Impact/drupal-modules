@@ -3,13 +3,13 @@
 namespace Drupal\ambientimpact_ux\EventSubscriber\Form;
 
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Drupal\hook_event_dispatcher\Event\Form\FormAlterEvent;
+use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * hook_form_alter() event subscriber class.
  */
-class HookFormAlterEventSubscriber implements EventSubscriberInterface {
+class FormAlterEventSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
@@ -26,7 +26,7 @@ class HookFormAlterEventSubscriber implements EventSubscriberInterface {
    *
    * - Attaches the form component library.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Form\FormAlterEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Form\FormAlterEvent $event
    *   The event object.
    */
   public function formAlter(FormAlterEvent $event) {

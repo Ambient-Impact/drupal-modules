@@ -3,7 +3,7 @@
 namespace Drupal\ambientimpact_media\EventSubscriber\Preprocess;
 
 use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
-use Drupal\hook_event_dispatcher\Event\Preprocess\FieldPreprocessEvent;
+use Drupal\preprocess_event_dispatcher\Event\FieldPreprocessEvent;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
@@ -12,7 +12,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Animated GIF toggle template_preprocess_field() event subscriber class.
  *
- * @see \Drupal\hook_event_dispatcher\Event\Preprocess\FieldPreprocessEvent
+ * @see \Drupal\preprocess_event_dispatcher\Event\FieldPreprocessEvent
  */
 class PreprocessFieldAnimatedGIFToggleEventSubscriber
 implements EventSubscriberInterface {
@@ -65,11 +65,11 @@ implements EventSubscriberInterface {
    * and required attributes to fields that have the animated GIF toggle enabled
    * via the field formatter settings.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Preprocess\FieldPreprocessEvent $event
+   * @param \Drupal\preprocess_event_dispatcher\Event\FieldPreprocessEvent $event
    *   Event.
    */
   public function preprocessField(FieldPreprocessEvent $event) {
-    /* @var \Drupal\hook_event_dispatcher\Event\Preprocess\Variables\FieldEventVariables $variables */
+    /* @var \Drupal\preprocess_event_dispatcher\Event\Variables\FieldEventVariables $variables */
     $variables  = $event->getVariables();
     $items      = &$variables->getItems();
 

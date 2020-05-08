@@ -46,7 +46,7 @@ interface ComponentInterface {
    *
    * @see \Drupal\ambientimpact_core\ComponentPluginManagerInterface::getComponentJSSettings()
    *
-   * @see \Drupal\ambientimpact_core\EventSubscriber\Page\HookPageAttachmentsEventSubscriber::pageAttachments()
+   * @see \Drupal\ambientimpact_core\EventSubscriber\Theme\PageAttachmentsEventSubscriber::pageAttachments()
    */
   public function getJSSettings(): array;
 

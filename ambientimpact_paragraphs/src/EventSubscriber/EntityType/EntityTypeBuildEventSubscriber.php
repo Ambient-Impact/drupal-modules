@@ -3,7 +3,7 @@
 namespace Drupal\ambientimpact_paragraphs\EventSubscriber\EntityType;
 
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Drupal\hook_event_dispatcher\Event\EntityType\EntityTypeBuildEvent;
+use Drupal\core_event_dispatcher\Event\Entity\EntityTypeBuildEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -25,7 +25,7 @@ class EntityTypeBuildEventSubscriber implements EventSubscriberInterface {
    * This sets our own URI callback for 'paragraph' entity types if none is set
    * on the entity type. See the URI callback for more information.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\EntityType\EntityTypeBuildEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Entity\EntityTypeBuildEvent $event
    *   The event object.
    *
    * @see \Drupal\ambientimpact_paragraphs\ParagraphParentContentEntityURI::URICallback()

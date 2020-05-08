@@ -5,7 +5,7 @@ namespace Drupal\ambientimpact_core\EventSubscriber\Theme;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Drupal\hook_event_dispatcher\Event\Theme\LibraryInfoAlterEvent;
+use Drupal\core_event_dispatcher\Event\Theme\LibraryInfoAlterEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -15,7 +15,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * options core's does, plus others. Note that we only do this if the core
  * Modernizr path is used, so as not to replace another module's override.
  */
-class HookLibraryInfoAlterModernizrEventSubscriber
+class LibraryInfoAlterModernizrEventSubscriber
 implements EventSubscriberInterface {
   /**
    * The Drupal module handler service.
@@ -60,7 +60,7 @@ implements EventSubscriberInterface {
   /**
    * Replace core's Modernizr with our own.
    *
-   * @param \Drupal\hook_event_dispatcher\Event\Theme\LibraryInfoAlterEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Theme\LibraryInfoAlterEvent $event
    *   The event object.
    */
   public function libraryInfoAlter(LibraryInfoAlterEvent $event) {
