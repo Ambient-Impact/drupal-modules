@@ -1,3 +1,11 @@
+# Drupal icon
+
+The [Drupal
+icon](https://www.drupal.org/about/media-kit/logo-wordmark-guidelines) is
+licensed under the [Drupal trademark and logo
+policy](https://www.drupal.com/trademark), provided that its use falls under the
+"automatic license" criteria; i.e. it promotes Drupal.
+
 # Facebook, GitHub, Instagram, Pinterest, Steam, Tumblr, Twitter, and Wikipedia icons
 
 These are from [Simple Icons](https://github.com/simple-icons/simple-icons) and
