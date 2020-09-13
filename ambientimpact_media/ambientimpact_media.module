@@ -117,8 +117,8 @@ function ambientimpact_media_preprocess_image_caption_formatter(&$variables) {
  *
  * Default template: image-style.html.twig.
  *
- * This copies the 'use_ratio' and 'constrain_width' variables over to
- * $variables['image'] so that the values are inherited to the generated image.
+ * This copies the 'constrain_width' variable over to $variables['image'] so
+ * that the value is inherited to the generated image.
  *
  * @param array $variables
  *   An associative array containing:
@@ -148,16 +148,12 @@ function ambientimpact_media_preprocess_image_caption_formatter(&$variables) {
  *   - attributes: Associative array of additional attributes to be placed in
  *     the img tag.
  *
- *   - use_ratio: if true, will instruct templates to wrap the image in an
- *     intrinsic ratio wrapper to act as a placeholder before the image loads,
- *     which prevents layout shifting during loading.
- *
  *   - constrain_width: if true, templates should set a max-width equal to the
  *     natural width of the generated image to prevent phantom clickable areas
  *     if this image is in a link and less wide than the link itself.
  */
 function ambientimpact_media_preprocess_image_style(&$variables) {
-  foreach (['use_ratio', 'constrain_width'] as $variableName) {
+  foreach (['constrain_width'] as $variableName) {
     if (isset($variables[$variableName])) {
       $variables['image']['#' . $variableName] = $variables[$variableName];
     }
