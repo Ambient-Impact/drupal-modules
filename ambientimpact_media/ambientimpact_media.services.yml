@@ -113,9 +113,9 @@ services:
     tags:
       - { name: 'event_subscriber' }
 
-  # Intrinsic ratio hook_theme_registry_alter() event subscriber.
-  ambientimpact_media.theme_registry_alter_intrinsic_ratio_event_subscriber:
-    class: \Drupal\ambientimpact_media\EventSubscriber\Theme\ThemeRegistryAlterIntrinsicRatioEventSubscriber
+  # hook_theme_registry_alter() event subscriber for 'constrain_width' variable.
+  ambientimpact_media.theme_registry_alter_image_constrain_width_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Theme\ThemeRegistryAlterImageConstrainWidthEventSubscriber
     arguments: []
     tags:
       - { name: 'event_subscriber' }

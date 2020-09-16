@@ -7,9 +7,9 @@ use Drupal\core_event_dispatcher\Event\Theme\ThemeRegistryAlterEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * hook_theme_registry_alter() event subscriber for Intrinsic ratio.
+ * hook_theme_registry_alter() event subscriber for 'constrain_width' variable.
  */
-class ThemeRegistryAlterIntrinsicRatioEventSubscriber implements
+class ThemeRegistryAlterImageConstrainWidthEventSubscriber implements
 EventSubscriberInterface {
   /**
    * {@inheritdoc}
@@ -22,7 +22,7 @@ EventSubscriberInterface {
   }
 
   /**
-   * Define various intrinsic ratio variables for image-related elements.
+   * Defines the 'constrain_width' variable for several image-related elements.
    *
    * This defines the 'constrain_width' variable for the 'image', 'image_style',
    * and 'image_caption_formatter' elements.
