@@ -205,8 +205,8 @@ extends DefaultImageFormatterLinkToImageStyleFormatter {
       $linkedImageStyle->transformDimensions($dimensions, $fileURI);
 
       // If the width and height are numeric (i.e. either integers, floats, or
-      // strings that contain the former two), set them on the image render
-      // array so that intrinsic ratio works correctly.
+      // strings that contain the former two), pass them to the image render
+      // array.
       if (
         is_numeric($dimensions['width']) &&
         is_numeric($dimensions['height'])
