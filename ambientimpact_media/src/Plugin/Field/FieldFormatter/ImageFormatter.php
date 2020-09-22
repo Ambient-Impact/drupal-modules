@@ -122,7 +122,7 @@ class ImageFormatter extends CoreImageFormatter {
       $configuration['view_mode'],
       $configuration['third_party_settings'],
       $container->get('current_user'),
-      $container->get('entity.manager')->getStorage('image_style'),
+      $container->get('entity_type.manager')->getStorage('image_style'),
       $container->get('plugin.manager.ambientimpact_component'),
       $container->get('media.oembed.url_resolver')
     );

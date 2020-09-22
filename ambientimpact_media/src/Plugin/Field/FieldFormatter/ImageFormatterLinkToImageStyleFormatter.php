@@ -116,7 +116,7 @@ extends DefaultImageFormatterLinkToImageStyleFormatter {
       $configuration['third_party_settings'],
       $container->get('current_user'),
       $container->get('link_generator'),
-      $container->get('entity.manager')->getStorage('image_style'),
+      $container->get('entity_type.manager')->getStorage('image_style'),
       $container->get('plugin.manager.ambientimpact_component')
     );
   }
