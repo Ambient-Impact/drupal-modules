@@ -36,9 +36,6 @@
     "patches": {
       "drupal/core": {
         "Add a hook to modify oEmbed resource data [#3042423] https://www.drupal.org/project/drupal/issues/3042423": "https://www.drupal.org/files/issues/2019-03-25/media_hook-oembed-resource-data-alter__example.patch"
-      },
-      "drupal/image_field_caption": {
-        "Incorrect Drupal core module dependency https://www.drupal.org/project/image_field_caption/issues/3172898": "https://www.drupal.org/files/issues/2020-09-24/image_field_caption_8.x-1.x_composer_dependency_fix_3172898-3.patch"
       }
     }
   }
