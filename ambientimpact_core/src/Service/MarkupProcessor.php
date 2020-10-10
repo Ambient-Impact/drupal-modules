@@ -45,14 +45,23 @@ class MarkupProcessor implements MarkupProcessorInterface {
     }
 
     if ($markup instanceof TranslatableMarkup) {
-      $crawler = new Crawler($markup->getUntranslatedString());
+      /** @var string */
+      $crawlerMarkup = $markup->getUntranslatedString();
     } else {
-      $crawler = new Crawler($markup);
+      /** @var string */
+      $crawlerMarkup = $markup;
     }
 
-    // Set the crawler to the <body> element so that only its children are
-    // rendered without the <body> wrapping them.
-    $crawler = $crawler->filter('body');
+    /** @var \Symfony\Component\DomCrawler\Crawler */
+    $crawler = new Crawler(
+      // The <div> is to prevent the PHP DOM automatically wrapping any
+      // top-level text content in a <p> element.
+      '<div id="ambientimpact-dom-root">' . $crawlerMarkup . '</div>'
+    );
+
+    // Set the crawler to our root element so that only its children are
+    // rendered without the root element wrapping them.
+    $crawler = $crawler->filter('#ambientimpact-dom-root');
 
     // Create the event object.
     $event = new DOMCrawlerEvent($crawler);
