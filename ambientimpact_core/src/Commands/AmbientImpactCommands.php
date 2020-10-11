@@ -427,8 +427,13 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
     ],
     'delete' => true,
     'target-post-drush-commands' => [
+      // This is necessary so that Drupal doesn't throw an error if a new module
+      // or theme was added by the rsync and then set to be enabled in the
+      // subsequent config import.
+      'cr',
       'config-import',
       'updb',
+      // Cache rebuild a second time after everything is done.
       'cr',
     ],
   ]) {
