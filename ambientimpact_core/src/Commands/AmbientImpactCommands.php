@@ -232,6 +232,19 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
     $dumpName     = 'database.sql';
     $dumpPath     = $tempPath . DIRECTORY_SEPARATOR . $dumpName;
 
+    $dumpOptions  = [
+      'result-file' => $dumpPath,
+    ];
+
+    // Pass on the verbose and debug options to the sql:dump command for
+    // debugging.
+    if ($options['verbose']) {
+      $dumpOptions['verbose'] = true;
+    }
+    if ($options['debug']) {
+      $dumpOptions['debug'] = true;
+    }
+
     $tarOptions = [
       '--create', '--gzip',
       // This is required if on Windows so tar doesn't get confused by colons
@@ -288,11 +301,9 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
       // Create the back-up group directory if it doesn't exist yet.
       ->mkdir($groupPath)
       // Run the Drush 'sql:dump' command to create the database dump file.
-      ->addCode(function() use ($drushCommand, $tempPath, $dumpName) {
+      ->addCode(function() use ($drushCommand, $dumpOptions) {
         $drushCommand->processManager()
-          ->drush($drushCommand->selfRecord, 'sql:dump', [], [
-            'result-file' => $tempPath . DIRECTORY_SEPARATOR . $dumpName,
-          ])
+          ->drush($drushCommand->selfRecord, 'sql:dump', [], $dumpOptions)
           ->mustRun();
       });
 
