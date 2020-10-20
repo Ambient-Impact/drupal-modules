@@ -1,0 +1,17 @@
+{
+  "name": "drupal/ambientimpact_markdown",
+  "description": "Ambient.Impact - Markdown",
+  "type": "project",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Ambient.Impact",
+      "homepage": "https://ambientimpact.com/",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "drupal/markdown": "^2.0",
+    "league/commonmark": "^1.5"
+  }
+}
