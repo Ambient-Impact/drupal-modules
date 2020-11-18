@@ -428,6 +428,10 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
    *
    * @todo Add arguments and options to target-post-drush-commands, or
    * generalize them so that any shell commands can be specified.
+   *
+   * @todo Can we use the @link https://www.drush.org/deploycommand/ deploy
+   *   command @endlink in 'target-post-drush-commands' to condense it and allow
+   *   the use deploy hooks?
    */
   public function rsync($source, $target, $options = [
     'exclude-files' => true,
