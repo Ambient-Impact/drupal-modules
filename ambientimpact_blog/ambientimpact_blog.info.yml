@@ -2,7 +2,6 @@ name: Ambient.Impact - Blog
 type: module
 description: Blog post content type and related Views.
 package: Ambient.Impact
-core: 8.x
 core_version_requirement: ^8 || ^9
 
 dependencies:

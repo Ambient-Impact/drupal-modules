@@ -2,7 +2,6 @@ name: Ambient.Impact - Media
 type: module
 description: Media (images, video, etc.) and related code.
 package: Ambient.Impact
-core: 8.x
 core_version_requirement: ^8 || ^9
 
 dependencies:
