@@ -31,3 +31,24 @@ html {
   margin-left:    auto !important;
   margin-right:   auto !important;
 }
+
+.views-exposed-form {
+  // Override the align-items: flex-end; so that the exposed form buttons and
+  // any fields that have a description line up vertically.
+  align-items: initial !important;
+
+  .form-type--entity-autocomplete {
+    .claro-autocomplete {
+      // The Claro margin-top causes this to become out of sync vertically with
+      // any other adjacent fields on the same line.
+      margin-top: 0;
+    }
+  }
+
+  .form-actions .form-submit {
+    // This should cause the tops of buttons to line up with the tops of
+    // adjacent fields, now that we've removed the align-items: flex-end; on the
+    // form itself.
+    margin-top: 1.6rem;
+  }
+}
