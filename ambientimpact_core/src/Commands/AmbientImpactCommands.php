@@ -205,6 +205,7 @@ implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
     'limit'   => '0',
     'exclude' => [
       './vendor',
+      './keys',
       'sftp-config.json',
       './drupal/libraries',
       '*/node_modules',
