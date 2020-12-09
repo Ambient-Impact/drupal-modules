@@ -1,6 +1,13 @@
 services:
-  ambientimpact_core.commands:
-    class: \Drupal\ambientimpact_core\Commands\AmbientImpactCommands
+
+  ambientimpact_core.backup_command:
+    class: \Drupal\ambientimpact_core\Commands\AmbientImpactBackupCommand
+    arguments: ['@file_system']
+    tags:
+      - { name: drush.command }
+
+  ambientimpact_core.rsync_command:
+    class: \Drupal\ambientimpact_core\Commands\AmbientImpactRsyncCommand
     arguments: ['@file_system']
     tags:
       - { name: drush.command }
