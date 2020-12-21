@@ -3,10 +3,18 @@
 /**
  * Implements hook_element_info_alter().
  *
- * This attaches the toolbar component to the toolbar element.
+ * This attaches the toolbar component to the toolbar element if the admin theme
+ * is not set to the Gin theme, which provides its own toolbar styling and
+ * JavaScript that can conflict with ours.
  */
 function ambientimpact_ux_element_info_alter(array &$info) {
-  if (isset($info['toolbar'])) {
+  /** @var \Drupal\Core\Config\ConfigFactoryInterface */
+  $configFactory = \Drupal::service('config.factory');
+
+  if (
+    isset($info['toolbar']) &&
+    $configFactory->get('system.theme')->get('admin') !== 'gin'
+  ) {
     $info['toolbar']['#attached']['library'][] =
       'ambientimpact_ux/component.toolbar';
   }
