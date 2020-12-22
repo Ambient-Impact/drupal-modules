@@ -64,7 +64,9 @@ implements EventSubscriberInterface {
   public function process(DOMCrawlerEvent $event) {
     $crawler = $event->getCrawler();
 
-    $links = $crawler->filter('a');
+    // Only select <a> elements that have an href attribute since we don't need
+    // to process any that don't link to anything.
+    $links = $crawler->filter('a[href]');
 
     $linkExternalComponent = $this->componentManager
       ->getComponentInstance('link.external');
