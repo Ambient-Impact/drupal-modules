@@ -82,7 +82,11 @@ class DOMFilter extends FilterBase implements ContainerFactoryPluginInterface {
       return new FilterProcessResult($text);
     }
 
-    $crawler = new Crawler($text);
+    // Create the crawler, ensuring that $text is first cast to a string in case
+    // a preceding filter has provided a renderable object rather than a string.
+    // An example of this is the Markdown module.
+    /** @var \Symfony\Component\DomCrawler\Crawler */
+    $crawler = new Crawler((string) $text);
 
     // Set the crawler to the <body> element so that only its children are
     // rendered without the <body> wrapping them.
