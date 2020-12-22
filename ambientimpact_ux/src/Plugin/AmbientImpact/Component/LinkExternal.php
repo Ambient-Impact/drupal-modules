@@ -78,6 +78,14 @@ class LinkExternal extends ComponentBase {
     } else {
       $parsed = UrlHelper::parse($uri);
 
+      // If the path and query are both empty, this is an internal link to a
+      // target on the current page or it could be a link with an empty href. We
+      // have to check for this as Url::fromUri() will throw an exception if we
+      // try to pass it an empty path and query.
+      if (empty($parsed['path']) && empty($parsed['query'])) {
+        return false;
+      }
+
       $url = Url::fromUri($parsed['path'], [
         'query'     => $parsed['query'],
         'fragment'  => $parsed['fragment'],
