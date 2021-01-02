@@ -68,10 +68,11 @@ class IconFilter extends FilterBase implements ContainerFactoryPluginInterface {
    * {@inheritdoc}
    */
   public function process($text, $langCode) {
-    // Find all valid tags, matching the bundle, name, and text as named capture
-    // groups.
+    // Find all valid tags, matching the bundle, name, text, and any additional
+    // options as named capture groups. The latter currently only supports the
+    // 'standalone' keyword.
     preg_match_all(
-      '%\[icon:(?\'bundle\'[^:\]]+):(?\'name\'[^:\]]+):(?\'text\'[^:\]]+)\]%',
+      '%\[icon:(?\'bundle\'[^:\]]+):(?\'name\'[^:\]]+):(?\'text\'[^:\]]+)(:(?\'options\'[^:\]]+))?\]%',
       $text, $matches, PREG_SET_ORDER
     );
 
@@ -87,6 +88,25 @@ class IconFilter extends FilterBase implements ContainerFactoryPluginInterface {
         '#bundle' => $match['bundle'],
         '#text'   => $match['text'],
       ];
+
+      if (isset($match['options'])) {
+        /** @var string[] */
+        $options = \explode('&', $match['options']);
+
+        if (\in_array('text=hidden', $options)) {
+          $renderArray['#textDisplay'] = 'hidden';
+
+        } else if (\in_array('text=visuallyHidden', $options)) {
+          $renderArray['#textDisplay'] = 'visuallyHidden';
+
+        } else if (\in_array('text=visible', $options)) {
+          $renderArray['#textDisplay'] = 'visible';
+        }
+
+        if (\in_array('standalone', $options)) {
+          $renderArray['#standalone'] = true;
+        }
+      }
 
       $search[] = $match[0];
 
@@ -105,6 +125,11 @@ class IconFilter extends FilterBase implements ContainerFactoryPluginInterface {
    * {@inheritdoc}
    */
   public function tips($long = false) {
-    return $this->t('<code>[icon:bundle:name:text]</code> tags are rendered; replace <code>bundle</code>, <code>name</code>, and <code>text</code> with the icon bundle, icon name, and text to associate with this icon; all parameters are required.');
+    if ($long === true) {
+      return $this->t('<code>[icon:bundle:name:text:options]</code> tags are rendered; replace <code>bundle</code>, <code>name</code>, and <code>text</code> with the icon bundle, icon name, and text to associate with this icon, all of which are required. The <code>options</code> parameter is optional, and supports a <code>standalone</code> keyword and a <code>text</code> option (<code>text=hidden</code>, <code>text=visuallyHidden</code>, and , <code>text=visible</code> are supported). Multiple options can be joined together with <code>&</code>, like so: <code>standalone&text=hidden</code>');
+
+    } else {
+      return $this->t('<code>[icon]</code> tags are rendered.');
+    }
   }
 }
