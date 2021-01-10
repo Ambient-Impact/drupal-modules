@@ -148,9 +148,22 @@ $offcanvas-panel-max-size: 17em;
     opacity: 1;
   }
 
-  transition-property:        transform, opacity, visibility;
+  transition-property: transform, opacity, visibility;
+
+  // These are used when transitioning into view, i.e. is opening. The panel
+  // comes in at full speed and decelerates to a stop.
   transition-duration:        $offcanvas-transition-duration;
-  transition-timing-function: $easing-sharp;
+  transition-timing-function: $easing-decelerate;
+
+  // These are used when transitioning out of view, i.e. is closing. The panel
+  // accelerates out to give it a sense of physicality and weight, as if this is
+  // a real object subject to physics. The duration is shortened to compensate
+  // for the different easing, making it feel similar in duration to the
+  // transition in.
+  &[aria-hidden="true"] {
+    transition-duration:        $offcanvas-transition-duration * 0.7;
+    transition-timing-function: $easing-accelerate;
+  }
 
   // Auto panel theme; switches between light and dark based on
   // prefers-colour-scheme media feature.
@@ -218,6 +231,11 @@ $offcanvas-panel-max-size: 17em;
     &.offcanvas-panel--right,
     &.offcanvas-panel--top,
     &.offcanvas-panel--bottom {
+      &, &[aria-hidden="true"] {
+        // Opacity transitions look much smoother with linear easing.
+        transition-timing-function: linear;
+      }
+
       &[aria-hidden="true"] {
         transform:  translateX(0) translateY(0);
         opacity:    0;
