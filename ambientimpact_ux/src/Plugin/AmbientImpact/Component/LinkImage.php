@@ -237,6 +237,13 @@ class LinkImage extends ComponentBase {
         $href = $link->getAttribute('href');
       }
 
+      // Bail if no child nodes are present as this could cause a fatal error
+      // when creating the Symfony DomCrawler.
+      if (empty($link->childNodes)) {
+        return;
+      }
+
+      /** @var \Symfony\Component\DomCrawler\Crawler */
       $linkContentCrawler = new Crawler($link->childNodes);
 
     // Check if this is a link settings array, like that found in
@@ -261,7 +268,13 @@ class LinkImage extends ComponentBase {
         $linkContent = (string) $link['text'];
       }
 
+      // Bail if there's no link content for whatever reason.
+      if (empty($linkContent)) {
+        return;
+      }
+
       // Create a new Symfony DomCrawler with the link content.
+      /** @var \Symfony\Component\DomCrawler\Crawler */
       $linkContentCrawler = new Crawler($linkContent);
 
     // If neither was provided, return here.
