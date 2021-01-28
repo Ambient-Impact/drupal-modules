@@ -2,19 +2,11 @@
 //   Ambient.Impact - UX - Material button partial
 // -----------------------------------------------------------------------------
 
-// Note that implementing buttons as <button> elements in Drupal 8 is more
-// challenging than in Drupal 7, so parts of the following mixins have been
-// commented out where they assume a <button> and its support of ::before and
-// ::after, which <input> elements do not support. There is an ongoing issue
-// with attempts to do this in core, but it seems to have stalled as of March
-// 2019.
-// @see https://www.drupal.org/project/drupal/issues/1671190
-
 ///
 /// Material button background colour, light variant.
 ///
 $material-button-background-colour-light:
-  darken($material-panel-background-colour-light, 10%)  !default;
+  darken($material-panel-background-colour-light, 10%) !default;
 
 ///
 /// Material button background colour, light variant, with user interaction.
@@ -26,7 +18,7 @@ $material-button-background-colour-light-interact:
 /// Material button background colour, dark variant.
 ///
 $material-button-background-colour-dark:
-  lighten($material-panel-background-colour-dark, 10%)  !default;
+  lighten($material-panel-background-colour-dark, 10%) !default;
 
 ///
 /// Material button background colour, dark variant, with user interaction.
@@ -44,13 +36,12 @@ $material-button-background-colour-light-interact:
 /// Material button foreground colour when button background colour is light.
 ///
 $material-button-foreground-colour-on-light:
-  $foreground-colour-on-light               !default;
+  $foreground-colour-on-light !default;
 
 ///
 /// Material button foreground colour when button background colour is dark.
 ///
-$material-button-foreground-colour-on-dark:
-  $foreground-colour-on-dark                !default;
+$material-button-foreground-colour-on-dark: $foreground-colour-on-dark !default;
 
 ///
 /// Material button padding.
@@ -58,13 +49,29 @@ $material-button-foreground-colour-on-dark:
 /// These specific values allow us to vertically centre text. They work in
 /// concert with the button's line-height value to do this.
 ///
-$material-button-padding: 0.7em 1em 0.6em         !default;
+$material-button-padding: 0.7em 1em 0.6em !default;
 
 ///
 /// Material button border radius.
 ///
-$material-button-border-radius: $material-border-radius   !default;
+$material-button-border-radius: $material-border-radius !default;
 
+///
+/// Base styles for Material buttons.
+///
+/// This is intended to be used in situations where only the typography and
+/// layout styles need to be applied, without background colours, etc.
+///
+@mixin material-button-base {
+  padding: $material-button-padding;
+
+  font-weight:    bold;
+  text-transform: uppercase;
+
+  // Line height is set to this in an attempt to vertically centre text. It
+  // works in concert with the vertical padding values to do so.
+  line-height: 1.2;
+}
 
 ///
 /// Styles to present an element as a Material button.
@@ -108,77 +115,51 @@ $material-button-border-radius: $material-border-radius   !default;
 /// @author Matei "Ambient.Impact" Stanca
 ///
 @mixin material-button(
-  $background-colour:       $material-button-background-colour-light,
+  $background-colour: $material-button-background-colour-light,
   $background-colour-interact:
     $material-button-background-colour-light-interact,
-  $background-colour-reference:     null,
+
+  $background-colour-reference:           null,
   $background-colour-interact-reference:  null,
 
   $foreground-colour-on-light:  $foreground-colour-on-light,
   $foreground-colour-on-dark:   $foreground-colour-on-dark,
 
-  $shadow-depth:          1,
+  $shadow-depth: 1,
 
-  $border-radius:         $material-button-border-radius
+  $border-radius: $material-button-border-radius
 ) {
+  @include material-button-base;
+
   position: relative;
-  z-index:  1;
 
-  padding:  $material-button-padding;
+  z-index: 1;
 
-  border:       0;
+  border: 0;
+
   &,
-  // &::before,
-  // &::after,
+  // @todo Do we need .material-ripple since ripples are now applied via a
+  //   background-image?
   .material-ripple {
-    border-radius:  $border-radius;
+    border-radius: $border-radius;
   }
 
   @include set-colours(
-    $background:      $background-colour,
+    $background:            $background-colour,
     $background-reference:  $background-colour-reference,
-    $foreground-on-light: $foreground-colour-on-light,
-    $foreground-on-dark:  $foreground-colour-on-dark
+    $foreground-on-light:   $foreground-colour-on-light,
+    $foreground-on-dark:    $foreground-colour-on-dark
   );
 
   // Only add a shadow if the depth is a valid value. This allows for passing
   // anything else to disable the shadow.
   @if $shadow-depth >= 1 and $shadow-depth <= 5 {
-    // @include material-button-shadow($shadow-depth);
     @include material-shadow($shadow-depth);
   }
 
   @include transition-fade-base();
 
-  text-transform: uppercase;
-  font-weight:  bold;
-  // Line height is set to this in an attempt to vertically centre text. It
-  // works in concert with the vertical padding values to do so.
-  line-height:  1.2;
-
-  // &::before,
-  // &::after {
-  //   content:  '';
-
-  //   display:  block;
-
-  //   position: absolute;
-
-  //   top:    0;
-  //   left:   0;
-
-  //   width:    100%;
-  //   height:   100%;
-
-  //   margin:   0;
-  //   padding:  0;
-
-  //   z-index:  -1;
-
-  //   @include transition-fade-base();
-  // }
-
-  // Apply hover/focus styles on hover if not touch.
+  // Apply hover/focus styles on hover if touch was not used.
   &:not(:disabled):not([data-pointer-used='touch']):hover {
     @include material-button-interact(
       $background-colour-interact,
@@ -187,6 +168,7 @@ $material-button-border-radius: $material-border-radius   !default;
       $background-colour-interact-reference
     );
   }
+
   // Apply hover/focus styles on non-pointer focus.
   @include not-pointer-focus {
     &:not(:disabled) {
@@ -198,9 +180,12 @@ $material-button-border-radius: $material-border-radius   !default;
       );
     }
   }
+
   // Disabled buttons get faded out foreground colours.
   &:disabled {
+    // @todo Can we remove this line since we use set-colours()?
     color: rgba($foreground-colour, 0.3);
+
     @include set-colours(
       $background:
         $background-colour,
@@ -338,10 +323,10 @@ $material-button-border-radius: $material-border-radius   !default;
 /// @author Matei "Ambient.Impact" Stanca
 ///
 @mixin material-button-fab(
-  $background-colour:       $material-button-background-colour,
+  $background-colour:           $material-button-background-colour,
   $background-colour-interact:  $material-button-background-colour-interact,
-  $icon-size:           $icon-size,
-  $padding:           $icon-size * 0.9
+  $icon-size: $icon-size,
+  $padding:   $icon-size * 0.9
 ) {
   // The border radius is exactly half the icon size plus padding. This allows
   // buttons to be rounded rectangles if the contents do not fit inside a
@@ -350,10 +335,10 @@ $material-button-border-radius: $material-border-radius   !default;
   $border-radius: ($icon-size + ($padding * 2)) / 2;
 
   @include material-button(
-    $background-colour:       $background-colour,
+    $background-colour:           $background-colour,
     $background-colour-interact:  $background-colour-interact,
-    $shadow-depth:          2,
-    $border-radius:         $border-radius
+    $shadow-depth:  2,
+    $border-radius: $border-radius
   );
 
   padding: $padding;
