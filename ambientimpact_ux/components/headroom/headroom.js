@@ -122,8 +122,7 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
     // If an active Headroom.js instance already exists on the element, destroy
     // it.
     if (
-      element.headroom &&
-      element.headroom.destroy &&
+      AmbientImpact.objectPathExists('headroom.destroy', element) &&
       typeof element.headroom.destroy === 'function'
     ) {
       element.headroom.destroy();
