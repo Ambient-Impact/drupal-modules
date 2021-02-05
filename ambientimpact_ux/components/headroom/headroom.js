@@ -13,7 +13,6 @@
 // @todo Add option to stick to top or bottom, and change settings accordingly?
 
 AmbientImpact.onGlobals(['Headroom'], function() {
-AmbientImpact.on(['event.lazyResize'], function(ailazyResize) {
 
   // Don't do anything if Headroom can't be used due to lack of browser support.
   // This primarily targets IE at the moment.
@@ -120,6 +119,5 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
       delete element.headroom;
     };
   };
-});
 });
 });
