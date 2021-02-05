@@ -13,19 +13,7 @@
 // @todo Add option to stick to top or bottom, and change settings accordingly?
 
 AmbientImpact.onGlobals(['Headroom'], function() {
-AmbientImpact.on([
-  'environment', 'event.lazyResize',
-], function(aiEnvironment, ailazyResize) {
-
-  // Don't do anything if position:sticky; is not supported as we use this to
-  // avoid having to write complicated code/DOM interactions that behave
-  // similarily. If this is a dealbreaker in the future, we could use the
-  // 'stickyfill' polyfill library.
-  if (!aiEnvironment.cssSupports(
-    'position', 'sticky'
-  )) {
-    return;
-  }
+AmbientImpact.on(['event.lazyResize'], function(ailazyResize) {
 
   // Don't do anything if Headroom can't be used due to lack of browser support.
   // This primarily targets IE at the moment.
