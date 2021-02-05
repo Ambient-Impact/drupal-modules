@@ -2,15 +2,14 @@
 //   Ambient.Impact - UX - Headroom.js component
 // -----------------------------------------------------------------------------
 
-// This attaches a Headroom.js instance to a given element, with some
-// modifications:
-// * Callbacks are replaced with events fired on the element.
+// This attaches a Headroom.js instance to a given element while providing some
+// improvements:
+//
+// - Callbacks are replaced with events fired on the element.
 //
 // * Some default options are provided. These can be overridden.
 //
-// See http://wicky.nillia.ms/headroom.js/ for more info.
-//
-// @todo Add option to stick to top or bottom, and change settings accordingly?
+// @see http://wicky.nillia.ms/headroom.js/
 
 AmbientImpact.onGlobals(['Headroom'], function() {
 
@@ -31,15 +30,31 @@ AmbientImpact.onGlobals(['Headroom'], function() {
 AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
   'use strict';
 
+  /**
+   * Default Headroom.js settings passed to the Headroom() constructor.
+   *
+   * @type {Object}
+   *
+   * @see this.init()
+   */
   var defaults = {
     // This gives the scrolling a slight margin of error so that
     // scrolling up or down less than this (usually by accident) does
     // not cause a state change.
     tolerance:  5,
-  },
-  // These are the callback names that we use to generate events from
-  // Headroom.js' callbacks. See this.init().
-  callbackNames = [
+  };
+
+  /**
+   * Callback names to generate events from.
+   *
+   * This is used to map the Headroom.js callbacks to events that are triggered
+   * on Headroom.js-enabled elements.
+   *
+   * @type {Array}
+   *
+   * @see this.init()
+   */
+  var callbackNames = [
     'Pin',
     'Unpin',
     'Top',
@@ -65,9 +80,26 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
    * @see callbackNames
    */
   this.init = function(element, options) {
-    var $element  = $(element),
-        settings,
-        originalDestroy;
+    /**
+     * The provided element wrapped in a jQuery collection.
+     *
+     * @type {jQuery}
+     */
+    var $element = $(element);
+
+    /**
+     * The settings that will be passed to Headroom.js.
+     *
+     * @type {Object}
+     */
+    var settings;
+
+    /**
+     * This element's original Headroom.js destroy method.
+     *
+     * @type {Function}
+     */
+    var originalDestroy;
 
     // Make sure options is an object.
     if (typeof options !== 'object') {
@@ -87,7 +119,8 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
     // Make sure element is actually an HTML element and not a jQuery object.
     element = $element[0];
 
-    // If an active Headroom already exists, destroy it.
+    // If an active Headroom.js instance already exists on the element, destroy
+    // it.
     if (
       element.headroom &&
       element.headroom.destroy &&
@@ -96,7 +129,7 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
       element.headroom.destroy();
     }
 
-    // Trigger events on all the Headroom callbacks on the element. This
+    // Trigger events on all the Headroom.js callbacks on the element. This
     // converts 'on<eventName>' to 'headroom<eventName>'. See callbackNames for
     // the event names.
     $.each(callbackNames, function(i, name) {
@@ -109,8 +142,11 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
     element.headroom = new Headroom(element, settings);
     element.headroom.init();
 
-    // Wrap Headroom's destroy method with our own, allowing us to fire events.
+    // Save a reference to the original Headroom.js destroy method.
     originalDestroy = element.headroom.destroy;
+
+    // Wrap Headroom.js' destroy method with our own, allowing us to trigger
+    // events before and after destruction.
     element.headroom.destroy = function() {
       $element.trigger('headroomBeforeDestroy');
 
