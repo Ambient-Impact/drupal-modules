@@ -21,7 +21,10 @@ AmbientImpact.onGlobals(['Headroom'], function() {
   //
   // @see https://github.com/WickyNilliams/headroom.js/issues/347
   //   This may be renamed to Headroom.isSupported when 1.0 is released.
-  if (!Headroom.cutsTheMustard) {
+  if (
+    AmbientImpact.objectPathExists('Headroom.cutsTheMustard') &&
+    Headroom.cutsTheMustard === false
+  ) {
     return;
   }
 
