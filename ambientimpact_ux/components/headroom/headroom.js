@@ -46,9 +46,6 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
     // scrolling up or down less than this (usually by accident) does
     // not cause a state change.
     tolerance:  5,
-
-    // Whether to use Drupal.displace to shift the top of the element.
-    displace: true
   },
   // These are the callback names that we use to generate events from
   // Headroom.js' callbacks. See this.init().
@@ -89,7 +86,7 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
 
     // If no offset was specified, use the element's offset as read by jQuery.
     // We're using Math.floor() to avoid possible 1 pixel gaps along the top
-    // edge in some rendering engines, e.g. Blink.
+    // edge in some rendering engines, e.g. Chromium/Blink.
     if (!('offset' in options)) {
       options.offset = Math.floor($element.offset().top);
     }
@@ -134,54 +131,6 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
       // Remove our object from the element.
       delete element.headroom;
     };
-
-    // Create an object to store handlers in, so we can unbind just this
-    // element's handlers.
-    element.headroom.aiHandlers = {};
-
-    // If we're told to take viewport displacement into account, do so.
-    if (settings.displace) {
-      element.headroom.aiHandlers.displace = function(event, offsets) {
-        // We're using Math.floor() to avoid rounding errors in some browsers.
-        // Without this, a 1 pixel gap may appear, depending on the rendering
-        // engine of the browser. Blink can do this, and likely others may too.
-        var topOffset = Math.floor(offsets.top);
-
-        $element.css('top', topOffset + 'px');
-
-        // If the browser supports custom properties, set the offset as one for
-        // the CSS to use, e.g. in immerse mode.
-        element.style.setProperty('--offset-top', topOffset + 'px');
-      };
-
-      // If offsets are available, fire once. This is needed if we're
-      // reinitializing, so that changes to displacement from resizing are taken
-      // into account.
-      if (AmbientImpact.objectPathExists('Drupal.displace.offsets.top')) {
-        element.headroom.aiHandlers.displace(
-          {},
-          Drupal.displace.offsets
-        );
-      }
-
-      $(document).on(
-        'drupalViewportOffsetChange.aiHeadroom',
-        element.headroom.aiHandlers.displace
-      );
-
-      // Remove the handler, the 'top' CSS, and the offset custom property on
-      // destroy().
-      $element.one('headroomDestroy', function(event) {
-        $(document).off(
-          'drupalViewportOffsetChange.aiHeadroom',
-          element.headroom.aiHandlers.displace
-        );
-
-        $element.css('top', '');
-
-        element.style.removeProperty('--offset-top');
-      });
-    }
   };
 });
 });
