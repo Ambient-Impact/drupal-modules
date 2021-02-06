@@ -7,7 +7,7 @@
 //
 // - Callbacks are replaced with events fired on the element.
 //
-// * Some default options are provided. These can be overridden.
+// - Some default options are provided. These can be overridden.
 //
 // @see http://wicky.nillia.ms/headroom.js/
 
