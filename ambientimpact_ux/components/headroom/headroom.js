@@ -7,6 +7,8 @@
 //
 // - Callbacks are replaced with events fired on the element.
 //
+// - Adds 'headroomFreeze' and 'headroomUnfreeze' events.
+//
 // - Some default options are provided. These can be overridden.
 //
 // @see http://wicky.nillia.ms/headroom.js/
@@ -95,6 +97,20 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
     var settings;
 
     /**
+     * This element's original Headroom.js freeze method.
+     *
+     * @type {Function}
+     */
+    var originalFreeze;
+
+    /**
+     * This element's original Headroom.js unfreeze method.
+     *
+     * @type {Function}
+     */
+    var originalUnfreeze;
+
+    /**
      * This element's original Headroom.js destroy method.
      *
      * @type {Function}
@@ -140,6 +156,40 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
     // Initialize the new instance.
     element.headroom = new Headroom(element, settings);
     element.headroom.init();
+
+    // Save a reference to the original Headroom.js freeze method.
+    originalFreeze = element.headroom.freeze;
+
+    // Wrap Headroom.js' freeze method with our own, allowing us to trigger an
+    // event.
+    element.headroom.freeze = function() {
+      // Don't do anything if currently frozen so that event handlers don't have
+      // to check this and avoids potential infinite recursion.
+      if (element.headroom.frozen === true) {
+        return;
+      }
+
+      originalFreeze.apply(element.headroom);
+
+      $element.trigger('headroomFreeze');
+    };
+
+    // Save a reference to the original Headroom.js unfreeze method.
+    originalUnfreeze = element.headroom.unfreeze;
+
+    // Wrap Headroom.js' unfreeze method with our own, allowing us to trigger an
+    // event.
+    element.headroom.unfreeze = function() {
+      // Don't do anything if not currently frozen so that event handlers don't have
+      // to check this and avoids potential infinite recursion.
+      if (element.headroom.frozen === false) {
+        return;
+      }
+
+      originalUnfreeze.apply(element.headroom);
+
+      $element.trigger('headroomUnfreeze');
+    };
 
     // Save a reference to the original Headroom.js destroy method.
     originalDestroy = element.headroom.destroy;
