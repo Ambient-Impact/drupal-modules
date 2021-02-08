@@ -15,6 +15,7 @@
 // - Some default options are provided. These can be overridden.
 //
 // @see http://wicky.nillia.ms/headroom.js/
+//   Lists Headroom.js options.
 
 AmbientImpact.onGlobals(['Headroom'], function() {
 
@@ -38,18 +39,24 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
   /**
    * Default Headroom.js settings passed to the Headroom() constructor.
    *
+   * The following are provided by default:
+   *
+   * - tolerance: this is set to a non-zero value to give scrolling a slight
+   *   margin of error to avoid pinning/unpinning due to small scrolls, e.g. by
+   *   accident.
+   *
+   * - pinOnFocus: if true (the default), will automatically pin the Headroom.js
+   *   instance if focus moves into the element.
+   *
    * @type {Object}
    *
    * @see this.init()
+   *
+   * @see http://wicky.nillia.ms/headroom.js/
+   *   Lists Headroom.js options.
    */
   var defaults = {
-    // This gives the scrolling a slight margin of error so that
-    // scrolling up or down less than this (usually by accident) does
-    // not cause a state change.
     tolerance:  5,
-
-    // Whether to automatically pin the Headroom.js instance if focus moves into
-    // it.
     pinOnFocus: true,
   };
 
@@ -86,6 +93,7 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
    *   defaults defined above.
    *
    * @see defaults
+   *
    * @see callbackNames
    */
   this.init = function(element, options) {
