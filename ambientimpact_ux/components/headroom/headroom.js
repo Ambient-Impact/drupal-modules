@@ -9,6 +9,9 @@
 //
 // - Adds 'headroomFreeze' and 'headroomUnfreeze' events.
 //
+// - Adds the ability to pin the element if anything inside of it gains focus.
+//   This can be disabled by passing 'pinOnFocus: false' to the init method.
+//
 // - Some default options are provided. These can be overridden.
 //
 // @see http://wicky.nillia.ms/headroom.js/
@@ -44,6 +47,10 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
     // scrolling up or down less than this (usually by accident) does
     // not cause a state change.
     tolerance:  5,
+
+    // Whether to automatically pin the Headroom.js instance if focus moves into
+    // it.
+    pinOnFocus: true,
   };
 
   /**
@@ -191,13 +198,32 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
       $element.trigger('headroomUnfreeze');
     };
 
+    // Pin and freeze the element on focus, and unfreeze it when focus leaves.
+    // Note that 'focus' and 'blur' events don't bubble up the DOM tree, but
+    // 'focusin' and 'focusout' do.
+    if (settings.pinOnFocus === true) {
+      $element
+        .on('focusin.aiHeadroom', function(event) {
+          this.headroom.pin();
+          this.headroom.freeze();
+        })
+        .on('focusout.aiHeadroom', function(event) {
+          this.headroom.unfreeze();
+        });
+    }
+
     // Save a reference to the original Headroom.js destroy method.
     originalDestroy = element.headroom.destroy;
 
     // Wrap Headroom.js' destroy method with our own, allowing us to trigger
     // events before and after destruction.
     element.headroom.destroy = function() {
-      $element.trigger('headroomBeforeDestroy');
+      $element
+        .trigger('headroomBeforeDestroy')
+        .off([
+          'focusin.aiHeadroom',
+          'focusout.aiHeadroom',
+        ].join(' '));
 
       originalDestroy.apply(element.headroom);
 
