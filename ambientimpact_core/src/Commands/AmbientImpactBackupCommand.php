@@ -167,8 +167,6 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
         ltrim($projectRoot, '/') . DIRECTORY_SEPARATOR
       ) . '\.,tree,"',
       '--file=' . $archivePath,
-      $dumpPath,
-      $projectRoot . '/.',
     ];
 
     // Add generated files to exclude list if set to do so.
@@ -183,6 +181,12 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
     foreach ($options['exclude'] as $exclude) {
       $tarOptions[] = '--exclude="' . $exclude . '"';
     }
+
+    // This adds the SQL dump and project root directory to the tar options.
+    // Note that it's important to place this after the '--exclude' options, or
+    // tar will complain and won't apply the '--exclude' patterns.
+    $tarOptions[] = $dumpPath;
+    $tarOptions[] = $projectRoot . '/.';
 
     // Save $this because we need to pass it to the Drush command closure where
     // $this will have a different value.
