@@ -139,7 +139,8 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
     }
 
     $tarOptions = [
-      '--create', '--gzip',
+      '--create',
+      '--gzip',
       // This is required if on Windows so tar doesn't get confused by colons
       // in volume labels, e.g. C:/
       // @see https://stackoverflow.com/a/37996249
