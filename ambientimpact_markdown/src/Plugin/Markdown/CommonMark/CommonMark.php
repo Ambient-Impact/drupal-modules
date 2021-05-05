@@ -95,6 +95,7 @@ class CommonMark extends MarkdownCommonMark {
   protected function registerEnvironmentEventListeners(
     ConfigurableEnvironmentInterface $environment
   ): void {
+
     // CommonMark environment created event.
     if ($this->eventDispatcher->hasListeners(
       AmbientImpactMarkdownEventInterface::COMMONMARK_CREATE_ENVIRONMENT
@@ -108,30 +109,55 @@ class CommonMark extends MarkdownCommonMark {
       );
     }
 
-    // CommonMark document events.
-    foreach ([
-      AmbientImpactMarkdownEventInterface::COMMONMARK_DOCUMENT_PRE_PARSED => [
-        'commonmark'  => CommonMarkDocumentPreParsedEvent::class,
-        'ours'        => DocumentPreParsedEvent::class,
-      ],
-      AmbientImpactMarkdownEventInterface::COMMONMARK_DOCUMENT_PARSED => [
-        'commonmark'  => CommonMarkDocumentParsedEvent::class,
-        'ours'        => DocumentParsedEvent::class,
-      ],
-    ] as $eventName => $eventClasses) {
-      if (!$this->eventDispatcher->hasListeners($eventName)) {
-        continue;
-      }
+    // CommonMark document pre-parsed event.
+    if ($this->eventDispatcher->hasListeners(
+      AmbientImpactMarkdownEventInterface::COMMONMARK_DOCUMENT_PRE_PARSED
+    )) {
 
       $environment->addEventListener(
-        $eventClasses['commonmark'],
-        function(CommonMarkAbstractEvent $event) use ($eventName, $eventClasses) {
-          $documentEvent = new $eventClasses['ours']($event->getDocument());
+        CommonMarkDocumentPreParsedEvent::class,
+        function(CommonMarkAbstractEvent $event) {
 
-          $this->eventDispatcher->dispatch($eventName, $documentEvent);
+          /** @var \Drupal\ambientimpact_markdown\Event\Markdown\CommonMark\DocumentPreParsedEvent */
+          $ourEvent = new DocumentPreParsedEvent(
+            $event->getDocument(),
+            $event->getMarkdown()
+          );
+
+          $this->eventDispatcher->dispatch(
+            AmbientImpactMarkdownEventInterface::COMMONMARK_DOCUMENT_PRE_PARSED,
+            $ourEvent
+          );
+
+          $event->replaceMarkdown($ourEvent->getMarkdown());
+
         }
       );
+
     }
+
+    // CommonMark document parsed event.
+    if ($this->eventDispatcher->hasListeners(
+      AmbientImpactMarkdownEventInterface::COMMONMARK_DOCUMENT_PARSED
+    )) {
+
+      $environment->addEventListener(
+        CommonMarkDocumentParsedEvent::class,
+        function(CommonMarkAbstractEvent $event) {
+
+          /** @var \Drupal\ambientimpact_markdown\Event\Markdown\CommonMark\DocumentParsedEvent */
+          $ourEvent = new DocumentParsedEvent($event->getDocument());
+
+          $this->eventDispatcher->dispatch(
+            AmbientImpactMarkdownEventInterface::COMMONMARK_DOCUMENT_PARSED,
+            $ourEvent
+          );
+
+        }
+      );
+
+    }
+
   }
 
 }
