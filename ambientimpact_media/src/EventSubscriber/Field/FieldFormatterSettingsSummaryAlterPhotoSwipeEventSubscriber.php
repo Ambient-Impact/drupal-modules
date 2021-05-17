@@ -72,9 +72,9 @@ EventSubscriberInterface {
         // Always show the summary for the 'image_formatter_link_to_image_style'
         // because it's always linked to an image.
         $pluginID === 'image_formatter_link_to_image_style' ||
-        // Only show the summary for the 'image' formatter if it's linked to the
-        // image file.
-        $pluginID === 'image' &&
+        // Only show the summary for the 'image' and 'responsive_image'
+        // formatters if it's linked to the image file.
+        ($pluginID === 'image' || $pluginID === 'responsive_image') &&
         $context['formatter']->getSetting('image_link') === 'file'
       ) &&
       // This is passed to us as a string ('1' or '0'), despite the schema

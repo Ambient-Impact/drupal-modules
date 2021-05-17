@@ -20,6 +20,12 @@ services:
     tags:
       - { name: 'event_subscriber' }
 
+  # Responsive image formatter hook_field_formatter_info_alter() event subscriber.
+  ambientimpact_media.responsive_image_field_formatter_info_alter_event_subscriber:
+    class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterInfoAlterResponsiveImageEventSubscriber
+    tags:
+      - { name: 'event_subscriber' }
+
   # Animated GIF toggle hook_field_formatter_settings_summary_alter() event subscriber.
   ambientimpact_media.animated_gif_toggle_field_formatter_settings_summary_alter_event_subscriber:
     class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterSettingsSummaryAlterAnimatedGIFToggleEventSubscriber

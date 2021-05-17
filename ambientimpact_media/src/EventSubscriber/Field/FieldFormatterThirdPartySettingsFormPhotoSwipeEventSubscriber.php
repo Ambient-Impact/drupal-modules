@@ -71,6 +71,7 @@ implements EventSubscriberInterface {
     if (!in_array($plugin->getPluginId(), [
       'image',
       'image_formatter_link_to_image_style',
+      'responsive_image',
     ])) {
       return;
     }
