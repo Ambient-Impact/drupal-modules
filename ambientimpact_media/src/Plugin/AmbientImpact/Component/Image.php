@@ -14,6 +14,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\file\FileStorageInterface;
 use Drupal\image\ImageStyleStorageInterface;
+use Drupal\image\Plugin\Field\FieldType\ImageItem;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -145,6 +146,91 @@ class Image extends ComponentBase {
   }
 
   /**
+   * Get image style derivative dimensions from an image item and image style.
+   *
+   * @param \Drupal\image\Plugin\Field\FieldType\ImageItem $imageItem
+   *   A Drupal image item to get dimensions of.
+   *
+   * @param string $imageStyleName
+   *   The image style name to attempt to load, or an empty string to return the
+   *   original image's dimensions.
+   *
+   * @return string[]
+   *   Either an associative array containing 'width' and 'height' keys, or an
+   *   empty array if the file entity could not be loaded. If the file entity
+   *   can be loaded but $imageStyleName does not correspond to an existing
+   *   image style, the dimensions will be of the original image. If
+   *   $imageStyleName does correspond to an existing image style, the
+   *   dimensions will be that if the image style derivative.
+   */
+  public function getImageStyleDerivativeDimensions(
+    ImageItem $imageItem,
+    string    $imageStyleName = ''
+  ): array {
+
+    /** @var \Drupal\file\FileInterface */
+    $file = $this->fileStorage->load($imageItem->target_id);
+
+    // If we couldn't load a valid file entity, skip this item.
+    if (empty($file)) {
+      return [];
+    }
+
+    /** @var string */
+    $fileURI = $file->getFileUri();
+
+    /** @var string[] */
+    $dimensions = [
+      'width'   => $imageItem->width,
+      'height'  => $imageItem->height,
+    ];
+
+    // If there's no image style to be used for this item, return the original
+    // image dimensions.
+    if (empty($imageStyleName)) {
+      return $dimensions;
+    }
+
+    // If we've already tried to load this image style and gotten null, return
+    // the original image dimensions.
+    if (
+      isset($this->imageStyleInstances[$imageStyleName]) &&
+      $this->imageStyleInstances[$imageStyleName] === null
+    ) {
+      return $dimensions;
+    }
+
+    // Attempt to load the image style if it hasn't been attempted yet.
+    if (!isset($this->imageStyleInstances[$imageStyleName])) {
+
+      $this->imageStyleInstances[$imageStyleName] =
+        $this->imageStyleStorage->load($imageStyleName);
+
+    }
+
+    /** @var \Drupal\image\ImageStyleInterface|null */
+    $imageStyle = $this->imageStyleInstances[$imageStyleName];
+
+    // If we weren't able to load an image style, set it to null and return the
+    // original image dimensions.
+    if ($imageStyle === null) {
+
+      $this->imageStyleInstances[$imageStyleName] = null;
+
+      return $dimensions;
+
+    }
+
+    // If we got a valid image style object, have it transform the original
+    // dimensions to that of the derivative image, whether or not it has been
+    // generated yet.
+    $imageStyle->transformDimensions($dimensions, $fileURI);
+
+    return $dimensions;
+
+  }
+
+  /**
    * Set an inline max-width on image field items based on their image width.
    *
    * This is useful to avoid linked fields having phantom space on the sides if
@@ -159,65 +245,15 @@ class Image extends ComponentBase {
 
     foreach ($variables['items'] as $delta => &$item) {
 
-      /** @var \Drupal\file\FileInterface */
-      $file = $this->fileStorage->load($item['content']['#item']->target_id);
+      /** @var string[] */
+      $dimensions = $this->getImageStyleDerivativeDimensions(
+        $item['content']['#item'],
+        isset($item['content']['#image_style']) ?
+          $item['content']['#image_style'] : ''
+      );
 
-      // If we couldn't load a valid file entity, skip this item.
-      if (empty($file)) {
+      if (empty($dimensions)) {
         continue;
-      }
-
-      /** @var string */
-      $fileURI = $file->getFileUri();
-
-      $dimensions = [
-        'width'   => $item['content']['#item']->width,
-        'height'  => $item['content']['#item']->height,
-      ];
-
-      // If the item uses an image style, we have to try to load it to get the
-      // URI to the derivative image.
-      if (!empty($item['content']['#image_style'])) {
-        $imageStyleName = $item['content']['#image_style'];
-      }
-
-      if (isset($imageStyleName)) {
-
-        // If we've already tried to load this image style and gotten null, skip
-        // it.
-        if (
-          isset($this->imageStyleInstances[$imageStyleName]) &&
-          $this->imageStyleInstances[$imageStyleName] === null
-        ) {
-          continue;
-        }
-
-        // Attempt to load the image style if it hasn't been attempted yet.
-        if (!isset($this->imageStyleInstances[$imageStyleName])) {
-          $this->imageStyleInstances[$imageStyleName] =
-            $this->imageStyleStorage->load($imageStyleName);
-        }
-
-        /** @var \Drupal\image\ImageStyleInterface|null */
-        $imageStyle = $this->imageStyleInstances[$imageStyleName];
-
-        // If we weren't able to load an image style, set it to null and skip to
-        // the next field item.
-        if ($imageStyle === null) {
-          $this->imageStyleInstances[$imageStyleName] = null;
-
-          continue;
-        }
-      }
-
-      // If we got a valid image style object, have it transform the original
-      // dimensions to that of the derivative image, whether or not it has been
-      // generated yet.
-      if (
-        isset($imageStyle) &&
-        \method_exists($imageStyle, 'transformDimensions')
-      ) {
-        $imageStyle->transformDimensions($dimensions, $fileURI);
       }
 
       // If a 'style' attribute already exists, try to explode so that we can
