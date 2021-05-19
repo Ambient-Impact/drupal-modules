@@ -12,8 +12,8 @@ use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
-use Drupal\file\Entity\File;
-use Drupal\image\Entity\ImageStyle;
+use Drupal\file\FileStorageInterface;
+use Drupal\image\ImageStyleStorageInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -26,12 +26,27 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class Image extends ComponentBase {
+
+  /**
+   * The Drupal file entity storage.
+   *
+   * @var \Drupal\file\FileStorageInterface
+   */
+  protected $fileStorage;
+
   /**
    * The image factory service.
    *
    * @var \Drupal\Core\Image\ImageFactory
    */
   protected $imageFactory;
+
+  /**
+   * The Drupal image style configuration entity storage.
+   *
+   * @var \Drupal\image\ImageStyleStorageInterface
+   */
+  protected $imageStyleStorage;
 
   /**
    * An array of image style instances that have been loaded.
@@ -70,8 +85,14 @@ class Image extends ComponentBase {
    * @param \Drupal\Core\Cache\CacheBackendInterface $htmlCacheService
    *   The Component HTML cache service.
    *
+   * @param \Drupal\file\FileStorageInterface $fileStorage
+   *   The Drupal file entity storage.
+   *
    * @param \Drupal\Core\Image\ImageFactory $imageFactory
    *   The Drupal image factory service.
+   *
+   * @param \Drupal\image\ImageStyleStorageInterface $imageStyleStorage
+   *   The Drupal image style configuration entity storage.
    */
   public function __construct(
     array $configuration, string $pluginID, array $pluginDefinition,
@@ -81,12 +102,16 @@ class Image extends ComponentBase {
     SerializationInterface $yamlSerialization,
     TranslationInterface $stringTranslation,
     CacheBackendInterface $htmlCacheService,
-    ImageFactory $imageFactory
+    FileStorageInterface        $fileStorage,
+    ImageFactory                $imageFactory,
+    ImageStyleStorageInterface  $imageStyleStorage
   ) {
     // Save dependencies before calling parent::__construct() so that they're
     // available in the configuration methods as ComponentBase::__construct()
     // will call them.
-    $this->imageFactory = $imageFactory;
+    $this->fileStorage        = $fileStorage;
+    $this->imageFactory       = $imageFactory;
+    $this->imageStyleStorage  = $imageStyleStorage;
 
     parent::__construct(
       $configuration, $pluginID, $pluginDefinition,
@@ -114,7 +139,9 @@ class Image extends ComponentBase {
       $container->get('serialization.yaml'),
       $container->get('string_translation'),
       $container->get('cache.ambientimpact_component_html'),
-      $container->get('image.factory')
+      $container->get('entity_type.manager')->getStorage('file'),
+      $container->get('image.factory'),
+      $container->get('entity_type.manager')->getStorage('image_style')
     );
   }
 
@@ -132,7 +159,7 @@ class Image extends ComponentBase {
       // First, we need to get the URI to the file and the original file's
       // dimensions, if available.
 
-      $file = File::load($item['content']['#item']->target_id);
+      $file = $this->fileStorage->load($item['content']['#item']->target_id);
 
       // If we couldn't load a valid Drupal file entity, skip this item.
       if (empty($file)) {
@@ -165,7 +192,7 @@ class Image extends ComponentBase {
         // Attempt to load the image style if it hasn't been attempted yet.
         if (!isset($this->imageStyleInstances[$imageStyleName])) {
           $this->imageStyleInstances[$imageStyleName] =
-            ImageStyle::load($imageStyleName);
+            $this->imageStyleStorage->load($imageStyleName);
         }
 
         $imageStyle = $this->imageStyleInstances[$imageStyleName];
