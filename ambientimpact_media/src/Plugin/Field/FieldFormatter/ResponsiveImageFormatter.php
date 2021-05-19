@@ -31,6 +31,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @todo Support the 'animated_gif_toggle' component?
  *
  * @todo Support the 'remote_video' component?
+ *
+ * @todo Can the
  */
 class ResponsiveImageFormatter extends CoreResponsiveImageFormatter {
 
@@ -169,6 +171,10 @@ class ResponsiveImageFormatter extends CoreResponsiveImageFormatter {
    *
    * @see \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\Image::preprocessFieldSetImageFieldMaxWidth()
    *
+   * @see \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\Image::getImageStyleDerivativeDimensions()
+   *   Gets image derivative dimensions for setting on the <img> element, so
+   *   that browsers can know the intrinsic size of the responsive image.
+   *
    * @see \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\PhotoSwipe::alterImageFormatterElements()
    *   Elements are passed to this PhotoSwipe component method to be altered.
    */
@@ -179,6 +185,9 @@ class ResponsiveImageFormatter extends CoreResponsiveImageFormatter {
 
     /** @var array */
     $thirdPartySettings = $this->getThirdPartySettings('ambientimpact_media');
+
+    /** @var \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\Image */
+    $imageComponent = $this->componentManager->getComponentInstance('image');
 
     foreach ($elements as &$element) {
 
@@ -199,6 +208,24 @@ class ResponsiveImageFormatter extends CoreResponsiveImageFormatter {
       // uses '#image_style' if available to derive the intrinsic size from.
       /** @var string */
       $element['#image_style'] = $responsiveImageStyle->getFallbackImageStyle();
+
+      // Attempt to get the image style derivative dimensions, or the original
+      // image dimensions if the derivative cannot be loaded.
+      /** @var string[] */
+      $dimensions = $imageComponent->getImageStyleDerivativeDimensions(
+        $element['#item'], $element['#image_style']
+      );
+
+      if (empty($dimensions)) {
+        continue;
+      }
+
+      // Set the inline 'width' and 'height' attributes on the <img> element,
+      // so that browsers can know the intrinsic size of the responsive image.
+      //
+      // @see \template_preprocess_responsive_image_formatter()
+      $element['#item_attributes']['width']   = $dimensions['width'];
+      $element['#item_attributes']['height']  = $dimensions['height'];
 
     }
 
