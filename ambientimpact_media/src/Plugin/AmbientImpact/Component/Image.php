@@ -35,7 +35,7 @@ class Image extends ComponentBase {
   protected $fileStorage;
 
   /**
-   * The image factory service.
+   * The Drupal image factory service.
    *
    * @var \Drupal\Core\Image\ImageFactory
    */
@@ -51,17 +51,17 @@ class Image extends ComponentBase {
   /**
    * An array of image style instances that have been loaded.
    *
-   * @var array
+   * @var \Drupal\image\ImageStyleInterface|null[]
    */
   protected $imageStyleInstances = [];
 
   /**
-   * Constructor; saves dependencies.
+   * Component constructor; saves dependencies.
    *
    * @param array $configuration
    *   A configuration array containing information about the plug-in instance.
    *
-   * @param string $pluginID
+   * @param string $pluginId
    *   The plugin_id for the plug-in instance.
    *
    * @param array $pluginDefinition
@@ -95,26 +95,20 @@ class Image extends ComponentBase {
    *   The Drupal image style configuration entity storage.
    */
   public function __construct(
-    array $configuration, string $pluginID, array $pluginDefinition,
-    ModuleHandlerInterface $moduleHandler,
-    LanguageManagerInterface $languageManager,
-    RendererInterface $renderer,
-    SerializationInterface $yamlSerialization,
-    TranslationInterface $stringTranslation,
-    CacheBackendInterface $htmlCacheService,
+    array $configuration, string $pluginId, array $pluginDefinition,
+    ModuleHandlerInterface      $moduleHandler,
+    LanguageManagerInterface    $languageManager,
+    RendererInterface           $renderer,
+    SerializationInterface      $yamlSerialization,
+    TranslationInterface        $stringTranslation,
+    CacheBackendInterface       $htmlCacheService,
     FileStorageInterface        $fileStorage,
     ImageFactory                $imageFactory,
     ImageStyleStorageInterface  $imageStyleStorage
   ) {
-    // Save dependencies before calling parent::__construct() so that they're
-    // available in the configuration methods as ComponentBase::__construct()
-    // will call them.
-    $this->fileStorage        = $fileStorage;
-    $this->imageFactory       = $imageFactory;
-    $this->imageStyleStorage  = $imageStyleStorage;
 
     parent::__construct(
-      $configuration, $pluginID, $pluginDefinition,
+      $configuration, $pluginId, $pluginDefinition,
       $moduleHandler,
       $languageManager,
       $renderer,
@@ -122,6 +116,11 @@ class Image extends ComponentBase {
       $stringTranslation,
       $htmlCacheService
     );
+
+    $this->fileStorage        = $fileStorage;
+    $this->imageFactory       = $imageFactory;
+    $this->imageStyleStorage  = $imageStyleStorage;
+
   }
 
   /**
@@ -129,10 +128,10 @@ class Image extends ComponentBase {
    */
   public static function create(
     ContainerInterface $container,
-    array $configuration, $pluginID, $pluginDefinition
+    array $configuration, $pluginId, $pluginDefinition
   ) {
     return new static(
-      $configuration, $pluginID, $pluginDefinition,
+      $configuration, $pluginId, $pluginDefinition,
       $container->get('module_handler'),
       $container->get('language_manager'),
       $container->get('renderer'),
@@ -152,20 +151,23 @@ class Image extends ComponentBase {
    * the link is display: block but the image doesn't span the full width.
    *
    * @param array &$variables
-   *   An array of variables from template_preprocess_field().
+   *   An array of variables from \template_preprocess_field().
    */
-  public function preprocessFieldSetImageFieldMaxWidth(array &$variables) {
-    foreach ($variables['items'] as $delta => &$item) {
-      // First, we need to get the URI to the file and the original file's
-      // dimensions, if available.
+  public function preprocessFieldSetImageFieldMaxWidth(
+    array &$variables
+  ): void {
 
+    foreach ($variables['items'] as $delta => &$item) {
+
+      /** @var \Drupal\file\FileInterface */
       $file = $this->fileStorage->load($item['content']['#item']->target_id);
 
-      // If we couldn't load a valid Drupal file entity, skip this item.
+      // If we couldn't load a valid file entity, skip this item.
       if (empty($file)) {
         continue;
       }
 
+      /** @var string */
       $fileURI = $file->getFileUri();
 
       $dimensions = [
@@ -180,6 +182,7 @@ class Image extends ComponentBase {
       }
 
       if (isset($imageStyleName)) {
+
         // If we've already tried to load this image style and gotten null, skip
         // it.
         if (
@@ -195,6 +198,7 @@ class Image extends ComponentBase {
             $this->imageStyleStorage->load($imageStyleName);
         }
 
+        /** @var \Drupal\image\ImageStyleInterface|null */
         $imageStyle = $this->imageStyleInstances[$imageStyleName];
 
         // If we weren't able to load an image style, set it to null and skip to
@@ -220,6 +224,7 @@ class Image extends ComponentBase {
       // remove any existing max-width for the sake of cleanliness.
       if ($item['attributes']->offsetExists('style')) {
         $styleArray = \explode(';', $item['attributes']->offsetGet('style'));
+
       } else {
         $styleArray = [];
       }
@@ -248,6 +253,7 @@ class Image extends ComponentBase {
       $item['attributes']->setAttribute(
         'style', \implode(';', $styleArray) . ';'
       );
+
     }
 
     // If there's only one item, save the max-width to the field wrapper
@@ -267,5 +273,7 @@ class Image extends ComponentBase {
         ]
       );
     }
+
   }
+
 }
