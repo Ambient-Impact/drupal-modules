@@ -52,7 +52,8 @@ AmbientImpact.addComponent('photoswipe', function(aiPhotoSwipe, $) {
 
       // If the caption element is not found, and this is set to 'title',
       // will attempt to use the title attribute of the image and then the
-      // link, in that order.
+      // link, in that order. Note that if 'data-photoswipe-caption' is found
+      // on the link, that will always take priority.
       captionFallback:    'title',
 
       // If true, this will tell us to use the zoom and scale transitions.
@@ -309,9 +310,21 @@ AmbientImpact.addComponent('photoswipe', function(aiPhotoSwipe, $) {
           )
       };
 
+      // Attempt to get a caption set as 'data-photoswipe-caption' on the image
+      // or link elements, or via jQuery's data API. Note that if the data is
+      // not available for a given element, jQuery().data() will return
+      // undefined, and so !item.title will work as expected following this.
+      //
+      // @see https://api.jquery.com/data/
+      $.each([$image, $link], function(i, $element) {
+        if (!item.title) {
+          item.title = $element.data('photoswipeCaption');
+        }
+      });
+
       // Attempt to find the caption element, and use its contents for the
       // PhotoSwipe item caption.
-      if (gallerySettings.captionSelector) {
+      if (!item.title && gallerySettings.captionSelector) {
         item.title = $item.find(gallerySettings.captionSelector).html();
       }
 
