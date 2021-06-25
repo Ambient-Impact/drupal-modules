@@ -13,7 +13,7 @@
     "grunt-svgstore": "^2.0.0",
     "load-grunt-config": "^3.0.1",
     "modernizr": "^3.11.7",
-    "node-sass": "^6.0.0",
+    "node-sass": "^6.0.1",
     "postcss": "^8.2.15",
     "sassdoc-extras": "^3.0.0"
   },
