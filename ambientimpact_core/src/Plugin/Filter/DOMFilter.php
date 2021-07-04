@@ -73,11 +73,16 @@ class DOMFilter extends FilterBase implements ContainerFactoryPluginInterface {
    * {@inheritdoc}
    */
   public function process($text, $langCode) {
-    // If there aren't any listeners attached to the event, just return the
-    // text as-is without parsing it so that we don't do unnecessary work.
+
+    // If there aren't any listeners attached to the event or $text is empty,
+    // just return the text as-is without parsing it so that we don't do
+    // unnecessary work and avoid Symfony DomCrawler throwing an error in the
+    // latter case.
     if (
-      !$this->eventDispatcher
-        ->hasListeners('ambientimpact.dom_filter_process')
+      !$this->eventDispatcher->hasListeners(
+        'ambientimpact.dom_filter_process'
+      ) ||
+      empty($text)
     ) {
       return new FilterProcessResult($text);
     }
