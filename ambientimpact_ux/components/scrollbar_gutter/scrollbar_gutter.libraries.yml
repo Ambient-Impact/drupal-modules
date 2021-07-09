@@ -1,0 +1,5 @@
+component.scrollbar_gutter:
+  js:
+    scrollbar_gutter.js: {}
+  dependencies:
+    - ambientimpact_core/component.event.lazy_resize
