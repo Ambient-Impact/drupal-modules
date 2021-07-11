@@ -15,8 +15,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * options core's does, plus others. Note that we only do this if the core
  * Modernizr path is used, so as not to replace another module's override.
  */
-class LibraryInfoAlterModernizrEventSubscriber
-implements EventSubscriberInterface {
+class LibraryInfoAlterModernizrEventSubscriber implements EventSubscriberInterface {
+
   /**
    * The Drupal module handler service.
    *
@@ -41,19 +41,19 @@ implements EventSubscriberInterface {
    *   The Drupal logger channel factory service.
    */
   public function __construct(
-    ModuleHandlerInterface $moduleHandler,
+    ModuleHandlerInterface        $moduleHandler,
     LoggerChannelFactoryInterface $loggerChannelFactory
   ) {
-    $this->moduleHandler = $moduleHandler;
+    $this->moduleHandler        = $moduleHandler;
     $this->loggerChannelFactory = $loggerChannelFactory;
   }
 
-   /**
+  /**
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
     return [
-      HookEventDispatcherInterface::LIBRARY_INFO_ALTER => 'libraryInfoAlter',
+      HookEventDispatcherInterface::LIBRARY_INFO_ALTER => 'onLibraryInfoAlter',
     ];
   }
 
@@ -63,9 +63,11 @@ implements EventSubscriberInterface {
    * @param \Drupal\core_event_dispatcher\Event\Theme\LibraryInfoAlterEvent $event
    *   The event object.
    */
-  public function libraryInfoAlter(LibraryInfoAlterEvent $event) {
+  public function onLibraryInfoAlter(LibraryInfoAlterEvent $event) {
+
     // The extension triggering this event, so that we can determine if this is
     // Drupal core or another extension.
+    /** @var string */
     $extension = $event->getExtension();
 
     // This is the path to both the core library (relative to the 'core'
@@ -77,6 +79,7 @@ implements EventSubscriberInterface {
       return;
     }
 
+    /** @var array[] */
     $libraries = &$event->getLibraries();
 
     // Don't do anything if the core Modernizr path doesn't match the default,
@@ -90,7 +93,7 @@ implements EventSubscriberInterface {
 
     // Don't do anything if the modernizr.min.js file isn't found. This can
     // happen if it hasn't been built via Grunt.
-    if (!file_exists(\DRUPAL_ROOT . '/'. $ourModernizrPath)) {
+    if (!\file_exists(\DRUPAL_ROOT . '/'. $ourModernizrPath)) {
       $this->loggerChannelFactory->get('ambientimpact_core')->warning(
         '@modernizrPath cannot be found. You must build Modernizr by running "<code>grunt modernizr</code>".',
         ['@modernizrPath' => $ourModernizrPath]
@@ -104,10 +107,10 @@ implements EventSubscriberInterface {
     // version here.
     // @see https://stackoverflow.com/a/4521969
     //   Description of how this works, including why it's very efficient.
-    $firstLine = fgets(fopen(\DRUPAL_ROOT . '/'. $ourModernizrPath, 'r'));
+    $firstLine = \fgets(\fopen(\DRUPAL_ROOT . '/'. $ourModernizrPath, 'r'));
 
     // Attempt to find the Modernizr version in the first line.
-    preg_match('%\/\*!\smodernizr\s(\d+\.\d+\.\d+)\s%', $firstLine, $matches);
+    \preg_match('%\/\*!\smodernizr\s(\d+\.\d+\.\d+)\s%', $firstLine, $matches);
 
     // If we couldn't match the version in the first line, don't proceed.
     if (empty($matches[1])) {
@@ -129,5 +132,6 @@ implements EventSubscriberInterface {
 
     // Update the Modernizr version with that parsed from the file.
     $libraries['modernizr']['version'] = 'v' . $matches[1];
+
   }
 }
