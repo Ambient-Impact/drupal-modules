@@ -62,37 +62,54 @@ class LinkExternal extends ComponentBase {
    * @see \Drupal\Component\Utility\UrlHelper::parse()
    */
   public function isURIExternal(string $uri): bool {
-    // Check if the first character of the $uri is '/', '#', or '?' before
-    // attempting to pass it to \Drupal\Core\Url::fromUserInput() as anything
-    // else will throw an exception.
-    if (
-      (strpos($uri, '/') === 0) ||
-      (strpos($uri, '#') === 0) ||
-      (strpos($uri, '?') === 0)
-    ) {
+
+    // Try to parse $uri into a Url object, catching any exception thrown by
+    // \Drupal\Core\Url::fromUserInput().
+    try {
+
+      /** @var \Drupal\Core\Url */
       $url = Url::fromUserInput($uri);
 
-    // If it doesn't look like an internal URI, parse it and pass it to
-    // \Drupal\Core\Url::fromUri() to be sure and have Drupal verify whether it
-    // is indeed external or not.
-    } else {
-      $parsed = UrlHelper::parse($uri);
+    } catch (\Exception $exception) {
 
-      // If the path and query are both empty, this is an internal link to a
-      // target on the current page or it could be a link with an empty href. We
-      // have to check for this as Url::fromUri() will throw an exception if we
-      // try to pass it an empty path and query.
-      if (empty($parsed['path']) && empty($parsed['query'])) {
-        return false;
-      }
+    }
 
+    // If no exception was thrown and the Url object was created, return here.
+    if (isset($url)) {
+      return $url->isExternal();
+    }
+
+    /** @var array */
+    $parsed = UrlHelper::parse($uri);
+
+    // If the path and query are both empty, this is an internal link to a
+    // target on the current page or it could be a link with an empty href. We
+    // have to check for this as Url::fromUri() will throw an exception if we
+    // try to pass it an empty path and query.
+    if (empty($parsed['path']) && empty($parsed['query'])) {
+      return false;
+    }
+
+    // Try to build a Url object from the parsed path, query, and fragment,
+    // catching any exception thrown by \Drupal\Core\Url::fromUri().
+    try {
+
+      /** @var \Drupal\Core\Url */
       $url = Url::fromUri($parsed['path'], [
         'query'     => $parsed['query'],
         'fragment'  => $parsed['fragment'],
       ]);
+
+    } catch (\Exception $exception) {
+      // If there was an error building the Url object, mark this as internal.
+      //
+      // @todo Could this be a security issue? Should this return true? What
+      //   about returning null in this case?
+      return false;
     }
 
     return $url->isExternal();
+
   }
 
   /**
