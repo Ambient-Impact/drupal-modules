@@ -17,7 +17,7 @@
 // @see http://wicky.nillia.ms/headroom.js/
 //   Lists Headroom.js options.
 
-AmbientImpact.onGlobals(['Headroom'], function() {
+AmbientImpact.onGlobals(['Headroom', 'ally.style.focusSource'], function() {
 
   // Don't do anything if Headroom can't be used due to lack of browser support.
   // This primarily targets IE at the moment.
@@ -48,6 +48,10 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
    * - pinOnFocus: if true (the default), will automatically pin the Headroom.js
    *   instance if focus moves into the element.
    *
+   * - freezeOnKeyboardFocus: If true (the default), will automatically freeze
+   *   the Headroom.js instance when keyboard focus moves into the element and
+   *   unfreeze when focus leaves the element.
+   *
    * @type {Object}
    *
    * @see this.init()
@@ -58,6 +62,7 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
   var defaults = {
     tolerance:  5,
     pinOnFocus: true,
+    freezeOnKeyboardFocus: true
   };
 
   /**
@@ -78,6 +83,19 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
     'Bottom',
     'NotBottom',
   ];
+
+  /**
+   * The ally.js focus source global service object.
+   *
+   * This initializes ally.js' focus source service, which starts watching the
+   * document and applies the data-focus-source attribute to the <html> element.
+   *
+   * @type {Object}
+   *
+   * @see https://allyjs.io/api/style/focus-source.html
+   *   ally.js documentation.
+   */
+  var focusSourceHandle = ally.style.focusSource();
 
   /**
    * Initialize a Headroom.js instance.
@@ -206,18 +224,29 @@ AmbientImpact.addComponent('headroom', function(aiHeadroom, $) {
       $element.trigger('headroomUnfreeze');
     };
 
-    // Pin and freeze the element on focus, and unfreeze it when focus leaves.
-    // Note that 'focus' and 'blur' events don't bubble up the DOM tree, but
-    // 'focusin' and 'focusout' do.
+    // Pin the element on focus. Note that 'focus' and 'blur' events don't
+    // bubble up the DOM tree, but 'focusin' and 'focusout' do.
     if (settings.pinOnFocus === true) {
+      $element.on('focusin.aiHeadroom', function(event) {
+        this.headroom.pin();
+      });
+    }
+
+    // Freeze the element when keyboard focus moves into the element and
+    // unfreeze it when focus leaves it. Note that 'focus' and 'blur' events
+    // don't bubble up the DOM tree, but 'focusin' and 'focusout' do.
+    if (settings.freezeOnKeyboardFocus === true) {
+
       $element
         .on('focusin.aiHeadroom', function(event) {
-          this.headroom.pin();
-          this.headroom.freeze();
+          if (focusSourceHandle.current() === 'key') {
+            this.headroom.freeze();
+          }
         })
         .on('focusout.aiHeadroom', function(event) {
           this.headroom.unfreeze();
         });
+
     }
 
     // Save a reference to the original Headroom.js destroy method.
