@@ -35,6 +35,12 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
    *
    * @return {Number}
    *   The scrollbar thickness, in pixels.
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
+   *   We use this rather than HTMLElement.offsetWidth as the latter rounds to
+   *   the nearest integer, while the value of
+   *   Element.getBoundingClientRect().width is a float and thus allows for more
+   *   precision.
    */
   function getScrollbarThickness() {
 
@@ -46,7 +52,10 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
           // Placed just out of view. Note that a negative top value shouldn't
           // cause any scrolling upwards on any platforms/browsers.
           top:        '-110vh',
-          width:      '100px',
+          // We're using viewport units for the width to hopefully get an
+          // accurate sub-pixel width of the scrollbar and minimize any reflow
+          // when the scrollbar width is used for layout.
+          width:      '100vw',
           height:     '100px',
           overflow:   'scroll',
           // Probably not necessary but just in case this is shown in the
@@ -56,10 +65,22 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
         .appendTo('body');
     }
 
-    return (
-      $scrollbarMeasure.prop('offsetWidth') -
-      $scrollbarMeasure.prop('clientWidth')
-    );
+    /** @type {Number} */
+    var offsetWidth = $scrollbarMeasure.prop('offsetWidth');
+
+    /** @type {Number} */
+    var clientWidth = $scrollbarMeasure.prop('clientWidth');
+
+    // If the offsetWidth and clientWidth are identical, return zero. We can't
+    // compare HTMLElement.offsetWidth with
+    // Element.getBoundingClientRect().width as they would like not match in a
+    // lot of cases due to the former returning only rounded integers and the
+    // latter floats.
+    if (offsetWidth === clientWidth) {
+      return 0;
+    }
+
+    return ($scrollbarMeasure[0].getBoundingClientRect().width - clientWidth);
 
   };
 
