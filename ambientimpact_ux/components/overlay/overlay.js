@@ -67,16 +67,21 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
    *   return a new Promise that's immediately resolved.
    */
   function getDisabledPromise(disabledPromise) {
-    // If disabledPromise looks like a Promise, return it as-is.
-    if ('then' in disabledPromise) {
-      return disabledPromise;
 
-    // Otherwise, return a new Promise that's immediately resolved.
-    } else {
+    // If disabledPromise is undefined or not a Promise, return a new Promise
+    // that immediately resolves.
+    if (
+      typeof disabledPromise === 'undefined' ||
+      !('then' in disabledPromise)
+    ) {
       return new Promise(function(resolve, reject) {
         resolve();
       });
     }
+
+    // Otherwise, return disabledPromise as-is.
+    return disabledPromise;
+
   }
 
   /**
