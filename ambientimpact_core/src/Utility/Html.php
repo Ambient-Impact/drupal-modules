@@ -13,7 +13,7 @@ use Drupal\Core\Template\Attribute;
  *
  * @ingroup utility
  */
-class HTML extends DrupalHtml {
+class Html extends DrupalHtml {
 
   /**
    * Escapes text by converting special characters to HTML entities.
