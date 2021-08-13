@@ -201,7 +201,10 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
       // Run the Drush 'sql:dump' command to create the database dump file.
       ->addCode(function() use ($drushCommand, $dumpOptions) {
         $drushCommand->processManager()
-          ->drush($drushCommand->selfRecord, 'sql:dump', [], $dumpOptions)
+          ->drush(
+            $drushCommand->siteAliasManager()->getSelf(),
+            'sql:dump', [], $dumpOptions
+          )
           ->mustRun();
       });
 

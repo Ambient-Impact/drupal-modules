@@ -17,6 +17,20 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
 class AmbientImpactRsyncCommand extends AbstractAmbientImpactFileSystemCommand {
 
   /**
+   * HostPath object representing the path to the source Drupal site root.
+   *
+   * @var \Consolidation\SiteAlias\HostPath
+   */
+  protected $sourceEvaluatedPath;
+
+  /**
+   * HostPath object representing the path to the target Drupal site root.
+   *
+   * @var \Consolidation\SiteAlias\HostPath
+   */
+  protected $targetEvaluatedPath;
+
+  /**
    * Rsync a local Drupal site to another local Drupal site.
    *
    * Note that this is has been developed and tested only on local sites and
