@@ -6,6 +6,12 @@ services:
     tags:
       - { name: drush.command }
 
+  ambientimpact_core.install_command:
+    arguments: ['@file_system']
+    class: Drupal\ambientimpact_core\Commands\AmbientImpactInstallCommand
+    tags:
+      - { name: drush.command }
+
   ambientimpact_core.rsync_command:
     class: \Drupal\ambientimpact_core\Commands\AmbientImpactRsyncCommand
     arguments: ['@file_system']
