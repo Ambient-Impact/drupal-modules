@@ -24,6 +24,13 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
   var activeClass = baseClass + '--is-active';
 
   /**
+   * Class applied to the <body> element when an overlay is active.
+   *
+   * @type {String}
+   */
+  var overlayActiveBodyClass = 'is-overlay-active';
+
+  /**
    * Default settings for new overlays.
    *
    * The following keys are supported:
@@ -99,6 +106,8 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
   function show(disabledPromise) {
     this.$overlay.addClass(activeClass);
 
+    this.$overlay.trigger('overlayShowing');
+
     if (this.settings.modal === false) {
       return;
     }
@@ -108,10 +117,14 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
     var data = this;
 
     disabledPromise.then(function() {
+
       data.disabledHandle = ally.maintain.disabled({
         filter:   data.settings.modalFilter,
         context:  data.settings.modalContext
       });
+
+      data.$overlay.trigger('overlayShown');
+
     });
   };
 
@@ -130,6 +143,8 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
   function hide(disabledPromise) {
     this.$overlay.removeClass(activeClass);
 
+    this.$overlay.trigger('overlayHiding');
+
     if (
       this.settings.modal === false ||
       this.disabledHandle === null ||
@@ -146,6 +161,8 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
       data.disabledHandle.disengage();
 
       data.disabledHandle = null;
+
+      data.$overlay.trigger('overlayHidden');
     });
   };
 
@@ -248,5 +265,13 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
 
     return $overlay;
   };
+
+  $(document).on('overlayShowing.aiOverlay', function(event) {
+    $('body').addClass(overlayActiveBodyClass);
+
+  }).on('overlayHidden.aiOverlay', function(event) {
+    $('body').removeClass(overlayActiveBodyClass);
+  });
+
 });
 });

@@ -1,0 +1,14 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Overlay component partial
+// -----------------------------------------------------------------------------
+
+///
+/// Apply styles when an overlay is open.
+///
+/// @content The styles to apply when an overlay is open.
+///
+@mixin on-overlay-active {
+  @include root-conditions('.is-overlay-active', 'body') {
+    @content;
+  }
+}
