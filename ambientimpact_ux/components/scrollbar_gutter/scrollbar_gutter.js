@@ -73,7 +73,7 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
 
     // If the offsetWidth and clientWidth are identical, return zero. We can't
     // compare HTMLElement.offsetWidth with
-    // Element.getBoundingClientRect().width as they would like not match in a
+    // Element.getBoundingClientRect().width as they would likely not match in a
     // lot of cases due to the former returning only rounded integers and the
     // latter floats.
     if (offsetWidth === clientWidth) {
