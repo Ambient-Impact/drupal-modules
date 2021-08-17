@@ -24,6 +24,16 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
   'use strict';
 
   /**
+   * The current scrollbar thickness.
+   *
+   * This is used to store the measured scrollbar thickness to avoid writing to
+   * the DOM if the value hasn't changed since the last measure.
+   *
+   * @type {Number}
+   */
+  var scrollbarThickness;
+
+  /**
    * The scrollbar measure element, wrapped in a jQuery collection.
    *
    * @type {jQuery}
@@ -98,7 +108,25 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
    * Lazy resize handler to set the custom property.
    */
   function resizeHandler() {
-    setProperty($('html'), getScrollbarThickness());
+
+    /**
+     * The scrollbar thickness measured just now.
+     *
+     * @type {Number}
+     */
+    var measured = getScrollbarThickness();
+
+    // Only update the property if the scrollbar thickness has actually changed
+    // to avoid unnecessary DOM and style updates.
+    //
+    // @todo Should this have some tolerance for sub-pixel differences and only
+    //   update when the value has changed past a certain threshold?
+    if (measured !== scrollbarThickness) {
+      setProperty($('html'), measured);
+    }
+
+    scrollbarThickness = measured;
+
   };
 
   /**
