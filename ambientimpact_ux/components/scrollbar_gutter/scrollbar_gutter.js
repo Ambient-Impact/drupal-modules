@@ -34,11 +34,31 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
   var scrollbarThickness;
 
   /**
-   * The scrollbar measure element, wrapped in a jQuery collection.
+   * The maximum number of decimals to measure sub-pixel values to.
+   *
+   * @type {Number}
+   */
+  var decimals = 4;
+
+  /**
+   * The scrollbar measure container element, wrapped in a jQuery collection.
+   *
+   * This element has overflow: scroll; to force a scrollbar.
    *
    * @type {jQuery}
    */
-  var $scrollbarMeasure = $();
+  var $scrollbarMeasureContainer = $();
+
+  /**
+   * The scrollbar measure child element, wrapped in a jQuery collection.
+   *
+   * This is a block-level element appended to $scrollbarMeasureContainer and
+   * whose outer width is compared to that of its parent to derive the scrollbar
+   * gutter.
+   *
+   * @type {jQuery}
+   */
+  var $scrollbarMeasureChild = $();
 
   /**
    * Get the detected scrollbar thickness, in pixels.
@@ -54,8 +74,9 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
    */
   function getScrollbarThickness() {
 
-    if ($scrollbarMeasure.length === 0) {
-      $scrollbarMeasure = $('<div></div>')
+    if ($scrollbarMeasureContainer.length === 0) {
+
+      $scrollbarMeasureContainer = $('<div></div>')
         .attr('id', 'overlay-scroll-scrollbar-measure')
         .css({
           position:   'absolute',
@@ -73,24 +94,25 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
           ariaHidden: true,
         })
         .appendTo('body');
+
+      $scrollbarMeasureChild = $('<div></div>')
+        .attr('id', 'overlay-scroll-scrollbar-measure-child')
+        .appendTo($scrollbarMeasureContainer);
+
     }
 
-    /** @type {Number} */
-    var offsetWidth = $scrollbarMeasure.prop('offsetWidth');
+    /** @type {Number} The full width of the container, including the scrollbar. */
+    var containerWidth = parseFloat(
+      $scrollbarMeasureContainer[0].getBoundingClientRect().width
+        .toFixed(decimals)
+    );
 
-    /** @type {Number} */
-    var clientWidth = $scrollbarMeasure.prop('clientWidth');
+    /** @type {Number} The full width of the child element. */
+    var childWidth = parseFloat(
+      $scrollbarMeasureChild[0].getBoundingClientRect().width.toFixed(decimals)
+    );
 
-    // If the offsetWidth and clientWidth are identical, return zero. We can't
-    // compare HTMLElement.offsetWidth with
-    // Element.getBoundingClientRect().width as they would likely not match in a
-    // lot of cases due to the former returning only rounded integers and the
-    // latter floats.
-    if (offsetWidth === clientWidth) {
-      return 0;
-    }
-
-    return ($scrollbarMeasure[0].getBoundingClientRect().width - clientWidth);
+    return parseFloat((containerWidth - childWidth).toFixed(decimals));
 
   };
 
