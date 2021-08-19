@@ -78,6 +78,9 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
 
       $scrollbarMeasureContainer = $('<div></div>')
         .attr('id', 'overlay-scroll-scrollbar-measure')
+        // Probably not necessary but just to be sure this doesn't appear in the
+        // accessibility tree.
+        .attr('aria-hidden', true)
         .css({
           position:   'absolute',
           // Placed just out of view. Note that a negative top value shouldn't
@@ -88,10 +91,7 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
           // when the scrollbar width is used for layout.
           width:      '100vw',
           height:     '100px',
-          overflow:   'scroll',
-          // Probably not necessary but just in case this is shown in the
-          // accessibility tree.
-          ariaHidden: true,
+          overflow:   'scroll'
         })
         .appendTo('body');
 
