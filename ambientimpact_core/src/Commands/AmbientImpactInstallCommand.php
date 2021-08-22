@@ -29,29 +29,25 @@ class AmbientImpactInstallCommand extends AbstractAmbientImpactFileSystemCommand
    *   Install project dependencies, including development dependencies.
    *
    * @aliases ai:install
+   *
+   * @see https://robo.li/tasks/Composer/
    */
   public function install(array $options = [
     'dev' => false,
   ]) {
 
-    $composerCommand = 'composer install';
+    // Robo collection builder instance.
+    $collection = $this->collectionBuilder();
+
+    $composerInstall = $collection->taskComposerInstall();
 
     if ($options['dev'] !== true) {
-      $composerCommand .= ' --no-dev';
+      $composerInstall->noDev();
     }
 
-    /** @var \Consolidation\SiteProcess\SiteProcess */
-    $process = $this->processManager()->shell(
-      $composerCommand,
-      $this->getProjectRoot(),
-      null,
-      null,
-      // This tells Drush to run the process without a timeout.
-      null
-    );
-
-    // Run the process and output the process' progress in realtime.
-    $process->mustRun($process->showRealtime());
+    $composerInstall
+      ->dir($this->getProjectRoot())
+      ->run();
 
   }
 
