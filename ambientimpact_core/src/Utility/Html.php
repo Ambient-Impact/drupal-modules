@@ -138,4 +138,46 @@ class Html extends DrupalHtml {
 
   }
 
+  /**
+   * Replace a DOM node with its contents.
+   *
+   * This essentially unwraps the node, replacing it with its child nodes,
+   * preserving their order.
+   *
+   * @param \DOMNode $node
+   *   The DOM node to unwrap.
+   *
+   * @return bool
+   *   True if the operation was successful and false otherwise.
+   *
+   * @see https://stackoverflow.com/questions/11651365/how-to-insert-node-in-hierarchy-of-dom-between-one-node-and-its-child-nodes/11651813#11651813
+   *
+   * @see https://api.jquery.com/unwrap/
+   *   Functions similarly to the jQuery method except that the parameter we
+   *   operate on is the container to be removed, not the children.
+   */
+  public static function unwrapNode(\DOMNode $node): bool {
+
+    for ($i = 0; $node->childNodes->length > 0; $i++) {
+
+      if (!\is_object($node->parentNode->insertBefore(
+        // Note that we always specify index "0" as we're basically removing the
+        // first child each time, similar to \array_shift(), and the child list
+        // updates each time we do this, akin to removing the bottom most card
+        // in a deck of cards on each iteration.
+        $node->childNodes->item(0),
+        $node
+      ))) {
+        return false;
+      }
+
+    }
+
+    // Remove the now-empty node.
+    $node->parentNode->removeChild($node);
+
+    return true;
+
+  }
+
 }
