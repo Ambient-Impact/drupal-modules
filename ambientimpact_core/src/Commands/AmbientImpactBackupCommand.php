@@ -109,14 +109,7 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
 
     $projectRoot  = $this->getProjectRoot();
     $groupPath    = $options['path'] . DIRECTORY_SEPARATOR . $options['group'];
-
-    // This creates a temporary directory in the project root (outside the web
-    // root). Note that we're not using $collection->tmpDir() as that seems to
-    // sometimes result in the temporary directory being removed before the
-    // sql:dump command runs, thus resulting in an error.
-    $tempPath = $collection->workDir(
-      $projectRoot . \DIRECTORY_SEPARATOR . 'dump'
-    );
+    $tempPath     = $collection->tmpDir();
 
     // Build relative public files path by removing the project root path from
     // its absolute path.
@@ -218,10 +211,6 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
     // Pack the database dump and project files into an archive.
     $collection->taskExecStack()
       ->exec('tar ' . implode(' ', $tarOptions));
-
-    // Delete the temp directory.
-    $collection->taskFilesystemStack()
-      ->remove($tempPath);
 
     // If a limit greater than 0 has been set, attempt to find existing archives
     // to delete the oldest over the limit.
