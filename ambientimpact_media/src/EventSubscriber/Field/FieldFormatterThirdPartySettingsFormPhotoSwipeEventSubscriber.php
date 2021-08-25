@@ -2,6 +2,7 @@
 
 namespace Drupal\ambientimpact_media\EventSubscriber\Field;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
@@ -14,7 +15,15 @@ use function in_array;
  */
 class FieldFormatterThirdPartySettingsFormPhotoSwipeEventSubscriber
 implements EventSubscriberInterface {
+
   use StringTranslationTrait;
+
+  /**
+   * The Drupal image style configuration entity storage.
+   *
+   * @var \Drupal\image\ImageStyleStorageInterface
+   */
+  protected $imageStyleStorage;
 
   /**
    * The Drupal string translation service.
@@ -26,13 +35,20 @@ implements EventSubscriberInterface {
   /**
    * Event subscriber constructor; saves dependencies.
    *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   The Drupal entity type plug-in manager.
+   *
    * @param \Drupal\Core\StringTranslation\TranslationInterface $stringTranslation
    *   The Drupal string translation service.
    */
   public function __construct(
-    TranslationInterface $stringTranslation
+    EntityTypeManagerInterface  $entityTypeManager,
+    TranslationInterface        $stringTranslation
   ) {
+
+    $this->imageStyleStorage = $entityTypeManager->getStorage('image_style');
     $this->stringTranslation = $stringTranslation;
+
   }
 
   /**
@@ -57,13 +73,14 @@ implements EventSubscriberInterface {
    * @see https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Config%21Entity%21ThirdPartySettingsInterface.php/interface/ThirdPartySettingsInterface
    *   API documentation for third party settings on entities.
    *
-   * @todo Can we hide the 'use_photoswipe' checkbox if the 'image' formatter
-   * $plugin->getSetting('image_link') !== 'file', but as a client-side #state
-   * so that it shows/hides without having to save the formatter settings?
+   * @see \image_style_options()
+   *   We generate image style select element options in a manner similar to
+   *   this core function, but using dependency injection.
    */
   public function fieldFormatterThirdPartySettingsForm(
     FieldFormatterThirdPartySettingsFormEvent $event
   ) {
+
     /** @var \Drupal\Core\Field\FormatterInterface */
     $plugin = $event->getPlugin();
 
@@ -76,6 +93,7 @@ implements EventSubscriberInterface {
       return;
     }
 
+    /** @var array[] */
     $elements = [];
 
     $elements['use_photoswipe'] = [
@@ -103,6 +121,37 @@ implements EventSubscriberInterface {
       ],
     ];
 
+    /** @var \Drupal\image\ImageStyleInterface[] */
+    $imageStyles = $this->imageStyleStorage->loadMultiple();
+
+    /** @var string[] */
+    $imageStyleOptions = [];
+
+    foreach ($imageStyles as $imageStyleName => $imageStyle) {
+      $imageStyleOptions[$imageStyleName] = $imageStyle->label();
+    }
+
+    $elements['use_photoswipe_image_style'] = [
+      '#type'           => 'select',
+      '#title'          => $this->t('PhotoSwipe image style'),
+      '#description'    => $this->t('The image style to link PhotoSwipe to.'),
+      '#default_value'  => $plugin->getThirdPartySetting(
+        'ambientimpact_media', 'use_photoswipe_image_style'
+      ),
+      '#empty_option'   => $this->t('None (original image)'),
+      '#options'        => $imageStyleOptions,
+      '#states'   => [
+        'visible'   => [
+          // This hides this item if 'use_photoswipe' is not checked.
+          ':input[name*="[ambientimpact_media][use_photoswipe]"]' => [
+            'checked' => true,
+          ],
+        ],
+      ],
+    ];
+
     $event->addElements('ambientimpact_media', $elements);
+
   }
+
 }

@@ -14,6 +14,9 @@ field.formatter.third_party.ambientimpact_media:
     use_photoswipe_gallery:
       type: boolean
       label: 'Whether to group all items in a field as a PhotoSwipe gallery.'
+    use_photoswipe_image_style:
+      type: string
+      label: 'The image style to link PhotoSwipe to.'
     use_animated_gif_toggle:
       type: boolean
       label: 'Whether to display a toggle overlay on image fields containing an animated GIF.'

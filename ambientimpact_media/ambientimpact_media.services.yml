@@ -57,7 +57,9 @@ services:
   # PhotoSwipe hook_field_formatter_third_party_settings_form() event subscriber.
   ambientimpact_media.photoswipe_field_formatter_third_party_settings_form_event_subscriber:
     class: \Drupal\ambientimpact_media\EventSubscriber\Field\FieldFormatterThirdPartySettingsFormPhotoSwipeEventSubscriber
-    arguments: ['@string_translation']
+    arguments:
+      - '@entity_type.manager'
+      - '@string_translation'
     tags:
       - { name: 'event_subscriber' }
 

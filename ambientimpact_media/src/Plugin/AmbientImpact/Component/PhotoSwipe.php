@@ -3,7 +3,15 @@
 namespace Drupal\ambientimpact_media\Plugin\AmbientImpact\Component;
 
 use Drupal\ambientimpact_core\ComponentBase;
+use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
+use Drupal\Component\Serialization\SerializationInterface;
+use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\StringTranslation\TranslationInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * PhotoSwipe component.
@@ -15,6 +23,64 @@ use Drupal\Core\Field\FieldItemListInterface;
  * )
  */
 class PhotoSwipe extends ComponentBase {
+
+  /**
+   * The Ambient.Impact Component manager service.
+   *
+   * @var \Drupal\ambientimpact_core\ComponentPluginManagerInterface
+   */
+  protected $componentManager;
+
+  /**
+   * {@inheritdoc}
+   *
+   * @param \Drupal\ambientimpact_core\ComponentPluginManagerInterface $componentManager
+   *   The Ambient.Impact Component manager service.
+   */
+  public function __construct(
+    array $configuration, string $pluginId, array $pluginDefinition,
+    ModuleHandlerInterface      $moduleHandler,
+    LanguageManagerInterface    $languageManager,
+    RendererInterface           $renderer,
+    SerializationInterface      $yamlSerialization,
+    TranslationInterface        $stringTranslation,
+    CacheBackendInterface       $htmlCacheService,
+    ComponentPluginManagerInterface $componentManager
+  ) {
+
+    parent::__construct(
+      $configuration, $pluginId, $pluginDefinition,
+      $moduleHandler,
+      $languageManager,
+      $renderer,
+      $yamlSerialization,
+      $stringTranslation,
+      $htmlCacheService
+    );
+
+    $this->componentManager = $componentManager;
+
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(
+    ContainerInterface $container,
+    array $configuration, $pluginId, $pluginDefinition
+  ) {
+    return new static(
+      $configuration, $pluginId, $pluginDefinition,
+      $container->get('module_handler'),
+      $container->get('language_manager'),
+      $container->get('renderer'),
+      $container->get('serialization.yaml'),
+      $container->get('string_translation'),
+      $container->get('cache.ambientimpact_component_html'),
+      $container->get('plugin.manager.ambientimpact_component')
+    );
+  }
+
   /**
    * {@inheritdoc}
    */
@@ -115,9 +181,13 @@ class PhotoSwipe extends ComponentBase {
     FieldItemListInterface $items,
     array $settings = []
   ) {
+
     if (empty($elements)) {
       return;
     }
+
+    /** @var \Drupal\ambientimpact_media\Plugin\AmbientImpact\Component\Image */
+    $imageComponent = $this->componentManager->getComponentInstance('image');
 
     $imageAttributeMap = $this->configuration['linkedImageAttributes'];
 
@@ -146,25 +216,83 @@ class PhotoSwipe extends ComponentBase {
 
       $attributes = &$elements[$delta]['#link_attributes'];
 
+      // If an image style has been specified, link PhotoSwipe to the derivative
+      // image URL.
+      if (!empty($settings['use_photoswipe_image_style'])) {
+
+        $attributes['data-photoswipe-src'] =
+          $imageComponent->getImageStyleDerivativeUrl(
+            $item, $settings['use_photoswipe_image_style']
+          );
+
+      // If no image style was specified, attempt to link PhotoSwipe to the
+      // original image.
+      } else {
+
+        /** @var \Drupal\file\FileInterface|null */
+        $imageFile = $imageComponent->getImageItemFile($item);
+
+        // If we successfully loaded a file entity, link PhotoSwipe to its URL.
+        if (\is_object($imageFile)) {
+
+          $attributes['data-photoswipe-src'] = $imageFile->createFileUrl(false);
+
+        // If we couldn't load a file entity, disable PhotoSwipe as it could
+        // fail to load if the field is linked to content.
+        //
+        // @todo Get the field settings and only do this when linked to content
+        //   or to none?
+        } else {
+          $elements[0]['#use_photoswipe'] = false;
+        }
+
+      }
+
       // If the width and height have been provided by the formatter, use those.
       if (
         isset($elements[$delta]['#photoswipe_width']) &&
         isset($elements[$delta]['#photoswipe_height'])
       ) {
+
         foreach (['width', 'height'] as $dimension) {
           $attributes[$imageAttributeMap[$dimension]] =
             $elements[$delta]['#photoswipe_' . $dimension];
         }
 
-      // If they haven't been provided, fall back to using the ones on the image
-      // item. If the aspect ratio is the same between the displayed image on
-      // the page and the image being linked to, PhotoSwipe should work fine.
+      // If the width and height haven't been provided, attempt to get them.
       } else {
+
+        // If an image style is being linked to, attempt to get the derivative's
+        // dimensions.
+        if (!empty($settings['use_photoswipe_image_style'])) {
+
+          /** @var string[] */
+          $dimensions = $imageComponent->getImageStyleDerivativeDimensions(
+            $item, $settings['use_photoswipe_image_style']
+          );
+
+        }
+
+        // If we couldn't get dimensions from the image style derivative, fall
+        // back to using the original file's dimensions. PhotoSwipe uses these
+        // to determine the thumbnail aspect ratio so it should work fine as
+        // long as they're the same ratio.
+        if (empty($dimensions)) {
+
+          /** @var string[] */
+          $dimensions = [
+            'width'   => $item->width,
+            'height'  => $item->height,
+          ];
+
+        }
+
         foreach (['width', 'height'] as $dimension) {
-          $attributes[$imageAttributeMap[$dimension]] = $item->$dimension;
+          $attributes[$imageAttributeMap[$dimension]] = $dimensions[$dimension];
         }
       }
     }
+
   }
 
   /**
@@ -185,6 +313,10 @@ class PhotoSwipe extends ComponentBase {
     // Set default for the gallery setting to true.
     $formatterInstance->setThirdPartySettingDefault(
       'ambientimpact_media', 'use_photoswipe_gallery', true
+    );
+
+    $formatterInstance->setThirdPartySettingDefault(
+      'ambientimpact_media', 'use_photoswipe_image_style', ''
     );
   }
 }

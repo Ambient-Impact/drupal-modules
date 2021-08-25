@@ -4,15 +4,15 @@ namespace Drupal\ambientimpact_media\EventSubscriber\Field;
 
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
-use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\field_event_dispatcher\Event\Field\FieldFormatterSettingsSummaryAlterEvent;
+use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * PhotoSwipe hook_field_formatter_settings_summary_alter() event subscriber.
  */
-class FieldFormatterSettingsSummaryAlterPhotoSwipeEventSubscriber implements
-EventSubscriberInterface {
+class FieldFormatterSettingsSummaryAlterPhotoSwipeEventSubscriber implements EventSubscriberInterface {
+
   use StringTranslationTrait;
 
   /**
@@ -62,20 +62,24 @@ EventSubscriberInterface {
   public function fieldFormatterSettingsSummaryAlter(
     FieldFormatterSettingsSummaryAlterEvent $event
   ) {
+
     /** @var array */
     $context = $event->getContext();
     /** @var string */
-    $pluginID = $context['formatter']->getPluginId();
+    $pluginId = $context['formatter']->getPluginId();
 
     if (
       (
         // Always show the summary for the 'image_formatter_link_to_image_style'
         // because it's always linked to an image.
-        $pluginID === 'image_formatter_link_to_image_style' ||
+        $pluginId === 'image_formatter_link_to_image_style' ||
         // Only show the summary for the 'image' and 'responsive_image'
-        // formatters if it's linked to the image file.
-        ($pluginID === 'image' || $pluginID === 'responsive_image') &&
-        $context['formatter']->getSetting('image_link') === 'file'
+        // formatters if it's linked to the image file or content.
+        ($pluginId === 'image' || $pluginId === 'responsive_image') &&
+        \in_array(
+          $context['formatter']->getSetting('image_link'),
+          ['file', 'content']
+        )
       ) &&
       // This is passed to us as a string ('1' or '0'), despite the schema
       // specifying it as boolean, likely because this is at the Form API stage
@@ -84,14 +88,20 @@ EventSubscriberInterface {
         'ambientimpact_media', 'use_photoswipe'
       ) === true
     ) {
+
       if ((bool) $context['formatter']->getThirdPartySetting(
         'ambientimpact_media', 'use_photoswipe_gallery'
       ) === true) {
-        $event->getSummary()[] =
-          $this->t('Uses PhotoSwipe; grouped as gallery');
+        $event->getSummary()[] = $this->t(
+          'Uses PhotoSwipe; grouped as gallery'
+        );
+
       } else {
         $event->getSummary()[] = $this->t('Uses PhotoSwipe');
       }
+
     }
+
   }
+
 }
