@@ -12,7 +12,9 @@ use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
+use Drupal\file\FileInterface;
 use Drupal\file\FileStorageInterface;
+use Drupal\image\ImageStyleInterface;
 use Drupal\image\ImageStyleStorageInterface;
 use Drupal\image\Plugin\Field\FieldType\ImageItem;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -48,13 +50,6 @@ class Image extends ComponentBase {
    * @var \Drupal\image\ImageStyleStorageInterface
    */
   protected $imageStyleStorage;
-
-  /**
-   * An array of image style instances that have been loaded.
-   *
-   * @var \Drupal\image\ImageStyleInterface|null[]
-   */
-  protected $imageStyleInstances = [];
 
   /**
    * Component constructor; saves dependencies.
@@ -146,6 +141,50 @@ class Image extends ComponentBase {
   }
 
   /**
+   * Load and return the file entity referenced by an image field item.
+   *
+   * @param \Drupal\image\Plugin\Field\FieldType\ImageItem $imageItem
+   *   A Drupal image field item.
+   *
+   * @return \Drupal\file\FileInterface|null
+   *   A file entity or null if it could not be loaded.
+   */
+  public function getImageItemFile(ImageItem $imageItem): ?FileInterface {
+    return $this->fileStorage->load($imageItem->target_id);
+  }
+
+  /**
+   * Get an image style style entity.
+   *
+   * @param string $imageStyleName
+   *   The image style machine name.
+   *
+   * @return \Drupal\image\ImageStyleInterface|null
+   *   An image style entity or null if it could not be loaded.
+   */
+  public function getImageStyle(string $imageStyleName): ?ImageStyleInterface {
+
+    /** @var \Drupal\image\ImageStyleInterface|null */
+    $imageStyle = $this->imageStyleStorage->load($imageStyleName);
+
+    if (\is_object($imageStyle)) {
+      return $imageStyle;
+    }
+
+    /** @var string|null */
+    $replacementImageStyleName = $this->imageStyleStorage->getReplacementId(
+      $imageStyleName
+    );
+
+    if (!\is_string($replacementImageStyleName)) {
+      return null;
+    }
+
+    return $this->imageStyleStorage->load($replacementImageStyleName);
+
+  }
+
+  /**
    * Get image style derivative dimensions from an image item and image style.
    *
    * @param \Drupal\image\Plugin\Field\FieldType\ImageItem $imageItem
@@ -169,10 +208,10 @@ class Image extends ComponentBase {
   ): array {
 
     /** @var \Drupal\file\FileInterface */
-    $file = $this->fileStorage->load($imageItem->target_id);
+    $file = $this->getImageItemFile($imageItem);
 
     // If we couldn't load a valid file entity, skip this item.
-    if (empty($file)) {
+    if (!\is_object($file)) {
       return [];
     }
 
@@ -191,34 +230,13 @@ class Image extends ComponentBase {
       return $dimensions;
     }
 
-    // If we've already tried to load this image style and gotten null, return
-    // the original image dimensions.
-    if (
-      isset($this->imageStyleInstances[$imageStyleName]) &&
-      $this->imageStyleInstances[$imageStyleName] === null
-    ) {
-      return $dimensions;
-    }
-
-    // Attempt to load the image style if it hasn't been attempted yet.
-    if (!isset($this->imageStyleInstances[$imageStyleName])) {
-
-      $this->imageStyleInstances[$imageStyleName] =
-        $this->imageStyleStorage->load($imageStyleName);
-
-    }
-
     /** @var \Drupal\image\ImageStyleInterface|null */
-    $imageStyle = $this->imageStyleInstances[$imageStyleName];
+    $imageStyle = $this->getImageStyle($imageStyleName);
 
-    // If we weren't able to load an image style, set it to null and return the
-    // original image dimensions.
-    if ($imageStyle === null) {
-
-      $this->imageStyleInstances[$imageStyleName] = null;
-
+    // If we weren't able to load an image style, return the original image
+    // dimensions.
+    if (!\is_object($imageStyle)) {
       return $dimensions;
-
     }
 
     // If we got a valid image style object, have it transform the original
@@ -227,6 +245,94 @@ class Image extends ComponentBase {
     $imageStyle->transformDimensions($dimensions, $fileURI);
 
     return $dimensions;
+
+  }
+
+  /**
+   * Get an image style derivative URI given an image item and image style name.
+   *
+   * @param \Drupal\image\Plugin\Field\FieldType\ImageItem $imageItem
+   *   A Drupal image field item.
+   *
+   * @param string $imageStyleName
+   *   The image style name.
+   *
+   * @return string
+   *   If the image item's file entity and the image could both be loaded, this
+   *   will be the URI to the derivative image. If the file entity could be
+   *   loaded but the image style could not be, this will be the URI to the
+   *   full image. If the file entity could not be loaded, this will be an empty
+   *   string.
+   */
+  public function getImageStyleDerivativeUri(
+    ImageItem $imageItem,
+    string    $imageStyleName = ''
+  ): string {
+
+    /** @var \Drupal\file\FileInterface|null */
+    $file = $this->getImageItemFile($imageItem);
+
+    // If we couldn't load a valid file entity, skip this item.
+    if (!\is_object($file)) {
+      return '';
+    }
+
+    /** @var string */
+    $fileURI = $file->getFileUri();
+
+    /** @var \Drupal\image\ImageStyleInterface|null */
+    $imageStyle = $this->getImageStyle($imageStyleName);
+
+    // If we weren't able to load an image style, return the file URI.
+    if (!\is_object($imageStyle)) {
+      return $fileURI;
+    }
+
+    return $imageStyle->buildUri($fileURI);
+
+  }
+
+  /**
+   * Get an image style derivative URL given an image item and image style name.
+   *
+   * @param \Drupal\image\Plugin\Field\FieldType\ImageItem $imageItem
+   *   A Drupal image field item.
+   *
+   * @param string $imageStyleName
+   *   The image style name.
+   *
+   * @return string
+   *   If the image item's file entity and the image could both be loaded, this
+   *   will be the URL to the derivative image. If the file entity could be
+   *   loaded but the image style could not be, this will be the URI to the
+   *   full image. If the file entity could not be loaded, this will be an empty
+   *   string.
+   */
+  public function getImageStyleDerivativeUrl(
+    ImageItem $imageItem,
+    string    $imageStyleName = ''
+  ): string {
+
+    /** @var \Drupal\file\FileInterface|null */
+    $file = $this->getImageItemFile($imageItem);
+
+    // If we couldn't load a valid file entity, skip this item.
+    if (!\is_object($file)) {
+      return '';
+    }
+
+    /** @var string */
+    $fileURI = $file->getFileUri();
+
+    /** @var \Drupal\image\ImageStyleInterface|null */
+    $imageStyle = $this->getImageStyle($imageStyleName);
+
+    // If we weren't able to load an image style, return the file URL.
+    if (!\is_object($imageStyle)) {
+      return $file->createFileUrl(false);
+    }
+
+    return $imageStyle->buildUrl($fileURI);
 
   }
 
