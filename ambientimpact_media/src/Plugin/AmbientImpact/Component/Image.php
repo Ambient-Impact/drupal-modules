@@ -52,34 +52,7 @@ class Image extends ComponentBase {
   protected $imageStyleStorage;
 
   /**
-   * Component constructor; saves dependencies.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plug-in instance.
-   *
-   * @param string $pluginId
-   *   The plugin_id for the plug-in instance.
-   *
-   * @param array $pluginDefinition
-   *   The plug-in implementation definition.
-   *
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
-   *   The Drupal module handler service.
-   *
-   * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager
-   *   The Drupal language manager service.
-   *
-   * @param \Drupal\Core\Render\RendererInterface $renderer
-   *   The Drupal renderer service.
-   *
-   * @param \Drupal\Component\Serialization\SerializationInterface $yamlSerialization
-   *   The Drupal YAML serialization class.
-   *
-   * @param \Drupal\Core\StringTranslation\TranslationInterface $stringTranslation
-   *   The Drupal string translation service.
-   *
-   * @param \Drupal\Core\Cache\CacheBackendInterface $htmlCacheService
-   *   The Component HTML cache service.
+   * {@inheritdoc}
    *
    * @param \Drupal\file\FileStorageInterface $fileStorage
    *   The Drupal file entity storage.
