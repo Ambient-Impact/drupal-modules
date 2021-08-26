@@ -36,9 +36,10 @@ class AmbientImpactInstallCommand extends AbstractAmbientImpactFileSystemCommand
     'dev' => false,
   ]) {
 
-    // Robo collection builder instance.
+    /** @var \Robo\Collection\CollectionBuilder Robo collection builder instance. */
     $collection = $this->collectionBuilder();
 
+    /** @var \Robo\Task\Composer\Install */
     $composerInstall = $collection->taskComposerInstall();
 
     if ($options['dev'] !== true) {
