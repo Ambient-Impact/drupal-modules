@@ -13,7 +13,7 @@ use Symfony\Component\Finder\Finder;
 class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand {
 
   /**
-   * The date() format used to generate archive names.
+   * The \date() format used to generate archive names.
    *
    * If this is changed, you must also ensure self::ARCHIVE_DATE_REGEX is able
    * to pick up the new format to find existing back-ups.
@@ -104,11 +104,21 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
     ],
     'exclude-generated-files' => true,
   ]) {
-    // Robo collection builder instance.
+
+    /** @var \Robo\Collection\CollectionBuilder Robo collection builder instance. */
     $collection   = $this->collectionBuilder();
 
-    $projectRoot  = $this->getProjectRoot();
-    $groupPath    = $options['path'] . DIRECTORY_SEPARATOR . $options['group'];
+    // Save $this because we need to pass it to the Drush command closure where
+    // $this will have a different value.
+
+    /** @var \Drush\Commands\DrushCommands This Drush command, so that it can be passed to closures. */
+    $drushCommand = $this;
+
+    /** @var string The project root directory. */
+    $projectRoot = $this->getProjectRoot();
+
+    /** @var string The path to the back-up group directory. */
+    $groupPath = $options['path'] . \DIRECTORY_SEPARATOR . $options['group'];
 
     /** @var string The temporary directory created by Robo. Note we're creating this in the home directory rather than in the system temp directory to work around mysqldump: Got errno 28 on write. */
     $tempPath = $collection->tmpDir(
@@ -117,23 +127,32 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
 
     // Build relative public files path by removing the project root path from
     // its absolute path.
-    $publicFilesPath = preg_replace(
-      '%^' . preg_quote($projectRoot . DIRECTORY_SEPARATOR) . '%',
+
+    /** @var string Path to the public files directory relative to the project root. */
+    $publicFilesPath = \preg_replace(
+      '%^' . \preg_quote($projectRoot . \DIRECTORY_SEPARATOR) . '%',
       '',
       $this->fileSystemService->realPath('public://')
     );
 
-    $archiveName  = \date(self::ARCHIVE_DATE_FORMAT) . '.tar.gz';
-    $archivePath  = $groupPath . DIRECTORY_SEPARATOR . $archiveName;
+    /** @var string File name of the archive to be created. */
+    $archiveName = \date(self::ARCHIVE_DATE_FORMAT) . '.tar.gz';
 
-    $dumpName     = 'database.sql';
-    $dumpPath     = $tempPath . DIRECTORY_SEPARATOR . $dumpName;
+    /** @var string Absolute path to the archive to be created. */
+    $archivePath = $groupPath . \DIRECTORY_SEPARATOR . $archiveName;
 
+    /** @var string Database dump file name. */
+    $dumpName = 'database.sql';
+
+    /** @var string Absolute path to the datebase dump file. */
+    $dumpPath = $tempPath . \DIRECTORY_SEPARATOR . $dumpName;
+
+    /** @var array Drush sql:dump command options. */
     $dumpOptions  = [
       'result-file' => $dumpPath,
     ];
 
-    // Pass on the verbose and debug options to the sql:dump command for
+    // Pass on the verbose and debug options to the Drush sql:dump command for
     // debugging.
     if ($options['verbose']) {
       $dumpOptions['verbose'] = true;
@@ -142,6 +161,7 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
       $dumpOptions['debug'] = true;
     }
 
+    /** @var array Tar options for creating the archive. */
     $tarOptions = [
       '--create',
       '--gzip',
@@ -153,8 +173,8 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
       // they sit in the archive root. Note the removal of the leading slash
       // character so tar recognizes the path on *nix.
       // @see https://www.gnu.org/software/tar/manual/html_section/tar_51.html
-      '--transform="s,^' . preg_quote(
-        ltrim($tempPath, '/') . DIRECTORY_SEPARATOR
+      '--transform="s,^' . \preg_quote(
+        \ltrim($tempPath, '/') . \DIRECTORY_SEPARATOR
       ) . ',,"',
       // This transforms the stored project files' paths from the full path to
       // placing them all under a 'tree' directory in the archive root. Note the
@@ -162,14 +182,14 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
       // *nix.
       // @see https://www.gnu.org/software/tar/manual/html_section/tar_51.html
       '--transform="s,^' . preg_quote(
-        ltrim($projectRoot, '/') . DIRECTORY_SEPARATOR
-      ) . '\.' . preg_quote(DIRECTORY_SEPARATOR) . ',tree' .
-      DIRECTORY_SEPARATOR . ',"',
+        \ltrim($projectRoot, '/') . \DIRECTORY_SEPARATOR
+      ) . '\.' . \preg_quote(\DIRECTORY_SEPARATOR) . ',tree' .
+      \DIRECTORY_SEPARATOR . ',"',
       // Same as above, but for the root directory - without this, we'd end up
       // with an empty directory structure with the full filesystem path to the
       // Drupal install.
-      '--transform="s,^' . preg_quote(
-        ltrim($projectRoot, '/') . DIRECTORY_SEPARATOR
+      '--transform="s,^' . \preg_quote(
+        \ltrim($projectRoot, '/') . \DIRECTORY_SEPARATOR
       ) . '\.,tree,"',
       '--file=' . $archivePath,
     ];
@@ -177,8 +197,8 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
     // Add generated files to exclude list if set to do so.
     if ($options['exclude-generated-files']) {
       foreach ($this->generatedFileDirectories as $dirName) {
-        $options['exclude'][] = '.' . DIRECTORY_SEPARATOR . $publicFilesPath .
-          DIRECTORY_SEPARATOR . $dirName;
+        $options['exclude'][] = '.' . \DIRECTORY_SEPARATOR . $publicFilesPath .
+          \DIRECTORY_SEPARATOR . $dirName;
       }
     }
 
@@ -187,39 +207,40 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
       $tarOptions[] = '--exclude="' . $exclude . '"';
     }
 
-    // This adds the SQL dump and project root directory to the tar options.
+    // This adds the database dump and project root directory to the tar options.
     // Note that it's important to place this after the '--exclude' options, or
     // tar will complain and won't apply the '--exclude' patterns.
     $tarOptions[] = $dumpPath;
     $tarOptions[] = $projectRoot . '/.';
-
-    // Save $this because we need to pass it to the Drush command closure where
-    // $this will have a different value.
-    $drushCommand = $this;
 
     $collection->taskFilesystemStack()
       // Create the back-up group directory if it doesn't exist yet.
       ->mkdir($groupPath)
       // Run the Drush 'sql:dump' command to create the database dump file.
       ->addCode(function() use ($drushCommand, $dumpOptions) {
+
         $drushCommand->processManager()
           ->drush(
             $drushCommand->siteAliasManager()->getSelf(),
             'sql:dump', [], $dumpOptions
           )
           ->mustRun();
+
       });
 
     // Pack the database dump and project files into an archive.
     $collection->taskExecStack()
-      ->exec('tar ' . implode(' ', $tarOptions));
+      ->exec('tar ' . \implode(' ', $tarOptions));
 
     // If a limit greater than 0 has been set, attempt to find existing archives
     // to delete the oldest over the limit.
     if ($options['limit'] > 0) {
+
       $collection->addCode(function() use (
         $drushCommand, $options, $groupPath
       ) {
+
+        /** @var \Symfony\Component\Finder\Finder */
         $archiveFinder = new Finder();
 
         $archiveFinder
@@ -244,7 +265,7 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
           return;
         }
 
-        // An array of found archive names.
+        /** @var string[] An array of found archive names. */
         $archiveNames = [];
 
         foreach ($archiveFinder as $file) {
@@ -260,22 +281,29 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
         $archiveFileSystemStack = $archiveCollection->taskFilesystemStack();
 
         for ($i = $options['limit']; $i < count($archiveNames); $i++) {
+
           $archiveFileSystemStack
             // Remove the archive from the file system.
-            ->remove($groupPath . DIRECTORY_SEPARATOR . $archiveNames[$i])
+            ->remove($groupPath . \DIRECTORY_SEPARATOR . $archiveNames[$i])
             // Log a Drush info message, to be shown if --verbose is passed.
             ->addCode(function() use ($drushCommand, $archiveNames, $i) {
-              $drushCommand->logger()->info(dt('Deleting archive @name', [
+
+              $drushCommand->logger()->info(\dt('Deleting archive @name', [
                 '@name' => $archiveNames[$i],
               ]));
+
             });
+
         }
 
         $archiveCollection->run();
+
       });
+
     }
 
     $collection->run();
+
   }
 
 }
