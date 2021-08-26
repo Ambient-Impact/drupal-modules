@@ -198,8 +198,6 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
     $drushCommand = $this;
 
     $collection->taskFilesystemStack()
-      // Create the temp directory for the database dump to be placed in.
-      ->mkdir($tempPath)
       // Create the back-up group directory if it doesn't exist yet.
       ->mkdir($groupPath)
       // Run the Drush 'sql:dump' command to create the database dump file.
