@@ -3,6 +3,7 @@
 namespace Drupal\ambientimpact_core\Commands;
 
 use Drupal\ambientimpact_core\Commands\AbstractAmbientImpactFileSystemCommand;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -108,11 +109,11 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
     /** @var \Robo\Collection\CollectionBuilder Robo collection builder instance. */
     $collection   = $this->collectionBuilder();
 
-    // Save $this because we need to pass it to the Drush command closure where
-    // $this will have a different value.
-
     /** @var \Drush\Commands\DrushCommands This Drush command, so that it can be passed to closures. */
     $drushCommand = $this;
+
+    /** @var \Symfony\Component\Filesystem\Filesystem Symfony Filesystem instance. */
+    $filesystem = new Filesystem();
 
     /** @var string The project root directory. */
     $projectRoot = $this->getProjectRoot();
@@ -125,15 +126,11 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
       'tmp', $_SERVER['HOME'] . \DIRECTORY_SEPARATOR . 'drush-temp'
     );
 
-    // Build relative public files path by removing the project root path from
-    // its absolute path.
-
     /** @var string Path to the public files directory relative to the project root. */
-    $publicFilesPath = \preg_replace(
-      '%^' . \preg_quote($projectRoot . \DIRECTORY_SEPARATOR) . '%',
-      '',
-      $this->fileSystemService->realPath('public://')
-    );
+    $publicFilesPath = \rtrim($filesystem->makePathRelative(
+      $this->fileSystemService->realPath('public://'),
+      $projectRoot
+    ), \DIRECTORY_SEPARATOR);
 
     /** @var string File name of the archive to be created. */
     $archiveName = \date(self::ARCHIVE_DATE_FORMAT) . '.tar.gz';
