@@ -109,7 +109,11 @@ class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand 
 
     $projectRoot  = $this->getProjectRoot();
     $groupPath    = $options['path'] . DIRECTORY_SEPARATOR . $options['group'];
-    $tempPath     = $collection->tmpDir();
+
+    /** @var string The temporary directory created by Robo. Note we're creating this in the home directory rather than in the system temp directory to work around mysqldump: Got errno 28 on write. */
+    $tempPath = $collection->tmpDir(
+      'tmp', $_SERVER['HOME'] . \DIRECTORY_SEPARATOR . 'drush-temp'
+    );
 
     // Build relative public files path by removing the project root path from
     // its absolute path.
