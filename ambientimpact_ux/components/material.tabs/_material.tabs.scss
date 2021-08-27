@@ -40,6 +40,7 @@ $material-tabs-padding: $material-item-padding-text-align !default;
 /// This is usually applied to a <ul> or similar element.
 ///
 @mixin material-tabs-container {
+
   border-bottom:
     $material-tabs-underline-thickness solid
     $material-tabs-underline-colour-on-light;
@@ -63,6 +64,7 @@ $material-tabs-padding: $material-item-padding-text-align !default;
       display:  block;
     }
   }
+
 }
 
 ///
@@ -74,6 +76,7 @@ $material-tabs-padding: $material-item-padding-text-align !default;
 ///   Used to set interacted state.
 ///
 @mixin material-tabs-item {
+
   position: relative;
 
   padding:  $material-tabs-padding;
@@ -90,19 +93,28 @@ $material-tabs-padding: $material-item-padding-text-align !default;
     }
   }
 
-  // This adds a bar under the active item to indicate its active state.
-  &.is-active::after {
-    content: '';
+}
 
-    position: absolute;
 
-    left:   0;
-    right:  0;
-    // Shift down to cancel out the container underline.
-    bottom: -$material-tabs-underline-thickness;
+///
+/// Style and layout for Material tab item current indicator.
+///
+/// This is intended to be applied to a descendent of the current tab that has
+/// had the material-tabs-item mixin applied.
+///
+/// This adds a bar under the active item to indicate its active state.
+///
+@mixin material-tabs-item-current {
 
-    height: $material-tabs-indicator-thickness;
+  position: absolute;
 
-    background-color: $material-tabs-indicator-colour;
-  }
+  left:   0;
+  right:  0;
+  // Shift down to cancel out the container underline.
+  bottom: -$material-tabs-underline-thickness;
+
+  height: $material-tabs-indicator-thickness;
+
+  background-color: $material-tabs-indicator-colour;
+
 }
