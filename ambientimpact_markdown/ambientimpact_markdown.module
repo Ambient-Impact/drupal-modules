@@ -3,25 +3,25 @@
 /**
  * Implements hook_markdown_parser_info_alter().
  *
- * This replaces the 'league/commonmark' and 'league/commonmark-gfm' plug-in
- * classes with our own.
+ * This replaces the 'commonmark' and 'commonmark-gfm' plug-in classes with our
+ * own.
  *
  * @param array $info
  *   An array of Markdown parser plug-in definitions, as collected by the
  *   Drupal plug-in annotation discovery mechanism.
  *
  * @see \Drupal\ambientimpact_markdown\Plugin\Markdown\CommonMark\CommonMark
- *   The 'league/commonmark' class that we provide.
+ *   The 'commonmark' class that we provide.
  *
  * @see \Drupal\ambientimpact_markdown\Plugin\Markdown\CommonMark\CommonMarkGfm
- *   The 'league/commonmark-gfm' class that we provide.
+ *   The 'commonmark-gfm' class that we provide.
  */
 function ambientimpact_markdown_markdown_parser_info_alter(array &$info) {
-  $info['league/commonmark']['class'] =
+  $info['commonmark']['class'] =
     'Drupal\\ambientimpact_markdown\\Plugin\\Markdown\\CommonMark\\CommonMark';
-  $info['league/commonmark']['provider'] = 'ambientimpact_markdown';
+  $info['commonmark']['provider'] = 'ambientimpact_markdown';
 
-  $info['league/commonmark-gfm']['class'] =
+  $info['commonmark-gfm']['class'] =
     'Drupal\\ambientimpact_markdown\\Plugin\\Markdown\\CommonMark\\CommonMarkGfm';
-  $info['league/commonmark-gfm']['provider'] = 'ambientimpact_markdown';
+  $info['commonmark-gfm']['provider'] = 'ambientimpact_markdown';
 }
