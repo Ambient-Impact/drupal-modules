@@ -52,9 +52,33 @@ implements EventSubscriberInterface {
    *   Event.
    */
   public function preprocessField(FieldPreprocessEvent $event) {
+
     /* @var \Drupal\preprocess_event_dispatcher\Event\Variables\FieldEventVariables $variables */
-    $variables  = $event->getVariables();
-    $items      = &$variables->getItems();
+    $variables = $event->getVariables();
+
+    /** @var array */
+    $items = &$variables->getItems();
+
+    /** @var string[] */
+    $fieldAttributeMap = $this->componentManager->getComponentConfiguration(
+      'photoswipe'
+    )['fieldAttributes'];
+
+    // If this is an entity reference field with a media entity as the target
+    // type, add the PhotoSwipe attribute indicating this to allow the field
+    // library to identify it as such if the media entity's image fields are
+    // set to use grouped PhotoSwipe galleries.
+    if (
+      $variables->get('field_type') === 'entity_reference' &&
+      $variables->getElement()['#items']->getFieldDefinition()
+        ->getItemDefinition()->getSetting('target_type') === 'media'
+    ) {
+
+      $variables->getByReference('attributes')[
+        $fieldAttributeMap['entityReference']
+      ] = 'true';
+
+    }
 
     if (
       $variables->get('field_type') !== 'image' ||
@@ -70,10 +94,6 @@ implements EventSubscriberInterface {
 
       return;
     }
-
-    $config = $this->componentManager->getComponentConfiguration('photoswipe');
-
-    $fieldAttributeMap = $config['fieldAttributes'];
 
     $firstItem  = &$items[0]['content'];
     $attributes = $variables->get('attributes');

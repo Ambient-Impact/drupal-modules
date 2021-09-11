@@ -112,8 +112,9 @@ class PhotoSwipe extends ComponentBase {
         'height'  => 'data-photoswipe-linked-height',
       ],
       'fieldAttributes' => [
-        'enabled' => 'data-photoswipe-field-enabled',
-        'gallery' => 'data-photoswipe-field-gallery',
+        'enabled'         => 'data-photoswipe-field-enabled',
+        'gallery'         => 'data-photoswipe-field-gallery',
+        'entityReference' => 'data-photoswipe-field-entity-reference',
       ],
     ];
   }

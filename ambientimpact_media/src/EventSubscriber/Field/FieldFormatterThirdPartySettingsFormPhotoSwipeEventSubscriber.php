@@ -107,7 +107,7 @@ implements EventSubscriberInterface {
     $elements['use_photoswipe_gallery'] = [
       '#type'           => 'checkbox',
       '#title'          => $this->t('Group as PhotoSwipe gallery'),
-      '#description'    => $this->t('If enabled, will group all items in this field as a PhotoSwipe gallery.'),
+      '#description'    => $this->t('If enabled, will group all items in this field as a PhotoSwipe gallery. If this field is part of a media entity that\'s rendered in an entity reference field attached to another entity, this will group all referenced media entities in that field as a gallery.'),
       '#default_value'  => $plugin->getThirdPartySetting(
         'ambientimpact_media', 'use_photoswipe_gallery'
       ),
