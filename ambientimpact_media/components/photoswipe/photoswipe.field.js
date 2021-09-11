@@ -136,7 +136,11 @@ AmbientImpact.addComponent('photoswipe.field', function(aiPhotoSwipeField, $) {
     },
     function(context, settings, trigger) {
 
-      for (var i = 0; i < $gallery.length; i++) {
+      if (!('$photoswipeFieldImagesGalleries' in this)) {
+        return;
+      }
+
+      for (var i = 0; i < this.$photoswipeFieldImagesGalleries.length; i++) {
         this.$photoswipeFieldImagesGalleries.eq(i).PhotoSwipeDestroy();
       }
 
