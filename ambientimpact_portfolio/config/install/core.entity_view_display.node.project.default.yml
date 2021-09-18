@@ -4,7 +4,6 @@ dependencies:
   config:
     - field.field.node.project.body
     - field.field.node.project.field_project_categories
-    - field.field.node.project.field_project_images
     - field.field.node.project.field_project_link
     - field.field.node.project.field_project_media
     - node.type.project
@@ -52,5 +51,4 @@ content:
     third_party_settings: {  }
 hidden:
   field_project_categories: true
-  field_project_images: true
   search_api_excerpt: true

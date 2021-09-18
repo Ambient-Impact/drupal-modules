@@ -4,13 +4,10 @@ dependencies:
   config:
     - field.field.node.project.body
     - field.field.node.project.field_project_categories
-    - field.field.node.project.field_project_images
     - field.field.node.project.field_project_link
     - field.field.node.project.field_project_media
-    - image.style.thumbnail
     - node.type.project
   module:
-    - image
     - link
     - media_library
     - path
@@ -42,14 +39,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
-  field_project_images:
-    type: image_image
-    weight: 2
-    region: content
-    settings:
-      progress_indicator: throbber
-      preview_image_style: thumbnail
-    third_party_settings: {  }
   field_project_link:
     weight: 4
     settings:

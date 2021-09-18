@@ -5,12 +5,10 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.project.body
     - field.field.node.project.field_project_categories
-    - field.field.node.project.field_project_images
     - field.field.node.project.field_project_link
     - field.field.node.project.field_project_media
     - node.type.project
   module:
-    - ambientimpact_media
     - text
     - user
 id: node.project.teaser
@@ -26,22 +24,6 @@ content:
       trim_length: 600
     third_party_settings: {  }
     region: content
-  field_project_images:
-    type: image_formatter_link_to_image_style
-    weight: 0
-    region: content
-    label: visually_hidden
-    settings:
-      image_style: project_image_small
-      image_link_style: project_image_linked
-      image_link_class: ''
-      image_link_rel: ''
-      image_link_image_class: ''
-    third_party_settings:
-      ambientimpact_media:
-        use_photoswipe: true
-        use_photoswipe_gallery: true
-        use_animated_gif_toggle: false
 hidden:
   field_project_categories: true
   field_project_link: true
