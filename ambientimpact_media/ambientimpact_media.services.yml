@@ -141,3 +141,9 @@ services:
     arguments: []
     tags:
       - { name: 'event_subscriber' }
+
+  # Add 'tracks' variable \hook_theme_registry_alter() event subscriber.
+  ambientimpact_media.theme_tracks_variable_event_subscriber:
+    class: Drupal\ambientimpact_media\EventSubscriber\Theme\ThemeRegistryAlterTracksVariableEventSubscriber
+    tags:
+      - { name: 'event_subscriber' }
