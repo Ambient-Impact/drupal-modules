@@ -6,7 +6,7 @@ licensed under the [Drupal trademark and logo
 policy](https://www.drupal.com/trademark), provided that its use falls under the
 "automatic license" criteria; i.e. it promotes Drupal.
 
-# Facebook, GitHub, Instagram, Pinterest, Steam, Tumblr, Twitter, and Wikipedia icons
+# Discord, Facebook, GitHub, Instagram, MDN, Pinterest, Steam, Tumblr, Twitter, and Wikipedia icons
 
 These are from [Simple Icons](https://github.com/simple-icons/simple-icons) and
 are licensed under [Creative Commons Zero v1.0
