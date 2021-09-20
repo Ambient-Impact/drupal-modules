@@ -72,4 +72,9 @@ module.exports = function(grunt) {
     'sass',
     'postcss',
   ]);
+
+  grunt.registerTask('icons', [
+    'svgstore',
+  ]);
+
 };
