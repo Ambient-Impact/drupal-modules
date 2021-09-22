@@ -5,10 +5,10 @@
 // This switches between the Gin light and dark modes based on whether the
 // (prefers-color-scheme: dark) media query matches.
 //
-// @todo Rework this as a CSS-only feature as a merge request to the Gin
-//   project.
-//
 // @see https://www.drupal.org/project/gin/issues/3161904#comment-13946852
+//   Gin project issue to implement this functionality in the theme itself.
+//
+// @todo Remove this once Gin adds this in the theme itself.
 
 AmbientImpact.onGlobals([
   'drupalSettings.gin.darkmode',
@@ -18,6 +18,12 @@ AmbientImpact.on(['mediaQuery'], function(aiMediaQuery, $) {
 AmbientImpact.addComponent('gin', function(aiGin, $) {
 
   'use strict';
+
+  // Bail if the dark mode setting isn't a boolean as that likely means the
+  // work-in-progress issue linked above is in use.
+  if (typeof drupalSettings.gin.darkmode !== 'boolean') {
+    return;
+  }
 
   /**
    * A MediaQueryList that matches when the browser says dark mode is preferred.
