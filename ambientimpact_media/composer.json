@@ -20,7 +20,7 @@
   "extra": {
     "patches": {
       "drupal/core": {
-        "Add a hook to modify oEmbed resource data [#3042423] https://www.drupal.org/project/drupal/issues/3042423": "https://www.drupal.org/files/issues/2019-03-25/media_hook-oembed-resource-data-alter__example.patch"
+        "Add a hook to modify oEmbed resource data (core 9.2.x) [#3042423] https://www.drupal.org/project/drupal/issues/3042423": "https://www.drupal.org/files/issues/2021-06-17/3042423-32.patch"
       }
     }
   }
