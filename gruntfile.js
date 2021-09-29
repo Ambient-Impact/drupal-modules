@@ -63,7 +63,6 @@ module.exports = function(grunt) {
   grunt.registerTask('all', [
     'sass',
     'postcss',
-    //'sassdoc',
     'svgstore',
     'modernizr',
   ]);

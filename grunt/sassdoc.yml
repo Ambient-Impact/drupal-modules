@@ -1,7 +1,0 @@
-module:
-  options:
-  files:
-    - src: '<%= extensionPaths %>/<%= stylesheetPaths %>/**/*.scss'
-      ext: .scss
-      extDot: last
-      expand: true
