@@ -104,7 +104,22 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
    *   resolved.
    */
   function show(disabledPromise) {
+
     this.$overlay.addClass(activeClass);
+
+    // Failsafe to prevent disabling anything if the overlay is not visible or
+    // has been removed for any reason, such as an error or by the browser, an
+    // add-on, e.g. uBlock Origin, or some other software.
+    if (
+      this.$overlay.is(':hidden') ||
+      this.$overlay.width() < 10 ||
+      this.$overlay.height() < 10 ||
+      this.$overlay.css('visibility') === 'hidden'
+    ) {
+      this.$overlay.removeClass(activeClass);
+
+      return;
+    }
 
     this.$overlay.trigger('overlayShowing');
 
@@ -126,6 +141,7 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
       data.$overlay.trigger('overlayShown');
 
     });
+
   };
 
   /**
