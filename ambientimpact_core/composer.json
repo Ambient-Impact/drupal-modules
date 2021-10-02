@@ -31,6 +31,7 @@
     "npm-asset/js-cookie": "~2.1.2",
     "drupal-library/jquery.onfontresize": "master",
     "npm-asset/ally.js": "1.4.1",
+    "npm-asset/fastdom": "1.0.10",
     "symfony/dom-crawler": "^3.4 || ^4.4",
     "symfony/css-selector": "^3.4 || ^4.4"
   },
