@@ -17,6 +17,10 @@
     "drupal/hook_event_dispatcher": "^2.0"
   },
   "extra": {
-    "patches": {}
+    "patches": {
+      "drupal/geshifilter": {
+        "Theme functions are deprecated in geshifield [#3137937]: https://www.drupal.org/project/geshifilter/issues/3137937 ": "https://www.drupal.org/files/issues/2020-11-06/theme_function_deprecated--3137937-2.patch"
+      }
+    }
   }
 }
