@@ -16,11 +16,6 @@ work-in-progress. Stable releases may be provided at a later date.
 
 -----------------
 
-Cross-platform browser testing done via
-[BrowserStack](https://www.browserstack.com/).
-
-<img src="browserstack-logo.svg" alt="BrowserStack logo" width="128" />
-
 # Using Composer
 
 If you're using [Composer](https://www.drupal.org/docs/develop/using-composer)
