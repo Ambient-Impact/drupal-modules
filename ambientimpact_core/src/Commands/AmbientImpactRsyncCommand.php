@@ -4,9 +4,11 @@ namespace Drupal\ambientimpact_core\Commands;
 
 use Consolidation\AnnotatedCommand\CommandData;
 use Consolidation\SiteAlias\HostPath;
+use Consolidation\SiteAlias\SiteAliasInterface;
 use Drupal\ambientimpact_core\Commands\AbstractAmbientImpactFileSystemCommand;
 use Drush\Config\ConfigLocator;
 use Drush\Exceptions\UserAbortException;
+use Robo\Collection\CollectionBuilder;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 
 /**
@@ -64,6 +66,9 @@ class AmbientImpactRsyncCommand extends AbstractAmbientImpactFileSystemCommand {
    * @option delete
    *   Whether to delete files in $target not present in $source.
    *
+   * @option target-maintenance
+   *   Whether to put the target site into maintenance mode during the rsync.
+   *
    * @option target-post-drush-commands
    *   An array of Drush commands to run on $target after rsync has been
    *   performed.
@@ -92,6 +97,7 @@ class AmbientImpactRsyncCommand extends AbstractAmbientImpactFileSystemCommand {
       'sites/*/settings.local.php',
     ],
     'delete' => true,
+    'target-maintenance' => true,
     'target-post-drush-commands' => [
       // This is necessary so that Drupal doesn't throw an error if a new module
       // or theme was added by the rsync and then set to be enabled in the
@@ -185,6 +191,8 @@ class AmbientImpactRsyncCommand extends AbstractAmbientImpactFileSystemCommand {
       $rsyncTask->exclude($options['exclude-paths']);
     }
 
+    $this->setMaintenance($targetRecord, $collection, $options, true);
+
     // If not simulating, add the Drush commands to be run on the target site
     // after the rsync.
     if (!$config->simulate()) {
@@ -215,7 +223,10 @@ class AmbientImpactRsyncCommand extends AbstractAmbientImpactFileSystemCommand {
       });
     }
 
+    $this->setMaintenance($targetRecord, $collection, $options, false);
+
     $collection->run();
+
   }
 
   /**
@@ -355,6 +366,63 @@ class AmbientImpactRsyncCommand extends AbstractAmbientImpactFileSystemCommand {
     }
 
     return $path;
+
+  }
+
+  /**
+   * Set maintenance mode state.
+   *
+   * @param \Consolidation\SiteAlias\SiteAliasInterface $targetRecord
+   *   The site alias record for the target site to set maintenance mode for.
+   *
+   * @param \Robo\Collection\CollectionBuilder $collection
+   *   The Robo collection to add the maintenance mode task to.
+   *
+   * @param array $options
+   *   The Drush command options passed to the ai:rsync command.
+   *
+   * @param bool|boolean $maintenance
+   *   True to enable maintenance mode and false to disable it.
+   */
+  protected function setMaintenance(
+    SiteAliasInterface $targetRecord,
+    CollectionBuilder $collection,
+    array $options,
+    bool $maintenance = true
+  ): void {
+
+    // Save $this because we need to pass it to the Drush command closure where
+    // $this will have a different value.
+    /** @var \Drush\Commands\DrushCommands */
+    $drushCommand = $this;
+
+    /** @var \Drush\Config\DrushConfig */
+    $config = $this->getConfig();
+
+    if ($config->simulate() || !$options['target-maintenance']) {
+      return;
+    }
+
+    $collection->addCode(function() use (
+      $drushCommand, $targetRecord, $options, $maintenance
+    ) {
+
+      /** @var \Consolidation\SiteProcess\SiteProcess */
+      $process = $drushCommand->processManager()->drush(
+        $targetRecord,
+        'state:set',
+        ['system.maintenance_mode', ($maintenance === true ? '1' : '0')],
+        ['input-format' => 'integer']
+      );
+
+      if ($options['verbose'] || $options['debug']) {
+        $process->mustRun($process->showRealtime());
+
+      } else {
+        $process->mustRun();
+      }
+
+    });
 
   }
 
