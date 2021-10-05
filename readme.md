@@ -81,4 +81,4 @@ To build specific things:
 
 * ```grunt css``` - builds all CSS files and their associated map files.
 * ```grunt modernizr``` - builds the custom Modernizr build that provides additional tests on top of Drupal core's.
-* ```grunt svgstore``` - builds all icon bundles by merging the individual icon SVG files.
+* ```grunt icons``` - builds all icon bundles by merging the individual icon SVG files.
