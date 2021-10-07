@@ -222,6 +222,13 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
      */
     var $overflowItems = $menuItems.clone();
 
+    // Save each each menu item element to its overflow menu item counterpart
+    // and vice-versa for later reference.
+    for (var i = 0; i < $menuItems.length; i++) {
+      $menuItems[i].aiMenuOverflowCounterpart     = $overflowItems[i];
+      $overflowItems[i].aiMenuOverflowCounterpart = $menuItems[i];
+    }
+
     $overflowToggle
       .addClass(toggleClass)
       .attr('type', 'button');
@@ -355,12 +362,9 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
           // If this overflow menu item's root menu counterpart is not in the
           // hidden menu items collection, hide the overflow menu item.
-          if ($hiddenMenuItems.filter(function(index) {
-            return $(this).children('a[data-drupal-link-system-path="' +
-              $overflowItem.children('a').first()
-                .attr('data-drupal-link-system-path') +
-            '"]').first().length;
-          }).length === 0) {
+          if (
+            !$hiddenMenuItems.is($overflowItem[0].aiMenuOverflowCounterpart)
+          ) {
             $overflowItem.addClass(menuItemHiddenClass);
 
           // Otherwise, show the overflow menu item.
@@ -421,6 +425,13 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
      */
     var menu = $menu[0];
 
+    /**
+     * The top-level menu items of the menu to attach to.
+     *
+     * @type {jQuery}
+     */
+    var $menuItems = $menu.children('.' + menuItemClass);
+
     // Don't do anything if we can't find our object attached to the menu
     // element.
     if (!('aiMenuOverflow' in menu)) {
@@ -440,5 +451,8 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
       .removeClass(menuEnhancedClass)
       .children('.' + menuItemClass)
         .removeClass(menuItemHiddenClass);
+
+    $menuItems.removeProp('aiMenuOverflowCounterpart');
+
   };
 });
