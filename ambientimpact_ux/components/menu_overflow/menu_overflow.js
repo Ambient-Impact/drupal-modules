@@ -116,6 +116,16 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
   var menuAllOverflowClass = 'menu--all-overflow';
 
   /**
+   * The viewport width of the last update in pixels.
+   *
+   * This is stored to ensure that we only run an update if the viewport width
+   * has changed.
+   *
+   * @type {Number}
+   */
+  var lastUpdateViewportWidth = 0;
+
+  /**
    * Update the overflow toggle content based on the current menu mode.
    *
    * @param {jQuery} $menu
@@ -263,8 +273,28 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
     /**
      * Update the visible and overflow items, based on current space.
+     *
+     * @param {Boolean} forceUpdate
+     *   Whether to force an update even when the viewport width has not
+     *   changed.
      */
-    menu.aiMenuOverflow.update = function() {
+    menu.aiMenuOverflow.update = function(forceUpdate) {
+
+      /**
+       *  The current viewport width in pixels.
+       *
+       * @type {Number}
+       */
+      const viewportWidth = $(window).width();
+
+      // Bail if not forcing an update and the viewport width hasn't changed.
+      if (forceUpdate !== true && lastUpdateViewportWidth === viewportWidth) {
+        return;
+      }
+
+      // Update the last update viewport width.
+      lastUpdateViewportWidth = viewportWidth;
+
       // Show all items in both the visible menu and the overflow menu, so that
       // we can measure their widths and selectively hide individual items.
       $menuItems.add($overflowItems).removeClass(menuItemHiddenClass);
