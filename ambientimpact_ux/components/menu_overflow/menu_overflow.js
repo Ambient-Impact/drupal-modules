@@ -16,6 +16,7 @@
 // @todo Find out what the accessibility implications are of showing/hiding
 // items entirely.
 
+AmbientImpact.on('icon', function(aiIcon) {
 AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
   'use strict';
 
@@ -37,7 +38,10 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
    *
    * @type {String|HTMLElement|jQuery}
    */
-  this.overflowToggleContent = Drupal.t('More');
+  this.overflowToggleContent = aiIcon.get('arrow-down', {
+    bundle: 'core',
+    text:   Drupal.t('More')
+  });
 
   /**
    * Content to insert into the overflow toggle element in menu.
@@ -47,7 +51,10 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
    *
    * @type {String|HTMLElement|jQuery}
    */
-  this.menuToggleContent = Drupal.t('Menu');
+  this.menuToggleContent = aiIcon.get('arrow-down', {
+    bundle: 'core',
+    text:   Drupal.t('menu')
+  });
 
   /**
    * The base BEM class for the overflow root and all child/state classes.
@@ -485,4 +492,6 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     $menuItems.removeProp('aiMenuOverflowCounterpart');
 
   };
+
+});
 });

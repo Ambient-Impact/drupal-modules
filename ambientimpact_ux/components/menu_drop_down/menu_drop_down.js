@@ -291,10 +291,7 @@ AmbientImpact.addComponent('menuDropDown', function(aiMenuDropDown, $) {
     // doesn't cause the layout to shift.
     $menu.css('height', $menu.height() + 'px');
 
-    // Wrap trigger content in an icon, and attach the click event handler. Note
-    // that we have to do this even with the event handler after this so that
-    // the initial overflow calculations are (hopefully) accurate, taking the
-    // icon into account.
+    // Wrap trigger content in an icon, and attach the click event handler.
     $triggers
       .wrapTextWithIcon('arrow-down', {bundle: 'core'})
       .on('click.aiMenuDropDown', clickHandler);
@@ -304,14 +301,6 @@ AmbientImpact.addComponent('menuDropDown', function(aiMenuDropDown, $) {
     setTimeout(function() {
       $menu.css('height', '');
     }, 10);
-
-    // Wrap the overflow toggle with the icon whenever it changes.
-    $menu.on('menuOverflowToggleContentAfterUpdate.aiMenuDropDown', function(
-      event
-    ) {
-      $(event.target)
-        .wrapTextWithIcon('arrow-down', {bundle: 'core'});
-    });
 
     // Attach the focus and mouse event handlers to the menu item itself.
     $menuItems
