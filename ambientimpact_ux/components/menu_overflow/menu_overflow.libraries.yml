@@ -6,4 +6,5 @@ component.menu_overflow:
     menu_overflow.js: {}
   dependencies:
     - ambientimpact_core/component.event.lazy_resize
+    - ambientimpact_core/component.fastdom
     - ambientimpact_icon/component.icon

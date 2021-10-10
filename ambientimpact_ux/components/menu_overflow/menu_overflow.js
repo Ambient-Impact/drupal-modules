@@ -16,9 +16,17 @@
 // @todo Find out what the accessibility implications are of showing/hiding
 // items entirely.
 
-AmbientImpact.on('icon', function(aiIcon) {
+AmbientImpact.on(['fastdom', 'icon'], function(aiFastDom, aiIcon) {
 AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
+
   'use strict';
+
+  /**
+   * Fastdom instance.
+   *
+   * @type {FastDom}
+   */
+  const fastdom = aiFastDom.getInstance();
 
   /**
    * The minimum number of menu items visible to use overflow.
@@ -146,6 +154,12 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
    *   - 'menu': all items are in the overflow menu
    */
   function updateToggleContent($menu, mode) {
+
+    /**
+     * The data object.
+     *
+     * @type {Object}
+     */
     var data = $menu[0].aiMenuOverflow;
 
     // If the current menu mode is the same as the passed mode, do nothing.
@@ -165,21 +179,28 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     // Trigger an event on the overflow toggle before we make any changes.
     data.$overflowToggle.trigger('menuOverflowToggleContentBeforeUpdate');
 
-    // Append the toggle content. Note that if the content is not a string, it's
-    // likely to be an HTML element, in which case we have to use $().clone() or
-    // we'll be moving the same, single element around if there is more than one
-    // overflow toggle on a page. If it is a string, using $().clone() won't
-    // work as expected, so we have to check for that.
-    if (typeof content === 'string') {
-      data.$overflowToggle.empty().append(content);
+    fastdom.mutate(function() {
 
-    } else {
-      data.$overflowToggle.empty().append($(content).clone());
-    }
+      // Append the toggle content. Note that if the content is not a string,
+      // it's likely to be an HTML element, in which case we have to use
+      // $().clone() or we'll be moving the same, single element around if there
+      // is more than one overflow toggle on a page. If it is a string, using
+      // $().clone() won't work as expected, so we have to check for that.
+      if (typeof content === 'string') {
+        data.$overflowToggle.empty().append(content);
 
-    // Trigger another event on the overflow toggle after we've made our
-    // updates.
-    data.$overflowToggle.trigger('menuOverflowToggleContentAfterUpdate');
+      } else {
+        data.$overflowToggle.empty().append($(content).clone());
+      }
+
+    }).then(function() {
+
+      // Trigger another event on the overflow toggle after we've made our
+      // updates.
+      data.$overflowToggle.trigger('menuOverflowToggleContentAfterUpdate');
+
+    });
+
   };
 
   /**
@@ -251,7 +272,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
       .attr('type', 'button');
 
     $overflowMenu
-      .addClass('menu ' + overflowMenuClass)
+      .addClass(['menu', overflowMenuClass])
       .append($overflowItems);
 
     $overflowContainer
@@ -261,12 +282,9 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
         menuItemClass,
         menuItemClass + '--expanded',
         baseClass,
-      ].join(' '))
+      ])
       .append($overflowToggle)
-      .append($overflowMenu)
-      .appendTo($menu);
-
-    $menu.addClass(menuEnhancedClass);
+      .append($overflowMenu);
 
     // Attach an object to the menu HTML element with relevant jQuery
     // collections and various settings.
@@ -278,6 +296,14 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
       mode:                   'initial'
     };
 
+    fastdom.mutate(function() {
+
+      $overflowContainer.appendTo($menu);
+
+      $menu.addClass(menuEnhancedClass);
+
+    });
+
     /**
      * Update the visible and overflow items, based on current space.
      *
@@ -288,37 +314,18 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     menu.aiMenuOverflow.update = function(forceUpdate) {
 
       /**
-       *  The current viewport width in pixels.
-       *
-       * @type {Number}
-       */
-      const viewportWidth = $(window).width();
-
-      // Bail if not forcing an update and the viewport width hasn't changed.
-      if (forceUpdate !== true && lastUpdateViewportWidth === viewportWidth) {
-        return;
-      }
-
-      // Update the last update viewport width.
-      lastUpdateViewportWidth = viewportWidth;
-
-      // Show all items in both the visible menu and the overflow menu, so that
-      // we can measure their widths and selectively hide individual items.
-      $menuItems.add($overflowItems).removeClass(menuItemHiddenClass);
-
-      /**
        * The width in pixels that the menu is currently taking up horizontally.
        *
        * @type {Number}
        */
-      var menuWidth = $menu.width();
+      var menuWidth;
 
       /**
        * The maximum width in pixels the menu can display before overflowing.
        *
        * @type {Number}
        */
-      var stopWidth = $overflowToggle.outerWidth();
+      var stopWidth;
 
       /**
        * Menu items in the visible menu bar that are to be hidden.
@@ -327,111 +334,172 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
        */
       var $hiddenMenuItems = $();
 
-      for (var i = 0; i < $menuItems.length; i++) {
-        /**
-         * The current menu item.
-         *
-         * @type {jQuery}
-         */
-        var $menuItem = $menuItems.eq(i);
+      fastdom.measure(function() {
 
-        /**
-         * The current menu item's width.
+         /**
+         *  The current viewport width in pixels.
          *
          * @type {Number}
          */
-        var menuItemWidth = $menuItem.outerWidth();
+        const viewportWidth = $(window).width();
 
-        // If the measured width up until now plus the current item width don't
-        // exceed the menu width, add the current item width and keep iterating.
-        if (menuWidth >= stopWidth + menuItemWidth) {
-          stopWidth += menuItemWidth;
-
-        // If we've exceeded the menu width, add this and all items after it in
-        // the collection to the hidden collection, and break out of the loop.
-        // This is probably the most performant and fool-proof way to ensure we
-        // hide all items sequentially, versus the original method in the CSS
-        // Tricks article - hiding one by one - where you could end with items
-        // being hidden from the middle while following items may not be.
-        } else {
-          $hiddenMenuItems = $menuItems.slice(i);
-
-          break;
-        }
-      }
-
-      // If no menu items are to be hidden, hide the overflow container.
-      if ($hiddenMenuItems.length === 0) {
-        $overflowContainer
-          .addClass(hiddenClass);
-
-        // Don't forget to remove this in case we go right from all items in
-        // overflow to none.
-        $menu.removeClass(menuAllOverflowClass);
-
-      // If we do have menu items to hide, do so while showing the overflow
-      // container and overflow menu items whose counterparts were just hidden.
-      } else {
-        // If less than the minimum items are visible, place all items in
-        // $hiddenMenuItems, add the class indicating we've entered 'menu' mode,
-        // and update the toggle content to reflect this.
-        if (
-          $menuItems.length - $hiddenMenuItems.length <
-            aiMenuOverflow.minimumVisibleItems
-        ) {
-          $hiddenMenuItems = $menuItems;
-
-          $menu.addClass(menuAllOverflowClass);
-
-          updateToggleContent($menu, 'menu');
-        } else {
-          $menu.removeClass(menuAllOverflowClass);
-
-          updateToggleContent($menu, 'overflow');
+        // Bail if not forcing an update and the viewport width hasn't changed.
+        if (forceUpdate !== true && lastUpdateViewportWidth === viewportWidth) {
+          return false;
         }
 
-        $hiddenMenuItems.addClass(menuItemHiddenClass);
+        // Update the last update viewport width.
+        lastUpdateViewportWidth = viewportWidth;
 
-        $overflowContainer.removeClass(hiddenClass);
+        return true;
 
-        for (var i = 0; i < $overflowItems.length; i++) {
-          var $overflowItem = $overflowItems.eq(i);
+      }).then(function(shouldUpdate) {
 
-          // If this overflow menu item's root menu counterpart is not in the
-          // hidden menu items collection, hide the overflow menu item.
-          if (
-            !$hiddenMenuItems.is($overflowItem[0].aiMenuOverflowCounterpart)
-          ) {
-            $overflowItem.addClass(menuItemHiddenClass);
+        if (shouldUpdate === false) {
+          return shouldUpdate;
+        }
 
-          // Otherwise, show the overflow menu item.
-          } else {
-            $overflowItem.removeClass(menuItemHiddenClass);
+        return fastdom.mutate(function() {
+
+          // Show all items in both the visible menu and the overflow menu, so
+          // that we can measure their widths and selectively hide individual
+          // items.
+          $menuItems.add($overflowItems).removeClass(menuItemHiddenClass);
+
+        });
+
+      }).then(function(shouldUpdate) {
+
+        if (shouldUpdate === false) {
+          return;
+        }
+
+        fastdom.measure(function() {
+
+          menuWidth = $menu.width();
+
+          stopWidth = $overflowToggle.outerWidth();
+
+          for (var i = 0; i < $menuItems.length; i++) {
+
+            /**
+             * The current menu item.
+             *
+             * @type {jQuery}
+             */
+            var $menuItem = $menuItems.eq(i);
+
+            /**
+             * The current menu item's width.
+             *
+             * @type {Number}
+             */
+            var menuItemWidth = $menuItem.outerWidth();
+
+            // If the measured width up until now plus the current item width
+            // don't exceed the menu width, add the current item width and
+            // keep iterating.
+            if (menuWidth >= stopWidth + menuItemWidth) {
+              stopWidth += menuItemWidth;
+
+            // If we've exceeded the menu width, add this and all items after
+            // it in the collection to the hidden collection, and break out of
+            // the loop. This is probably the most performant and fool-proof
+            // way to ensure we hide all items sequentially, versus the
+            // original method in the CSS Tricks article - hiding one by one -
+            // where you could end with items being hidden from the middle
+            // while following items may not be.
+            } else {
+              $hiddenMenuItems = $menuItems.slice(i);
+
+              break;
+            }
 
           }
-        }
 
-        // If any of the items displayed in the overflow menu are in the active
-        // trail, add the active trail to the overflow container.
-        if (
-          $overflowItems.filter(':not(.' + menuItemHiddenClass + ')')
-            .hasClass(menuItemActiveTrailClass)
-        ) {
-          $overflowContainer.addClass(menuItemActiveTrailClass);
+        });
 
-        // If not, remove the active trail class from the overflow container.
-        } else {
-          $overflowContainer.removeClass(menuItemActiveTrailClass);
-        }
-      }
+        fastdom.mutate(function() {
+
+          // If no menu items are to be hidden, hide the overflow container.
+          if ($hiddenMenuItems.length === 0) {
+
+            $overflowContainer.addClass(hiddenClass);
+
+            // Don't forget to remove this in case we go right from all items
+            // in overflow to none.
+            $menu.removeClass(menuAllOverflowClass);
+
+          // If we do have menu items to hide, do so while showing the
+          // overflow container and overflow menu items whose counterparts
+          // were just hidden.
+          } else {
+
+            // If less than the minimum items are visible, place all items in
+            // $hiddenMenuItems, add the class indicating we've entered 'menu'
+            // mode, and update the toggle content to reflect this.
+            if (
+              $menuItems.length - $hiddenMenuItems.length <
+                aiMenuOverflow.minimumVisibleItems
+            ) {
+              $hiddenMenuItems = $menuItems;
+
+              $menu.addClass(menuAllOverflowClass);
+
+              updateToggleContent($menu, 'menu');
+
+            } else {
+              $menu.removeClass(menuAllOverflowClass);
+
+              updateToggleContent($menu, 'overflow');
+            }
+
+            $hiddenMenuItems.addClass(menuItemHiddenClass);
+
+            $overflowContainer.removeClass(hiddenClass);
+
+            for (var i = 0; i < $overflowItems.length; i++) {
+
+              var $overflowItem = $overflowItems.eq(i);
+
+              // If this overflow menu item's root menu counterpart is not in
+              // the hidden menu items collection, hide the overflow menu
+              // item.
+              if (
+                !$hiddenMenuItems.is($overflowItem[0].aiMenuOverflowCounterpart)
+              ) {
+                $overflowItem.addClass(menuItemHiddenClass);
+
+              // Otherwise, show the overflow menu item.
+              } else {
+                $overflowItem.removeClass(menuItemHiddenClass);
+
+              }
+            }
+
+            // If any of the items displayed in the overflow menu are in the
+            // active trail, add the active trail to the overflow container.
+            if (
+              $overflowItems.filter(':not(.' + menuItemHiddenClass + ')')
+                .hasClass(menuItemActiveTrailClass)
+            ) {
+              $overflowContainer.addClass(menuItemActiveTrailClass);
+
+            // If not, remove the active trail class from the overflow
+            // container.
+            } else {
+              $overflowContainer.removeClass(menuItemActiveTrailClass);
+            }
+          }
+
+        });
+
+      });
+
     };
 
-    // Run once on attach. This is wrapped in a setTimeout() so that any layout
-    // work that may be done immediately during or after attachment can register
-    // to our calculations. Without this, the calculations may be off depending
-    // on the screen width at attachment, and only correct themselves if/when
-    // the viewport is resized or rotated.
-    setTimeout(menu.aiMenuOverflow.update, 10);
+    // Run once on attach.
+    menu.aiMenuOverflow.update();
 
     // Add event handlers to trigger on our debounced resize event and when
     // the viewport offsets change, such as when the Drupal toolbar trays open
