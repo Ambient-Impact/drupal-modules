@@ -1,0 +1,5 @@
+component.fastdom:
+  js:
+    fastdom.js: {}
+  dependencies:
+    - ambientimpact_core/fastdom-promised
