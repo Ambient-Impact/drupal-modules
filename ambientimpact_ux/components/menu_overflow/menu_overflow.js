@@ -300,7 +300,9 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
       $overflowContainer.appendTo($menu);
 
-      $menu.addClass(menuEnhancedClass);
+      $menu
+        .addClass(menuEnhancedClass)
+        .trigger('menuOverflowAttached');
 
     });
 
@@ -492,6 +494,11 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
             }
           }
 
+          // Trigger an event on updating the overflow menu.
+          //
+          // @todo Only trigger this if the number of items visible has changed?
+          $menu.trigger('menuOverflowUpdated');
+
         });
 
       });
@@ -558,6 +565,8 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
         .removeClass(menuItemHiddenClass);
 
     $menuItems.removeProp('aiMenuOverflowCounterpart');
+
+    $menu.trigger('menuOverflowDetached');
 
   };
 
