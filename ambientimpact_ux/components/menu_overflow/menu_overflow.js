@@ -22,6 +22,13 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
   'use strict';
 
   /**
+   * Our event namespace.
+   *
+   * @type {String}
+   */
+  const eventNamespace = 'aiMenuOverflow';
+
+  /**
    * Fastdom instance.
    *
    * @type {FastDom}
@@ -520,8 +527,8 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     // the viewport offsets change, such as when the Drupal toolbar trays open
     // or close in vertical mode.
     $(window).on([
-      'lazyResize.aiMenuOverflow',
-      'drupalViewportOffsetChange.aiMenuOverflow'
+      'lazyResize.' + eventNamespace,
+      'drupalViewportOffsetChange.' + eventNamespace
     ].join(' '), menu.aiMenuOverflow.update);
 
   };
@@ -561,8 +568,8 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     }
 
     $(window).off([
-      'lazyResize.aiMenuOverflow',
-      'drupalViewportOffsetChange.aiMenuOverflow'
+      'lazyResize.' + eventNamespace,
+      'drupalViewportOffsetChange.' + eventNamespace
     ].join(' '), menu.aiMenuOverflow.update);
 
     menu.aiMenuOverflow.$overflowContainer.remove();
