@@ -219,6 +219,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
    *   will be attached to.
    */
   this.attach = function($menu) {
+
     // Make sure $menu is a jQuery collection by having jQuery wrap it. If it's
     // already a jQuery collection, jQuery will return it as-is.
     $menu = $($menu).first();
@@ -522,6 +523,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
       'lazyResize.aiMenuOverflow',
       'drupalViewportOffsetChange.aiMenuOverflow'
     ].join(' '), menu.aiMenuOverflow.update);
+
   };
 
   /**
@@ -533,6 +535,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
    *   will be detached from.
    */
   this.detach = function($menu) {
+
     // Make sure $menu is a jQuery collection by having jQuery wrap it. If it's
     // already a jQuery collection, jQuery will return it as-is.
     $menu = $($menu).first();
