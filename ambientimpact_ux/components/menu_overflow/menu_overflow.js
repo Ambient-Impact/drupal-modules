@@ -159,6 +159,10 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
    *   - 'some': some items are in the overflow menu, but not all
    *
    *   - 'all': all items are in the overflow menu
+   *
+   * @return {Promise}
+   *   The Promise returned by FastDom which resolves once the toggle mutations
+   *   are complete.
    */
   function updateToggleContent($menu, mode) {
 
@@ -193,7 +197,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     // Trigger an event on the overflow toggle before we make any changes.
     data.$overflowToggle.trigger('menuOverflowToggleContentBeforeUpdate');
 
-    fastdom.mutate(function() {
+    return fastdom.mutate(function() {
 
       // Append the toggle content. Note that if the content is not a string,
       // it's likely to be an HTML element, in which case we have to use
