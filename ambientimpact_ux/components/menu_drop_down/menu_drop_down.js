@@ -182,6 +182,20 @@ AmbientImpact.addComponent('menuDropDown', function(aiMenuDropDown, $) {
     // Menu items start off with the closed class applied.
     $menuItems.addClass(menuItemClosedClass);
 
+    /**
+     * Object exposing API and helper methods/properties.
+     *
+     * @type {Object}
+     *
+     * @todo Should this also provide menu items that have sub-menus and their
+     *   trigger elements?
+     */
+    $menu[0].aiMenuDropDown = {
+      hasOpenItems: function() {
+        return $menuItems.is('.' + menuItemOpenClass);
+      }
+    };
+
     for (var i = 0; i < $menuItems.length; i++) {
       /**
        * The current menu item, wrapped in a jQuery collection.
@@ -345,6 +359,8 @@ AmbientImpact.addComponent('menuDropDown', function(aiMenuDropDown, $) {
      * @type {jQuery}
      */
     var $triggers = $();
+
+    delete $menu[0].aiMenuDropDown;
 
     for (var i = 0; i < $menuItems.length; i++) {
       var $menuItem = $menuItems.eq(i);
