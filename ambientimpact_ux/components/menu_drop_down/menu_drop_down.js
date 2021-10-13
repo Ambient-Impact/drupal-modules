@@ -216,6 +216,14 @@ AmbientImpact.addComponent('menuDropDown', function(aiMenuDropDown, $) {
       // Attach an object containing our properties and methods to the menu item
       // HTML element, for easy access.
       $menuItem[0].aiMenuDropDown = {
+
+        /**
+         * The menu in a jQuery collection.
+         *
+         * @type {jQuery}
+         */
+        $menu: $menu,
+
         /**
          * The current menu item, wrapped in a jQuery collection.
          *
@@ -284,6 +292,16 @@ AmbientImpact.addComponent('menuDropDown', function(aiMenuDropDown, $) {
             'menuDropDownClosed',
             this.$menuItem[0].aiMenuDropDown
           );
+
+          // If no items are open, trigger the 'menuDropDownAllClosed' event to
+          // indicate this.
+          if (!this.$menu[0].aiMenuDropDown.hasOpenItems()) {
+            this.$menu.trigger(
+              'menuDropDownAllClosed',
+              this.$menu[0].aiMenuDropDown
+            );
+          }
+
         },
 
         /**
