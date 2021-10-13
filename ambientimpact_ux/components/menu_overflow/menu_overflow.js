@@ -387,6 +387,12 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
           // items.
           $menuItems.add($overflowItems).removeClass(menuItemHiddenClass);
 
+          // Set the toggle to 'some' mode if it's still in 'initial' mode so
+          // that we can get correct measurements on attach.
+          if (menu.aiMenuOverflow.mode === 'initial') {
+            return updateToggleContent($menu, 'some');
+          }
+
         });
 
       }).then(function(shouldUpdate) {
