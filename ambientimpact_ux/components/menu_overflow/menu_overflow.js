@@ -16,7 +16,9 @@
 // @todo Find out what the accessibility implications are of showing/hiding
 // items entirely.
 
-AmbientImpact.on(['fastdom', 'icon'], function(aiFastDom, aiIcon) {
+AmbientImpact.on([
+  'fastdom', 'menuOverflowToggle',
+], function(aiFastDom, aiMenuOverflowToggle) {
 AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
   'use strict';
@@ -44,32 +46,6 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
    * @type {Number}
    */
   this.minimumVisibleItems = 2;
-
-  /**
-   * Content for the overflow toggle element when some items are in overflow.
-   *
-   * This can be anything that jQuery can work with, be it a string, an HTML
-   * element, a jQuery collection, etc.
-   *
-   * @type {String|HTMLElement|jQuery}
-   */
-  this.toggleContentSome = aiIcon.get('arrow-down', {
-    bundle: 'core',
-    text:   Drupal.t('More')
-  });
-
-  /**
-   * Content for the overflow toggle element when all items are in overflow.
-   *
-   * This can be anything that jQuery can work with, be it a string, an HTML
-   * element, a jQuery collection, etc.
-   *
-   * @type {String|HTMLElement|jQuery}
-   */
-  this.toggleContentAll = aiIcon.get('arrow-down', {
-    bundle: 'core',
-    text:   Drupal.t('Menu')
-  });
 
   /**
    * The base BEM class for the overflow root and all child/state classes.
@@ -148,80 +124,6 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
   let lastUpdateViewportWidth = 0;
 
   /**
-   * Update the overflow toggle content based on the current menu mode.
-   *
-   * @param {jQuery} $menu
-   *   The target menu as a jQuery collection.
-   *
-   * @param {String} mode
-   *   The menu mode that's being switched to; expected to be one of:
-   *
-   *   - 'some': some items are in the overflow menu, but not all
-   *
-   *   - 'all': all items are in the overflow menu
-   *
-   * @return {Promise}
-   *   The Promise returned by FastDom which resolves once the toggle mutations
-   *   are complete.
-   */
-  function updateToggleContent($menu, mode) {
-
-    /**
-     * The data object.
-     *
-     * @type {Object}
-     */
-    let data = $menu[0].aiMenuOverflow;
-
-    // If the current menu mode is the same as the passed mode, do nothing.
-    if (data.mode === mode) {
-      return;
-    }
-
-    /**
-     * The toggle content.
-     *
-     * @type {String|HTMLElement|jQuery}
-     */
-    let content;
-
-    data.mode = mode;
-
-    // Grab the appropriate overflow toggle content depending on the mode.
-    if (mode === 'all') {
-      content = data.toggleContentAll;
-    } else {
-      content = data.toggleContentSome;
-    }
-
-    // Trigger an event on the overflow toggle before we make any changes.
-    data.$overflowToggle.trigger('menuOverflowToggleContentBeforeUpdate');
-
-    return fastdom.mutate(function() {
-
-      // Append the toggle content. Note that if the content is not a string,
-      // it's likely to be an HTML element, in which case we have to use
-      // $().clone() or we'll be moving the same, single element around if there
-      // is more than one overflow toggle on a page. If it is a string, using
-      // $().clone() won't work as expected, so we have to check for that.
-      if (typeof content === 'string') {
-        data.$overflowToggle.empty().append(content);
-
-      } else {
-        data.$overflowToggle.empty().append($(content).clone());
-      }
-
-    }).then(function() {
-
-      // Trigger another event on the overflow toggle after we've made our
-      // updates.
-      data.$overflowToggle.trigger('menuOverflowToggleContentAfterUpdate');
-
-    });
-
-  };
-
-  /**
    * Attach to a provided menu element.
    *
    * @param {jQuery|HTMLElement} $menu
@@ -257,13 +159,6 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     let $overflowContainer = $('<li></li>');
 
     /**
-     * The overflow toggle element.
-     *
-     * @type {jQuery}
-     */
-    let $overflowToggle = $('<button></button>');
-
-    /**
      * The overflow menu element.
      *
      * @type {jQuery}
@@ -286,10 +181,6 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
       $overflowItems[i].aiMenuOverflowCounterpart = $menuItems[i];
     }
 
-    $overflowToggle
-      .addClass(toggleClass)
-      .attr('type', 'button');
-
     $overflowMenu
       .addClass(['menu', overflowMenuClass])
       .append($overflowItems);
@@ -302,18 +193,19 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
         menuItemClass + '--expanded',
         baseClass,
       ])
-      .append($overflowToggle)
       .append($overflowMenu);
 
     // Attach an object to the menu HTML element with relevant jQuery
     // collections and various settings.
     menu.aiMenuOverflow = {
-      $overflowContainer:   $overflowContainer,
-      $overflowToggle:      $overflowToggle,
-      toggleContentSome:    this.toggleContentSome,
-      toggleContentAll:     this.toggleContentAll,
-      mode:                 'initial'
+      $overflowContainer: $overflowContainer,
+      mode:               'initial',
+      toggle:             aiMenuOverflowToggle.createToggle()
     };
+
+    menu.aiMenuOverflow.toggle.getToggle()
+      .addClass(toggleClass)
+      .insertBefore($overflowMenu);
 
     fastdom.mutate(function() {
 
@@ -390,7 +282,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
           // Set the toggle to 'some' mode if it's still in 'initial' mode so
           // that we can get correct measurements on attach.
           if (menu.aiMenuOverflow.mode === 'initial') {
-            return updateToggleContent($menu, 'some');
+            return menu.aiMenuOverflow.toggle.update('some');
           }
 
         });
@@ -405,7 +297,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
           menuWidth = $menu.width();
 
-          stopWidth = $overflowToggle.outerWidth();
+          stopWidth = menu.aiMenuOverflow.toggle.getToggle().outerWidth();
 
           for (let i = 0; i < $menuItems.length; i++) {
 
@@ -473,12 +365,12 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
               $menu.addClass(menuAllOverflowClass);
 
-              updateToggleContent($menu, 'all');
+              menu.aiMenuOverflow.toggle.update('all')
 
             } else {
               $menu.removeClass(menuAllOverflowClass);
 
-              updateToggleContent($menu, 'some');
+              menu.aiMenuOverflow.toggle.update('some')
             }
 
             $hiddenMenuItems.addClass(menuItemHiddenClass);
