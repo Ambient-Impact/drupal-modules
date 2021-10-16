@@ -137,6 +137,13 @@ function(aiMenuOverflowToggle, $) {
         return Promise.resolve();
       }
 
+      /**
+       * The previous overflow mode we're updating from.
+       *
+       * @type {String}
+       */
+      let previousMode = currentMode;
+
       currentMode = newMode;
 
       /**
@@ -147,7 +154,9 @@ function(aiMenuOverflowToggle, $) {
       let content = this.getToggleContent(currentMode);
 
       // Trigger an event on the overflow toggle before we make any changes.
-      $toggle.trigger('menuOverflowToggleContentBeforeUpdate');
+      $toggle.trigger(
+        'menuOverflowToggleContentBeforeUpdate', [previousMode, newMode]
+      );
 
       return fastdom.mutate(function() {
 
@@ -165,7 +174,9 @@ function(aiMenuOverflowToggle, $) {
 
         // Trigger another event on the overflow toggle after we've made our
         // updates.
-        $toggle.trigger('menuOverflowToggleContentAfterUpdate');
+        $toggle.trigger(
+          'menuOverflowToggleContentAfterUpdate', [previousMode, newMode]
+        );
 
       });
 
