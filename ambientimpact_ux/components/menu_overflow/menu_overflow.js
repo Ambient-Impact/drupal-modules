@@ -17,8 +17,8 @@
 // items entirely.
 
 AmbientImpact.on([
-  'fastdom', 'menuOverflowToggle',
-], function(aiFastDom, aiMenuOverflowToggle) {
+  'fastdom', 'menuOverflowToggle', 'menuOverflowOverflowMenu',
+], function(aiFastDom, aiMenuOverflowToggle, aiMenuOverflowOverflowMenu) {
 AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
   'use strict';
@@ -159,31 +159,22 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     let $overflowContainer = $('<li></li>');
 
     /**
-     * The overflow menu element.
+     * Overflow menu object.
      *
-     * @type {jQuery}
+     * @type {Object}
      */
-    let $overflowMenu = $('<ul></ul>');
+    let overflowMenu = aiMenuOverflowOverflowMenu.createOverflowMenu(
+      $menuItems
+    );
 
-    /**
-     * The top-level menu items of the overflow menu.
-     *
-     * These are cloned from the existing items in the menu we're attaching to.
-     *
-     * @type {jQuery}
-     */
-    let $overflowItems = $menuItems.clone();
-
-    // Save each each menu item element to its overflow menu item counterpart
-    // and vice-versa for later reference.
-    for (let i = 0; i < $menuItems.length; i++) {
-      $menuItems[i].aiMenuOverflowCounterpart     = $overflowItems[i];
-      $overflowItems[i].aiMenuOverflowCounterpart = $menuItems[i];
-    }
-
-    $overflowMenu
-      .addClass(['menu', overflowMenuClass])
-      .append($overflowItems);
+    // Attach an object to the menu HTML element with relevant jQuery
+    // collections and various settings.
+    menu.aiMenuOverflow = {
+      $overflowContainer: $overflowContainer,
+      mode:               'initial',
+      overflowMenu:       overflowMenu,
+      toggle:             aiMenuOverflowToggle.createToggle()
+    };
 
     $overflowContainer
       // Add classes to identify this as an expanded menu item, in addition to
@@ -193,19 +184,11 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
         menuItemClass + '--expanded',
         baseClass,
       ])
-      .append($overflowMenu);
-
-    // Attach an object to the menu HTML element with relevant jQuery
-    // collections and various settings.
-    menu.aiMenuOverflow = {
-      $overflowContainer: $overflowContainer,
-      mode:               'initial',
-      toggle:             aiMenuOverflowToggle.createToggle()
-    };
+      .append(overflowMenu.getMenu());
 
     menu.aiMenuOverflow.toggle.getToggle()
       .addClass(toggleClass)
-      .insertBefore($overflowMenu);
+      .insertBefore(overflowMenu.getMenu());
 
     fastdom.mutate(function() {
 
@@ -274,10 +257,9 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
         return fastdom.mutate(function() {
 
-          // Show all items in both the visible menu and the overflow menu, so
-          // that we can measure their widths and selectively hide individual
-          // items.
-          $menuItems.add($overflowItems).removeClass(menuItemHiddenClass);
+          // Show all items so that we can measure their widths and selectively
+          // hide individual items.
+          $menuItems.removeClass(menuItemHiddenClass);
 
           // Set the toggle to 'some' mode if it's still in 'initial' mode so
           // that we can get correct measurements on attach.
@@ -377,38 +359,25 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
             $overflowContainer.removeClass(hiddenClass);
 
-            for (let i = 0; i < $overflowItems.length; i++) {
+            // Update overflow menu item visibility.
+            overflowMenu.updateItemVisibility().then(function() {
 
-              let $overflowItem = $overflowItems.eq(i);
-
-              // If this overflow menu item's root menu counterpart is not in
-              // the hidden menu items collection, hide the overflow menu
-              // item.
+              // If any of the items displayed in the overflow menu are in the
+              // active trail, add the active trail to the overflow container.
               if (
-                !$hiddenMenuItems.is($overflowItem[0].aiMenuOverflowCounterpart)
+                overflowMenu.getVisibleItems()
+                  .hasClass(menuItemActiveTrailClass)
               ) {
-                $overflowItem.addClass(menuItemHiddenClass);
+                $overflowContainer.addClass(menuItemActiveTrailClass);
 
-              // Otherwise, show the overflow menu item.
+              // If not, remove the active trail class from the overflow
+              // container.
               } else {
-                $overflowItem.removeClass(menuItemHiddenClass);
-
+                $overflowContainer.removeClass(menuItemActiveTrailClass);
               }
-            }
 
-            // If any of the items displayed in the overflow menu are in the
-            // active trail, add the active trail to the overflow container.
-            if (
-              $overflowItems.filter(':not(.' + menuItemHiddenClass + ')')
-                .hasClass(menuItemActiveTrailClass)
-            ) {
-              $overflowContainer.addClass(menuItemActiveTrailClass);
+            });
 
-            // If not, remove the active trail class from the overflow
-            // container.
-            } else {
-              $overflowContainer.removeClass(menuItemActiveTrailClass);
-            }
           }
 
           // Trigger an event on updating the overflow menu.
@@ -476,14 +445,14 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
     menu.aiMenuOverflow.$overflowContainer.remove();
 
+    menu.aiMenuOverflow.overflowMenu.destroy();
+
     delete menu.aiMenuOverflow;
 
     $menu
       .removeClass(menuEnhancedClass)
       .children('.' + menuItemClass)
         .removeClass(menuItemHiddenClass);
-
-    $menuItems.removeProp('aiMenuOverflowCounterpart');
 
     $menu.trigger('menuOverflowDetached');
 

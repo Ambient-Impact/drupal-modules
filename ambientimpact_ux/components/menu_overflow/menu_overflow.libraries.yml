@@ -5,6 +5,7 @@ component.menu_overflow:
   js:
     menu_overflow.js: {}
     menu_overflow.toggle.js: {}
+    menu_overflow.overflow_menu.js: {}
   dependencies:
     - ambientimpact_core/component.event.lazy_resize
     - ambientimpact_core/component.fastdom
