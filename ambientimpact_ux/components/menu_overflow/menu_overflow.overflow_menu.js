@@ -2,7 +2,9 @@
 //   Ambient.Impact - UX - Menu overflow, overflow menu component
 // -----------------------------------------------------------------------------
 
-AmbientImpact.on(['fastdom'], function(aiFastDom) {
+AmbientImpact.on([
+  'fastdom', 'menuOverflowShared',
+], function(aiFastDom, aiMenuOverflowShared) {
 AmbientImpact.addComponent(
   'menuOverflowOverflowMenu',
 function(aiMenuOverflowOverflowMenu, $) {
@@ -17,32 +19,11 @@ function(aiMenuOverflowOverflowMenu, $) {
   const fastdom = aiFastDom.getInstance();
 
   /**
-   * The base BEM class for the overflow root and all child/state classes.
+   * Menu overflow element classes.
    *
-   * @type {String}
+   * @type {Object}
    */
-  const baseClass = 'menu-overflow';
-
-  /**
-   * The BEM descendent class for the overflow menu element.
-   *
-   * @type {String}
-   */
-  const overflowMenuClass = baseClass + '__menu';
-
-  /**
-   * The Drupal menu item class.
-   *
-   * @type {String}
-   */
-  const menuItemClass = 'menu-item';
-
-  /**
-   * The BEM modifier class for menu items when they're hidden.
-   *
-   * @type {String}
-   */
-  const menuItemHiddenClass = menuItemClass + '--hidden';
+  const classes = aiMenuOverflowShared.getClasses();
 
   /**
    * Overflow menu object.
@@ -86,7 +67,7 @@ function(aiMenuOverflowOverflowMenu, $) {
     }
 
     $overflowMenu
-      .addClass(['menu', overflowMenuClass])
+      .addClass(['menu', classes.overflowMenuClass])
       .append($overflowItems);
 
     /**
@@ -163,14 +144,14 @@ function(aiMenuOverflowOverflowMenu, $) {
 
           // If the original menu item is hidden, make the counterpart overflow
           // item visible.
-          if ($menuItem.is('.' + menuItemHiddenClass)) {
-            $overflowItem.removeClass(menuItemHiddenClass);
+          if ($menuItem.is('.' + classes.menuItemHiddenClass)) {
+            $overflowItem.removeClass(classes.menuItemHiddenClass);
             $newVisible = $newVisible.add($overflowItem);
 
           // Otherwise, the original menu item is visible so hide the overflow
           // counterpart.
           } else {
-            $overflowItem.addClass(menuItemHiddenClass);
+            $overflowItem.addClass(classes.menuItemHiddenClass);
           }
 
         }

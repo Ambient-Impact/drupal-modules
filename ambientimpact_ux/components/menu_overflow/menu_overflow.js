@@ -17,8 +17,12 @@
 // items entirely.
 
 AmbientImpact.on([
-  'fastdom', 'menuOverflowToggle', 'menuOverflowOverflowMenu',
-], function(aiFastDom, aiMenuOverflowToggle, aiMenuOverflowOverflowMenu) {
+  'fastdom', 'menuOverflowOverflowMenu', 'menuOverflowShared',
+  'menuOverflowToggle',
+], function(
+  aiFastDom, aiMenuOverflowOverflowMenu, aiMenuOverflowShared,
+  aiMenuOverflowToggle
+) {
 AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
   'use strict';
@@ -38,6 +42,13 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
   const fastdom = aiFastDom.getInstance();
 
   /**
+   * Menu overflow element classes.
+   *
+   * @type {Object}
+   */
+  const classes = aiMenuOverflowShared.getClasses();
+
+  /**
    * The minimum number of menu items visible to use partial/some overflow.
    *
    * If there are fewer than this number, all menu items will be placed in the
@@ -46,72 +57,6 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
    * @type {Number}
    */
   this.minimumVisibleItems = 2;
-
-  /**
-   * The base BEM class for the overflow root and all child/state classes.
-   *
-   * @type {String}
-   */
-  const baseClass = 'menu-overflow';
-
-  /**
-   * The BEM modifier class for the overflow root when it's hidden.
-   *
-   * @type {String}
-   */
-  const hiddenClass = baseClass + '--hidden';
-
-  /**
-   * The BEM descendent class for the overflow toggle element.
-   *
-   * @type {String}
-   */
-  const toggleClass = baseClass + '__toggle';
-
-  /**
-   * The BEM descendent class for the overflow menu element.
-   *
-   * @type {String}
-   */
-  const overflowMenuClass = baseClass + '__menu';
-
-  /**
-   * The Drupal menu item class.
-   *
-   * @type {String}
-   */
-  const menuItemClass = 'menu-item';
-
-  /**
-   * The Drupal menu item with active trail class.
-   *
-   * @type {String}
-   */
-  const menuItemActiveTrailClass = menuItemClass + '--active-trail';
-
-  /**
-   * The BEM modifier class for menu items when they're hidden.
-   *
-   * This is applied to both the existing menu items and the cloned menu items
-   * in the overflow menu, as needed.
-   *
-   * @type {String}
-   */
-  const menuItemHiddenClass = menuItemClass + '--hidden';
-
-  /**
-   * The BEM modifier class for the target menu to indicate we've enhanced it.
-   *
-   * @type {String}
-   */
-  const menuEnhancedClass = 'menu--overflow-enhanced';
-
-  /**
-   * The BEM modifier class for the target menu when all items are in overflow.
-   *
-   * @type {String}
-   */
-  const menuAllOverflowClass = 'menu--all-overflow';
 
   /**
    * The viewport width of the last update in pixels.
@@ -149,7 +94,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
      *
      * @type {jQuery}
      */
-    let $menuItems = $menu.children('.' + menuItemClass);
+    let $menuItems = $menu.children('.' + classes.menuItemClass);
 
     /**
      * The overflow container which contains the toggle and overflow menu.
@@ -180,22 +125,20 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
       // Add classes to identify this as an expanded menu item, in addition to
       // our base class indicating this item contains the overflow menu.
       .addClass([
-        menuItemClass,
-        menuItemClass + '--expanded',
-        baseClass,
+        classes.menuItemClass,
+        classes.menuItemClass + '--expanded',
+        classes.baseClass,
       ])
       .append(overflowMenu.getMenu());
 
-    menu.aiMenuOverflow.toggle.getToggle()
-      .addClass(toggleClass)
-      .insertBefore(overflowMenu.getMenu());
+    menu.aiMenuOverflow.toggle.getToggle().insertBefore(overflowMenu.getMenu());
 
     fastdom.mutate(function() {
 
       $overflowContainer.appendTo($menu);
 
       $menu
-        .addClass(menuEnhancedClass)
+        .addClass(classes.menuEnhancedClass)
         .trigger('menuOverflowAttached');
 
     });
@@ -259,7 +202,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
           // Show all items so that we can measure their widths and selectively
           // hide individual items.
-          $menuItems.removeClass(menuItemHiddenClass);
+          $menuItems.removeClass(classes.menuItemHiddenClass);
 
           // Set the toggle to 'some' mode if it's still in 'initial' mode so
           // that we can get correct measurements on attach.
@@ -325,11 +268,11 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
           // If no menu items are to be hidden, hide the overflow container.
           if ($hiddenMenuItems.length === 0) {
 
-            $overflowContainer.addClass(hiddenClass);
+            $overflowContainer.addClass(classes.hiddenClass);
 
             // Don't forget to remove this in case we go right from all items
             // in overflow to none.
-            $menu.removeClass(menuAllOverflowClass);
+            $menu.removeClass(classes.menuAllOverflowClass);
 
           // If we do have menu items to hide, do so while showing the
           // overflow container and overflow menu items whose counterparts
@@ -345,19 +288,19 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
             ) {
               $hiddenMenuItems = $menuItems;
 
-              $menu.addClass(menuAllOverflowClass);
+              $menu.addClass(classes.menuAllOverflowClass);
 
               menu.aiMenuOverflow.toggle.update('all')
 
             } else {
-              $menu.removeClass(menuAllOverflowClass);
+              $menu.removeClass(classes.menuAllOverflowClass);
 
               menu.aiMenuOverflow.toggle.update('some')
             }
 
-            $hiddenMenuItems.addClass(menuItemHiddenClass);
+            $hiddenMenuItems.addClass(classes.menuItemHiddenClass);
 
-            $overflowContainer.removeClass(hiddenClass);
+            $overflowContainer.removeClass(classes.hiddenClass);
 
             // Update overflow menu item visibility.
             overflowMenu.updateItemVisibility().then(function() {
@@ -366,14 +309,15 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
               // active trail, add the active trail to the overflow container.
               if (
                 overflowMenu.getVisibleItems()
-                  .hasClass(menuItemActiveTrailClass)
+                  .hasClass(classes.menuItemActiveTrailClass)
               ) {
-                $overflowContainer.addClass(menuItemActiveTrailClass);
+                $overflowContainer.addClass(classes.menuItemActiveTrailClass);
 
               // If not, remove the active trail class from the overflow
               // container.
               } else {
-                $overflowContainer.removeClass(menuItemActiveTrailClass);
+                $overflowContainer
+                  .removeClass(classes.menuItemActiveTrailClass);
               }
 
             });
@@ -430,7 +374,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
      *
      * @type {jQuery}
      */
-    let $menuItems = $menu.children('.' + menuItemClass);
+    let $menuItems = $menu.children('.' + classes.menuItemClass);
 
     // Don't do anything if we can't find our object attached to the menu
     // element.
@@ -450,9 +394,9 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     delete menu.aiMenuOverflow;
 
     $menu
-      .removeClass(menuEnhancedClass)
-      .children('.' + menuItemClass)
-        .removeClass(menuItemHiddenClass);
+      .removeClass(classes.menuEnhancedClass)
+      .children('.' + classes.menuItemClass)
+        .removeClass(classes.menuItemHiddenClass);
 
     $menu.trigger('menuOverflowDetached');
 

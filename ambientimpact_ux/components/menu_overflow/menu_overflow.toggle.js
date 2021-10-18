@@ -2,7 +2,9 @@
 //   Ambient.Impact - UX - Menu overflow toggle component
 // -----------------------------------------------------------------------------
 
-AmbientImpact.on(['fastdom', 'icon'], function(aiFastDom, aiIcon) {
+AmbientImpact.on([
+  'fastdom', 'icon', 'menuOverflowShared',
+], function(aiFastDom, aiIcon, aiMenuOverflowShared) {
 AmbientImpact.addComponent(
   'menuOverflowToggle',
 function(aiMenuOverflowToggle, $) {
@@ -15,6 +17,13 @@ function(aiMenuOverflowToggle, $) {
    * @type {FastDom}
    */
   const fastdom = aiFastDom.getInstance();
+
+  /**
+   * Menu overflow element classes.
+   *
+   * @type {Object}
+   */
+  const classes = aiMenuOverflowShared.getClasses();
 
   /**
    * Toggle object.
@@ -61,7 +70,9 @@ function(aiMenuOverflowToggle, $) {
      *
      * @type {jQuery}
      */
-    let $toggle = $('<button></button>').attr('type', 'button');
+    let $toggle = $('<button></button>');
+
+    $toggle.attr('type', 'button').addClass(classes.toggleClass);
 
     /**
      * Get the toggle element jQuery collection.
