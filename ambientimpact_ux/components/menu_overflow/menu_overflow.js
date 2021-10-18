@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-//   Ambient.Impact - UX - Menu: overflow component
+//   Ambient.Impact - UX - Menu overflow component
 // -----------------------------------------------------------------------------
 
 // Priority+ navigation pattern; menu items that don't fit on a single line are
@@ -31,7 +31,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
   const eventNamespace = 'aiMenuOverflow';
 
   /**
-   * Fastdom instance.
+   * FastDom instance.
    *
    * @type {FastDom}
    */
@@ -55,7 +55,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
   const baseClass = 'menu-overflow';
 
   /**
-   * The BEM modifier class for the overflow root it's hidden.
+   * The BEM modifier class for the overflow root when it's hidden.
    *
    * @type {String}
    */
