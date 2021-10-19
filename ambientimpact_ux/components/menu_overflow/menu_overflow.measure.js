@@ -40,7 +40,7 @@ function(aiMenuOverflowMeasure, $) {
      *
      * @return {Promise}
      *   A Promise (returned by FastDom) which resolves with a jQuery collection
-     *   containing the menu items exceed the available space of the menu.
+     *   containing the menu items that exceed the available space of the menu.
      */
     this.getOverflowingMenuItems = function() {
 
