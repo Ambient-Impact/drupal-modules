@@ -119,6 +119,13 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
       $menuItems
     );
 
+    /**
+     * Toggle object.
+     *
+     * @type {Object}
+     */
+    let toggle = aiMenuOverflowToggle.createToggle();
+
     // Attach an object to the menu HTML element with relevant jQuery
     // collections and various settings.
     menu.aiMenuOverflow = {
@@ -126,7 +133,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
       mode:               'initial',
       measure:            measure,
       overflowMenu:       overflowMenu,
-      toggle:             aiMenuOverflowToggle.createToggle()
+      toggle:             toggle
     };
 
     $overflowContainer
@@ -139,7 +146,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
       ])
       .append(overflowMenu.getMenu());
 
-    menu.aiMenuOverflow.toggle.getToggle().insertBefore(overflowMenu.getMenu());
+    toggle.getToggle().insertBefore(overflowMenu.getMenu());
 
     fastdom.mutate(function() {
 
@@ -201,7 +208,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
           // Set the toggle to 'some' mode if it's still in 'initial' mode so
           // that we can get correct measurements on attach.
           if (menu.aiMenuOverflow.mode === 'initial') {
-            return menu.aiMenuOverflow.toggle.update('some');
+            return toggle.update('some');
           }
 
         });
@@ -243,12 +250,12 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
               $menu.addClass(classes.menuAllOverflowClass);
 
-              menu.aiMenuOverflow.toggle.update('all')
+              toggle.update('all');
 
             } else {
               $menu.removeClass(classes.menuAllOverflowClass);
 
-              menu.aiMenuOverflow.toggle.update('some')
+              toggle.update('some');
             }
 
             $hiddenMenuItems.addClass(classes.menuItemHiddenClass);
