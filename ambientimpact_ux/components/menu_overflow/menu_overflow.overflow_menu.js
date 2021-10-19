@@ -189,7 +189,7 @@ function(aiMenuOverflowOverflowMenu, $) {
    *   jQuery collection containing one or more original menu items to be cloned
    *   to the overflow menu.
    *
-   * @return {Function}
+   * @return {Object}
    *   An initialized overflow menu object.
    */
   this.createOverflowMenu = function($menuItems) {

@@ -17,11 +17,11 @@
 // items entirely.
 
 AmbientImpact.on([
-  'fastdom', 'menuOverflowOverflowMenu', 'menuOverflowShared',
-  'menuOverflowToggle',
+  'fastdom', 'menuOverflowMeasure', 'menuOverflowOverflowMenu',
+  'menuOverflowShared', 'menuOverflowToggle',
 ], function(
-  aiFastDom, aiMenuOverflowOverflowMenu, aiMenuOverflowShared,
-  aiMenuOverflowToggle
+  aiFastDom, aiMenuOverflowMeasure, aiMenuOverflowOverflowMenu,
+  aiMenuOverflowShared, aiMenuOverflowToggle
 ) {
 AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
@@ -104,6 +104,13 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     let $overflowContainer = $('<li></li>');
 
     /**
+     * Measure object.
+     *
+     * @type {Object}
+     */
+    let measure = aiMenuOverflowMeasure.createMeasure(menu);
+
+    /**
      * Overflow menu object.
      *
      * @type {Object}
@@ -117,6 +124,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     menu.aiMenuOverflow = {
       $overflowContainer: $overflowContainer,
       mode:               'initial',
+      measure:            measure,
       overflowMenu:       overflowMenu,
       toggle:             aiMenuOverflowToggle.createToggle()
     };
@@ -151,20 +159,6 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
      *   changed.
      */
     menu.aiMenuOverflow.update = function(forceUpdate) {
-
-      /**
-       * The width in pixels that the menu is currently taking up horizontally.
-       *
-       * @type {Number}
-       */
-      let menuWidth;
-
-      /**
-       * The maximum width in pixels the menu can display before overflowing.
-       *
-       * @type {Number}
-       */
-      let stopWidth;
 
       /**
        * Menu items in the visible menu bar that are to be hidden.
@@ -218,52 +212,11 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
           return;
         }
 
-        fastdom.measure(function() {
+        measure.getOverflowingMenuItems().then(function(
+          $overflowingMenuItems
+        ) { return fastdom.mutate(function() {
 
-          menuWidth = $menu.width();
-
-          stopWidth = menu.aiMenuOverflow.toggle.getToggle().outerWidth();
-
-          for (let i = 0; i < $menuItems.length; i++) {
-
-            /**
-             * The current menu item.
-             *
-             * @type {jQuery}
-             */
-            let $menuItem = $menuItems.eq(i);
-
-            /**
-             * The current menu item's width.
-             *
-             * @type {Number}
-             */
-            let menuItemWidth = $menuItem.outerWidth();
-
-            // If the measured width up until now plus the current item width
-            // don't exceed the menu width, add the current item width and
-            // keep iterating.
-            if (menuWidth >= stopWidth + menuItemWidth) {
-              stopWidth += menuItemWidth;
-
-            // If we've exceeded the menu width, add this and all items after
-            // it in the collection to the hidden collection, and break out of
-            // the loop. This is probably the most performant and fool-proof
-            // way to ensure we hide all items sequentially, versus the
-            // original method in the CSS Tricks article - hiding one by one -
-            // where you could end with items being hidden from the middle
-            // while following items may not be.
-            } else {
-              $hiddenMenuItems = $menuItems.slice(i);
-
-              break;
-            }
-
-          }
-
-        });
-
-        fastdom.mutate(function() {
+          $hiddenMenuItems = $overflowingMenuItems;
 
           // If no menu items are to be hidden, hide the overflow container.
           if ($hiddenMenuItems.length === 0) {
@@ -329,7 +282,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
           // @todo Only trigger this if the number of items visible has changed?
           $menu.trigger('menuOverflowUpdated');
 
-        });
+        })});
 
       });
 
