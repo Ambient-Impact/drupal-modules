@@ -69,18 +69,14 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
   let lastUpdateViewportWidth = 0;
 
   /**
-   * Attach to a provided menu element.
+   * Menu overflow object.
    *
-   * @param {jQuery|HTMLElement} $menu
-   *   An HTML element or a jQuery collection containing one element. Note that
-   *   if the jQuery collection contains more than one element, only the first
-   *   will be attached to.
+   * @param {jQuery} $menu
+   *   A jQuery collection containing exactly one menu element.
+   *
+   * @constructor
    */
-  this.attach = function($menu) {
-
-    // Make sure $menu is a jQuery collection by having jQuery wrap it. If it's
-    // already a jQuery collection, jQuery will return it as-is.
-    $menu = $($menu).first();
+  function menuOverflow($menu) {
 
     /**
      * The top level menu to attach to.
@@ -111,6 +107,15 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     let measure = aiMenuOverflowMeasure.createMeasure(menu);
 
     /**
+     * The current overflow mode.
+     *
+     * Can be one of 'initial', 'some', or 'all'.
+     *
+     * @type {String}
+     */
+    let mode = 'initial';
+
+    /**
      * Overflow menu object.
      *
      * @type {Object}
@@ -125,16 +130,6 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
      * @type {Object}
      */
     let toggle = aiMenuOverflowToggle.createToggle();
-
-    // Attach an object to the menu HTML element with relevant jQuery
-    // collections and various settings.
-    menu.aiMenuOverflow = {
-      $overflowContainer: $overflowContainer,
-      mode:               'initial',
-      measure:            measure,
-      overflowMenu:       overflowMenu,
-      toggle:             toggle
-    };
 
     $overflowContainer
       // Add classes to identify this as an expanded menu item, in addition to
@@ -159,13 +154,22 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     });
 
     /**
+     * Get the current overflow menu mode.
+     *
+     * @return {String}
+     */
+    this.getMode = function() {
+      return mode;
+    }
+
+    /**
      * Update the visible and overflow items, based on current space.
      *
      * @param {Boolean} forceUpdate
      *   Whether to force an update even when the viewport width has not
      *   changed.
      */
-    menu.aiMenuOverflow.update = function(forceUpdate) {
+    this.update = function(forceUpdate) {
 
       /**
        * Menu items in the visible menu bar that are to be hidden.
@@ -207,7 +211,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
           // Set the toggle to 'some' mode if it's still in 'initial' mode so
           // that we can get correct measurements on attach.
-          if (menu.aiMenuOverflow.mode === 'initial') {
+          if (mode === 'initial') {
             return toggle.update('some');
           }
 
@@ -296,7 +300,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     };
 
     // Run once on attach.
-    menu.aiMenuOverflow.update();
+    this.update();
 
     // Add event handlers to trigger on our debounced resize event and when
     // the viewport offsets change, such as when the Drupal toolbar trays open
@@ -304,7 +308,56 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     $(window).on([
       'lazyResize.' + eventNamespace,
       'drupalViewportOffsetChange.' + eventNamespace
-    ].join(' '), menu.aiMenuOverflow.update);
+    ].join(' '), this.update);
+
+    /**
+     * Destroy this instance.
+     *
+     * @return {Promise}
+     *   The Promise returned by FastDom that is resolved when mutations are
+     *   completed.
+     */
+    this.destroy = function() {
+
+      $(window).off([
+        'lazyResize.' + eventNamespace,
+        'drupalViewportOffsetChange.' + eventNamespace
+      ].join(' '), this.update);
+
+      overflowMenu.destroy();
+
+      return fastdom.mutate(function() {
+
+        $overflowContainer.remove();
+
+        $menu
+          .removeClass(classes.menuEnhancedClass)
+          .children('.' + classes.menuItemClass)
+            .removeClass(classes.menuItemHiddenClass);
+
+        $menu.trigger('menuOverflowDetached');
+
+      });
+
+    };
+
+  };
+
+  /**
+   * Attach to a provided menu element.
+   *
+   * @param {jQuery|HTMLElement} $menu
+   *   A menu element or a jQuery collection containing one or more menu
+   *   elements.
+   */
+  this.attach = function($menu) {
+
+    // Ensure a jQuery collection.
+    $menu = $($menu);
+
+    for (let i = 0; i < $menu.length; i++) {
+      $menu[i].aiMenuOverflow = new menuOverflow($menu.eq(i));
+    }
 
   };
 
@@ -312,53 +365,25 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
    * Detach from a provided menu element.
    *
    * @param {jQuery|HTMLElement} $menu
-   *   An HTML element or a jQuery collection containing one element. Note that
-   *   if the jQuery collection contains more than one element, only the first
-   *   will be detached from.
+   *   A menu element or a jQuery collection containing one or more menu
+   *   elements.
    */
   this.detach = function($menu) {
 
-    // Make sure $menu is a jQuery collection by having jQuery wrap it. If it's
-    // already a jQuery collection, jQuery will return it as-is.
-    $menu = $($menu).first();
+    // Ensure a jQuery collection.
+    $menu = $($menu);
 
-    /**
-     * The top level menu to detach from.
-     *
-     * @type {HTMLElement}
-     */
-    let menu = $menu[0];
+    for (let i = 0; i < $menu.length; i++) {
 
-    /**
-     * The top-level menu items of the menu to attach to.
-     *
-     * @type {jQuery}
-     */
-    let $menuItems = $menu.children('.' + classes.menuItemClass);
+      if (!('aiMenuOverflow' in $menu[i])) {
+        continue;
+      }
 
-    // Don't do anything if we can't find our object attached to the menu
-    // element.
-    if (!('aiMenuOverflow' in menu)) {
-      return;
+      $menu[i].aiMenuOverflow.destroy();
+
     }
 
-    $(window).off([
-      'lazyResize.' + eventNamespace,
-      'drupalViewportOffsetChange.' + eventNamespace
-    ].join(' '), menu.aiMenuOverflow.update);
-
-    menu.aiMenuOverflow.$overflowContainer.remove();
-
-    menu.aiMenuOverflow.overflowMenu.destroy();
-
-    delete menu.aiMenuOverflow;
-
-    $menu
-      .removeClass(classes.menuEnhancedClass)
-      .children('.' + classes.menuItemClass)
-        .removeClass(classes.menuItemHiddenClass);
-
-    $menu.trigger('menuOverflowDetached');
+    $menu.removeProp('aiMenuOverflow');
 
   };
 
