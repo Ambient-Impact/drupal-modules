@@ -49,26 +49,6 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
   const classes = aiMenuOverflowShared.getClasses();
 
   /**
-   * The minimum number of menu items visible to use partial/some overflow.
-   *
-   * If there are fewer than this number, all menu items will be placed in the
-   * overflow menu.
-   *
-   * @type {Number}
-   */
-  this.minimumVisibleItems = 2;
-
-  /**
-   * The viewport width of the last update in pixels.
-   *
-   * This is stored to ensure that we only run an update if the viewport width
-   * has changed.
-   *
-   * @type {Number}
-   */
-  let lastUpdateViewportWidth = 0;
-
-  /**
    * Menu overflow object.
    *
    * @param {jQuery} $menu
@@ -77,6 +57,25 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
    * @constructor
    */
   function menuOverflow($menu) {
+
+    /**
+     * Reference to the current menu overflow instance.
+     *
+     * This is used when the value of 'this' is different, i.e. in callbacks.
+     *
+     * @type {Object}
+     */
+    let instance = this;
+
+    /**
+     * The viewport width of the last update in pixels.
+     *
+     * This is stored to ensure that we only run an update if the viewport width
+     * has changed.
+     *
+     * @type {Number}
+     */
+    let lastUpdateViewportWidth = 0;
 
     /**
      * The top level menu to attach to.
@@ -93,11 +92,14 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     let $menuItems = $menu.children('.' + classes.menuItemClass);
 
     /**
-     * The overflow container which contains the toggle and overflow menu.
+     * The minimum number of menu items visible to use partial/some overflow.
      *
-     * @type {jQuery}
+     * If there are fewer than this number, all menu items will be placed in the
+     * overflow menu.
+     *
+     * @type {Number}
      */
-    let $overflowContainer = $('<li></li>');
+    this.minimumVisibleItems = 2;
 
     /**
      * Measure object.
@@ -114,6 +116,13 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
      * @type {String}
      */
     let mode = 'initial';
+
+    /**
+     * The overflow container which contains the toggle and overflow menu.
+     *
+     * @type {jQuery}
+     */
+    let $overflowContainer = $('<li></li>');
 
     /**
      * Overflow menu object.
@@ -248,7 +257,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
             // mode, and update the toggle content to reflect this.
             if (
               $menuItems.length - $hiddenMenuItems.length <
-                aiMenuOverflow.minimumVisibleItems
+                instance.minimumVisibleItems
             ) {
               $hiddenMenuItems = $menuItems;
 
