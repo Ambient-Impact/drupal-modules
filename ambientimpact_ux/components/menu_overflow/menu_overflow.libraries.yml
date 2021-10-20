@@ -9,6 +9,7 @@ component.menu_overflow:
     menu_overflow.shared.js: {}
     menu_overflow.toggle.js: {}
   dependencies:
+    - ambientimpact_core/ally.js
     - ambientimpact_core/component.event.lazy_resize
     - ambientimpact_core/component.fastdom
     - ambientimpact_icon/component.icon

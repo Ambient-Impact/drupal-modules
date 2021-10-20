@@ -23,6 +23,7 @@ AmbientImpact.on([
   aiFastDom, aiMenuOverflowMeasure, aiMenuOverflowOverflowMenu,
   aiMenuOverflowShared, aiMenuOverflowToggle
 ) {
+AmbientImpact.onGlobals('ally.maintain.disabled', function() {
 AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
   'use strict';
@@ -92,6 +93,13 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     let $menuItems = $menu.children('.' + classes.menuItemClass);
 
     /**
+     * The cloned measure shadow menu.
+     *
+     * @type {jQuery}
+     */
+    let $menuMeasureShadow;
+
+    /**
      * The minimum number of menu items visible to use partial/some overflow.
      *
      * If there are fewer than this number, all menu items will be placed in the
@@ -106,7 +114,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
      *
      * @type {Object}
      */
-    let measure = aiMenuOverflowMeasure.createMeasure(menu);
+    let measure;
 
     /**
      * The current overflow mode.
@@ -212,19 +220,11 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
           return shouldUpdate;
         }
 
-        return fastdom.mutate(function() {
-
-          // Show all items so that we can measure their widths and selectively
-          // hide individual items.
-          $menuItems.removeClass(classes.menuItemHiddenClass);
-
-          // Set the toggle to 'some' mode if it's still in 'initial' mode so
-          // that we can get correct measurements on attach.
-          if (mode === 'initial') {
-            return toggle.update('some');
-          }
-
-        });
+        // Set the toggle to 'some' mode if it's still in 'initial' mode so that
+        // we can get correct measurements on attach.
+        if (mode === 'initial') {
+          return toggle.update('some');
+        }
 
       }).then(function(shouldUpdate) {
 
@@ -236,7 +236,17 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
           $overflowingMenuItems
         ) { return fastdom.mutate(function() {
 
-          $hiddenMenuItems = $overflowingMenuItems;
+          $hiddenMenuItems = $();
+
+          // Translate the overflow items from the measure shadow menu to their
+          // counterparts in the actual menu.
+          for (let i = 0; i < $overflowingMenuItems.length; i++) {
+            $hiddenMenuItems = $hiddenMenuItems.add(
+              $overflowingMenuItems[i].aiMenuOverflowCounterpart
+            );
+          }
+
+          $menuItems.removeClass(classes.menuItemHiddenClass)
 
           // If no menu items are to be hidden, hide the overflow container.
           if ($hiddenMenuItems.length === 0) {
@@ -308,8 +318,58 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
     };
 
-    // Run once on attach.
-    this.update();
+    // Set the toggle to 'some' mode so that we can clone that into the measure
+    // shadow menu.
+    toggle.update('some').then(function() {
+
+      // The toggle update returns a Promise that runs during the
+      // fastdom.mutate() phase, so we don't need to wrap this in another mutate
+      // callback.
+
+      $menuMeasureShadow = $menu.clone();
+
+      // Disable all interactions for the cloned menu items so it's not possible
+      // to accidentally navigate into it via keyboard or other means. Note that
+      // we don't save the handle as we don't need to re-enable these at any
+      // point.
+      ally.maintain.disabled({
+        context: $menuMeasureShadow
+      });
+
+      $menuMeasureShadow
+        .addClass(classes.menuMeasureShadowClass)
+        // Hide the menu completely from the accessibility tree.
+        .attr('aria-hidden', true)
+        .insertAfter($menu);
+
+      /**
+       * Top-level menu items of original menu, including overflow container.
+       *
+       * @type {jQuery}
+       */
+      let $originalItems = $menu.children();
+
+      /**
+       * Top-level menu items of shadow menu, including overflow container.
+       *
+       * @type {jQuery}
+       */
+      let $shadowItems = $menuMeasureShadow.children();
+
+      // Save references to a shadow menu item's original menu counterpart.
+      for (let i = 0; i < $shadowItems.length; i++) {
+        $shadowItems[i].aiMenuOverflowCounterpart = $originalItems[i];
+      }
+
+      // Create the measure object here so that it's initialized with the
+      // correct toggle contents and any other modications made during the
+      // 'menuOverflowAttached' event.
+      measure = aiMenuOverflowMeasure.createMeasure($menuMeasureShadow[0]);
+
+      // Run once on attach.
+      instance.update();
+
+    });
 
     // Add event handlers to trigger on our debounced resize event and when
     // the viewport offsets change, such as when the Drupal toolbar trays open
@@ -338,6 +398,8 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
       return fastdom.mutate(function() {
 
         $overflowContainer.remove();
+
+        $menuMeasureShadow.remove();
 
         $menu
           .removeClass(classes.menuEnhancedClass)
@@ -396,5 +458,6 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
   };
 
+});
 });
 });

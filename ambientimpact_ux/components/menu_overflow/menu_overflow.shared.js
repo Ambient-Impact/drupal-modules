@@ -68,6 +68,13 @@ function(aiMenuOverflowShared, $) {
   const menuEnhancedClass = 'menu--overflow-enhanced';
 
   /**
+   * The BEM modifier class for the cloned measure shadow menu.
+   *
+   * @type {String}
+   */
+  const menuMeasureShadowClass = 'menu--measure-shadow';
+
+  /**
    * The BEM modifier class for the target menu when all items are in overflow.
    *
    * @type {String}
@@ -90,6 +97,7 @@ function(aiMenuOverflowShared, $) {
       menuItemActiveTrailClass: menuItemActiveTrailClass,
       menuItemHiddenClass:      menuItemHiddenClass,
       menuEnhancedClass:        menuEnhancedClass,
+      menuMeasureShadowClass:   menuMeasureShadowClass,
       menuAllOverflowClass:     menuAllOverflowClass
     };
   };
