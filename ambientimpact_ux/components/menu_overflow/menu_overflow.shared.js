@@ -72,7 +72,7 @@ function(aiMenuOverflowShared, $) {
    *
    * @type {String}
    */
-  const menuMeasureShadowClass = 'menu--measure-shadow';
+  const menuMeasureShadowClass = 'menu--overflow-measure-shadow';
 
   /**
    * The BEM modifier class for the target menu when all items are in overflow.
