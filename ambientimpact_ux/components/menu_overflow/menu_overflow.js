@@ -188,13 +188,6 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
      */
     this.update = function(forceUpdate) {
 
-      /**
-       * Menu items in the visible menu bar that are to be hidden.
-       *
-       * @type {jQuery}
-       */
-      let $hiddenMenuItems = $();
-
       fastdom.measure(function() {
 
          /**
@@ -236,20 +229,8 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
           $overflowingMenuItems
         ) { return fastdom.mutate(function() {
 
-          $hiddenMenuItems = $();
-
-          // Translate the overflow items from the measure shadow menu to their
-          // counterparts in the actual menu.
-          for (let i = 0; i < $overflowingMenuItems.length; i++) {
-            $hiddenMenuItems = $hiddenMenuItems.add(
-              $overflowingMenuItems[i].aiMenuOverflowCounterpart
-            );
-          }
-
-          $menuItems.removeClass(classes.menuItemHiddenClass)
-
           // If no menu items are to be hidden, hide the overflow container.
-          if ($hiddenMenuItems.length === 0) {
+          if ($overflowingMenuItems.length === 0) {
 
             $overflowContainer.addClass(classes.hiddenClass);
 
@@ -257,16 +238,26 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
             // in overflow to none.
             $menu.removeClass(classes.menuAllOverflowClass);
 
+            // Show all menu items.
+            $menuItems.removeClass(classes.menuItemHiddenClass);
+
           // If we do have menu items to hide, do so while showing the
           // overflow container and overflow menu items whose counterparts
           // were just hidden.
           } else {
 
+            /**
+             * Menu items in the visible menu bar that are to be hidden.
+             *
+             * @type {jQuery}
+             */
+            let $hiddenMenuItems = $();
+
             // If less than the minimum items are visible, place all items in
             // $hiddenMenuItems, add the class indicating we've entered 'menu'
             // mode, and update the toggle content to reflect this.
             if (
-              $menuItems.length - $hiddenMenuItems.length <
+              $menuItems.length - $overflowingMenuItems.length <
                 instance.minimumVisibleItems
             ) {
               $hiddenMenuItems = $menuItems;
@@ -276,10 +267,21 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
               toggle.update('all');
 
             } else {
+              // Translate the overflow items from the measure shadow menu to
+              // their counterparts in the actual menu.
+              for (let i = 0; i < $overflowingMenuItems.length; i++) {
+                $hiddenMenuItems = $hiddenMenuItems.add(
+                  $overflowingMenuItems[i].aiMenuOverflowCounterpart
+                );
+              }
+
               $menu.removeClass(classes.menuAllOverflowClass);
 
               toggle.update('some');
             }
+
+            $menuItems.not($hiddenMenuItems)
+              .removeClass(classes.menuItemHiddenClass);
 
             $hiddenMenuItems.addClass(classes.menuItemHiddenClass);
 
