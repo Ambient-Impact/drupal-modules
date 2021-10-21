@@ -180,6 +180,168 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     }
 
     /**
+     * Update viewport check callback.
+     *
+     * @param {Boolean} forceUpdate
+     *   Whether to force an update even when the viewport width has not
+     *   changed.
+     *
+     * @return {Boolean}
+     *   True if the viewport width has changed since the last check or if the
+     *   forceUpdate parameter is true, and false otherwise.
+     */
+    function updateViewportCheck(forceUpdate) {
+
+      /**
+       *  The current viewport width in pixels.
+       *
+       * @type {Number}
+       */
+      const viewportWidth = $(window).width();
+
+      // Bail if not forcing an update and the viewport width hasn't changed.
+      if (forceUpdate !== true && lastUpdateViewportWidth === viewportWidth) {
+        return false;
+      }
+
+      // Update the last update viewport width.
+      lastUpdateViewportWidth = viewportWidth;
+
+      return true;
+
+    };
+
+    /**
+     * Intermediate update callback.
+     *
+     * @param {Boolean} shouldUpdate
+     *   True if a previous callback indicated an update should occur, and false
+     *   otherwise.
+     *
+     * @return {Boolean|Promise}
+     *   False if an update did not occur, or a Promise that resolves when
+     *   toggle updates are complete (if the mode is initial) or an already
+     *   resolved Promise.
+     */
+    function updateIntermediate(shouldUpdate) {
+
+      if (shouldUpdate === false) {
+        return false;
+      }
+
+      // Set the toggle to 'some' mode if it's still in 'initial' mode so that
+      // we can get correct measurements on attach.
+      if (mode === 'initial') {
+        return toggle.update('some');
+      }
+
+      return Promise.resolve();
+
+    };
+
+    /**
+     * Update active trail callback.
+     *
+     * Note that this is intended to be invoked as part of a FastDom mutate
+     * phase so is not wrapped in one.
+     */
+    function updateActiveTrail() {
+
+      // If any of the items displayed in the overflow menu are in the active
+      // trail, add the active trail to the overflow container.
+      if (overflowMenu.getVisibleItems().hasClass(
+        classes.menuItemActiveTrailClass
+      )) {
+        $overflowContainer.addClass(classes.menuItemActiveTrailClass);
+
+      // If not, remove the active trail class from the overflow container.
+      } else {
+        $overflowContainer.removeClass(classes.menuItemActiveTrailClass);
+      }
+
+    };
+
+    /**
+     * Update visibility callback.
+     *
+     * This handles the bulk of the show/hide logic.
+     *
+     * @param {jQuery} $overflowingMenuItems
+     *   A jQuery collection containing zero or more items in the measure shadow
+     *   menu that are overflowing the available space.
+     */
+    function updateVisibility($overflowingMenuItems) {
+
+      // If no menu items are to be hidden, hide the overflow container.
+      if ($overflowingMenuItems.length === 0) {
+
+        $overflowContainer.addClass(classes.hiddenClass);
+
+        // Show all menu items.
+        $menuItems.removeClass(classes.menuItemHiddenClass);
+
+        // Don't forget to remove this in case we go right from all items in
+        // overflow to none.
+        $menu.removeClass(classes.menuAllOverflowClass);
+
+      // If we do have menu items to hide, do so while showing the overflow
+      // container and overflow menu items whose counterparts were just hidden.
+      } else {
+
+        /**
+         * Menu items in the visible menu bar that are to be hidden.
+         *
+         * @type {jQuery}
+         */
+        let $hiddenMenuItems = $();
+
+        // If less than the minimum items are visible, place all items in
+        // $hiddenMenuItems, add the class indicating we've entered 'menu' mode,
+        // and update the toggle content to reflect this.
+        if (
+          $menuItems.length - $overflowingMenuItems.length <
+            instance.minimumVisibleItems
+        ) {
+          $hiddenMenuItems = $menuItems;
+
+          $menu.addClass(classes.menuAllOverflowClass);
+
+          toggle.update('all');
+
+        } else {
+          // Translate the overflow items from the measure shadow menu to their
+          // counterparts in the actual menu.
+          for (let i = 0; i < $overflowingMenuItems.length; i++) {
+            $hiddenMenuItems = $hiddenMenuItems.add(
+              $overflowingMenuItems[i].aiMenuOverflowCounterpart
+            );
+          }
+
+          $menu.removeClass(classes.menuAllOverflowClass);
+
+          toggle.update('some');
+        }
+
+        $menuItems.not($hiddenMenuItems)
+          .removeClass(classes.menuItemHiddenClass);
+
+        $hiddenMenuItems.addClass(classes.menuItemHiddenClass);
+
+        $overflowContainer.removeClass(classes.hiddenClass);
+
+        // Update overflow menu item visibility and active trail.
+        overflowMenu.updateItemVisibility().then(updateActiveTrail);
+
+      }
+
+      // Trigger an event on updating the overflow menu.
+      //
+      // @todo Only trigger this if the number of items visible has changed?
+      $menu.trigger('menuOverflowUpdated');
+
+    }
+
+    /**
      * Update the visible and overflow items, based on current space.
      *
      * @param {Boolean} forceUpdate
@@ -190,36 +352,9 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
       fastdom.measure(function() {
 
-         /**
-         *  The current viewport width in pixels.
-         *
-         * @type {Number}
-         */
-        const viewportWidth = $(window).width();
+        return updateViewportCheck(forceUpdate);
 
-        // Bail if not forcing an update and the viewport width hasn't changed.
-        if (forceUpdate !== true && lastUpdateViewportWidth === viewportWidth) {
-          return false;
-        }
-
-        // Update the last update viewport width.
-        lastUpdateViewportWidth = viewportWidth;
-
-        return true;
-
-      }).then(function(shouldUpdate) {
-
-        if (shouldUpdate === false) {
-          return shouldUpdate;
-        }
-
-        // Set the toggle to 'some' mode if it's still in 'initial' mode so that
-        // we can get correct measurements on attach.
-        if (mode === 'initial') {
-          return toggle.update('some');
-        }
-
-      }).then(function(shouldUpdate) {
+      }).then(updateIntermediate).then(function(shouldUpdate) {
 
         if (shouldUpdate === false) {
           return;
@@ -229,90 +364,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
           $overflowingMenuItems
         ) { return fastdom.mutate(function() {
 
-          // If no menu items are to be hidden, hide the overflow container.
-          if ($overflowingMenuItems.length === 0) {
-
-            $overflowContainer.addClass(classes.hiddenClass);
-
-            // Don't forget to remove this in case we go right from all items
-            // in overflow to none.
-            $menu.removeClass(classes.menuAllOverflowClass);
-
-            // Show all menu items.
-            $menuItems.removeClass(classes.menuItemHiddenClass);
-
-          // If we do have menu items to hide, do so while showing the
-          // overflow container and overflow menu items whose counterparts
-          // were just hidden.
-          } else {
-
-            /**
-             * Menu items in the visible menu bar that are to be hidden.
-             *
-             * @type {jQuery}
-             */
-            let $hiddenMenuItems = $();
-
-            // If less than the minimum items are visible, place all items in
-            // $hiddenMenuItems, add the class indicating we've entered 'menu'
-            // mode, and update the toggle content to reflect this.
-            if (
-              $menuItems.length - $overflowingMenuItems.length <
-                instance.minimumVisibleItems
-            ) {
-              $hiddenMenuItems = $menuItems;
-
-              $menu.addClass(classes.menuAllOverflowClass);
-
-              toggle.update('all');
-
-            } else {
-              // Translate the overflow items from the measure shadow menu to
-              // their counterparts in the actual menu.
-              for (let i = 0; i < $overflowingMenuItems.length; i++) {
-                $hiddenMenuItems = $hiddenMenuItems.add(
-                  $overflowingMenuItems[i].aiMenuOverflowCounterpart
-                );
-              }
-
-              $menu.removeClass(classes.menuAllOverflowClass);
-
-              toggle.update('some');
-            }
-
-            $menuItems.not($hiddenMenuItems)
-              .removeClass(classes.menuItemHiddenClass);
-
-            $hiddenMenuItems.addClass(classes.menuItemHiddenClass);
-
-            $overflowContainer.removeClass(classes.hiddenClass);
-
-            // Update overflow menu item visibility.
-            overflowMenu.updateItemVisibility().then(function() {
-
-              // If any of the items displayed in the overflow menu are in the
-              // active trail, add the active trail to the overflow container.
-              if (
-                overflowMenu.getVisibleItems()
-                  .hasClass(classes.menuItemActiveTrailClass)
-              ) {
-                $overflowContainer.addClass(classes.menuItemActiveTrailClass);
-
-              // If not, remove the active trail class from the overflow
-              // container.
-              } else {
-                $overflowContainer
-                  .removeClass(classes.menuItemActiveTrailClass);
-              }
-
-            });
-
-          }
-
-          // Trigger an event on updating the overflow menu.
-          //
-          // @todo Only trigger this if the number of items visible has changed?
-          $menu.trigger('menuOverflowUpdated');
+          return updateVisibility($overflowingMenuItems);
 
         })});
 
