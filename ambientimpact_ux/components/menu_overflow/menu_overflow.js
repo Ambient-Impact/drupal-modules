@@ -269,8 +269,18 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
      * @param {jQuery} $overflowingMenuItems
      *   A jQuery collection containing zero or more items in the measure shadow
      *   menu that are overflowing the available space.
+     *
+     * @return {Promise}
+     *   A Promise that resolves when various update tasks are complete.
      */
     function updateVisibility($overflowingMenuItems) {
+
+      /**
+       * Promise object to return.
+       *
+       * @type {Promise}
+       */
+      let returnPromise;
 
       // If no menu items are to be hidden, hide the overflow container.
       if ($overflowingMenuItems.length === 0) {
@@ -283,6 +293,8 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
         // Don't forget to remove this in case we go right from all items in
         // overflow to none.
         $menu.removeClass(classes.menuAllOverflowClass);
+
+        returnPromise = Promise.resolve();
 
       // If we do have menu items to hide, do so while showing the overflow
       // container and overflow menu items whose counterparts were just hidden.
@@ -306,7 +318,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
           $menu.addClass(classes.menuAllOverflowClass);
 
-          toggle.update('all');
+          returnPromise = toggle.update('all');
 
         } else {
           // Translate the overflow items from the measure shadow menu to their
@@ -319,7 +331,8 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
           $menu.removeClass(classes.menuAllOverflowClass);
 
-          toggle.update('some');
+          returnPromise = toggle.update('some');
+
         }
 
         $menuItems.not($hiddenMenuItems)
@@ -330,27 +343,36 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
         $overflowContainer.removeClass(classes.hiddenClass);
 
         // Update overflow menu item visibility and active trail.
-        overflowMenu.updateItemVisibility().then(updateActiveTrail);
+        returnPromise
+          .then(overflowMenu.updateItemVisibility)
+          .then(updateActiveTrail);
 
       }
 
       // Trigger an event on updating the overflow menu.
       //
       // @todo Only trigger this if the number of items visible has changed?
-      $menu.trigger('menuOverflowUpdated');
+      returnPromise.then(function() {
+        $menu.trigger('menuOverflowUpdated');
+      });
+
+      return returnPromise;
 
     }
 
     /**
-     * Update the visible and overflow items, based on current space.
+     * Update visible and overflow items, based on current space.
      *
      * @param {Boolean} forceUpdate
      *   Whether to force an update even when the viewport width has not
      *   changed.
+     *
+     * @return {Promise}
+     *   A Promise that resolves when various update tasks are complete.
      */
     this.update = function(forceUpdate) {
 
-      fastdom.measure(function() {
+      return fastdom.measure(function() {
 
         return updateViewportCheck(forceUpdate);
 
@@ -360,7 +382,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
           return;
         }
 
-        measure.getOverflowingMenuItems().then(function(
+        return measure.getOverflowingMenuItems().then(function(
           $overflowingMenuItems
         ) { return fastdom.mutate(function() {
 
