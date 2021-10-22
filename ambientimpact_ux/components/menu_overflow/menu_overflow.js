@@ -276,6 +276,22 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     function updateVisibility($overflowingMenuItems) {
 
       /**
+       * Previously hidden menu items before the update.
+       *
+       * @type {jQuery}
+       */
+      let $previousHiddenMenuItems = $menuItems.filter(
+        '.' + classes.menuItemHiddenClass
+      );
+
+      /**
+       * Menu items in the visible menu bar that are to be hidden.
+       *
+       * @type {jQuery}
+       */
+      let $hiddenMenuItems = $();
+
+      /**
        * Promise object to return.
        *
        * @type {Promise}
@@ -299,13 +315,6 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
       // If we do have menu items to hide, do so while showing the overflow
       // container and overflow menu items whose counterparts were just hidden.
       } else {
-
-        /**
-         * Menu items in the visible menu bar that are to be hidden.
-         *
-         * @type {jQuery}
-         */
-        let $hiddenMenuItems = $();
 
         // If less than the minimum items are visible, place all items in
         // $hiddenMenuItems, add the class indicating we've entered 'menu' mode,
@@ -349,11 +358,13 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
       }
 
-      // Trigger an event on updating the overflow menu.
-      //
-      // @todo Only trigger this if the number of items visible has changed?
+      // Trigger an event on updating the overflow menu with all menu items, the
+      // previously hidden items, and the updated hidden items so event handlers
+      // can compare them to determine what they need to do.
       returnPromise.then(function() {
-        $menu.trigger('menuOverflowUpdated');
+        $menu.trigger('menuOverflowUpdated', [
+          $menuItems, $previousHiddenMenuItems, $hiddenMenuItems,
+        ]);
       });
 
       return returnPromise;
