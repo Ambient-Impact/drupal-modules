@@ -33,9 +33,14 @@ function(aiMenuOverflowToggle, $) {
   function toggle() {
 
     /**
-     * The current overflow mode.
+     * The current toggle mode.
+     *
+     * Note that this is meant purely to keep track of the previous mode when
+     * this.update() is called and is not managed by an overflowMode() object.
      *
      * @type {String}
+     *
+     * @see this.update()
      */
     let currentMode = 'initial';
 
