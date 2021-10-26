@@ -12,8 +12,8 @@
     "grunt-svgstore": "^2.0.0",
     "load-grunt-config": "^3.0.2",
     "modernizr": "^3.11.7",
-    "node-sass": "^6.0.1",
-    "postcss": "^8.3.5"
+    "postcss": "^8.3.5",
+    "sass": "^1.43.3"
   },
   "dependencies": {}
 }

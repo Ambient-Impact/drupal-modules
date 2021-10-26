@@ -4,7 +4,7 @@
 module.exports = function(grunt, options) {
   'use strict';
 
-  const sass = require('node-sass');
+  const sass = require('sass');
 
   return {
     module: {
