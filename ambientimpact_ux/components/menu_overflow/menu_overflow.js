@@ -17,11 +17,11 @@
 // items entirely.
 
 AmbientImpact.on([
-  'fastdom', 'menuOverflowMeasure', 'menuOverflowOverflowMenu',
-  'menuOverflowShared', 'menuOverflowToggle',
+  'fastdom', 'menuOverflowMeasure', 'menuOverflowMode',
+  'menuOverflowOverflowMenu', 'menuOverflowShared', 'menuOverflowToggle',
 ], function(
-  aiFastDom, aiMenuOverflowMeasure, aiMenuOverflowOverflowMenu,
-  aiMenuOverflowShared, aiMenuOverflowToggle
+  aiFastDom, aiMenuOverflowMeasure, aiMenuOverflowMode,
+  aiMenuOverflowOverflowMenu, aiMenuOverflowShared, aiMenuOverflowToggle
 ) {
 AmbientImpact.onGlobals('ally.maintain.disabled', function() {
 AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
@@ -117,15 +117,6 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     let measure;
 
     /**
-     * The current overflow mode.
-     *
-     * Can be one of 'initial', 'some', or 'all'.
-     *
-     * @type {String}
-     */
-    let mode = 'initial';
-
-    /**
      * The overflow container which contains the toggle and overflow menu.
      *
      * @type {jQuery}
@@ -140,6 +131,13 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
     let overflowMenu = aiMenuOverflowOverflowMenu.createOverflowMenu(
       $menuItems
     );
+
+    /**
+     * Overflow mode object.
+     *
+     * @type {Object}
+     */
+    let overflowMode = aiMenuOverflowMode.createOverflowMode();
 
     /**
      * Toggle object.
@@ -176,7 +174,7 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
      * @return {String}
      */
     this.getMode = function() {
-      return mode;
+      return overflowMode.getMode();
     }
 
     /**
@@ -303,6 +301,8 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
         // overflow to none.
         $menu.removeClass(classes.menuAllOverflowClass);
 
+        overflowMode.setMode('none');
+
         returnPromise = Promise.resolve();
 
       // If we do have menu items to hide, do so while showing the overflow
@@ -320,6 +320,8 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
 
           $menu.addClass(classes.menuAllOverflowClass);
 
+          overflowMode.setMode('all');
+
           returnPromise = toggle.update('all');
 
         } else {
@@ -332,6 +334,8 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
           }
 
           $menu.removeClass(classes.menuAllOverflowClass);
+
+          overflowMode.setMode('some');
 
           returnPromise = toggle.update('some');
 
@@ -397,6 +401,8 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
       });
 
     };
+
+    overflowMode.setMode('some');
 
     // Set the toggle to 'some' mode so that we can clone that into the measure
     // shadow menu.

@@ -5,6 +5,7 @@ component.menu_overflow:
   js:
     menu_overflow.js: {}
     menu_overflow.measure.js: {}
+    menu_overflow.mode.js: {}
     menu_overflow.overflow_menu.js: {}
     menu_overflow.shared.js: {}
     menu_overflow.toggle.js: {}
