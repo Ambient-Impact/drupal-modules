@@ -219,20 +219,13 @@ AmbientImpact.addComponent('menuOverflow', function(aiMenuOverflow, $) {
      *   otherwise.
      *
      * @return {Boolean|Promise}
-     *   False if an update did not occur, or a Promise that resolves when
-     *   toggle updates are complete (if the mode is initial) or an already
-     *   resolved Promise.
+     *   False if an update should not occur, or a resolved Promise if an update
+     *   should go ahead.
      */
     function updateIntermediate(shouldUpdate) {
 
       if (shouldUpdate === false) {
         return false;
-      }
-
-      // Set the toggle to 'some' mode if it's still in 'initial' mode so that
-      // we can get correct measurements on attach.
-      if (mode === 'initial') {
-        return toggle.update('some');
       }
 
       return Promise.resolve();
