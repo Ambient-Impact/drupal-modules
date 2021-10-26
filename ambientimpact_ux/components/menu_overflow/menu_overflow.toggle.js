@@ -203,7 +203,7 @@ function(aiMenuOverflowToggle, $) {
   /**
    * Create a toggle.
    *
-   * @return {Function}
+   * @return {Object}
    *   An initialized toggle object.
    */
   this.createToggle = function() {
