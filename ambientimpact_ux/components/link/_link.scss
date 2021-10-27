@@ -28,6 +28,9 @@
   // @see https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-skip-ink
   text-decoration-skip-ink: auto;
 
+  // text-decoration-thickness: $text-underline-thickness;
+  text-decoration-thickness: var(--text-decoration-thickness, 2px);
+
   @include link-hover {
     @include transition-fade-hover();
   }
