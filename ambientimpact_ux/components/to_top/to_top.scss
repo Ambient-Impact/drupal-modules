@@ -97,11 +97,6 @@ $to-top-foreground-colour-on-dark: black !default;
       );
     }
 
-    // Remove the standard link underlines, as we style as a button.
-    text-decoration: none;
-    // Remove fancy link underlines.
-    @include remove-fancy-link-underlines;
-
     // Make focus outline circular if the browser supports it.
     -moz-outline-radius:  50%;
     outline-radius:       50%;
