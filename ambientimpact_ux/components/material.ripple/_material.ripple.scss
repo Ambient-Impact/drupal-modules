@@ -4,6 +4,9 @@
 
 // @link https://codepen.io/jproffitt71/pen/PBPKmw
 
+@use 'sass:color';
+@use 'sass:math';
+
 ///
 /// The Material ripple fallback radius if rippling from the centre.
 ///
@@ -16,7 +19,7 @@
 /// @link https://codepen.io/jproffitt71/pen/PBPKmw
 ///   Based on this Pen by Jessie Proffitt.
 ///
-$material-ripple-fallback-radius: 100% * sqrt(2) / 2 !default;
+$material-ripple-fallback-radius: math.div(100% * math.sqrt(2), 2) !default;
 
 ///
 /// The Material ripple base class.
@@ -103,7 +106,7 @@ $material-ripple-base-class: 'material-ripple';
 ///   The foreground colour of the current element.
 ///
 @function material-ripple-set-colours-callback($background, $foreground) {
-  @return transparentize($foreground, 0.6);
+  @return color.adjust($foreground, $alpha: -0.6);
 }
 
 // material-ripple-set-colours-callback() event callback registration.

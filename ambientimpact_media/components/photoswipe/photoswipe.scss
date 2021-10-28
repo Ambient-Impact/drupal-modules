@@ -2,6 +2,8 @@
 //   Ambient.Impact - Media - PhotoSwipe component
 // -----------------------------------------------------------------------------
 
+@use 'sass:math';
+
 @import '../../../ambientimpact_core/stylesheets/_common.scss';
 
 .#{$photoswipe-root-class} {
@@ -21,7 +23,7 @@
     $multiplier:  0.9;
 
     font-size:    100% * $multiplier;
-    line-height:  $photoswipe-button-size * (1 / $multiplier);
+    line-height:  $photoswipe-button-size * math.div(1, $multiplier);
   }
 
   &__caption__center {
@@ -118,7 +120,7 @@
       width:    $photoswipe-button-arrow-width;
       height:   $photoswipe-button-arrow-height;
 
-      margin-top: -($photoswipe-button-arrow-height / 2);
+      margin-top: math.div($photoswipe-icon-size, 2) * -1;
 
       .ambientimpact-icon {
         position:   absolute;
@@ -127,8 +129,9 @@
         // Vertical centring magic. Only works because we know the exact
         // height of the content. CSS Grid is overkill for this right
         // now.
-        margin-top:
-          -(($photoswipe-icon-size / 2) + $photoswipe-icon-padding);
+        margin-top: (
+          math.div($photoswipe-icon-size, 2) + $photoswipe-icon-padding
+        ) * -1;
       }
     }
     &--arrow--left {
@@ -156,12 +159,12 @@
       top:      50%;
       left:     50%;
 
-      margin-top:   -($photoswipe-icon-size / 2);
-      margin-left:  -($photoswipe-icon-size / 2);
+      margin-top:   math.div($photoswipe-icon-size, 2) * -1;
+      margin-left:  math.div($photoswipe-icon-size, 2) * -1;
     }
 
     &__cut {
-      width:      $photoswipe-icon-size / 2;
+      width:      math.div($photoswipe-icon-size, 2);
       height:     $photoswipe-icon-size;
     }
 

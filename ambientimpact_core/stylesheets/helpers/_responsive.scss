@@ -2,6 +2,8 @@
 //   Responsive helpers
 // -----------------------------------------------------------------------------
 
+@use 'sass:math';
+
 ///
 /// Calculate a value based on the screen width, with minimum and maximum.
 ///
@@ -28,20 +30,20 @@
   // get confused and generate invalid units for whatever reason. E.g. mixing
   // 'em' and 'rem' causes $a to be set to '<value>em/rem' instead of dividing
   // as it's supposed to.
-  @if unit($min-screen) != unit($min-value) or
-    unit($min-screen) != unit($max-screen) or
-    unit($min-screen) != unit($max-value)
+  @if math.unit($min-screen) != math.unit($min-value) or
+    math.unit($min-screen) != math.unit($max-screen) or
+    math.unit($min-screen) != math.unit($max-value)
   {
     @error 'You must pass only the same unit types to calc-responsive-value()!';
   }
 
-  $a: ($max-value - $min-value) / ($max-screen - $min-screen);
+  $a: math.div($max-value - $min-value, $max-screen - $min-screen);
   $b: $min-value - $a * $min-screen;
 
   $sign: '+';
   @if ($b < 0) {
     $sign: '-';
-    $b: abs($b);
+    $b: math.abs($b);
   }
 
   @return calc(#{$a * 100}vw #{$sign} #{$b});

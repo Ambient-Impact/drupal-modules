@@ -2,35 +2,44 @@
 //   Ambient.Impact - UX - Material button partial
 // -----------------------------------------------------------------------------
 
+@use 'sass:color';
+@use 'sass:list';
+@use 'sass:math';
+
 ///
 /// Material button background colour, light variant.
 ///
-$material-button-background-colour-light:
-  darken($material-panel-background-colour-light, 10%) !default;
+$material-button-background-colour-light: color.adjust(
+  $material-panel-background-colour-light, $lightness: -10%
+) !default;
 
 ///
 /// Material button background colour, light variant, with user interaction.
 ///
-$material-button-background-colour-light-interact:
-  darken($material-button-background-colour-light, 10%) !default;
+$material-button-background-colour-light-interact: color.adjust(
+  $material-button-background-colour-light, $lightness: -10%
+) !default;
 
 ///
 /// Material button background colour, dark variant.
 ///
-$material-button-background-colour-dark:
-  lighten($material-panel-background-colour-dark, 10%) !default;
+$material-button-background-colour-dark: color.adjust(
+  $material-panel-background-colour-dark, $lightness: 10%
+) !default;
 
 ///
 /// Material button background colour, dark variant, with user interaction.
 ///
-$material-button-background-colour-dark-interact:
-  lighten($material-button-background-colour-dark, 10%) !default;
+$material-button-background-colour-dark-interact: color.adjust(
+  $material-button-background-colour-dark, $lightness: 10%
+) !default;
 
 ///
 /// Material button background colour, light variant, with user interaction.
 ///
-$material-button-background-colour-light-interact:
-  darken($material-button-background-colour-light, 10%) !default;
+$material-button-background-colour-light-interact: color.adjust(
+  $material-button-background-colour-light, $lightness: -10%
+) !default;
 
 ///
 /// Material button foreground colour when button background colour is light.
@@ -189,10 +198,12 @@ $material-button-border-radius: $material-border-radius !default;
     @include set-colours(
       $background:
         $background-colour,
-      $foreground-on-light:
-        transparentize($foreground-colour-on-light, 0.7),
-      $foreground-on-dark:
-        transparentize($foreground-colour-on-dark,  0.7)
+      $foreground-on-light: color.adjust(
+        $foreground-colour-on-light, $alpha: -0.7
+      ),
+      $foreground-on-dark: color.adjust(
+        $foreground-colour-on-dark, $alpha: -0.7
+      )
     );
   }
 }
@@ -270,9 +281,9 @@ $material-button-border-radius: $material-border-radius !default;
 
       $shadow: ();
       @for $i from 1 through 5 {
-        $shadow: append(
+        $shadow: list.append(
           $shadow,
-          material-shadow-top($i, nth($depth-map, $i)),
+          material-shadow-top($i, list.nth($depth-map, $i)),
           comma
         );
       }
@@ -285,9 +296,9 @@ $material-button-border-radius: $material-border-radius !default;
 
       $shadow: ();
       @for $i from 1 through 5 {
-        $shadow: append(
+        $shadow: list.append(
           $shadow,
-          material-shadow-bottom($i, nth($depth-map, $i)),
+          material-shadow-bottom($i, list.nth($depth-map, $i)),
           comma
         );
       }
@@ -332,7 +343,7 @@ $material-button-border-radius: $material-border-radius !default;
   // buttons to be rounded rectangles if the contents do not fit inside a
   // perfect circle, which is preferable to just setting a fixed size and
   // having the content overflow.
-  $border-radius: ($icon-size + ($padding * 2)) / 2;
+  $border-radius: math.div(($icon-size + $padding) * 2, 2);
 
   @include material-button(
     $background-colour:           $background-colour,
