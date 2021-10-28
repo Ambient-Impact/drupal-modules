@@ -1,9 +1,0 @@
-component.link.underline:
-  js:
-    link.underline.js: {}
-    link.underline.transition.js: {}
-  dependencies:
-    - ambientimpact_core/ally.js
-    - ambientimpact_ux/gsap.tweenlite
-    - ambientimpact_ux/gsap.plugin.css
-    - ambientimpact_ux/gsap.plugin.colorprops
