@@ -39,7 +39,6 @@
     "npm-asset/sass-toolkit": "~2.9.0",
     "npm-asset/sassy-lists": "~2.2.4",
     "bower-asset/jacket": "~1.1.1",
-    "bower-asset/sassy-math": "~1.5.1",
     "npm-asset/include-media": "^1.4.9",
     "bower-asset/sassy-cast": "^2.0.0",
     "npm-asset/sass-recursive-map-merge": "1.0.1"
