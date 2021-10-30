@@ -116,11 +116,13 @@
         @if meta.type-of($replaced-selector) == list and
           list.length($replaced-selector) == 1 and
           meta.type-of(list.nth($replaced-selector, 1)) == string and
-          $selector != list.nth($replaced-selector, 1)
+          sl-to-string($selector, ' ') != sl-to-string(
+            list.nth($replaced-selector, 1), ' '
+          )
         {
           $new-selectors: list.join(
             $new-selectors,
-            list.nth($replaced-selector, 1),
+            sl-to-string(list.nth($replaced-selector, 1), ' '),
             comma
           );
 
