@@ -107,16 +107,10 @@
 
         // Check if the string representations of the original $selector
         // and $replaced-selector match. Note that comparing them as
-        // lists doesn't seem to work as expected, hence the conversion
+        // lists doesn't seem to always work as expected, hence the conversion
         // to string. If they don't match, it should mean that we've
-        // successfully replaced. The additional checks for a valid
-        // single index in $replaced-selector is to extract a string
-        // representation of the selector, which can happen and may
-        // prevent headaches down the road.
-        @if meta.type-of($replaced-selector) == list and
-          list.length($replaced-selector) == 1 and
-          meta.type-of(list.nth($replaced-selector, 1)) == string and
-          sl-to-string($selector, ' ') != sl-to-string(
+        // successfully replaced.
+        @if sl-to-string($selector, ' ') != sl-to-string(
             list.nth($replaced-selector, 1), ' '
           )
         {
