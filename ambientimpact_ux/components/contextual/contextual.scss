@@ -2,6 +2,8 @@
 //   Ambient.Impact - UX - Drupal contextual links component
 // -----------------------------------------------------------------------------
 
+@use 'sass:color';
+
 @import '../../../ambientimpact_core/stylesheets/_common.scss';
 
 .contextual .trigger,
@@ -17,14 +19,14 @@
 
 .contextual-region .contextual .contextual-links a:hover,
 .no-touchevents .contextual-region .contextual .contextual-links li a:hover {
-  @include set-colours($background: mix(
+  @include set-colours($background: color.mix(
     $foreground-colour-on-light,
     $contextual-background-colour-on-light,
     10%
   ));
 
   @include on-dark-colour-scheme {
-    @include set-colours($background: mix(
+    @include set-colours($background: color.mix(
       $foreground-colour-on-dark,
       $contextual-background-colour-on-dark,
       10%

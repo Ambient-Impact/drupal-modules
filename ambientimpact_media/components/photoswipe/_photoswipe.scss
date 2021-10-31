@@ -2,6 +2,9 @@
 //   Ambient.Impact - Media - PhotoSwipe component partial
 // -----------------------------------------------------------------------------
 
+@use 'sass:color';
+@use 'sass:map';
+
 // The root class name of the PhotoSwipe element. This is used to generate all
 // the BEM-style classes for children and modifiers.
 $photoswipe-root-class:     pswp    !default;
@@ -65,7 +68,7 @@ $photoswipe-themes: (
 ///
 @mixin set-photoswipe-colours(
   $background,
-  $ui-background:     transparentize($background, 0.3),
+  $ui-background:     color.adjust($background, $alpha: -0.3),
   $foreground-on-dark:  $photoswipe-foreground-colour-theme-dark,
   $foreground-on-light: $photoswipe-foreground-colour-theme-light
 ) {
@@ -133,7 +136,7 @@ $photoswipe-themes: (
 ///
 @mixin set-photoswipe-theme($theme: dark) {
   .#{$photoswipe-root-class} {
-    @include set-photoswipe-colours(map-get($photoswipe-themes, $theme));
+    @include set-photoswipe-colours(map.get($photoswipe-themes, $theme));
   }
 }
 

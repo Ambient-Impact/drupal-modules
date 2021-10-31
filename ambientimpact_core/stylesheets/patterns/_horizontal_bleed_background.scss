@@ -2,6 +2,10 @@
 //   Horizontal bleed background from within constrained container
 // -----------------------------------------------------------------------------
 
+@use 'sass:color';
+@use 'sass:list';
+@use 'sass:meta';
+
 ///
 /// Sets a full viewport width background from inside a width-limited container.
 ///
@@ -88,14 +92,14 @@
 
     $shadow-list: ();
 
-    @if type-of($shadow) == 'list' and length($shadow) == 3 {
+    @if meta.type-of($shadow) == 'list' and list.length($shadow) == 3 {
       $material-shadow: material-shadow($shadow-depth);
 
       // Use the parts of the shadow that we're asked to.
-      @for $i from 1 through length($shadow) {
-        @if nth($shadow, $i) == true {
+      @for $i from 1 through list.length($shadow) {
+        @if list.nth($shadow, $i) == true {
           $shadow-list:
-            append($shadow-list, nth($material-shadow, $i), 'comma');
+            list.append($shadow-list, list.nth($material-shadow, $i), 'comma');
         }
       }
     }
@@ -137,7 +141,7 @@
   $material-shadow: material-shadow($depth);
 
   // Grab the first item in the list, which is the top peek shadow.
-  $shadow: nth($material-shadow, 1);
+  $shadow: list.nth($material-shadow, 1);
 
   // Since this tends to be used on generated elements, set the content property
   // to ensure the block is displayed.
@@ -166,7 +170,7 @@
 
   // We're increasing the Material shadow top peek opacity a bit, to make it
   // more visible.
-  box-shadow: set-nth($shadow, 4, opacify(nth($shadow, 4), 0.3));
+  box-shadow: list.set-nth($shadow, 4, color.adjust(list.nth($shadow, 4), $alpha: 0.3));
 
   z-index: $z-index;
 }

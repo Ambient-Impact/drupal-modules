@@ -2,6 +2,8 @@
 //   Ambient.Impact - Blocks - Social links block stylesheet
 // -----------------------------------------------------------------------------
 
+@use 'sass:map';
+
 @import '../../../ambientimpact_core/stylesheets/_common.scss';
 
 .ambientimpact-social-links {
@@ -38,15 +40,15 @@
   ) {
     &--alignment-#{$alignment} {
       h2 {
-        text-align: map-get($data, title);
+        text-align: map.get($data, title);
       }
 
       .ambientimpact-social-links {
         &--orientation-horizontal {
-          justify-content: map-get($data, list);
+          justify-content: map.get($data, list);
         }
         &--orientation-vertical {
-          align-items: map-get($data, list);
+          align-items: map.get($data, list);
         }
       }
     }

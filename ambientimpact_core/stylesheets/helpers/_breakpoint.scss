@@ -2,6 +2,10 @@
 //   Breakpoint helpers
 // -----------------------------------------------------------------------------
 
+@use 'sass:map';
+@use 'sass:meta';
+@use 'sass:string';
+
 // It's recommended that min-width/height is reference using the greater than or
 // equal expression ('>=') in @include media() calls, for consistency.
 
@@ -37,8 +41,8 @@ $breakpoints-legacy: (
 @mixin breakpoint($name) {
   @warn 'Mixin "breakpoint" is deprecated, use "@include media()" instead.';
 
-  @if map-has-key($breakpoints-legacy, $name) {
-    @media #{inspect(map-get($breakpoints-legacy, $name))} {
+  @if map.has-key($breakpoints-legacy, $name) {
+    @media #{meta.inspect(map.get($breakpoints-legacy, $name))} {
       @content;
     }
   } @else {
@@ -61,12 +65,12 @@ $breakpoints-legacy: (
   // the tested min/max keywords, the whole set is assumed to be legacy.
   @each $name, $value in $new-breakpoints {
     // Convert to a string to avoid errors.
-    $value: inspect($value);
+    $value: meta.inspect($value);
 
-    @if str-index($value, 'min-width') != null or
-      str-index($value, 'max-width') != null or
-      str-index($value, 'min-height') != null or
-      str-index($value, 'max-height') != null
+    @if string.index($value, 'min-width') != null or
+      string.index($value, 'max-width') != null or
+      string.index($value, 'min-height') != null or
+      string.index($value, 'max-height') != null
     {
       $legacy: true;
     }
@@ -74,13 +78,13 @@ $breakpoints-legacy: (
 
   // include-media breakpoint.
   @if $legacy == false {
-    $breakpoints: map-merge($breakpoints, $new-breakpoints) !global;
+    $breakpoints: map.merge($breakpoints, $new-breakpoints) !global;
 
   // Legacy breakpoint.
   } @else {
     @warn 'You are adding a legacy breakpoint. Please use the include-media format instead: https://include-media.com/';
 
-    $breakpoints-legacy: map-merge(
+    $breakpoints-legacy: map.merge(
       $breakpoints-legacy, $new-breakpoints
     ) !global;
   }
@@ -95,9 +99,9 @@ $breakpoints-legacy: (
 /// @require $breakpoints-legacy
 ///
 @mixin remove-breakpoints($names...) {
-  $breakpoints-legacy: map-remove($breakpoints-legacy, $names...) !global;
+  $breakpoints-legacy: map.remove($breakpoints-legacy, $names...) !global;
 
-  $breakpoints: map-remove($breakpoints, $names...) !global;
+  $breakpoints: map.remove($breakpoints, $names...) !global;
 }
 
 ///
@@ -114,12 +118,12 @@ $breakpoints-legacy: (
 ///
 @function get-breakpoint-value($name, $legacy: false) {
   // Exists and is not legacy.
-  @if $legacy == false and map-has-key($breakpoints, $name) {
-    @return map-get($breakpoints, $name);
+  @if $legacy == false and map.has-key($breakpoints, $name) {
+    @return map.get($breakpoints, $name);
 
   // Exists and is legacy.
-  } @else if $legacy == true and map-has-key($breakpoints-legacy, $name) {
-    @return map-get($breakpoints-legacy, $name);
+  } @else if $legacy == true and map.has-key($breakpoints-legacy, $name) {
+    @return map.get($breakpoints-legacy, $name);
 
   // Display a warning if the breakpoint is not found.
   } @else {
@@ -139,5 +143,5 @@ $breakpoints-legacy: (
 /// @require $breakpoints
 ///
 @function breakpoint-exists($name) {
-  @return map-has-key($breakpoints, $name);
+  @return map.has-key($breakpoints, $name);
 }

@@ -2,6 +2,10 @@
 //   z-index helpers
 // -----------------------------------------------------------------------------
 
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:meta';
+
 // This is adapted from Matt Stow's functions:
 // https://codepen.io/stowball/post/sassier-z-index-management-for-complex-layouts
 // https://gist.github.com/stowball/080e77b8831e57f275f2a906f4d66697
@@ -63,13 +67,13 @@ $z-indices: (
 
   @each $key in $keys {
     // If this level is a map, get the index and recurse down.
-    @if (type-of($map) == 'map') {
-      $found-index: index(map-keys($map), $key);
-      $map:     map-get($map, $key);
+    @if (meta.type-of($map) == 'map') {
+      $found-index: list.index(map.keys($map), $key);
+      $map:     map.get($map, $key);
 
     // Otherwise, assume this is a list and try to get the key's index.
     } @else {
-      $found-index: index($map, $key);
+      $found-index: list.index($map, $key);
     }
   }
 

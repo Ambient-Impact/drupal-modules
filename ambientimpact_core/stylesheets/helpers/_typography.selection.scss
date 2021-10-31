@@ -2,6 +2,8 @@
 //   Typograpy selection helpers
 // -----------------------------------------------------------------------------
 
+@use 'sass:color';
+
 ///
 /// Default selection colour; light blue.
 ///
@@ -11,7 +13,7 @@ $text-selection-background-colour: #0078d7 !default;
 /// Default selection colour when the viewport is inactive.
 ///
 $text-inactive-selection-background-colour:
-  desaturate($text-selection-background-colour, 60%) !default;
+  color.adjust($text-selection-background-colour, $saturation: -60%) !default;
 
 ///
 /// Set selection colours.

@@ -2,6 +2,8 @@
 //  CSS Custom Property helpers
 // -----------------------------------------------------------------------------
 
+@use 'sass:string';
+
 ///
 /// Declare a CSS Custom Property.
 ///
@@ -12,7 +14,7 @@
 ///   The value to set the custom property to.
 ///
 @mixin custom-property($name, $value) {
-  #{unquote('--#{$name}')}: $value;
+  #{string.unquote('--#{$name}')}: $value;
 }
 
 ///

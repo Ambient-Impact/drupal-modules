@@ -2,6 +2,8 @@
 //   Ambient.Impact - UX - Link component custom properties partial
 // -----------------------------------------------------------------------------
 
+@use 'sass:map';
+
 ///
 /// Set link colour CSS custom properties on the current element.
 ///
@@ -26,26 +28,26 @@
 
   @include custom-property(
     'link-normal-colour',
-    map-get($colours, 'normal')
+    map.get($colours, 'normal')
   );
   @include custom-property(
     'link-hover-colour',
-    map-get($colours, 'hover')
+    map.get($colours, 'hover')
   );
   @include custom-property(
     'link-active-colour',
-    map-get($colours, 'active')
+    map.get($colours, 'active')
   );
   @include custom-property(
     'link-underline-normal-colour',
-    map-get($colours, 'underline-normal')
+    map.get($colours, 'underline-normal')
   );
   @include custom-property(
     'link-underline-hover-colour',
-    map-get($colours, 'underline-hover')
+    map.get($colours, 'underline-hover')
   );
   @include custom-property(
     'link-underline-active-colour',
-    map-get($colours, 'underline-active')
+    map.get($colours, 'underline-active')
   );
 }

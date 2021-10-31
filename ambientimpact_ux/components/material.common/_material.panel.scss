@@ -2,6 +2,8 @@
 //   Ambient.Impact - UX - Material panel partial
 // -----------------------------------------------------------------------------
 
+@use 'sass:color';
+
 ///
 /// Material panel background colour, light variant.
 ///
@@ -13,7 +15,7 @@ $material-panel-background-colour-light: $background-colour-light !default;
 /// This is mixed with the foreground colour a bit to give it some contrast
 /// against a light background, if needed.
 ///
-$material-panel-background-colour-light-on-light: mix(
+$material-panel-background-colour-light-on-light: color.mix(
   $background-colour-light, $foreground-colour-on-light, 90%
 ) !default;
 
@@ -28,7 +30,7 @@ $material-panel-background-colour-dark: $background-colour-dark !default;
 /// This is mixed with the foreground colour a bit to give it some contrast
 /// against a dark background, if needed.
 ///
-$material-panel-background-colour-dark-on-dark: mix(
+$material-panel-background-colour-dark-on-dark: color.mix(
   $background-colour-dark, $foreground-colour-on-dark, 90%
 ) !default;
 

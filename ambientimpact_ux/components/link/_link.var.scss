@@ -2,6 +2,9 @@
 //   Ambient.Impact - UX - Link component variables partial
 // -----------------------------------------------------------------------------
 
+@use 'sass:color';
+@use 'sass:meta';
+
 ///
 /// The link base colour.
 ///
@@ -10,7 +13,7 @@
 /// blue if it does not exist.
 ///
 $link-base-colour: if(
-  variable-exists(material-primary-colour),
+  meta.variable-exists(material-primary-colour),
   $material-primary-colour,
   #3B53BF
 ) !default;
@@ -47,13 +50,13 @@ $link-normal-colour-on-dark:
 /// Link colour on light backgrounds when hovered/focused.
 ///
 $link-hover-colour-on-light:
-  lighten($link-normal-colour-on-light, 10%) !default;
+  color.adjust($link-normal-colour-on-light, $lightness: 10%) !default;
 
 ///
 /// Link colour on dark backgrounds when hovered/focused.
 ///
 $link-hover-colour-on-dark:
-  lighten($link-normal-colour-on-dark,  10%) !default;
+  color.adjust($link-normal-colour-on-dark,  $lightness: 10%) !default;
 
 ///
 /// Link colour on light backgrounds when activated.

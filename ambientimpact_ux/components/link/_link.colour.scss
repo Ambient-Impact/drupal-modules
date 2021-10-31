@@ -2,6 +2,10 @@
 //   Ambient.Impact - UX - Link component colour partial
 // -----------------------------------------------------------------------------
 
+@use 'sass:color';
+@use 'sass:map';
+@use 'sass:meta';
+
 ///
 /// Get the active link colour for a given base colour.
 ///
@@ -33,12 +37,12 @@
   $transparentize-amount: 0.4
 ) {
   @if $active-colour == auto {
-    @if function-exists('get-link-active-colour-callback') {
-      @return call(
-        get-function('get-link-active-colour-callback'), $base-colour
+    @if meta.function-exists('get-link-active-colour-callback') {
+      @return meta.call(
+        meta.get-function('get-link-active-colour-callback'), $base-colour
       );
     } @else {
-      @return transparentize($base-colour, $transparentize-amount);
+      @return color.adjust($base-colour, $alpha: -$transparentize-amount);
     }
   } @else {
     @return $active-colour;
@@ -132,29 +136,29 @@
 
   @include link-colour-custom-properties($background, $colours);
 
-  color:  map-get($colours, normal);
+  color:  map.get($colours, normal);
   color:  custom-property('link-normal-colour');
 
   // Add underline colour for browsers that support it, though text-
   // decoration-skip: ink; is not well supported as of November 2017 and fancy
   // link underlines still give us more control, e.g. underline thickness.
-  text-decoration-color:  map-get($colours, underline-normal);
+  text-decoration-color:  map.get($colours, underline-normal);
   text-decoration-color:
     custom-property('link-underline-normal-colour');
 
   @include link-hover {
-    color:  map-get($colours, hover);
+    color:  map.get($colours, hover);
     color:  custom-property('link-hover-colour');
 
-    text-decoration-color: map-get($colours, underline-hover);
+    text-decoration-color: map.get($colours, underline-hover);
     text-decoration-color:
       custom-property('link-underline-hover-colour');
   }
   @include link-active {
-    color:  map-get($colours, active)             !important;
+    color:  map.get($colours, active)             !important;
     color:  custom-property('link-active-colour') !important;
 
-    text-decoration-color:  map-get($colours, underline-active);
+    text-decoration-color:  map.get($colours, underline-active);
     text-decoration-color:
       custom-property('link-underline-active-colour');
   }

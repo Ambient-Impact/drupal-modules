@@ -2,6 +2,10 @@
 //   Event system helpers
 // -----------------------------------------------------------------------------
 
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:meta';
+
 // This creates a basic event system that can be used to listen to and trigger
 // arbitrary events.
 
@@ -68,13 +72,13 @@ $events: ();
 ///   name via get-function(). If this is a function, will be used as-is.
 ///
 @mixin on-event($event-name, $property-name, $callback) {
-  @if type-of($callback) == string and function-exists($callback) {
-    $callback: get-function($callback);
-  } @else if type-of($callback) != function {
-    @error 'on-event() expects $callback as a string function name or a function object, is #{type-of($callback)}';
+  @if meta.type-of($callback) == string and meta.function-exists($callback) {
+    $callback: meta.get-function($callback);
+  } @else if meta.type-of($callback) != function {
+    @error 'on-event() expects $callback as a string function name or a function object, is #{meta.type-of($callback)}';
   }
 
-  @if type-of($callback) == function {
+  @if meta.type-of($callback) == function {
     $event-items: ();
     $new-item: (
       'property-name':  $property-name,
@@ -83,13 +87,13 @@ $events: ();
 
     // Grab the existing event items (if any) or create a new list containing
     // the new item. Note the explicit list format when creating a new list.
-    @if map-has-key($events, $event-name) {
-      $event-items: append(map-get($events, $event-name), $new-item, comma);
+    @if map.has-key($events, $event-name) {
+      $event-items: list.append(map.get($events, $event-name), $new-item, comma);
     } @else {
       $event-items: ($new-item,);
     }
 
-    $events: map-merge($events, (
+    $events: map.merge($events, (
       $event-name: $event-items
     )) !global;
   }
@@ -109,12 +113,12 @@ $events: ();
 ///   One or more parameters to pass to each registered callback function.
 ///
 @mixin trigger-event($event-name, $parameters...) {
-  @if map-has-key($events, $event-name) {
-    $event-items: map-get($events, $event-name);
+  @if map.has-key($events, $event-name) {
+    $event-items: map.get($events, $event-name);
 
     @each $event-item in $event-items {
-      #{map-get($event-item, 'property-name')}:
-        call(map-get($event-item, 'callback'), $parameters...);
+      #{map.get($event-item, 'property-name')}:
+        meta.call(map.get($event-item, 'callback'), $parameters...);
     }
   }
 }

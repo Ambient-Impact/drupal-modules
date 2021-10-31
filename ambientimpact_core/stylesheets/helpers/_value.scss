@@ -2,6 +2,8 @@
 //   Generic value helpers
 // -----------------------------------------------------------------------------
 
+@use 'sass:list';
+
 ///
 /// Repeat a value a specified number of times.
 ///
@@ -22,7 +24,7 @@
 
   @if $times > 1 {
     @for $i from 2 through $times {
-      $result: append($result, $value, $separator);
+      $result: list.append($result, $value, $separator);
     }
   }
 

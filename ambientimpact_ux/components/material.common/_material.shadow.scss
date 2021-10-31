@@ -2,6 +2,9 @@
 //   Ambient.Impact - UX - Material shadow partial
 // -----------------------------------------------------------------------------
 
+@use 'sass:color';
+@use 'sass:list';
+
 // Shadow functions based on:
 // https://css-tricks.com/snippets/sass/material-shadows-mixin/
 
@@ -15,7 +18,7 @@ $material-shadow-colour:	black !default;
  * @return {Number}
  */
 @function material-shadow-top-opacity($depth) {
-	@return nth(.12 .16 .19 .25 .30, $depth);
+	@return list.nth(.12 .16 .19 .25 .30, $depth);
 }
 
 /**
@@ -32,8 +35,8 @@ $material-shadow-colour:	black !default;
 		$opacity: material-shadow-top-opacity($depth);
 	}
 
-	$offset:	nth(1 3 10 14 19,	$depth)	* 1px;
-	$blur:		nth(1 3 10 14 19,	$depth)	* 1px;
+	$offset:	list.nth(1 3 10 14 19,	$depth)	* 1px;
+	$blur:		list.nth(1 3 10 14 19,	$depth)	* 1px;
 	$colour:	rgba($material-shadow-colour, $opacity);
 
 	@return 0 $offset $blur $colour;
@@ -47,7 +50,7 @@ $material-shadow-colour:	black !default;
  * @return {Number}
  */
 @function material-shadow-bottom-opacity($depth) {
-	@return nth(.24 .23 .23 .22 .22, $depth);
+	@return list.nth(.24 .23 .23 .22 .22, $depth);
 }
 
 /**
@@ -64,8 +67,8 @@ $material-shadow-colour:	black !default;
 		$opacity: material-shadow-bottom-opacity($depth);
 	}
 
-	$offset:	nth(1 3 6 10 15,	$depth)	* 1px;
-	$blur:		nth(1 3 3 5 6,		$depth)	* 1px;
+	$offset:	list.nth(1 3 6 10 15,	$depth)	* 1px;
+	$blur:		list.nth(1 3 3 5 6,		$depth)	* 1px;
 	$color:		rgba($material-shadow-colour, $opacity);
 
 	@return 0 $offset $blur $color;
@@ -115,22 +118,22 @@ $material-shadow-colour:	black !default;
 	$depth: 2
 ) {
 	// Grab the 'bottom' Material shadow.
-	$shadow: nth(material-shadow($depth), 2);
+	$shadow: list.nth(material-shadow($depth), 2);
 
 	// Decrease the vertical offset by 1 pixel, so small shadows better match
 	// the multi-layered Material shadows used in text-shadow and box-shadow.
-	@if nth($shadow, 2) > 1 {
-		$shadow: set-nth($shadow, 2, nth($shadow, 2) - 1);
+	@if list.nth($shadow, 2) > 1 {
+		$shadow: list.set-nth($shadow, 2, list.nth($shadow, 2) - 1);
 	}
 
 	// Reduce the blur radius by 1 pixel to better match the multi-layered
 	// Material shadows.
-	@if nth($shadow, 3) > 1 {
-		$shadow: set-nth($shadow, 3, nth($shadow, 3) - 1);
+	@if list.nth($shadow, 3) > 1 {
+		$shadow: list.set-nth($shadow, 3, list.nth($shadow, 3) - 1);
 	}
 
 	// Increase the opacity slightly.
-	$shadow: set-nth($shadow, 4, opacify(nth($shadow, 4), 0.1));
+	$shadow: list.set-nth($shadow, 4, color.adjust(list.nth($shadow, 4), $alpha: 0.1));
 
 	@return $shadow;
 }
@@ -162,14 +165,14 @@ $material-shadow-colour:	black !default;
 	$depth: 2
 ) {
 	// Grab the 'bottom' Material shadow.
-	$shadow: nth(material-shadow($depth), 2);
+	$shadow: list.nth(material-shadow($depth), 2);
 	// Increase the opacity slightly.
-	$shadow: set-nth($shadow, 4, opacify(nth($shadow, 4), 0.1));
+	$shadow: list.set-nth($shadow, 4, color.adjust(list.nth($shadow, 4), $alpha: 0.1));
 	// Change the vertical offset to zero.
-	$shadow: set-nth($shadow, 2, 0);
+	$shadow: list.set-nth($shadow, 2, 0);
 	// Reduce the blur width by a pixel, if we have at least two pixels.
-	@if nth($shadow, 3) > 1px {
-		$shadow: set-nth($shadow, 3, nth($shadow, 3) - 1);
+	@if list.nth($shadow, 3) > 1px {
+		$shadow: list.set-nth($shadow, 3, list.nth($shadow, 3) - 1);
 	}
 
 	@return $shadow;
