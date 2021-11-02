@@ -84,15 +84,10 @@
     @error '$target must be a simple selector and not a compound selector! Was provided \'#{$target}\'.';
   }
 
-  // Grab the current selector. Note that attempting to use sl-remove-
-  // duplicates(&) here to remove duplicates, which can occur when double
-  // nesting this mixin with a selector in between, will result in a long
-  // compile time and then an error.
-  $current-selectors: &;
-
   $new-selectors: ();
 
-  @each $selector in $current-selectors {
+  @each $selector in & {
+
     @each $condition in $conditions {
 
       $modified-target: selector.append($target, $condition);
