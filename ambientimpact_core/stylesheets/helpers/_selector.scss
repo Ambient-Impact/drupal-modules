@@ -29,7 +29,6 @@
 ///
 /// @todo
 ///   This fails badly when double nested with a selector in between the two.
-///   See commented out code underneath.
 ///
 /// @example
 ///   // This is the preferred way to declare root conditions, without
@@ -80,6 +79,7 @@
 ///   }
 ///
 @mixin root-conditions($conditions, $target) {
+
   @if list.length(selector.simple-selectors($target)) > 1 {
     @error '$target must be a simple selector and not a compound selector! Was provided \'#{$target}\'.';
   }
@@ -97,19 +97,19 @@
 
       $modified-target: selector.append($target, $condition);
 
-      // Check that the current selector isn't null, because if it is it
-      // means that this mixin was probably called in the root and
-      // selector.replace() will throw an error.
+      // Check that the current selector isn't null, because if it is it means
+      // that this mixin was probably called in the root and selector.replace()
+      // will throw an error.
       @if $selector != null {
+
         $replaced-selector: selector.replace(
           $selector, $target, $modified-target
         );
 
-        // Check if the string representations of the original $selector
-        // and $replaced-selector match. Note that comparing them as
-        // lists doesn't seem to always work as expected, hence the conversion
-        // to string. If they don't match, it should mean that we've
-        // successfully replaced.
+        // Check if the string representations of the original $selector and
+        // $replaced-selector match. Note that comparing them as lists doesn't
+        // seem to always work as expected, hence the conversion to string. If
+        // they don't match, it should mean that we've successfully replaced.
         @if sl-to-string($selector, ' ') != sl-to-string(
             list.nth($replaced-selector, 1), ' '
           )
@@ -120,9 +120,9 @@
             comma
           );
 
-        // If the selector does match, it should mean that we haven't
-        // replaced anything and therefore the $target doesn't exist in
-        // $selector. In this case, we nest $selector under $target.
+        // If the selector does match, it should mean that we haven't replaced
+        // anything and therefore the $target doesn't exist in $selector. In
+        // this case, we nest $selector under $target.
         } @else {
           $new-selectors: list.join(
             $new-selectors,
@@ -138,53 +138,13 @@
           comma
         );
       }
+
     }
+
   }
 
   @at-root #{$new-selectors} {
     @content;
   }
+
 }
-
-// Uncomment below for testing.
-
-// .sidebar {
-//  @include root-conditions(('.two-sidebars', '.one-sidebar'), 'body') {
-//    @debug &;
-//    @include root-conditions('.use-grid', 'body') {
-//      @debug &;
-//    }
-//  }
-// }
-
-// body.stuff .ahem {
-//  @include root-conditions(('.two-sidebars', '.one-sidebar'), 'body') {
-//    @debug &;
-//    @include root-conditions('.use-grid', 'body') {
-//      @debug &;
-//    }
-//  }
-// }
-
-// @include root-conditions(('.two-sidebars', '.one-sidebar'), 'body') {
-//  @debug &;
-//  @include root-conditions('.use-grid', 'body') {
-//    @debug &;
-//  }
-// }
-
-
-// This one fails badly with the nested intermediary .blarg and root-
-// conditions() inside. The root-conditions seems to make the Sass compiler
-// crash and not even output any debug information. D:
-
-// body.stuff .ahem {
-//  @include root-conditions(('.two-sidebars', '.one-sidebar'), 'body') {
-//    @debug &;
-//    .blarg {
-//      @include root-conditions('.use-grid', 'body') {
-//        @debug &;
-//      }
-//    }
-//  }
-// }
