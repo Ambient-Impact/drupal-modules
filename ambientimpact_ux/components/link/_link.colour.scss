@@ -136,31 +136,32 @@
 
   @include link-colour-custom-properties($background, $colours);
 
-  color:  map.get($colours, normal);
-  color:  custom-property('link-normal-colour');
+  color: var(--link-normal-colour, map.get($colours, normal));
 
-  // Add underline colour for browsers that support it, though text-
-  // decoration-skip: ink; is not well supported as of November 2017 and fancy
-  // link underlines still give us more control, e.g. underline thickness.
-  text-decoration-color:  map.get($colours, underline-normal);
-  text-decoration-color:
-    custom-property('link-underline-normal-colour');
+  text-decoration-color: var(
+    --link-underline-normal-colour,
+    #{map.get($colours, underline-normal)}
+  );
 
   @include link-hover {
-    color:  map.get($colours, hover);
-    color:  custom-property('link-hover-colour');
 
-    text-decoration-color: map.get($colours, underline-hover);
-    text-decoration-color:
-      custom-property('link-underline-hover-colour');
+    color: var(--link-hover-colour, map.get($colours, hover));
+
+    text-decoration-color: var(
+      --link-underline-hover-colour,
+      #{map.get($colours, underline-hover)}
+    );
+
   }
   @include link-active {
-    color:  map.get($colours, active)             !important;
-    color:  custom-property('link-active-colour') !important;
 
-    text-decoration-color:  map.get($colours, underline-active);
-    text-decoration-color:
-      custom-property('link-underline-active-colour');
+    color: var(--link-active-colour, map.get($colours, active)) !important;
+
+    text-decoration-color: var(
+      --link-underline-active-colour,
+      #{map.get($colours, underline-active)}
+    );
+
   }
 }
 

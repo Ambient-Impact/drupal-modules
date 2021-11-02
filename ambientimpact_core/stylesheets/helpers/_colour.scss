@@ -184,14 +184,8 @@ $foreground-colour: get-contrasting-colour(
   );
 
   // Set custom properties.
-  @include custom-property(
-    'background-colour',
-    $background
-  );
-  @include custom-property(
-    'foreground-colour',
-    $foreground
-  );
+  --background-colour: #{$background};
+  --foreground-colour: #{$foreground};
 
   @include trigger-event('set-colours', $background, $foreground);
 

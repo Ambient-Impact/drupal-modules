@@ -135,21 +135,13 @@ $text-underline-style: solid !default;
 ) {
   // Set underline values as custom properties so that they can be altered on
   // a per-element basis at run-time.
-  @include custom-property(
-    'text-underline-colour',  $underline-colour
-  );
-  @include custom-property(
-    'text-underline-position',  $underline-position
-  );
-  @include custom-property(
-    'text-underline-thickness', $underline-thickness
-  );
+  --text-underline-colour:    #{$underline-colour};
+  --text-underline-position:  #{$underline-position};
+  --text-underline-thickness: #{$underline-thickness};
   // The underline style currently requires pre-processing in Sass so this is
   // only here for JavaScript or other uses, but will not have any effect if
   // changed.
-  @include custom-property(
-    'text-underline-style',   $underline-style
-  );
+  --text-underline-style: #{$underline-style};
 
   // The default width to height ratio is 1:1.
   $background-width-ratio:    1;
@@ -176,7 +168,7 @@ $text-underline-style: solid !default;
   }
 
   background-image:   text-underline-background(
-    custom-property('text-underline-colour'), $underline-style
+    var(--text-underline-colour), $underline-style
   );
   // Background width is multiplied by the ratio. We do this in a calc() in
   // case the passed thickness is a CSS custom property - trying to multiply
@@ -184,16 +176,15 @@ $text-underline-style: solid !default;
   background-size:
     calc(
       #{$background-width-ratio} *
-      #{custom-property('text-underline-thickness')}
+      var(--text-underline-thickness)
     )
-    custom-property('text-underline-thickness');
+    var(--text-underline-thickness);
   background-repeat:    repeat-x;
   // If the 'round' keyword is supported, use it to avoid the last repeated
   // background image being clipped. See:
   // https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat
   background-repeat:    round no-repeat;
-  background-position:
-    $background-x-position custom-property('text-underline-position');
+  background-position:  $background-x-position var(--text-underline-position);
 }
 
 ///
@@ -284,7 +275,7 @@ $text-underline-style: solid !default;
 /// @param {String} $underline-style [$text-underline-style]
 ///   The underline style; should be one of solid, dotted, or dashed.
 ///
-/// @param {Color} $background-colour [custom-property('background-colour')]
+/// @param {Color} $background-colour [var(--background-colour)]
 ///   The background colour to use for the underline crop.
 ///
 /// @content
@@ -303,7 +294,7 @@ $text-underline-style: solid !default;
   $underline-position:  $text-underline-position,
   $underline-thickness: $text-underline-thickness,
   $underline-style:     $text-underline-style,
-  $background-colour:   custom-property('background-colour')
+  $background-colour:   var(--background-colour)
 ) {
 
   @include supports-cleared-text-underline {

@@ -23,11 +23,9 @@
     // Set to use a contrasting white. The share menu is always white with
     // the link backgrounds a custom colour depending on the share type.
     @include link-hover {
-      color:  white;
-      @include custom-property(
-        'link-hover-colour',
-        white
-      );
+      --link-hover-colour: white;
+
+      color: var(--link-hover-colour);
     }
   }
 }

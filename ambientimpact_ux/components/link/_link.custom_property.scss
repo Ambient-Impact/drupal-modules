@@ -16,38 +16,22 @@
 ///   once, for performance during compilation. If null, will call the function.
 ///
 /// @require {function} get-link-colours
-/// @require {mixin}  custom-property
 ///
 @mixin link-colour-custom-properties(
   $background:  $background-colour,
   $colours:   null
 ) {
+
   @if ($colours == null) {
     $colours: get-link-colours($background);
   }
 
-  @include custom-property(
-    'link-normal-colour',
-    map.get($colours, 'normal')
-  );
-  @include custom-property(
-    'link-hover-colour',
-    map.get($colours, 'hover')
-  );
-  @include custom-property(
-    'link-active-colour',
-    map.get($colours, 'active')
-  );
-  @include custom-property(
-    'link-underline-normal-colour',
-    map.get($colours, 'underline-normal')
-  );
-  @include custom-property(
-    'link-underline-hover-colour',
-    map.get($colours, 'underline-hover')
-  );
-  @include custom-property(
-    'link-underline-active-colour',
-    map.get($colours, 'underline-active')
-  );
+  --link-normal-colour: #{map.get($colours, 'normal')};
+  --link-hover-colour:  #{map.get($colours, 'hover')};
+  --link-active-colour: #{map.get($colours, 'active')};
+
+  --link-underline-normal-colour: #{map.get($colours, 'underline-normal')};
+  --link-underline-hover-colour:  #{map.get($colours, 'underline-hover')};
+  --link-underline-active-colour: #{map.get($colours, 'underline-active')};
+
 }
