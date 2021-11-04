@@ -1,0 +1,5 @@
+ambientimpact.configuration:
+  title: 'Ambient.Impact'
+  route_name: 'ambientimpact.configuration'
+  parent: 'system.admin_config'
+  weight: -10

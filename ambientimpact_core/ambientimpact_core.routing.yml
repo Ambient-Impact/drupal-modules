@@ -7,3 +7,11 @@ ambientimpact_core.component_html_endpoint:
     # We have to specify at least one requirement, and because we don't require
     # any permission for components, set this to always allow.
     _access: 'TRUE'
+
+ambientimpact.configuration:
+  path: '/admin/config/ambientimpact'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Ambient.Impact'
+  requirements:
+    _permission: 'administer site configuration'
