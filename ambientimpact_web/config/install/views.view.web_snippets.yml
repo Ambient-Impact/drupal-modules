@@ -170,20 +170,7 @@ display:
             label: ''
           granularity: second
       title: Snippets
-      header:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: Intro
-          empty: true
-          tokenize: false
-          content:
-            value: 'These snippets are my attempt to save and organize various bits of code, best practices, and resources relating to web development and design. They also function as a to do list of sorts, for things I want to implement in my own code, but haven''t yet. The concept is inspired by <a href="https://adactio.com/links/">Jeremy Keith''s links</a> and <a href="https://css-tricks.com/">CSS-Tricks</a>, among other things. Enjoy.'
-            format: filtered_html
-          plugin_id: text
+      header: {  }
       footer: {  }
       empty: {  }
       relationships: {  }
