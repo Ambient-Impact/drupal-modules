@@ -22,27 +22,27 @@ dependencies:
 
 config_devel:
   install:
-  - ambientimpact_web.snippets
-  - core.entity_form_display.node.web_snippet.default
-  - core.entity_view_display.node.web_snippet.default
-  - core.entity_view_display.node.web_snippet.compact
-  - core.entity_view_display.node.web_snippet.rss
-  - core.entity_view_display.node.web_snippet.search_result
-  - core.entity_view_display.node.web_snippet.teaser
-  - field.field.node.web_snippet.field_paragraphs
-  - field.field.node.web_snippet.field_source_link
-  - field.field.node.web_snippet.field_web_tags
-  - field.storage.node.field_paragraphs
-  - field.storage.node.field_source_link
-  - field.storage.node.field_web_tags
-  - node.type.web_snippet
-  - search_api.index.web_snippets
-  - search_api.server.web_snippets
-  - views.view.web_snippets
-  - views.view.web_snippets_search
-  - views.view.web_tags
-  - taxonomy.vocabulary.web_tags
+    - ambientimpact_web.snippets
+    - core.entity_form_display.node.web_snippet.default
+    - core.entity_view_display.node.web_snippet.default
+    - core.entity_view_display.node.web_snippet.compact
+    - core.entity_view_display.node.web_snippet.rss
+    - core.entity_view_display.node.web_snippet.search_result
+    - core.entity_view_display.node.web_snippet.teaser
+    - field.field.node.web_snippet.field_paragraphs
+    - field.field.node.web_snippet.field_source_link
+    - field.field.node.web_snippet.field_web_tags
+    - field.storage.node.field_paragraphs
+    - field.storage.node.field_source_link
+    - field.storage.node.field_web_tags
+    - node.type.web_snippet
+    - search_api.index.web_snippets
+    - search_api.server.web_snippets
+    - views.view.web_snippets
+    - views.view.web_snippets_search
+    - views.view.web_tags
+    - taxonomy.vocabulary.web_tags
   optional:
-  - core.entity_view_mode.node.compact
-  - pathauto.pattern.node_web_snippet
-  - pathauto.pattern.taxonomy_term_web_tags
+    - core.entity_view_mode.node.compact
+    - pathauto.pattern.node_web_snippet
+    - pathauto.pattern.taxonomy_term_web_tags

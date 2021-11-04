@@ -21,14 +21,14 @@ dependencies:
 
 config_devel:
   install:
-  - image.style.open_graph
-  - image.style.content_image_large
-  - image.style.content_image_small
-  - media.type.gif
-  - core.entity_view_mode.media.compact
-  - core.entity_form_display.media.gif.default
-  - core.entity_form_display.media.gif.media_library
-  - core.entity_view_display.media.gif.default
-  - core.entity_view_display.media.gif.compact
-  - core.entity_view_display.media.gif.media_library
-  - field.field.media.gif.field_media_image
+    - image.style.open_graph
+    - image.style.content_image_large
+    - image.style.content_image_small
+    - media.type.gif
+    - core.entity_view_mode.media.compact
+    - core.entity_form_display.media.gif.default
+    - core.entity_form_display.media.gif.media_library
+    - core.entity_view_display.media.gif.default
+    - core.entity_view_display.media.gif.compact
+    - core.entity_view_display.media.gif.media_library
+    - field.field.media.gif.field_media_image

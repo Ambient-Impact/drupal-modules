@@ -21,23 +21,23 @@ dependencies:
 
 config_devel:
   install:
-  - core.entity_form_display.node.project.default
-  - core.entity_view_display.node.project.default
-  - core.entity_view_display.node.project.compact
-  - core.entity_view_display.node.project.teaser
-  - entityqueue.entity_queue.portfolio
-  - field.field.node.project.body
-  - field.field.node.project.field_project_media
-  - field.field.node.project.field_project_link
-  - field.storage.node.field_project_categories
-  - field.storage.node.field_project_media
-  - field.storage.node.field_project_link
-  - image.style.project_image_large
-  - image.style.project_image_linked
-  - image.style.project_image_small
-  - node.type.project
-  - taxonomy.vocabulary.project_categories
-  - views.view.portfolio
+    - core.entity_form_display.node.project.default
+    - core.entity_view_display.node.project.default
+    - core.entity_view_display.node.project.compact
+    - core.entity_view_display.node.project.teaser
+    - entityqueue.entity_queue.portfolio
+    - field.field.node.project.body
+    - field.field.node.project.field_project_media
+    - field.field.node.project.field_project_link
+    - field.storage.node.field_project_categories
+    - field.storage.node.field_project_media
+    - field.storage.node.field_project_link
+    - image.style.project_image_large
+    - image.style.project_image_linked
+    - image.style.project_image_small
+    - node.type.project
+    - taxonomy.vocabulary.project_categories
+    - views.view.portfolio
   optional:
-  - core.entity_view_mode.node.compact
-  - pathauto.pattern.node_project
+    - core.entity_view_mode.node.compact
+    - pathauto.pattern.node_project
