@@ -6,3 +6,11 @@ ambientimpact_web.overview:
     _title: 'Web development'
   requirements:
     _permission: 'access content'
+
+ambientimpact_web.snippets_settings:
+  path: '/admin/config/ambientimpact/web-snippets'
+  defaults:
+    _form: '\Drupal\ambientimpact_web\Form\WebSnippetsSettingsForm'
+    _title: 'Web snippets settings'
+  requirements:
+    _permission: 'administer site configuration'

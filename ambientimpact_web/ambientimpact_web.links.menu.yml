@@ -3,3 +3,9 @@ ambientimpact_web.overview:
   title: 'Web dev'
   route_name: ambientimpact_web.overview
   menu_name: main
+
+ambientimpact_web.snippets_settings:
+  title: 'Web snippets settings'
+  route_name: 'ambientimpact_web.snippets_settings'
+  parent: 'ambientimpact.configuration'
+  description: 'Configure web snippets settings.'

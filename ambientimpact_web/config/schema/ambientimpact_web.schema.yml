@@ -1,0 +1,7 @@
+ambientimpact_web.snippets:
+  type: config_object
+  label: 'Ambient.Impact: Web snippets configuration'
+  mapping:
+    about_node:
+      type: string
+      label: 'The node describing web snippets and their purpose.'

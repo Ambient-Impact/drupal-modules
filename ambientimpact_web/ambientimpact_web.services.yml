@@ -9,6 +9,9 @@ services:
   # Web snippets links template_preprocess_views_view() event subscriber.
   ambientimpact_web.preprocess_view_web_snippets_links_event_subscriber:
     class: \Drupal\ambientimpact_web\EventSubscriber\Preprocess\ViewPreprocessWebSnippetsLinks
-    arguments: ['@string_translation']
+    arguments:
+      - '@config.factory'
+      - '@entity_type.manager'
+      - '@string_translation'
     tags:
       - { name: 'event_subscriber' }
