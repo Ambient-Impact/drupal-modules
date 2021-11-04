@@ -1,12 +1,13 @@
 services:
-  # Web snippets links hook_theme() event subscriber.
+
+  # Defines the 'web_snippets_links' theme element.
   ambientimpact_web.theme_web_snippets_links_event_subscriber:
     class: \Drupal\ambientimpact_web\EventSubscriber\Theme\ThemeWebSnippetsLinks
     arguments: ['@module_handler']
     tags:
       - { name: 'event_subscriber' }
 
-  # Web snippets links template_preprocess_views_view() event subscriber.
+  # Preprocess variables for the 'web_snippets' view.
   ambientimpact_web.preprocess_view_web_snippets_links_event_subscriber:
     class: \Drupal\ambientimpact_web\EventSubscriber\Preprocess\ViewPreprocessWebSnippetsLinks
     arguments:

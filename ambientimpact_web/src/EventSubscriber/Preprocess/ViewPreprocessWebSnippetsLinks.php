@@ -4,10 +4,10 @@ namespace Drupal\ambientimpact_web\EventSubscriber\Preprocess;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Template\Attribute;
-use Drupal\Core\Url;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
+use Drupal\Core\Template\Attribute;
+use Drupal\Core\Url;
 use Drupal\preprocess_event_dispatcher\Event\ViewPreprocessEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -21,6 +21,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @see \Drupal\preprocess_event_dispatcher\Event\ViewPreprocessEvent
  */
 class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
+
   use StringTranslationTrait;
 
   /**
@@ -76,16 +77,12 @@ class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return [
-      ViewPreprocessEvent::name() => 'preprocessView',
+      ViewPreprocessEvent::name() => 'onPreprocessView',
     ];
   }
 
   /**
    * Preprocess variables for the 'web_snippets' view.
-   *
-   * This adds links to the view header when in the 'page' display to search
-   * snippets, view all web development tags, and to view the web snippets RSS
-   * feed.
    *
    * Note that we could use '#theme' => 'links', but that doesn't provide a
    * simple way to define attributes for the <li> elements other than a single
@@ -96,12 +93,15 @@ class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
    * @param \Drupal\preprocess_event_dispatcher\Event\ViewPreprocessEvent $event
    *   The event object.
    *
-   * @see \Drupal\ambientimpact_web\EventSubscriber\Theme\ThemeWebSnippetsLinks::theme()
+   * @see \Drupal\ambientimpact_web\EventSubscriber\Theme\ThemeWebSnippetsLinks::onTheme()
    *   Defines the 'web_snippets_links' render element.
    */
-  public function preprocessView(ViewPreprocessEvent $event) {
+  public function onPreprocessView(ViewPreprocessEvent $event) {
+
     /* @var \Drupal\preprocess_event_dispatcher\Event\Variables\ViewEventVariables $variables */
     $variables = $event->getVariables();
+
+    /** @var \Drupal\views\ViewExecutable */
     $view = $variables->getView();
 
     if (
@@ -133,7 +133,9 @@ class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
         'route'       => 'view.web_snippets_search.page_results',
         'iconName'    => 'loupe',
         'iconBundle'  => 'libricons',
-        'text'        => $this->t('Search<span class="visually-hidden"> web snippets</span>'),
+        'text'        => $this->t(
+          'Search<span class="visually-hidden"> web snippets</span>'
+        ),
         'titleAttr'   => $this->t('Search web snippets.'),
       ],
       // View all tags.
@@ -141,7 +143,9 @@ class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
         'route'       => 'view.web_tags.page',
         'iconName'    => 'bookmark-outline',
         'iconBundle'  => 'core',
-        'text'        => $this->t('Tags<span class="visually-hidden"> (view all web development tags)</span>'),
+        'text'        => $this->t(
+          'Tags<span class="visually-hidden"> (view all web development tags)</span>'
+        ),
         'titleAttr'   => $this->t('View all web development tags.'),
       ],
       // RSS feed.
@@ -149,7 +153,9 @@ class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
         'route'       => 'view.web_snippets.feed',
         'iconName'    => 'rss',
         'iconBundle'  => 'core',
-        'text'        => $this->t('Subscribe<span class="visually-hidden"> to the web snippets RSS feed</span>'),
+        'text'        => $this->t(
+          'Subscribe<span class="visually-hidden"> to the web snippets RSS feed</span>'
+        ),
         'titleAttr'   => $this->t('View the web snippets RSS feed.'),
       ],
     ];
@@ -170,7 +176,9 @@ class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
           'url'         => $aboutNode->toUrl(),
           'iconName'    => 'info',
           'iconBundle'  => 'core',
-          'text'        => $this->t('About<span class="visually-hidden"> web snippets</span>'),
+          'text'        => $this->t(
+            'About<span class="visually-hidden"> web snippets</span>'
+          ),
           'titleAttr'   => $this->t('What even are these?'),
         ];
       }
@@ -181,7 +189,8 @@ class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
     foreach ($linkTypes as $key => $data) {
       $items[$key] = [
         'link_attributes' => new Attribute(),
-        'linkURL'         => isset($data['url']) ? $data['url'] : Url::fromRoute($data['route']),
+        'linkURL'         => isset($data['url']) ?
+          $data['url'] : Url::fromRoute($data['route']),
         // Define the icon here rather than using {{ ambientimpact_icon() }} in
         // the template to ensure any HTML in the text doesn't get escaped. This
         // is probably better for render caching as well.
@@ -195,9 +204,12 @@ class ViewPreprocessWebSnippetsLinks implements EventSubscriberInterface {
 
       // Add a 'title' attribute to the link, if one is available.
       if (!empty($data['titleAttr'])) {
-        $items[$key]['link_attributes']
-          ->setAttribute('title', $data['titleAttr']);
+        $items[$key]['link_attributes']->setAttribute(
+          'title', $data['titleAttr']
+        );
       }
     }
+
   }
+
 }
