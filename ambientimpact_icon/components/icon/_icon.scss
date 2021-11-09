@@ -256,11 +256,18 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
   }
 
   .ambientimpact-icon__icon {
+
+    @supports (padding-inline-end: #{$spacing}) {
+      padding-inline-end: $spacing;
+    }
+
     // Apply padding to both sides as we don't know here on which side the icon
     // is respective to the text. Note that this is removed in the
     // set-icon-display mixin if CSS Grid is available.
-    padding-right:  $spacing;
-    padding-left:   $spacing;
+    @supports not (padding-inline-end: #{$spacing}) {
+      padding-right:  $spacing;
+      padding-left:   $spacing;
+    }
   }
 }
 
@@ -348,6 +355,15 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
 /// @param {Number} $indent
 ///
 @mixin set-icon-text-indent($indent) {
-  margin-left:  $indent;
+
+  @supports (margin-inline-start: #{$indent}) {
+    margin-inline-start: $indent;
+  }
+
+  @supports not (margin-inline-start: #{$indent}) {
+    margin-left:  $indent;
+  }
+
   text-indent: -$indent;
+
 }
