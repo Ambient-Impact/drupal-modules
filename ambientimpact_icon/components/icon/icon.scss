@@ -60,6 +60,18 @@
     // Set any wrapped lines to line up with the start of the first line's
     // text content (after the icon).
     @include set-icon-text-indent($icon-size + $icon-text-spacing);
+
+    // Icons in a passage of text need to be able to break within the flow of
+    // the containing text, which doesn't work when displayed as inline-block -
+    // in the latter case, the text will break, but only when the full width of
+    // the icon container can't fit on a single line; otherwise, the icon
+    // container will always break to a new line as a whole when it doesn't fit;
+    // this is fixed by setting it to inline. Since the container is now inline,
+    // we also remove the indent.
+    p & {
+      @include set-icon-display(inline);
+      @include set-icon-text-indent(0);
+    }
   }
 
   // Visually hidden text. This text is visually hidden but still accessible
