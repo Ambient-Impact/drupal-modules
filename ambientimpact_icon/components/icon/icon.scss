@@ -42,6 +42,9 @@
   @include set-icon-order;
 
   &:not(.ambientimpact-icon--icon-standalone-loaded) {
+
+    @include set-icon-display(inline-block);
+
     // Icons with text align to text baseline.
     @include set-icon-vertical-alignment('text');
 

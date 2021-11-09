@@ -144,6 +144,8 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
 ///
 ///   - inline: This sets display: inline; on the icon container.
 ///
+///   - inline-block: This sets display: inline-block; on the icon container.
+///
 ///   - block: This sets display: block; display: flex; and lastly display:
 ///     grid; if the browser supports it and is allowed.
 ///
@@ -151,8 +153,8 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
 /// @require {mixin} on-icon-icon
 ///
 @mixin set-icon-display($display: inline) {
-  @if ($display == inline) {
-    display: inline;
+  @if ($display == inline) or ($display == inline-block) {
+    display: $display;
 
   } @else if ($display == block) {
     display: block;
@@ -346,9 +348,6 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
 /// @param {Number} $indent
 ///
 @mixin set-icon-text-indent($indent) {
-  @supports (display: inline-block) {
-    display:      inline-block;
-    margin-left:  $indent;
-    text-indent:  -$indent;
-  }
+  margin-left:  $indent;
+  text-indent: -$indent;
 }
