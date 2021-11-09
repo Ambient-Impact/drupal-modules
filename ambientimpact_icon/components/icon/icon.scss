@@ -25,9 +25,6 @@
   // http://css-tricks.com/cascading-svg-fill-color/
   @include set-icon-colour(currentColor);
 
-  // Required so icon text displays underlines correctly when in a link.
-  text-decoration: inherit;
-
   &__icon {
     position: relative;
 
@@ -47,6 +44,10 @@
 
     // Icons with text align to text baseline.
     @include set-icon-vertical-alignment('text');
+
+    // Required so icon text displays underlines correctly when inline-block in
+    // a link or other element that uses text-decoration.
+    text-decoration: inherit;
 
     a & {
       // Icons with text inside links align to text baseline, taking the
@@ -71,6 +72,15 @@
     p & {
       @include set-icon-display(inline);
       @include set-icon-text-indent(0);
+
+      // Remove the inherited text-decoration as this would cause double
+      // layering of it, which would be most apparent if a partitially
+      // transparent colour were used. Note that this does not remove the
+      // text-decoration of this text created by the parent/ancestor element as
+      // a descendent cannot remove that per the spec.
+      //
+      // @see https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration
+      text-decoration: none;
     }
   }
 
