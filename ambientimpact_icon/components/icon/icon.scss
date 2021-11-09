@@ -73,6 +73,15 @@
     display: none;
   }
 
+  // This prevents the space between the icon and the first word from breaking
+  // to a new line.
+  white-space: nowrap;
+
+  // This restores normal breaking after the first word in the icon text.
+  &__text {
+    white-space: normal;
+  }
+
   &--is-bundle-loading,
   &--is-bundle-loaded {
     #{$self}__icon {
