@@ -24,11 +24,7 @@
     'Web snippet links'|trans
   }}</h2>
 
-  <ul{{ create_attribute({'class': [
-    baseClass ~ '-list',
-    'links',
-    'inline'
-  ]}) }}>
+  <ul{{ create_attribute({'class': [baseClass ~ '-list']}) }}>
     {%- for key, item in items -%}
       <li{{ create_attribute({'class': [
         baseClass ~ '-list-item',
