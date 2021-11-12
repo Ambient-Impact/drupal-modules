@@ -41,28 +41,34 @@ $material-tabs-padding: $material-item-padding-text-align !default;
 ///
 @mixin material-tabs-container {
 
-  border-bottom:
-    $material-tabs-underline-thickness solid
-    $material-tabs-underline-colour-on-light;
+  display: flex;
+
+  overflow-x: auto;
+
+  padding-bottom: $material-tabs-underline-thickness;
+
+  // A pseudo-element is necessary as a border will not allow the active item
+  // indicator to shift down without causing vertical scrollbars.
+  &::after {
+
+    content: '';
+
+    position: absolute;
+
+    left:   0;
+    right:  0;
+    bottom: 0;
+
+    // Use border rather a background colour with height as the latter has
+    // issues with sub-pixel rounding issues and can be rendered thicker than
+    // intended.
+    border-bottom: $material-tabs-underline-thickness solid
+      $material-tabs-underline-colour-on-light;
 
     @include on-dark-colour-scheme {
       border-bottom-color: $material-tabs-underline-colour-on-dark;
     }
 
-  // Fallback if flex-wrap: wrap is not supported.
-  > * {
-    display: inline-block;
-  }
-
-  // Setting items as wrapping flex means that any white space between nodes is
-  // ignored, e.g. in template files.
-  @supports (flex-wrap: wrap) {
-    display:    flex;
-    flex-wrap:  wrap;
-
-    > * {
-      display:  block;
-    }
   }
 
 }
@@ -113,8 +119,9 @@ $material-tabs-padding: $material-item-padding-text-align !default;
   // Shift down to cancel out the container underline.
   bottom: -$material-tabs-underline-thickness;
 
-  height: $material-tabs-indicator-thickness;
-
-  background-color: $material-tabs-indicator-colour;
+  // Use border rather a background colour with height as the latter has issues
+  // with sub-pixel rounding issues and can be rendered thicker than intended.
+  border-bottom: $material-tabs-indicator-thickness solid
+    $material-tabs-indicator-colour;
 
 }
