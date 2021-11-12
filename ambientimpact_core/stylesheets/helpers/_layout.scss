@@ -74,3 +74,49 @@
     }
   }
 }
+
+///
+/// Apply styles for browsers that support the gap properties for flexbox.
+///
+/// It's unfortunately not currently possible to test for support of gap
+/// properties for flexbox, so using support for other things that we can test
+/// for as proxies is the next best thing. The most important one is the
+/// @supports for logical properties, which were added in their standardized
+/// form at or about the same time - for Safari desktop and mobile this is
+/// exactly the same version, but Chrome added logical properties a bit later.
+/// Firefox was the earliest to implement them, and so we have to use an second
+/// proxy for something that was added in the same version that added flexbox
+/// gap (Firefox 63): the prefers-reduced-motion media query.
+///
+/// @see https://gist.github.com/OliverJAsh/7f29d0fa1d35216ec681d2949c3fe8b7#gistcomment-3959360
+///   Comment detailing the reasoning for all of this.
+///
+/// @see https://caniuse.com/flexbox-gap
+///
+/// @see https://caniuse.com/css-logical-props
+///
+/// @see https://caniuse.com/prefers-reduced-motion
+///
+/// @see https://caniuse.com/?compare=firefox+62,firefox+63,chrome+83,chrome+84,safari+14,safari+14.1&compareCats=all
+///   Browser support comparison used to find relatively accurate proxies to
+///   test for.
+///
+@mixin supports-flexbox-gap {
+  @media (prefers-reduced-motion: no-preference), (prefers-reduced-motion: reduce) {
+    // This instructs Autoprefixer to not prefix the @supports conditions as
+    // that would add -webkit-margin-start: 1em for margin-inline-start: 1em,
+    // resulting in false positives with Chromium/WebKit. Note the @at-root {}
+    // to ensure that Sass outputs this outside of any selector otherwise
+    // Autoprefixer won't find it.
+    //
+    // @see https://github.com/postcss/autoprefixer/issues/532
+    //   Autoprefixer added support for /*! ... */ comments that are output by
+    //   Sass even in compressed style.
+    @at-root {
+      /*! autoprefixer: ignore next */
+    }
+    @supports (margin-inline-start: 1em) {
+      @content;
+    }
+  }
+}
