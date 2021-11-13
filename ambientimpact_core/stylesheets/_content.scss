@@ -2,6 +2,8 @@
 //   Ambient.Impact - Core - Shared content partial
 // -----------------------------------------------------------------------------
 
+@import 'include-media';
+
 @include add-breakpoints((
   // The width at which we can comfortably allow floated content without
   // adjacent text being too cramped.

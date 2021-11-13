@@ -10,10 +10,13 @@
     "grunt-modernizr": "^3.0.2",
     "grunt-sass": "^3.1.0",
     "grunt-svgstore": "^2.0.0",
+    "include-media": "^1.4.10",
     "load-grunt-config": "^3.0.2",
     "modernizr": "^3.11.7",
     "postcss": "^8.3.5",
-    "sass": "^1.43.3"
+    "sass": "^1.43.3",
+    "sass-module-importer": "^1.4.0",
+    "sassy-lists": "^3.0.1"
   },
   "dependencies": {}
 }

@@ -5,30 +5,6 @@
 // Include this in your stylesheets to take advantage of all the mixins and
 // variables included here.
 
-// SassyLists: advanced list functions.
-// @see http://at-import.github.io/SassyLists/
-@import '../../../../libraries/sassy-lists/stylesheets/_SassyLists.scss';
-
-// Recursive map merge.
-// @see https://github.com/pentzzsolt/sass-recursive-map-merge
-@import '../../../../libraries/sass-recursive-map-merge/_recursive-map-merge.scss';
-
-// Sassy Cast: Type conversion functions.
-// @see https://github.com/KittyGiraudel/SassyCast
-@import '../../../../libraries/sassy-cast/dist/_SassyCast.scss';
-
-// Toolkit for Responsive Web Design and Progressive Enhancement.
-// @see https://github.com/at-import/toolkit
-@import '../../../../libraries/sass-toolkit/stylesheets/_toolkit.scss';
-
-// Conditional Styles with Sass.
-// @see https://github.com/at-import/jacket
-@import '../../../../libraries/jacket/stylesheets/_jacket.scss';
-
-// Simple, elegant and maintainable media queries in Sass.
-// @see https://include-media.com/
-@import '../../../../libraries/include-media/dist/_include-media.scss';
-
 @import 'variables/_variables.scss';
 @import 'helpers/_helpers.scss';
 @import 'patterns/_patterns.scss';

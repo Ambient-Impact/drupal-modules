@@ -5,6 +5,7 @@
 @use 'sass:list';
 @use 'sass:meta';
 @use 'sass:selector';
+@import 'sassy-lists';
 
 ///
 /// Attempts to append a condition to the specified root element.

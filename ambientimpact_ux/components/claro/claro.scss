@@ -3,6 +3,7 @@
 // -----------------------------------------------------------------------------
 
 @import '../../../ambientimpact_core/stylesheets/_common.scss';
+@import 'include-media';
 
 html {
   // Always show the vertical scrollbar which avoids layout jumps on platforms
