@@ -12,6 +12,14 @@ services:
     tags:
       - { name: drush.command }
 
+  ambientimpact_core.modules_path_command:
+    class: Drupal\ambientimpact_core\Commands\ModulesPathCommand
+    arguments:
+      - '@file_system'
+      - '@module_handler'
+    tags:
+      - { name: drush.command }
+
   ambientimpact_core.rsync_command:
     class: \Drupal\ambientimpact_core\Commands\AmbientImpactRsyncCommand
     arguments: ['@file_system']
