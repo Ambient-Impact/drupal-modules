@@ -1,12 +1,11 @@
 // -----------------------------------------------------------------------------
-//	Ambient.Impact - Core - Accessibility component
+//  Ambient.Impact - Core - Accessibility component
 // -----------------------------------------------------------------------------
 
-// Formerly .element-invisible in Drupal 7:
-// https://www.drupal.org/docs/8/theming/upgrading-classes-on-7x-themes-to-8x
+// Prevent flowing to new lines, which can make text render without spaces in
+// screen readers.
+//
+// @see https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
 .visually-hidden {
-	// Prevent flowing to new lines, which can make text render without spaces
-	// in screen readers:
-	// https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
-	white-space: nowrap;
+  white-space: nowrap;
 }
