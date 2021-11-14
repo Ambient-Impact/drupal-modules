@@ -57,14 +57,15 @@ class PageAttachmentsEventSubscriber implements EventSubscriberInterface {
    *
    * This adds the following:
    *
-   * - 'ambientimpact_core/core' library, which contains common and layout CSS.
-   *
    * - Framework JavaScript settings to drupalSettings.
    *
    * - Component JavaScript settings to drupalSettings; these need to be here
    *   rather than on individual elements the actual component libraries are
    *   usually attached to because they may use shared global settings and/or
    *   counters.
+   *
+   * - 'ambientimpact_core/component.accessibility', which adds some
+   *   accessibility improvements.
    *
    * @param \Drupal\core_event_dispatcher\Event\Theme\PageAttachmentsEvent $event
    *   The event object.
@@ -86,6 +87,6 @@ class PageAttachmentsEventSubscriber implements EventSubscriberInterface {
       'components'  => $this->componentManager->getComponentJSSettings(),
     ];
 
-    $attached['library'][] = 'ambientimpact_core/core';
+    $attached['library'][] = 'ambientimpact_core/component.accessibility';
   }
 }

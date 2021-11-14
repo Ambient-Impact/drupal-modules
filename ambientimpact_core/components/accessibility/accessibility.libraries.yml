@@ -1,0 +1,4 @@
+component.accessibility:
+  css:
+    component:
+      accessibility.css: { minified: true }
