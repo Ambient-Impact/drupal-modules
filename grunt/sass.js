@@ -8,11 +8,15 @@ module.exports = function(grunt, options) {
 
   const moduleImporter = require('sass-module-importer');
 
+  // Make a copy of the component paths via Array.prototype.slice().
+  let includePaths = options.componentPaths.slice();
+
   return {
     module: {
       options: {
         implementation: sass,
         importer:       moduleImporter(),
+        includePaths:   includePaths,
         outputStyle:    'compressed',
         sourceMap:      true
       },
