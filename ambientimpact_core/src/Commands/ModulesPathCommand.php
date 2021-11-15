@@ -8,7 +8,7 @@ use Drush\Commands\DrushCommands;
 use Drush\Exceptions\CommandFailedException;
 
 /**
- * ambientimpact:module-path Drush command.
+ * ambientimpact:modules-path Drush command.
  *
  * @see self::modulesPath()
  */
