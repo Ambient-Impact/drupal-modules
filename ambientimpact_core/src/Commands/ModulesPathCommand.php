@@ -12,7 +12,7 @@ use Drush\Exceptions\CommandFailedException;
  *
  * @see self::modulesPath()
  */
-class ModuleSPathCommand extends DrushCommands {
+class ModulesPathCommand extends DrushCommands {
 
   /**
    * The Drupal file system service.
