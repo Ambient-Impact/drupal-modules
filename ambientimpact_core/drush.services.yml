@@ -6,6 +6,14 @@ services:
     tags:
       - { name: drush.command }
 
+  ambientimpact_core.component_paths_command:
+    class: Drupal\ambientimpact_core\Commands\ComponentPathsCommand
+    arguments:
+      - '@file_system'
+      - '@plugin.manager.ambientimpact_component'
+    tags:
+      - { name: drush.command }
+
   ambientimpact_core.install_command:
     arguments: ['@file_system']
     class: Drupal\ambientimpact_core\Commands\AmbientImpactInstallCommand
