@@ -55,7 +55,7 @@ class ModulesPathCommand extends DrushCommands {
    *
    * @aliases ai:modules-path
    */
-  public function modulesPath() {
+  public function modulesPath(): void {
 
     /** @var \Drupal\Core\Extension\Extension */
     $module = $this->moduleHandler->getModule('ambientimpact_core');
