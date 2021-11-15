@@ -1,0 +1,13 @@
+// -----------------------------------------------------------------------------
+//   Common master partial
+// -----------------------------------------------------------------------------
+
+// Include this in your stylesheets to take advantage of all the mixins and
+// variables included here.
+
+@import 'variables';
+@import 'helpers';
+@import 'patterns';
+@import '../../../ambientimpact_icon/components/_components.scss';
+@import '../../../ambientimpact_media/components/_components.scss';
+@import '../../../ambientimpact_ux/components/_components.scss';
