@@ -4,7 +4,7 @@
 
 // See http://wicky.nillia.ms/headroom.js/
 
-@import '../../../ambientimpact_core/stylesheets/_common.scss';
+@import 'sass/common';
 
 .headroom {
 	@include headroom-base;

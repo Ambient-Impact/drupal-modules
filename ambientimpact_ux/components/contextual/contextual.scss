@@ -4,7 +4,7 @@
 
 @use 'sass:color';
 
-@import '../../../ambientimpact_core/stylesheets/_common.scss';
+@import 'sass/common';
 
 .contextual .trigger,
 .contextual-region .contextual .contextual-links,

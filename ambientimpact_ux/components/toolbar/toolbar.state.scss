@@ -2,7 +2,7 @@
 //   Ambient.Impact - UX - Drupal toolbar component state
 // -----------------------------------------------------------------------------
 
-@import '../../../ambientimpact_core/stylesheets/_common.scss';
+@import 'sass/common';
 
 .toolbar .toolbar-bar {
   @include set-colours($background: $toolbar-bar-background-colour);

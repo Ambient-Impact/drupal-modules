@@ -2,7 +2,7 @@
 //   Ambient.Impact - UX - Textarea component
 // -----------------------------------------------------------------------------
 
-@import '../../../ambientimpact_core/stylesheets/_common.scss';
+@import 'sass/common';
 
 .autosize-textarea-wrapper textarea {
   // Override Drupal's default min-height for textareas so that autosize has

@@ -4,7 +4,7 @@
 
 @use 'sass:map';
 
-@import '../../../ambientimpact_core/stylesheets/_common.scss';
+@import 'sass/common';
 
 .ambientimpact-social-links {
   $self:  &;

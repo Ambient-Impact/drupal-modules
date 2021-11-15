@@ -5,7 +5,7 @@
 // This gives the PhotoSwipe UI elements transform transitions when they're
 // shown and hidden.
 
-@import '../../../ambientimpact_core/stylesheets/_common.scss';
+@import 'sass/common';
 
 .#{$photoswipe-root-class} {
   $self: &;

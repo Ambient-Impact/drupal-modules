@@ -2,7 +2,7 @@
 //   Ambient.Impact - UX - Tooltip component
 // -----------------------------------------------------------------------------
 
-@import '../../../ambientimpact_core/stylesheets/_common.scss';
+@import 'sass/common';
 
 // Generate the default Material themes.
 @each $theme-name, $theme-settings in $tooltip-themes {

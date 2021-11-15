@@ -6,7 +6,7 @@
 // there are? E.g. even or odd, so that we don't get a single one wrapping to a
 // new row?
 
-@import '../../../../ambientimpact_core/stylesheets/_common.scss';
+@import 'sass/common';
 
 .ambientimpact-component-demo {
   &__actions {

@@ -4,7 +4,7 @@
 
 // @see https://codepen.io/jproffitt71/pen/PBPKmw
 
-@import '../../../ambientimpact_core/stylesheets/_common.scss';
+@import 'sass/common';
 
 .material-ripple {
   @include material-ripple;
