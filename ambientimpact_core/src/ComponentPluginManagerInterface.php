@@ -137,4 +137,14 @@ interface ComponentPluginManagerInterface {
    *   The Symfony method that inspired this.
    */
   public static function camelizeComponentID(string $id): string;
+
+  /**
+   * Get component directory paths for all discovered Component providers.
+   *
+   * @return string[]
+   *   An array of paths to each discovered provider's 'components' directory,
+   *   relative to the Drupal root.
+   */
+  public function getComponentPaths(): array;
+
 }

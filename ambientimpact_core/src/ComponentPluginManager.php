@@ -288,4 +288,40 @@ implements ComponentPluginManagerInterface{
 
     return implode('.', $camelized);
   }
+
+  /**
+   * {@inheritdoc}
+   *
+   * @todo Cache this and invalidate when plug-in discovery occurs?
+   *
+   * @todo Can this be done without hard coding '/components' here?
+   */
+  public function getComponentPaths(): array {
+
+    /** @var array */
+    $definitions = $this->getDefinitions();
+
+    /** @var array */
+    $providers = [];
+
+    foreach ($definitions as $machineName => $definition) {
+      if (!\in_array($definition['provider'], $providers)) {
+        $providers[] = $definition['provider'];
+      }
+    }
+
+    /** @var array */
+    $paths = [];
+
+    foreach ($providers as $provider) {
+      if ($this->moduleHandler->moduleExists($provider)) {
+        $paths[] = $this->moduleHandler->getModule($provider)->getPath() .
+          '/components';
+      }
+    }
+
+    return $paths;
+
+  }
+
 }
