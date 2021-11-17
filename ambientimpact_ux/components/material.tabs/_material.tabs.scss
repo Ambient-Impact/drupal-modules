@@ -2,17 +2,22 @@
 //   Ambient.Impact - UX - Material tabs partial
 // -----------------------------------------------------------------------------
 
+@use 'link/link.state' as link-state;
+@use 'material.common/material.colour' as material-colour;
+@use 'material.common/material.general' as material-general;
+@use 'sass/helpers/colour';
+
 ///
 /// Material tabs container underline colour on light backgrounds.
 ///
 $material-tabs-underline-colour-on-light:
-  $material-line-colour-on-light !default;
+  material-colour.$material-line-colour-on-light !default;
 
 ///
 /// Material tabs container underline colour on dark backgrounds.
 ///
 $material-tabs-underline-colour-on-dark:
-  $material-line-colour-on-dark !default;
+  material-colour.$material-line-colour-on-dark !default;
 
 ///
 /// Material tabs container underline thickness.
@@ -22,7 +27,8 @@ $material-tabs-underline-thickness: 1px !default;
 ///
 /// Material tabs active indicator underline colour.
 ///
-$material-tabs-indicator-colour: $material-primary-colour !default;
+$material-tabs-indicator-colour:
+  material-colour.$material-primary-colour !default;
 
 ///
 /// Material tabs active indicator underline thickness.
@@ -32,7 +38,8 @@ $material-tabs-indicator-thickness: 2px !default;
 ///
 /// Material tabs padding.
 ///
-$material-tabs-padding: $material-item-padding-text-align !default;
+$material-tabs-padding:
+  material-general.$material-item-padding-text-align !default;
 
 ///
 /// Style and layout for a Material tabs container.
@@ -65,7 +72,7 @@ $material-tabs-padding: $material-item-padding-text-align !default;
     border-bottom: $material-tabs-underline-thickness solid
       $material-tabs-underline-colour-on-light;
 
-    @include on-dark-colour-scheme {
+    @include colour.on-dark-colour-scheme {
       border-bottom-color: $material-tabs-underline-colour-on-dark;
     }
 
@@ -91,11 +98,13 @@ $material-tabs-padding: $material-item-padding-text-align !default;
   text-transform: uppercase;
   line-height:    1;
 
-  @include link-hover {
-    background-color: $material-flat-item-interact-colour-on-light;
+  @include link-state.link-hover {
+    background-color:
+      material-colour.$material-flat-item-interact-colour-on-light;
 
-    @include on-dark-colour-scheme {
-      background-color: $material-flat-item-interact-colour-on-dark;
+    @include colour.on-dark-colour-scheme {
+      background-color:
+        material-colour.$material-flat-item-interact-colour-on-dark;
     }
   }
 

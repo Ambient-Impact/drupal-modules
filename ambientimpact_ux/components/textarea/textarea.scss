@@ -2,7 +2,7 @@
 //   Ambient.Impact - UX - Textarea component
 // -----------------------------------------------------------------------------
 
-@import 'sass/common';
+@use 'sass/variables/motion';
 
 .autosize-textarea-wrapper textarea {
   // Override Drupal's default min-height for textareas so that autosize has
@@ -12,5 +12,5 @@
   resize:     none;
 
   // @todo Why doesn't this work at all?
-  transition: height 0.2s $easing-decelerate;
+  transition: height 0.2s motion.$easing-decelerate;
 }

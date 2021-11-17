@@ -2,13 +2,15 @@
 //   Ambient.Impact - UX - Overlay component partial
 // -----------------------------------------------------------------------------
 
+@use 'sass/helpers/selector';
+
 ///
 /// Apply styles when an overlay is open.
 ///
 /// @content The styles to apply when an overlay is open.
 ///
 @mixin on-overlay-active {
-  @include root-conditions('.is-overlay-active', 'body') {
+  @include selector.root-conditions('.is-overlay-active', 'body') {
     @content;
   }
 }

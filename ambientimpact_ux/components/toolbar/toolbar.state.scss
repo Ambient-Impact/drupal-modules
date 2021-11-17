@@ -2,15 +2,18 @@
 //   Ambient.Impact - UX - Drupal toolbar component state
 // -----------------------------------------------------------------------------
 
-@import 'sass/common';
+@use 'link/link.state' as link-state;
+@use 'sass/helpers/colour';
+@use '_toolbar' as *;
+@use '_toolbar.colour' as *;
 
 .toolbar .toolbar-bar {
-  @include set-colours($background: $toolbar-bar-background-colour);
+  @include colour.set-colours($background: $toolbar-bar-background-colour);
 }
 
 .toolbar .toolbar-bar .toolbar-tab > .toolbar-icon {
-  @include link-hover {
-    @include set-colours(
+  @include link-state.link-hover {
+    @include colour.set-colours(
       $background: $toolbar-tab-interact-background-colour
     );
   }
@@ -39,7 +42,7 @@
   }
 
   &.toolbar-icon.is-active {
-    @include set-colours(
+    @include colour.set-colours(
       $background: $toolbar-tab-current-background-colour
     );
 
@@ -54,8 +57,8 @@
 
 .toolbar .toolbar-tray .toolbar-icon,
 .toolbar .toolbar-tray .toolbar-menu a:not(.toolbar-icon) {
-  @include link-hover {
-    @include set-colours(
+  @include link-state.link-hover {
+    @include colour.set-colours(
       $background: $toolbar-tray-item-interact-background-colour
     );
   }

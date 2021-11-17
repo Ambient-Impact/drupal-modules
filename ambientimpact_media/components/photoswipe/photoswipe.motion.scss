@@ -2,10 +2,11 @@
 //  Ambient.Impact - Media - PhotoSwipe component motion
 // -----------------------------------------------------------------------------
 
+@use '_photoswipe' as *;
+@use 'sass/variables/motion';
+
 // This gives the PhotoSwipe UI elements transform transitions when they're
 // shown and hidden.
-
-@import 'sass/common';
 
 .#{$photoswipe-root-class} {
   $self: &;
@@ -18,7 +19,7 @@
       transition-property: opacity, transform;
     }
 
-    transition-timing-function: $easing-sharp;
+    transition-timing-function: motion.$easing-sharp;
   }
 
   &__top-bar,

@@ -2,12 +2,14 @@
 //   Ambient.Impact - UX - Tooltip component
 // -----------------------------------------------------------------------------
 
-@import 'sass/common';
+@use 'sass:map';
+@use 'sass/helpers/selector';
+@use '_tooltip' as *;
 
 // Generate the default Material themes.
 @each $theme-name, $theme-settings in $tooltip-themes {
   @include tooltip-material-theme(
-    $theme-name, map-get($theme-settings, background-colour)
+    $theme-name, map.get($theme-settings, background-colour)
   );
 }
 
@@ -35,10 +37,10 @@
   // visually pleasing if or when text wraps to additional lines. Regardless
   // of text alignment, the tooltip container itself will usually be centre-
   // aligned by Tippy and/or Popper, so that's not affected.
-  @include root-conditions(('[dir=ltr]'), 'html') {
+  @include selector.root-conditions(('[dir=ltr]'), 'html') {
     text-align: left;
   }
-  @include root-conditions(('[dir=rtl]'), 'html') {
+  @include selector.root-conditions(('[dir=rtl]'), 'html') {
     text-align: right;
   }
 }

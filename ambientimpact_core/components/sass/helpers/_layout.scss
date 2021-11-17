@@ -2,6 +2,8 @@
 //   Layout helpers
 // -----------------------------------------------------------------------------
 
+@use 'selector';
+
 ///
 /// Contain floats in an element.
 ///
@@ -56,7 +58,7 @@
 ///   The limitations/issues with  the old Edge/IE CSS Grid implementation.
 ///
 @mixin use-grid($supports-check: true, $modern-grid-only: true) {
-  @include root-conditions('.use-grid', 'body') {
+  @include selector.root-conditions('.use-grid', 'body') {
     @if $supports-check == true {
       @if $modern-grid-only == true {
         @supports (grid-area: auto) {

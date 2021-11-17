@@ -2,7 +2,11 @@
 //   Ambient.Impact - UX - Drupal administrative toolbar component
 // -----------------------------------------------------------------------------
 
-@import 'sass/common';
+@use 'immerse';
+@use 'link/link.state' as link-state;
+@use 'sass:list';
+@use 'sass/helpers/transition';
+@use '_toolbar' as *;
 
 ///
 /// Toolbar tray contents stacking order.
@@ -13,7 +17,7 @@ $toolbar-tray-contents-stacking-order: content, top-shadow;
 
 .toolbar {
   // Hide when in immerse mode.
-  @include hide-on-immerse;
+  @include immerse.hide-on-immerse;
 
   // Transition properties for going in and out of immerse mode.
   transition-property:        opacity;
@@ -24,10 +28,10 @@ $toolbar-tray-contents-stacking-order: content, top-shadow;
   // Menu links in trays other than the "Manage" tray don't have the
   // .toolbar-icon class applied to them, so we have to target them directly.
   :link {
-    @include transition-fade-base;
+    @include transition.transition-fade-base;
 
-    @include link-hover {
-      @include transition-fade-active;
+    @include link-state.link-hover {
+      @include transition.transition-fade-active;
     }
   }
 }
@@ -50,7 +54,7 @@ $toolbar-tray-contents-stacking-order: content, top-shadow;
   left: 0;
   right: 0;
 
-  z-index: index($toolbar-tray-contents-stacking-order, top-shadow);
+  z-index: list.index($toolbar-tray-contents-stacking-order, top-shadow);
 
   height: 1em;
 
@@ -60,7 +64,7 @@ $toolbar-tray-contents-stacking-order: content, top-shadow;
 // This is required to ensure the above top shadow is placed over the tray
 // contents, not under.
 .toolbar .toolbar-lining {
-    z-index: index($toolbar-tray-contents-stacking-order, content);
+    z-index: list.index($toolbar-tray-contents-stacking-order, content);
 }
 
 // Borders between vertical tray items. Unlike the default Toolbar CSS, this

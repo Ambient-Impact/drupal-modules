@@ -2,6 +2,7 @@
 //   Typograpy selection helpers
 // -----------------------------------------------------------------------------
 
+@use 'colour';
 @use 'sass:color';
 
 ///
@@ -26,7 +27,7 @@ $text-inactive-selection-background-colour:
 /// @param {Color} $inactive-background-colour [$text-inactive-selection-background-colour]
 ///   Selection colour when the viewport is not in focus.
 ///
-/// @require {mixin} set-colours
+/// @require {mixin} colour.set-colours
 ///
 @mixin selection(
   $active-background-colour:    $text-selection-background-colour,
@@ -34,12 +35,12 @@ $text-inactive-selection-background-colour:
 ) {
   // Active selection.
   @include selection-active {
-    @include set-colours($active-background-colour);
+    @include colour.set-colours($active-background-colour);
   }
 
   // Inactive selection, i.e when the viewport is not in focus.
   @include selection-inactive {
-    @include set-colours($inactive-background-colour);
+    @include colour.set-colours($inactive-background-colour);
   }
 }
 

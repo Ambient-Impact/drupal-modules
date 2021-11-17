@@ -2,6 +2,10 @@
 //   Ambient.Impact - UX - Material input label partial
 // -----------------------------------------------------------------------------
 
+@use 'material.common/material.colour' as material-colour;
+@use 'material.input/material.input' as *;
+@use 'sass/variables/motion';
+
 ///
 /// Material Input label height when shown at full size.
 ///
@@ -10,7 +14,8 @@ $material-input-label-height: 1.3rem !default;
 ///
 /// Material Input label text colour when input has content or is focused.
 ///
-$material-input-label-colour-active: $material-primary-colour !default;
+$material-input-label-colour-active:
+  material-colour.$material-primary-colour !default;
 
 ///
 /// Material Input label text colour when input is disabled.
@@ -89,7 +94,7 @@ $material-input-label-transition-duration:
 
     transition-duration:        $material-input-label-transition-duration;
     transition-property:        transform opacity color;
-    transition-timing-function: $easing-sharp;
+    transition-timing-function: motion.$easing-sharp;
 
     // Don't obstruct clicks on the input underneath when overlaid.
     pointer-events: none;

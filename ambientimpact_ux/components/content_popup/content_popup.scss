@@ -2,7 +2,7 @@
 //   Ambient.Impact - UX - Content pop-up component
 // -----------------------------------------------------------------------------
 
-@import 'sass/common';
+@use 'sass/variables/general';
 
 // The open button is always hidden as its only purpose is to be triggered via
 // script to open the panel.
@@ -30,6 +30,6 @@
   }
 
   &__content {
-    margin-bottom:  $general-spacing;
+    margin-bottom:  general.$general-spacing;
   }
 }

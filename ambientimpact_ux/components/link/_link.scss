@@ -2,10 +2,10 @@
 //   Ambient.Impact - UX - Link component partial
 // -----------------------------------------------------------------------------
 
-@import '_link.var.scss';
-@import '_link.colour.scss';
-@import '_link.custom_property.scss';
-@import '_link.state.scss';
+@use 'link.colour' as link-colour;
+@use 'link.state' as link-state;
+@use 'sass/helpers/colour';
+@use 'sass/helpers/transition';
 
 ///
 /// Set link properties and effects.
@@ -21,15 +21,15 @@
 /// @require {mixin}  link-hover
 /// @require {mixin}  link-colours
 ///
-@mixin link($background: $background-colour) {
-  @include transition-fade-normal();
+@mixin link($background: colour.$background-colour) {
+  @include transition.transition-fade-normal();
 
   // text-decoration-thickness: $text-underline-thickness;
   text-decoration-thickness: var(--text-decoration-thickness, 2px);
 
-  @include link-hover {
-    @include transition-fade-hover();
+  @include link-state.link-hover {
+    @include transition.transition-fade-hover();
   }
 
-  @include link-colours($background);
+  @include link-colour.link-colours($background);
 }

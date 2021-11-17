@@ -2,6 +2,9 @@
 //   Ambient.Impact - Icons - Icon component partial
 // -----------------------------------------------------------------------------
 
+@use 'sass/helpers/layout';
+@use 'sass/variables/motion';
+
 ///
 /// The default icon width and height.
 ///
@@ -73,7 +76,7 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
 ///
 @mixin icon-transform-transition(
   $transition-duration: 400ms,
-  $transition-easing:   $easing-decelerate
+  $transition-easing:   motion.$easing-decelerate
 ) {
   @include on-icon-icon {
     transition-property:        transform;
@@ -163,7 +166,7 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
     display: flex;
 
     &:not(.ambientimpact-icon--icon-standalone-loaded) {
-      @include use-grid {
+      @include layout.use-grid {
         display: grid;
 
         @include on-icon-icon {
@@ -208,7 +211,7 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
       vertical-align: $text-align-inline;
 
       // Reset, in case we've set these previously.
-      @include use-grid {
+      @include layout.use-grid {
         align-self: center;
 
         // vertical-align has no effect when CSS Grid is in effect.
@@ -234,7 +237,7 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
     align-items: baseline;
 
     .ambientimpact-icon__icon {
-      @include use-grid {
+      @include layout.use-grid {
         // This is required to fix discrepancies between Gecko and Blink so that
         // they both (mostly) agree on where to align the icon relative to text.
         align-self: start;
@@ -251,7 +254,7 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
 /// @param {Number} $spacing
 ///
 @mixin set-icon-text-spacing($spacing) {
-  @include use-grid {
+  @include layout.use-grid {
     grid-column-gap: $spacing;
   }
 
@@ -324,7 +327,7 @@ $icon-loaded-reveal-animation-duration: 0.3s !default;
   display: block;
 
   // Specificity.
-  @include use-grid {
+  @include layout.use-grid {
     display: block;
   }
 

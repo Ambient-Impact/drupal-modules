@@ -2,9 +2,9 @@
 //   Ambient.Impact - UX - Material ripple component
 // -----------------------------------------------------------------------------
 
-// @see https://codepen.io/jproffitt71/pen/PBPKmw
+@use '_material.ripple' as *;
 
-@import 'sass/common';
+// @see https://codepen.io/jproffitt71/pen/PBPKmw
 
 .material-ripple {
   @include material-ripple;

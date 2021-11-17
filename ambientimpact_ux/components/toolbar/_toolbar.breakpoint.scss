@@ -2,10 +2,12 @@
 //   Ambient.Impact - UX - Drupal toolbar component breakpoint partial
 // -----------------------------------------------------------------------------
 
+@use 'sass/helpers/breakpoint';
+
 // These breakpoints correspond to those shipped with the toolbar module.
 //
 // @see https://git.drupalcode.org/project/drupal/blob/8.7.x/core/modules/toolbar/toolbar.breakpoints.yml
-@include add-breakpoints((
+@include breakpoint.add-breakpoints((
   'toolbar-narrow':    16.5em,
   'toolbar-standard':  38.125em,
   'toolbar-wide':      61em,

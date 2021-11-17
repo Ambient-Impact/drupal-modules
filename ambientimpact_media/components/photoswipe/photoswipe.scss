@@ -2,15 +2,19 @@
 //   Ambient.Impact - Media - PhotoSwipe component
 // -----------------------------------------------------------------------------
 
+@use 'icon';
+@use 'link/link.state' as link-state;
+@use '_photoswipe' as *;
 @use 'sass:math';
-
-@import 'sass/common';
+@use 'sass/helpers/colour';
+@use 'sass/helpers/hide';
+@use 'sass/helpers/z-index';
 
 .#{$photoswipe-root-class} {
   // Place this in the floating z-index. This ensures we're above most page
   // elements but below fixed and sticky elements, which are then handled by the
   // immerse component, which we trigger the events for.
-  @include z-index('floating');
+  @include z-index.z-index('floating');
 
   &--open {
     // Override the inline display, which is set to be display: none; by default
@@ -47,7 +51,7 @@
     .ambientimpact-icon {
       // Since we've removed underlines, align the icon to centre so it
       // doesn't look misaligned next to the text.
-      @include set-icon-vertical-alignment('center');
+      @include icon.set-icon-vertical-alignment('center');
 
       // Align the whole inline icon container to the middle, so we have
       // more or less the same space above and below the icon + text.
@@ -55,15 +59,15 @@
     }
   }
   &__share-tooltip a:not(&__share--facebook):not(&__share--twitter) {
-    @include link-hover {
+    @include link-state.link-hover {
       // This contrasts far better with the white icons/text.
-      background-color: greyscale(50%);
+      background-color: colour.greyscale(50%);
     }
   }
 
   // All standalone icons.
   .ambientimpact-icon--icon-standalone {
-    @include set-icon-size($photoswipe-icon-size);
+    @include icon.set-icon-size($photoswipe-icon-size);
 
     padding:  $photoswipe-icon-padding;
 
@@ -82,7 +86,7 @@
     // there for assistive software, which doesn't always pick up the title
     // attribute text.
     &:not(&--has-ambientimpact-icon) {
-      @include hide-text;
+      @include hide.hide-text;
     }
 
     &--has-ambientimpact-icon#{&} { // Specificity.

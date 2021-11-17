@@ -2,6 +2,8 @@
 //   Responsive typography helpers
 // -----------------------------------------------------------------------------
 
+@use 'responsive';
+
 ///
 /// Generate responsive type properties based on screen size, within a range.
 ///
@@ -30,7 +32,7 @@
 /// @link https://codepen.io/MadeByMike/pen/VvwqvW
 /// @link https://madebymike.com.au/writing/fluid-type-calc-examples/
 ///
-/// @require {Function} calc-responsive-value
+/// @require {Function} responsive.calc-responsive-value
 ///
 @mixin responsive-type(
   $properties, $min-screen, $max-screen, $min-value, $max-value
@@ -45,7 +47,7 @@
     // value.
     @media (min-width: $min-screen) {
       @each $property in $properties {
-        #{$property}: calc-responsive-value(
+        #{$property}: responsive.calc-responsive-value(
           $min-screen, $min-value, $max-screen, $max-value
         );
       }

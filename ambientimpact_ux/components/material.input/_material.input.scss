@@ -2,6 +2,11 @@
 //   Ambient.Impact - UX - Material input partial
 // -----------------------------------------------------------------------------
 
+@use 'material.common/material.colour' as material-colour;
+@use 'material.input/material.input.label' as *;
+@use 'material.input/material.input.underline' as *;
+@use 'sass/variables/motion';
+
 ///
 /// Material Input transition duration.
 ///
@@ -25,16 +30,13 @@ $material-input-line-height: 1.2 !default;
 ///
 /// Material Input error message colour.
 ///
-$material-input-messages-colour-error: $material-error-colour !default;
+$material-input-messages-colour-error:
+  material-colour.$material-error-colour !default;
 
 ///
 /// Material Input messages height.
 ///
 $material-input-messages-height: 1.5rem !default;
-
-@import '_material.input.underline.scss';
-@import '_material.input.label.scss';
-// @import '_material.input.autocomplete.scss';
 
 ///
 /// Material Input styles.
@@ -125,7 +127,7 @@ $material-input-messages-height: 1.5rem !default;
 
     transition-duration:        $material-input-transition-duration;
     transition-property:        transform;
-    transition-timing-function: $easing-decelerate;
+    transition-timing-function: motion.$easing-decelerate;
   }
 
   // Shift the description into its natural place if an error is being displayed
@@ -135,14 +137,14 @@ $material-input-messages-height: 1.5rem !default;
 
     transition-duration:        $material-input-transition-duration;
     transition-property:        transform;
-    transition-timing-function: $easing-accelerate;
+    transition-timing-function: motion.$easing-accelerate;
   }
 
   // .form-type-link-field & {
   //   // Hide Link field prefix and suffix labels
   //   .field-prefix,
   //   .field-suffix {
-  //     @include hide-me;
+  //     @include hide.hide-me;
   //   }
   // }
 

@@ -2,15 +2,17 @@
 //   Ambient.Impact - Media - PhotoSwipe component partial
 // -----------------------------------------------------------------------------
 
+@use 'icon';
 @use 'sass:color';
 @use 'sass:map';
+@use 'sass/helpers/colour';
 
 // The root class name of the PhotoSwipe element. This is used to generate all
 // the BEM-style classes for children and modifiers.
 $photoswipe-root-class:     pswp    !default;
 
 // Icon size.
-$photoswipe-icon-size:      $icon-size  !default;
+$photoswipe-icon-size:      icon.$icon-size  !default;
 // Spacing between icons and other elements, usually margins.
 $photoswipe-icon-spacing:   0.3em   !default;
 $photoswipe-icon-padding:   0.5em   !default;
@@ -26,14 +28,14 @@ $photoswipe-button-arrow-height:  6em   !default;
 
 // The background colour of the main PhotoSwipe interface. This is applied to
 // the background element.
-$photoswipe-background-colour-theme-dark: greyscale(0)    !default;
-$photoswipe-background-colour-theme-light:  greyscale(100%)   !default;
+$photoswipe-background-colour-theme-dark: colour.greyscale(0)    !default;
+$photoswipe-background-colour-theme-light:  colour.greyscale(100%)   !default;
 
 // The foreground colour for PhotoSwipe content. This affects text and icons.
 $photoswipe-foreground-colour-theme-dark:
-  $foreground-colour-on-dark  !default;
+  colour.$foreground-colour-on-dark  !default;
 $photoswipe-foreground-colour-theme-light:
-  $foreground-colour-on-light !default;
+  colour.$foreground-colour-on-light !default;
 
 // A map of predefined themes, used by mixin set-photoswipe-theme.
 $photoswipe-themes: (
@@ -72,13 +74,13 @@ $photoswipe-themes: (
   $foreground-on-dark:  $photoswipe-foreground-colour-theme-dark,
   $foreground-on-light: $photoswipe-foreground-colour-theme-light
 ) {
-  $foreground:  get-contrasting-colour(
+  $foreground:  colour.get-contrasting-colour(
     $background:      $background,
     $foreground-on-light: $foreground-on-light,
     $foreground-on-dark:  $foreground-on-dark
   );
 
-  @include set-colours(
+  @include colour.set-colours(
     $background:      $background,
     $foreground-on-light: $foreground-on-light,
     $foreground-on-dark:  $foreground-on-dark

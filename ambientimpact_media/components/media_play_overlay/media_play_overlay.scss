@@ -2,7 +2,10 @@
 //   Ambient.Impact - Media - Media play overlay component
 // -----------------------------------------------------------------------------
 
-@import 'sass/common';
+@use 'icon';
+@use '_media_play_overlay' as *;
+@use 'material.common' as material-common;
+@use 'sass/helpers/colour';
 
 .media-play-overlay {
   $self: &;
@@ -42,29 +45,29 @@
   &__icon {
     padding:        0.5em 0.8em;
 
-    @include set-colours(
+    @include colour.set-colours(
       $background:  $media-play-overlay-indicator-background-colour
     );
 
-    border-radius:  $material-border-radius;
+    border-radius:  material-common.$material-border-radius;
 
     font-size:      150%;
 
     &:not(.ambientimpact-icon--icon-standalone-loaded) { // Specificity.
       // Don't indent the icon, as this messes with the background.
-      @include set-icon-text-indent(0);
+      @include icon.set-icon-text-indent(0);
 
-      @include set-icon-display(block);
+      @include icon.set-icon-display(block);
 
       // Reset the default icon-in-link vertical alignment to a centre value
       // because we don't have underlines to worry about.
       a & {
-        @include set-icon-vertical-alignment(centre);
+        @include icon.set-icon-vertical-alignment(centre);
       }
     }
 
     // Center this vertically, as we don't have the underline to offset the
     // vertical alignment.
-    @include set-icon-vertical-alignment(centre);
+    @include icon.set-icon-vertical-alignment(centre);
   }
 }

@@ -2,6 +2,8 @@
 //   Ambient.Impact - UX - Tooltip component partial
 // -----------------------------------------------------------------------------
 
+@use 'material.common/material.panel' as material-panel;
+
 ///
 /// The padding of tooltips.
 ///
@@ -22,10 +24,10 @@ $tooltip-max-width: 25em !default;
 ///
 $tooltip-themes: (
   material-dark:  (
-    background-colour:  $material-panel-background-colour-dark,
+    background-colour:  material-panel.$material-panel-background-colour-dark,
   ),
   material-light: (
-    background-colour:  $material-panel-background-colour-light,
+    background-colour:  material-panel.$material-panel-background-colour-light,
   ),
 );
 
@@ -55,7 +57,7 @@ $tooltip-themes: (
   }
 
   .tippy-tooltip.#{$theme-name}-theme {
-    @include material-panel(
+    @include material-panel.material-panel(
       $padding-small:     $tooltip-padding,
       $padding-large:     $tooltip-padding,
       $background-colour: $background-colour,

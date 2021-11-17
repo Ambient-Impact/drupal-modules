@@ -2,9 +2,9 @@
 //	Ambient.Impact - UX - Headroom.js component
 // -----------------------------------------------------------------------------
 
-// See http://wicky.nillia.ms/headroom.js/
+@use '_headroom' as *;
 
-@import 'sass/common';
+// See http://wicky.nillia.ms/headroom.js/
 
 .headroom {
 	@include headroom-base;

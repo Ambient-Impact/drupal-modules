@@ -2,32 +2,36 @@
 //   Ambient.Impact - UX - Drupal contextual links component
 // -----------------------------------------------------------------------------
 
+@use '_contextual' as *;
 @use 'sass:color';
-
-@import 'sass/common';
+@use 'sass/helpers/colour';
 
 .contextual .trigger,
 .contextual-region .contextual .contextual-links,
 .contextual-region .contextual .contextual-links li,
 .contextual-region .contextual .contextual-links a {
-  @include set-colours($background: $contextual-background-colour-on-light);
+  @include colour.set-colours(
+    $background: $contextual-background-colour-on-light
+  );
 
-  @include on-dark-colour-scheme {
-    @include set-colours($background: $contextual-background-colour-on-dark);
+  @include colour.on-dark-colour-scheme {
+    @include colour.set-colours(
+      $background: $contextual-background-colour-on-dark
+    );
   }
 }
 
 .contextual-region .contextual .contextual-links a:hover,
 .no-touchevents .contextual-region .contextual .contextual-links li a:hover {
-  @include set-colours($background: color.mix(
-    $foreground-colour-on-light,
+  @include colour.set-colours($background: color.mix(
+    colour.$foreground-colour-on-light,
     $contextual-background-colour-on-light,
     10%
   ));
 
-  @include on-dark-colour-scheme {
-    @include set-colours($background: color.mix(
-      $foreground-colour-on-dark,
+  @include colour.on-dark-colour-scheme {
+    @include colour.set-colours($background: color.mix(
+      colour.$foreground-colour-on-dark,
       $contextual-background-colour-on-dark,
       10%
     ));

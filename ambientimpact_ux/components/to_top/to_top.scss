@@ -2,7 +2,12 @@
 //   Ambient.Impact - UX - To top component
 // -----------------------------------------------------------------------------
 
-@import 'sass/common';
+@use 'icon';
+@use 'material.button' as material-button;
+@use 'sass/helpers/colour';
+@use 'sass/helpers/selector';
+@use 'sass/helpers/z-index';
+@use 'sass/variables/motion';
 
 ///
 /// To top component horizontal offset from viewport edge.
@@ -52,28 +57,28 @@ $to-top-foreground-colour-on-dark: black !default;
 .to-top {
   position: fixed;
 
-  @include root-conditions(('[dir=ltr]'), 'html') {
+  @include selector.root-conditions(('[dir=ltr]'), 'html') {
     right:  $to-top-offset-horizontal;
   }
-  @include root-conditions(('[dir=rtl]'), 'html') {
+  @include selector.root-conditions(('[dir=rtl]'), 'html') {
     left: $to-top-offset-horizontal;
   }
 
   bottom: $to-top-offset-bottom;
 
-  @include z-index('floating');
+  @include z-index.z-index('floating');
 
   transition-property:        opacity, transform;
   transition-duration:        0.3s;
-  transition-timing-function: $easing-sharp;
+  transition-timing-function: motion.$easing-sharp;
 
   &--hidden {
     opacity:  0;
 
-    @include root-conditions(('[dir=ltr]'), 'html') {
+    @include selector.root-conditions(('[dir=ltr]'), 'html') {
       transform:  translateX($to-top-hidden-offset);
     }
-    @include root-conditions(('[dir=rtl]'), 'html') {
+    @include selector.root-conditions(('[dir=rtl]'), 'html') {
       transform:  translateX(-$to-top-hidden-offset);
     }
   }
@@ -83,15 +88,15 @@ $to-top-foreground-colour-on-dark: black !default;
 
     color: $to-top-foreground-colour-on-light !important;
 
-    @include material-button-fab(
+    @include material-button.material-button-fab(
       $background-colour:           $to-top-background-colour-normal-on-light,
       $background-colour-interact:  $to-top-background-colour-interact-on-light
     );
 
-    @include on-dark-colour-scheme {
+    @include colour.on-dark-colour-scheme {
       color: $to-top-foreground-colour-on-dark !important;
 
-      @include material-button-fab(
+      @include material-button.material-button-fab(
         $background-colour:           $to-top-background-colour-normal-on-dark,
         $background-colour-interact:  $to-top-background-colour-interact-on-dark
       );
@@ -118,9 +123,9 @@ $to-top-foreground-colour-on-dark: black !default;
     // loaded yet. The selector is required for specificity over the default
     // icon styles.
     &:not(.ambientimpact-icon--icon-standalone-loaded) {
-      @include set-icon-vertical-alignment(centre);
-      @include set-icon-text-spacing($icon-text-spacing * 2);
-      @include set-icon-display(block);
+      @include icon.set-icon-vertical-alignment(centre);
+      @include icon.set-icon-text-spacing(icon.$icon-text-spacing * 2);
+      @include icon.set-icon-display(block);
     }
   }
 }

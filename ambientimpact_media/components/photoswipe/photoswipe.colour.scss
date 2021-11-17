@@ -2,7 +2,8 @@
 //  Ambient.Impact - Media - PhotoSwipe colour component
 // -----------------------------------------------------------------------------
 
-@import 'sass/common';
+@use 'link/link.state' as link-state;
+@use '_photoswipe' as *;
 
 ///
 /// Set the default PhotoSwipe colour theme.
@@ -22,7 +23,7 @@
   &__share-tooltip a {
     // Set to use a contrasting white. The share menu is always white with
     // the link backgrounds a custom colour depending on the share type.
-    @include link-hover {
+    @include link-state.link-hover {
       --link-hover-colour: white;
 
       color: var(--link-hover-colour);

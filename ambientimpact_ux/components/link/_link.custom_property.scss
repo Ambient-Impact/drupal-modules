@@ -2,7 +2,9 @@
 //   Ambient.Impact - UX - Link component custom properties partial
 // -----------------------------------------------------------------------------
 
+@use 'link.colour' as link-colour;
 @use 'sass:map';
+@use 'sass/helpers/colour';
 
 ///
 /// Set link colour CSS custom properties on the current element.
@@ -18,12 +20,12 @@
 /// @require {function} get-link-colours
 ///
 @mixin link-colour-custom-properties(
-  $background:  $background-colour,
+  $background:  colour.$background-colour,
   $colours:   null
 ) {
 
   @if ($colours == null) {
-    $colours: get-link-colours($background);
+    $colours: link-colour.get-link-colours($background);
   }
 
   --link-normal-colour: #{map.get($colours, 'normal')};

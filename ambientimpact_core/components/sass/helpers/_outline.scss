@@ -2,6 +2,7 @@
 //	Outline helpers
 // -----------------------------------------------------------------------------
 
+@use 'transition';
 
 $outline-width:		2px				!default;
 $outline-style:		dashed			!default;
@@ -43,14 +44,14 @@ $outline-offset:	0.1em			!default;
 		}
 
 		@if $transitions == true {
-			@include transition-fade-normal;
+			@include transition.transition-fade-normal;
 		}
 
 		&#{$show-on} {
 			outline:		$colour $style $width;
 
 			@if $transitions == true {
-				@include transition-fade-hover;
+				@include transition.transition-fade-hover;
 			}
 		}
 	}

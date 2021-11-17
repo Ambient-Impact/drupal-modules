@@ -2,9 +2,9 @@
 //   Ambient.Impact - UX - Drupal toolbar component partial
 // -----------------------------------------------------------------------------
 
-@import '_toolbar.colour.scss';
-@import '_toolbar.breakpoint.scss';
-@import '_toolbar.typography.scss';
+@use '_toolbar.breakpoint' as *;
+@use '_toolbar.colour' as *;
+@use '_toolbar.typography' as *;
 
 ///
 /// Drupal toolbar current tab indicator thickness.

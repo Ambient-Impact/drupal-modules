@@ -2,9 +2,12 @@
 //   Ambient.Impact - UX - Link component colour partial
 // -----------------------------------------------------------------------------
 
+@use 'link.state' as link-state;
+@use 'link.var' as *;
 @use 'sass:color';
 @use 'sass:map';
 @use 'sass:meta';
+@use 'sass/helpers/colour';
 
 ///
 /// Get the active link colour for a given base colour.
@@ -143,7 +146,7 @@
     #{map.get($colours, underline-normal)}
   );
 
-  @include link-hover {
+  @include link-state.link-hover {
 
     color: var(--link-hover-colour, map.get($colours, hover));
 
@@ -153,7 +156,7 @@
     );
 
   }
-  @include link-active {
+  @include link-state.link-active {
 
     color: var(--link-active-colour, map.get($colours, active)) !important;
 
@@ -215,7 +218,7 @@
 /// @require {function} get-link-active-colour
 ///
 @function get-link-colours(
-  $background:                $background-colour,
+  $background:                colour.$background-colour,
 
   $normal-on-light:           $link-normal-colour-on-light,
   $hover-on-light:            $link-hover-colour-on-light,
@@ -235,7 +238,7 @@
 ) {
   $colours: ();
 
-  $contrasting-colour: get-contrasting-colour(
+  $contrasting-colour: colour.get-contrasting-colour(
     $background:          $background,
     $foreground-on-light: $normal-on-light,
     $foreground-on-dark:  $normal-on-dark

@@ -2,21 +2,15 @@
 //   Ambient.Impact - UX - Link component variables partial
 // -----------------------------------------------------------------------------
 
+@use 'material.common/material.colour' as material-colour;
 @use 'sass:color';
 @use 'sass:meta';
+@use 'sass/helpers/colour';
 
 ///
 /// The link base colour.
 ///
-/// This is used to create the default link colours, using
-/// $material-primary-colour, if it exists, falling back to a faded and darkened
-/// blue if it does not exist.
-///
-$link-base-colour: if(
-  meta.variable-exists(material-primary-colour),
-  $material-primary-colour,
-  #3B53BF
-) !default;
+$link-base-colour: material-colour.$material-primary-colour !default;
 
 ///
 /// Link colour on light backgrounds when not highlighted/activated.
@@ -40,10 +34,10 @@ $link-normal-colour-on-light: $link-base-colour !default;
 ///
 $link-normal-colour-on-dark:
   if(
-    // Default $link-base-colour or default $material-primary-colour.
-    $link-base-colour == #3B53BF or $link-base-colour == rgb(63, 81, 181),
+    // Default $material-primary-colour.
+    $link-base-colour == rgb(63, 81, 181),
     #7280ff,
-    invert-lightness($link-base-colour)
+    colour.invert-lightness($link-base-colour)
   ) !default;
 
 ///

@@ -2,7 +2,8 @@
 //   Ambient.Impact - Blocks - Social links block administration stylesheet
 // -----------------------------------------------------------------------------
 
-@import 'sass/common';
+@use 'icon';
+@use 'sass/variables/general' as *;
 
 .ambientimpact-block-social-links {
   // General link settings.
@@ -28,14 +29,14 @@
     &__title-and-icon {
       font-size: 130%;
 
-      @include set-icon-size(2em);
+      @include icon.set-icon-size(2em);
 
       // We need to include this for specificity. If we don't, the
       // alignment and spacing won't take effect.
       &:not(.ambientimpact-icon--icon-standalone) {
         // Align to center and increase space between icon and text.
-        @include set-icon-vertical-alignment('center');
-        @include set-icon-text-spacing(1em);
+        @include icon.set-icon-vertical-alignment('center');
+        @include icon.set-icon-text-spacing(1em);
       }
     }
   }

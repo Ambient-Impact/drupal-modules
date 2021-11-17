@@ -2,6 +2,7 @@
 //   Colour helpers
 // -----------------------------------------------------------------------------
 
+@use 'event';
 @use 'sass:color';
 @use 'sass:math';
 
@@ -187,7 +188,7 @@ $foreground-colour: get-contrasting-colour(
   --background-colour: #{$background};
   --foreground-colour: #{$foreground};
 
-  @include trigger-event('set-colours', $background, $foreground);
+  @include event.trigger-event('set-colours', $background, $foreground);
 
   background-color: $background;
   color:        $foreground;

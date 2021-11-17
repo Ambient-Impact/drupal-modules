@@ -2,20 +2,22 @@
 //   Ambient.Impact - Web - Component pages - Component demo component
 // -----------------------------------------------------------------------------
 
+@use 'sass/helpers/layout';
+@use 'sass/helpers/selector';
+@use 'sass/variables/general';
+
 // @todo Should we add some sort of dynamic layout based on how many grid items
 // there are? E.g. even or odd, so that we don't get a single one wrapping to a
 // new row?
 
-@import 'sass/common';
-
 .ambientimpact-component-demo {
   &__actions {
-    @include contain-floats;
+    @include layout.contain-floats;
 
-    @include use-grid {
+    @include layout.use-grid {
       display:  grid;
 
-      grid-gap: $general-spacing;
+      grid-gap: general.$general-spacing;
       grid-template-columns:  repeat(auto-fit, minmax(10em, 1fr));
 
       // contain-floats adds this so we have to remove it from the flow so that
@@ -27,27 +29,27 @@
 
     &-action-item {
       // If grid isn't supported, float items.
-      @include root-conditions(('[dir=ltr]'), 'html') {
+      @include selector.root-conditions(('[dir=ltr]'), 'html') {
         float:          left;
-        padding-right:  $general-spacing;
+        padding-right:  general.$general-spacing;
       }
-      @include root-conditions(('[dir=rtl]'), 'html') {
+      @include selector.root-conditions(('[dir=rtl]'), 'html') {
         float:          right;
-        padding-left:   $general-spacing;
+        padding-left:   general.$general-spacing;
       }
 
-      @include use-grid {
-        @include root-conditions(('[dir=ltr]'), 'html') {
+      @include layout.use-grid {
+        @include selector.root-conditions(('[dir=ltr]'), 'html') {
           padding-right:  0;
         }
-        @include root-conditions(('[dir=rtl]'), 'html') {
+        @include selector.root-conditions(('[dir=rtl]'), 'html') {
           padding-left:   0;
         }
       }
     }
 
     &-action-button {
-      @include use-grid {
+      @include layout.use-grid {
         display:  block;
         width:    100%;
       }

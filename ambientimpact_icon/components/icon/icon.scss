@@ -2,7 +2,8 @@
 //   Ambient.Impact - Icons - Icon component
 // -----------------------------------------------------------------------------
 
-@import 'sass/common';
+@use '_icon' as *;
+@use 'sass/helpers/hide';
 
 ///
 /// Icon reveal animation when its bundle has loaded.
@@ -89,7 +90,7 @@
   // applied to the icon once the bundle has been marked as loaded by
   // JavaScript.
   &--icon-standalone-loaded#{&}--text-visually-hidden &__text {
-    @include hide-me;
+    @include hide.hide-me;
   }
   // Totally hidden text. This text is not accessible to either visual or non-
   // visual user agents like screen readers. Note that this is only applied to

@@ -2,13 +2,15 @@
 //	Ambient.Impact - UX - Immerse component partial
 // -----------------------------------------------------------------------------
 
+@use 'sass/helpers/selector';
+
 ///
 /// Apply styles when we're in immerse mode.
 ///
 /// @content The styles to apply when immersed.
 ///
 @mixin on-immerse {
-	@include root-conditions('.is-immersed', 'body') {
+	@include selector.root-conditions('.is-immersed', 'body') {
 		@content;
 	}
 }

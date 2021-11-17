@@ -2,10 +2,14 @@
 //   Ambient.Impact - UX - Off-canvas panel component
 // -----------------------------------------------------------------------------
 
+@use 'material.common/material.panel' as material-panel;
+@use 'material.common/material.shadow' as material-shadow;
+@use 'sass/helpers/colour';
+@use 'sass/helpers/z-index';
+@use 'sass/variables/motion';
+
 // This is taken from the Frend Off Canvas CSS and modified.
 // @see https://github.com/frend/frend.co/blob/gh-pages/_components/offcanvas/offcanvas.css
-
-@import 'sass/common';
 
 ///
 /// Off-canvas panel transition duration.
@@ -126,7 +130,7 @@ $offcanvas-panel-max-size: 17em;
   &.offcanvas-panel--modal {
     // This places this over the overlay and most other page elements,
     // including the admin Toolbar.
-    @include z-index('modal');
+    @include z-index.z-index('modal');
   }
 
   // Initially hidden. This prevents keyboard/script focus until the panel is
@@ -153,7 +157,7 @@ $offcanvas-panel-max-size: 17em;
   // These are used when transitioning into view, i.e. is opening. The panel
   // comes in at full speed and decelerates to a stop.
   transition-duration:        $offcanvas-transition-duration;
-  transition-timing-function: $easing-decelerate;
+  transition-timing-function: motion.$easing-decelerate;
 
   // These are used when transitioning out of view, i.e. is closing. The panel
   // accelerates out to give it a sense of physicality and weight, as if this is
@@ -162,36 +166,36 @@ $offcanvas-panel-max-size: 17em;
   // transition in.
   &[aria-hidden="true"] {
     transition-duration:        $offcanvas-transition-duration * 0.7;
-    transition-timing-function: $easing-accelerate;
+    transition-timing-function: motion.$easing-accelerate;
   }
 
   // Auto panel theme; switches between light and dark based on
   // prefers-colour-scheme media feature.
   &.offcanvas-panel--theme-auto {
-    @include set-colours(
-      $background: $material-panel-background-colour-light
+    @include colour.set-colours(
+      $background: material-panel.$material-panel-background-colour-light
     );
 
-    @include on-dark-colour-scheme {
-      @include set-colours(
-        $background: $material-panel-background-colour-dark
+    @include colour.on-dark-colour-scheme {
+      @include colour.set-colours(
+        $background: material-panel.$material-panel-background-colour-dark
       );
     }
   }
   // Light panel theme.
   &.offcanvas-panel--theme-light {
-    @include set-colours(
-      $background: $material-panel-background-colour-light
+    @include colour.set-colours(
+      $background: material-panel.$material-panel-background-colour-light
     );
   }
   // Dark panel theme.
   &.offcanvas-panel--theme-dark {
-    @include set-colours(
-      $background: $material-panel-background-colour-dark
+    @include colour.set-colours(
+      $background: material-panel.$material-panel-background-colour-dark
     );
   }
 
-  @include material-shadow(3);
+  @include material-shadow.material-shadow(3);
 
   &.offcanvas-panel--left {
     left:   0;

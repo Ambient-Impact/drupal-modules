@@ -2,6 +2,8 @@
 //   Ambient.Impact - UX - Link component state partial
 // -----------------------------------------------------------------------------
 
+@use 'pointer_focus_hide' as pointer-focus-hide;
+
 ///
 /// Apply styles to link hover and focus states.
 ///
@@ -29,7 +31,7 @@
   }
 
   @if ($focus == true) {
-    @include not-pointer-focus {
+    @include pointer-focus-hide.not-pointer-focus {
       @content;
     }
   }

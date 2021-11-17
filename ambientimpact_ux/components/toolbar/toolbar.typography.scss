@@ -2,7 +2,7 @@
 //   Ambient.Impact - UX - Drupal toolbar component typography
 // -----------------------------------------------------------------------------
 
-@import 'sass/common';
+@use '_toolbar.typography' as *;
 
 #toolbar-administration {
   font-size: $toolbar-font-size;

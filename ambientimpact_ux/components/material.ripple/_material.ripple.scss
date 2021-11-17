@@ -6,6 +6,8 @@
 
 @use 'sass:color';
 @use 'sass:math';
+@use 'sass:meta';
+@use 'sass/helpers/event';
 
 ///
 /// The Material ripple fallback radius if rippling from the centre.
@@ -110,8 +112,8 @@ $material-ripple-base-class: 'material-ripple';
 }
 
 // material-ripple-set-colours-callback() event callback registration.
-@include on-event(
+@include event.on-event(
   'set-colours',
   '--material-ripple-colour',
-  'material-ripple-set-colours-callback'
+  meta.get-function('material-ripple-set-colours-callback')
 );

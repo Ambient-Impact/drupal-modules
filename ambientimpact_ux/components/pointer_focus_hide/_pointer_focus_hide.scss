@@ -2,13 +2,15 @@
 //   Ambient.Impact - UX - Pointer focus hide component partial
 // -----------------------------------------------------------------------------
 
+@use 'sass/helpers/selector';
+
 ///
 /// Apply styles to an element when it is focused by the pointer.
 ///
 /// @content
 ///
 @mixin pointer-focus-hide {
-  @include root-conditions('[data-focus-source=pointer]', 'html') {
+  @include selector.root-conditions('[data-focus-source=pointer]', 'html') {
     &.pointer-focus-hide:focus {
       @content;
     }
@@ -21,7 +23,9 @@
 /// @content
 ///
 @mixin not-pointer-focus {
-  @include root-conditions(':not([data-focus-source=pointer])', 'html') {
+  @include selector.root-conditions(
+    ':not([data-focus-source=pointer])', 'html'
+  ) {
     &:not(:hover):focus {
       @content;
     }

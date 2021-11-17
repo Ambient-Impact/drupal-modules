@@ -3,8 +3,7 @@
 // -----------------------------------------------------------------------------
 
 @use 'sass:map';
-
-@import 'sass/common';
+@use 'sass/helpers/hide';
 
 .ambientimpact-social-links {
   $self:  &;
@@ -27,7 +26,7 @@
   }
 
   &--display-icon-and-text &__network-link-accessibility-text {
-    @include hide-me;
+    @include hide.hide-me;
   }
 }
 

@@ -2,13 +2,19 @@
 //   Ambient.Impact - UX - Material panel partial
 // -----------------------------------------------------------------------------
 
+@use 'material.common/material.colour' as material-colour;
+@use 'material.common/material.general' as material-general;
+@use 'material.common/material.shadow' as material-shadow;
 @use 'sass:color';
+@use 'sass/helpers/breakpoint';
+@use 'sass/helpers/colour';
 @import 'include-media';
 
 ///
 /// Material panel background colour, light variant.
 ///
-$material-panel-background-colour-light: $background-colour-light !default;
+$material-panel-background-colour-light:
+  colour.$background-colour-light !default;
 
 ///
 /// Material panel background colour, light on light variant.
@@ -17,13 +23,13 @@ $material-panel-background-colour-light: $background-colour-light !default;
 /// against a light background, if needed.
 ///
 $material-panel-background-colour-light-on-light: color.mix(
-  $background-colour-light, $foreground-colour-on-light, 90%
+  colour.$background-colour-light, colour.$foreground-colour-on-light, 90%
 ) !default;
 
 ///
 /// Material panel background colour, dark variant.
 ///
-$material-panel-background-colour-dark: $background-colour-dark !default;
+$material-panel-background-colour-dark: colour.$background-colour-dark !default;
 
 ///
 /// Material panel background colour, dark on dark variant.
@@ -32,7 +38,7 @@ $material-panel-background-colour-dark: $background-colour-dark !default;
 /// against a dark background, if needed.
 ///
 $material-panel-background-colour-dark-on-dark: color.mix(
-  $background-colour-dark, $foreground-colour-on-dark, 90%
+  colour.$background-colour-dark, colour.$foreground-colour-on-dark, 90%
 ) !default;
 
 ///
@@ -76,7 +82,7 @@ $material-panel-padding-breakpoint: '>=material-panel-padding' !default;
 ///
 /// @see {mixin} material-panel-divider
 ///
-$material-panel-divider-colour: $material-line-colour !default;
+$material-panel-divider-colour: material-colour.$material-line-colour !default;
 
 ///
 /// Material panel divider thickness.
@@ -96,7 +102,7 @@ $material-panel-divider-thickness: 1px !default;
 ///
 $material-panel-divider-padding-multiplier: 0.3 !default;
 
-@include add-breakpoints((
+@include breakpoint.add-breakpoints((
   // The viewport width where Material panels switch between their small and
   // large padding values.
   'material-panel-padding': 30em
@@ -148,8 +154,8 @@ $material-panel-divider-padding-multiplier: 0.3 !default;
   $padding-large:               $material-panel-padding-large,
   $padding-breakpoint:          $material-panel-padding-breakpoint,
   $background-colour:           $material-panel-background-colour-light,
-  $foreground-colour-on-light:  $foreground-colour-on-light,
-  $foreground-colour-on-dark:   $foreground-colour-on-dark,
+  $foreground-colour-on-light:  colour.$foreground-colour-on-light,
+  $foreground-colour-on-dark:   colour.$foreground-colour-on-dark,
   $shadow-depth:                2
 ) {
   @include material-panel-padding(
@@ -158,15 +164,15 @@ $material-panel-divider-padding-multiplier: 0.3 !default;
     $padding-breakpoint:  $padding-breakpoint
   );
 
-  border-radius: $material-border-radius;
+  border-radius: material-general.$material-border-radius;
 
-  @include set-colours(
+  @include colour.set-colours(
     $background:          $background-colour,
     $foreground-on-light: $foreground-colour-on-light,
     $foreground-on-dark:  $foreground-colour-on-dark
   );
 
-  @include material-shadow($shadow-depth);
+  @include material-shadow.material-shadow($shadow-depth);
 }
 
 ///

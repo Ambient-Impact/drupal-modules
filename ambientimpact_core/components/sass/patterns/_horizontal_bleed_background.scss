@@ -2,6 +2,8 @@
 //   Horizontal bleed background from within constrained container
 // -----------------------------------------------------------------------------
 
+@use '../helpers/colour';
+@use 'material.common/material.shadow' as ms;
 @use 'sass:color';
 @use 'sass:list';
 @use 'sass:meta';
@@ -41,7 +43,7 @@
 
   // Fallback just in case the browser doesn't support generated content, though
   // that's ancient by 2019 standards.
-  @include set-colours(
+  @include colour.set-colours(
     $background: $colour
   );
 
@@ -50,7 +52,7 @@
   // background colour will be set on the absolutely positioned generated
   // content element below.
   @supports (content: '') {
-    @include set-colours(
+    @include colour.set-colours(
       $background:            transparent,
       $background-reference:  $colour
     );
@@ -82,7 +84,7 @@
       margin-left: -50vw;
     }
 
-    @include set-colours(
+    @include colour.set-colours(
       $background: $colour
     );
 
@@ -93,7 +95,7 @@
     $shadow-list: ();
 
     @if meta.type-of($shadow) == 'list' and list.length($shadow) == 3 {
-      $material-shadow: material-shadow($shadow-depth);
+      $material-shadow: ms.material-shadow($shadow-depth);
 
       // Use the parts of the shadow that we're asked to.
       @for $i from 1 through list.length($shadow) {
@@ -138,7 +140,7 @@
   $height:  1rem
 ) {
   // Generate a Material shadow with the required depth.
-  $material-shadow: material-shadow($depth);
+  $material-shadow: ms.material-shadow($depth);
 
   // Grab the first item in the list, which is the top peek shadow.
   $shadow: list.nth($material-shadow, 1);

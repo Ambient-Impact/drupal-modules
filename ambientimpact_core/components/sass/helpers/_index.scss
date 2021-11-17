@@ -2,22 +2,22 @@
 //   Helpers index partial
 // -----------------------------------------------------------------------------
 
-@import '_selector.scss';
-@import '_string.scss';
-@import '_colour.scss';
-@import '_value.scss';
-@import '_event.scss';
-@import '_responsive.scss';
-@import '_breakpoint.scss';
-@import '_z-index.scss';
+@forward 'selector';
+@forward 'string';
+@forward 'colour';
+@forward 'value';
+@forward 'event';
+@forward 'responsive';
+@forward 'breakpoint';
+@forward 'z-index';
 
-@import '_hide.scss';
-@import '_layout.scss';
+@forward 'hide';
+@forward 'layout';
 
-@import '_typography.responsive.scss';
-@import '_typography.selection.scss';
+@forward 'typography.responsive';
+@forward 'typography.selection';
 
-@import '_outline.scss';
-@import '_clipping.scss';
-@import '_shadow.scss';
-@import '_transition.scss';
+@forward 'outline';
+@forward 'clipping';
+@forward 'shadow';
+@forward 'transition';
