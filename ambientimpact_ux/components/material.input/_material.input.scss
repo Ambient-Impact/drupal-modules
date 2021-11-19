@@ -2,41 +2,10 @@
 //   Ambient.Impact - UX - Material input partial
 // -----------------------------------------------------------------------------
 
-@use 'material.common/material.colour' as material-colour;
+@use 'material.input/material.input.shared' as *;
 @use 'material.input/material.input.label' as *;
 @use 'material.input/material.input.underline' as *;
 @use 'sass/variables/motion';
-
-///
-/// Material Input transition duration.
-///
-/// This is used for underline, label, and description transitions.
-///
-$material-input-transition-duration: 0.15s !default;
-
-///
-/// Material Input de-emphasized element opacity.
-///
-/// This is used on labels when they're overlaid on an empty input and on the
-/// inputs themselves when they're disabled.
-///
-$material-input-de-emphasized-opacity: 0.4 !default;
-
-///
-/// Material Input line height for inputs, labels, and related elements.
-///
-$material-input-line-height: 1.2 !default;
-
-///
-/// Material Input error message colour.
-///
-$material-input-messages-colour-error:
-  material-colour.$material-error-colour !default;
-
-///
-/// Material Input messages height.
-///
-$material-input-messages-height: 1.5rem !default;
 
 ///
 /// Material Input styles.

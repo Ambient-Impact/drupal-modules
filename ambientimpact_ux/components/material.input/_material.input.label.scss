@@ -3,7 +3,7 @@
 // -----------------------------------------------------------------------------
 
 @use 'material.common/material.colour' as material-colour;
-@use 'material.input/material.input' as *;
+@use 'material.input/material.input.shared' as *;
 @use 'sass/variables/motion';
 
 ///
