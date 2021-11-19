@@ -13,7 +13,7 @@
 ///
 /// Default set of breakpoints.
 ///
-$breakpoints: (
+$_breakpoints: (
   'height-tiny':  30em,
   'height-small': 45em
 );
@@ -23,10 +23,10 @@ $breakpoints: (
 ///
 /// @param {Map} $new-breakpoints
 ///
-/// @require $breakpoints
+/// @require $_breakpoints
 ///
 @mixin add-breakpoints($new-breakpoints) {
-  $breakpoints: map.merge($breakpoints, $new-breakpoints) !global;
+  $_breakpoints: map.merge($_breakpoints, $new-breakpoints) !global;
 }
 
 ///
@@ -34,10 +34,10 @@ $breakpoints: (
 ///
 /// @param {ArgList} $names
 ///
-/// @require $breakpoints
+/// @require $_breakpoints
 ///
 @mixin remove-breakpoints($names...) {
-  $breakpoints: map.remove($breakpoints, $names...) !global;
+  $_breakpoints: map.remove($_breakpoints, $names...) !global;
 }
 
 ///
@@ -45,13 +45,13 @@ $breakpoints: (
 ///
 /// @param {String} $name - The name of the defined breakpoint.
 ///
-/// @require $breakpoints
+/// @require $_breakpoints
 ///
 /// @throw Will throw a warning if the breakpoint isn't defined.
 ///
 @function get-breakpoint-value($name) {
-  @if map.has-key($breakpoints, $name) {
-    @return map.get($breakpoints, $name);
+  @if map.has-key($_breakpoints, $name) {
+    @return map.get($_breakpoints, $name);
 
   } @else {
     @warn 'Couldn\'t find a breakpoint named "#{$name}".';
@@ -67,10 +67,10 @@ $breakpoints: (
 ///
 /// @return {Bool} Returns true if found, false if not.
 ///
-/// @require $breakpoints
+/// @require $_breakpoints
 ///
 @function breakpoint-exists($name) {
-  @return map.has-key($breakpoints, $name);
+  @return map.has-key($_breakpoints, $name);
 }
 
 ///
@@ -87,10 +87,10 @@ $breakpoints: (
 ///
 /// @require {mixin} im.media
 /// @require {mixin} im.media-context
-/// @require {variable} $breakpoints
+/// @require {variable} $_breakpoints
 ///
 @mixin on($conditions...) {
-  @include im.media-context($breakpoints) {
+  @include im.media-context($_breakpoints) {
     @include im.media($conditions...) {
       @content;
     }
