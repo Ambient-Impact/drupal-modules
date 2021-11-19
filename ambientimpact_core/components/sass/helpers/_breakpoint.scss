@@ -2,6 +2,7 @@
 //   Breakpoint helpers
 // -----------------------------------------------------------------------------
 
+@use 'include-media' as im;
 @use 'sass:map';
 @use 'sass:meta';
 @use 'sass:string';
@@ -36,7 +37,7 @@ $breakpoints-legacy: (
 ///
 /// @link http://www.sitepoint.com/sass-mixins-kickstart-project/
 ///
-/// @deprecated Use @include media() instead.
+/// @deprecated Use @include breakpoint.on() instead.
 ///
 @mixin breakpoint($name) {
   @warn 'Mixin "breakpoint" is deprecated, use "@include media()" instead.';
@@ -144,4 +145,28 @@ $breakpoints-legacy: (
 ///
 @function breakpoint-exists($name) {
   @return map.has-key($breakpoints, $name);
+}
+
+///
+/// Generate a media query based on a list of conditions.
+///
+/// This functions as a wrapper around include-media to automatically include
+/// any custom named breakpoints that have been defined. Using the include-media
+/// media() mixin directly with a custom named breakpoint would result in an
+/// error if it was not also wrapped in the media-context() mixin, which is what
+/// we do here.
+///
+/// @param {Arglist} $conditions
+///   Media query conditions.
+///
+/// @require {mixin} im.media
+/// @require {mixin} im.media-context
+/// @require {variable} $breakpoints
+///
+@mixin on($conditions...) {
+  @include im.media-context($breakpoints) {
+    @include im.media($conditions...) {
+      @content;
+    }
+  }
 }
