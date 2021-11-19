@@ -19,76 +19,14 @@ $breakpoints: (
 );
 
 ///
-/// Default set of breakpoints. This is the deprecated, pre-include-media set.
-///
-$breakpoints-legacy: (
-  'height-tiny':  '(min-height: 30em)',
-  'height-small': '(min-height: 45em)'
-);
-
-///
-/// Wrap content in a specified breakpoint.
-///
-/// @param {String} $name - The name of the defined breakpoint.
-///
-/// @require $breakpoints
-///
-/// @throw Will throw a warning if the breakpoint isn't defined.
-///
-/// @link http://www.sitepoint.com/sass-mixins-kickstart-project/
-///
-/// @deprecated Use @include breakpoint.on() instead.
-///
-@mixin breakpoint($name) {
-  @warn 'Mixin "breakpoint" is deprecated, use "@include media()" instead.';
-
-  @if map.has-key($breakpoints-legacy, $name) {
-    @media #{meta.inspect(map.get($breakpoints-legacy, $name))} {
-      @content;
-    }
-  } @else {
-    @warn 'Couldn\'t find a breakpoint named "#{$name}".';
-  }
-}
-
-///
 /// Add one or more breakpoints.
 ///
 /// @param {Map} $new-breakpoints
 ///
 /// @require $breakpoints
-/// @require $breakpoints-legacy
 ///
 @mixin add-breakpoints($new-breakpoints) {
-  $legacy: false;
-
-  // Determine if this is a set of legacy breakpoints. If one contains any of
-  // the tested min/max keywords, the whole set is assumed to be legacy.
-  @each $name, $value in $new-breakpoints {
-    // Convert to a string to avoid errors.
-    $value: meta.inspect($value);
-
-    @if string.index($value, 'min-width') != null or
-      string.index($value, 'max-width') != null or
-      string.index($value, 'min-height') != null or
-      string.index($value, 'max-height') != null
-    {
-      $legacy: true;
-    }
-  }
-
-  // include-media breakpoint.
-  @if $legacy == false {
-    $breakpoints: map.merge($breakpoints, $new-breakpoints) !global;
-
-  // Legacy breakpoint.
-  } @else {
-    @warn 'You are adding a legacy breakpoint. Please use the include-media format instead: https://include-media.com/';
-
-    $breakpoints-legacy: map.merge(
-      $breakpoints-legacy, $new-breakpoints
-    ) !global;
-  }
+  $breakpoints: map.merge($breakpoints, $new-breakpoints) !global;
 }
 
 ///
@@ -97,11 +35,8 @@ $breakpoints-legacy: (
 /// @param {ArgList} $names
 ///
 /// @require $breakpoints
-/// @require $breakpoints-legacy
 ///
 @mixin remove-breakpoints($names...) {
-  $breakpoints-legacy: map.remove($breakpoints-legacy, $names...) !global;
-
   $breakpoints: map.remove($breakpoints, $names...) !global;
 }
 
@@ -110,23 +45,14 @@ $breakpoints-legacy: (
 ///
 /// @param {String} $name - The name of the defined breakpoint.
 ///
-/// @param {Bool} $legacy - If this is a legacy breakpoint. Defaults to false.
-///
 /// @require $breakpoints
-/// @require $breakpoints-legacy
 ///
 /// @throw Will throw a warning if the breakpoint isn't defined.
 ///
-@function get-breakpoint-value($name, $legacy: false) {
-  // Exists and is not legacy.
-  @if $legacy == false and map.has-key($breakpoints, $name) {
+@function get-breakpoint-value($name) {
+  @if map.has-key($breakpoints, $name) {
     @return map.get($breakpoints, $name);
 
-  // Exists and is legacy.
-  } @else if $legacy == true and map.has-key($breakpoints-legacy, $name) {
-    @return map.get($breakpoints-legacy, $name);
-
-  // Display a warning if the breakpoint is not found.
   } @else {
     @warn 'Couldn\'t find a breakpoint named "#{$name}".';
 
