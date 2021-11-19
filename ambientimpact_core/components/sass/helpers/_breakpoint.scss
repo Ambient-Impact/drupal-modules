@@ -41,6 +41,30 @@ $_breakpoints: (
 }
 
 ///
+/// Generate a media query based on a list of conditions.
+///
+/// This functions as a wrapper around include-media to automatically include
+/// any custom named breakpoints that have been defined. Using the include-media
+/// media() mixin directly with a custom named breakpoint would result in an
+/// error if it was not also wrapped in the media-context() mixin, which is what
+/// we do here.
+///
+/// @param {Arglist} $conditions
+///   Media query conditions.
+///
+/// @require {mixin} im.media
+/// @require {mixin} im.media-context
+/// @require {variable} $_breakpoints
+///
+@mixin on($conditions...) {
+  @include im.media-context($_breakpoints) {
+    @include im.media($conditions...) {
+      @content;
+    }
+  }
+}
+
+///
 /// Get the value of a specified breakpoint.
 ///
 /// @param {String} $name - The name of the defined breakpoint.
@@ -71,28 +95,4 @@ $_breakpoints: (
 ///
 @function exists($name) {
   @return map.has-key($_breakpoints, $name);
-}
-
-///
-/// Generate a media query based on a list of conditions.
-///
-/// This functions as a wrapper around include-media to automatically include
-/// any custom named breakpoints that have been defined. Using the include-media
-/// media() mixin directly with a custom named breakpoint would result in an
-/// error if it was not also wrapped in the media-context() mixin, which is what
-/// we do here.
-///
-/// @param {Arglist} $conditions
-///   Media query conditions.
-///
-/// @require {mixin} im.media
-/// @require {mixin} im.media-context
-/// @require {variable} $_breakpoints
-///
-@mixin on($conditions...) {
-  @include im.media-context($_breakpoints) {
-    @include im.media($conditions...) {
-      @content;
-    }
-  }
 }
