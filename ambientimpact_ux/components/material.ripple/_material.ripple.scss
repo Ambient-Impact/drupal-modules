@@ -107,13 +107,13 @@ $material-ripple-base-class: 'material-ripple';
 /// @param {Color} $foreground
 ///   The foreground colour of the current element.
 ///
-@function material-ripple-set-colours-callback($background, $foreground) {
+@function _set-colours-callback($background, $foreground) {
   @return color.adjust($foreground, $alpha: -0.6);
 }
 
-// material-ripple-set-colours-callback() event callback registration.
+// _set-colours-callback() event callback registration.
 @include event.on(
   'set-colours',
   '--material-ripple-colour',
-  meta.get-function('material-ripple-set-colours-callback')
+  meta.get-function('_set-colours-callback')
 );
