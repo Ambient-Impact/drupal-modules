@@ -57,7 +57,7 @@
 /// @see {mixin} trigger-event
 ///   Triggers the callbacks for a given event name with
 ///
-$events: ();
+$_events: ();
 
 ///
 /// Register a callback function to run on a given event.
@@ -89,13 +89,13 @@ $events: ();
 
     // Grab the existing event items (if any) or create a new list containing
     // the new item. Note the explicit list format when creating a new list.
-    @if map.has-key($events, $event-name) {
-      $event-items: list.append(map.get($events, $event-name), $new-item, comma);
+    @if map.has-key($_events, $event-name) {
+      $event-items: list.append(map.get($_events, $event-name), $new-item, comma);
     } @else {
       $event-items: ($new-item,);
     }
 
-    $events: map.merge($events, (
+    $_events: map.merge($_events, (
       $event-name: $event-items
     )) !global;
   }
@@ -115,8 +115,8 @@ $events: ();
 ///   One or more parameters to pass to each registered callback function.
 ///
 @mixin trigger-event($event-name, $parameters...) {
-  @if map.has-key($events, $event-name) {
-    $event-items: map.get($events, $event-name);
+  @if map.has-key($_events, $event-name) {
+    $event-items: map.get($_events, $event-name);
 
     @each $event-item in $event-items {
       #{map.get($event-item, 'property-name')}:
