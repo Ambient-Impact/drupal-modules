@@ -88,3 +88,5 @@ To build specific things:
 The following major version bumps indicate breaking changes:
 
 * 3.x - Some modules now require Drupal 9 and all development is now against that major version of Drupal.
+
+* 4.x - Refactored to use [Sass modules](https://sass-lang.com/blog/the-module-system-is-launched); all development is now against this and will no longer compile using the old ```@import``` directive.
