@@ -82,3 +82,9 @@ To build specific things:
 * ```grunt css``` - builds all CSS files and their associated map files.
 * ```grunt modernizr``` - builds the custom Modernizr build that provides additional tests on top of Drupal core's.
 * ```grunt icons``` - builds all icon bundles by merging the individual icon SVG files.
+
+# Major breaking changes
+
+The following major version bumps indicate breaking changes:
+
+* 3.x - Some modules now require Drupal 9 and all development is now against that major version of Drupal.
