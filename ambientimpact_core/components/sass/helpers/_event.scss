@@ -73,11 +73,11 @@ $_events: ();
 ///   If this is a string, will attempt to fetch a global function with that
 ///   name via get-function(). If this is a function, will be used as-is.
 ///
-@mixin on-event($event-name, $property-name, $callback) {
+@mixin on($event-name, $property-name, $callback) {
   @if meta.type-of($callback) == string and meta.function-exists($callback) {
     $callback: meta.get-function($callback);
   } @else if meta.type-of($callback) != function {
-    @error 'on-event() expects $callback as a string function name or a function object, is #{meta.type-of($callback)}';
+    @error 'on() expects $callback as a string function name or a function object, is #{meta.type-of($callback)}';
   }
 
   @if meta.type-of($callback) == function {
@@ -114,7 +114,7 @@ $_events: ();
 /// @param {ArgList} $parameters
 ///   One or more parameters to pass to each registered callback function.
 ///
-@mixin trigger-event($event-name, $parameters...) {
+@mixin trigger($event-name, $parameters...) {
   @if map.has-key($_events, $event-name) {
     $event-items: map.get($_events, $event-name);
 

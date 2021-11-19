@@ -112,7 +112,7 @@ $material-ripple-base-class: 'material-ripple';
 }
 
 // material-ripple-set-colours-callback() event callback registration.
-@include event.on-event(
+@include event.on(
   'set-colours',
   '--material-ripple-colour',
   meta.get-function('material-ripple-set-colours-callback')
