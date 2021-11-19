@@ -2,7 +2,7 @@
 //  Ambient.Impact - UX - Claro theme component
 // -----------------------------------------------------------------------------
 
-@import 'include-media';
+@use 'sass/helpers/breakpoint';
 
 html {
   // Always show the vertical scrollbar which avoids layout jumps on platforms
@@ -20,7 +20,7 @@ html {
   padding-left:   $gutter-small;
   padding-right:  $gutter-small;
 
-  @include media('>=38em') {
+  @include breakpoint.on('>=38em') {
     padding-left:   $gutter-large;
     padding-right:  $gutter-large;
   }

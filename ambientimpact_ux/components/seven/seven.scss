@@ -2,7 +2,7 @@
 //  Ambient.Impact - UX - Seven theme component
 // -----------------------------------------------------------------------------
 
-@import 'include-media';
+@use 'sass/helpers/breakpoint';
 
 html {
   // Don't show horizontal scrollbars so that we don't get phantom scrolling due
@@ -25,7 +25,7 @@ html {
   padding-left:   $gutter-small;
   padding-right:  $gutter-small;
 
-  @include media('>=38em') {
+  @include breakpoint.on('>=38em') {
     padding-left:   $gutter-large;
     padding-right:  $gutter-large;
   }

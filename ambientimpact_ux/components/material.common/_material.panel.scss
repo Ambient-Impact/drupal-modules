@@ -8,7 +8,6 @@
 @use 'sass:color';
 @use 'sass/helpers/breakpoint';
 @use 'sass/helpers/colour';
-@import 'include-media';
 
 ///
 /// Material panel background colour, light variant.
@@ -69,9 +68,9 @@ $material-panel-padding-large: 3rem !default;
 ///
 /// Material panel default padding breakpoint.
 ///
-/// This is the name and @include media() operator used by default in the
-/// material-panel-padding mixin to switch between the small and large padding
-/// values.
+/// This is the name and @include breakpoint.on() operator used by default in
+/// the material-panel-padding mixin to switch between the small and large
+/// padding values.
 ///
 /// @see {mixin} material-panel-padding
 ///
@@ -196,7 +195,7 @@ $material-panel-divider-padding-multiplier: 0.3 !default;
 ///   The axis/axes to apply padding to. Valid values are 'horizontal',
 ///   'vertical', and 'both'.
 ///
-/// @require {mixin} media
+/// @require {mixin} breakpoint.on
 /// @require {variable} $material-panel-padding-small
 /// @require {variable} $material-panel-padding-large
 /// @require {variable} $material-panel-padding-breakpoint
@@ -225,7 +224,7 @@ $material-panel-divider-padding-multiplier: 0.3 !default;
   // Switch to large padding on the provided breakpoint if the small and large
   // padding values are not identical.
   @if $padding-small != $padding-large {
-    @include media($padding-breakpoint) {
+    @include breakpoint.on($padding-breakpoint) {
       // Horizontal padding.
       @if $padding-axis == 'horizontal' {
         padding-left:   $padding-large;
@@ -268,7 +267,7 @@ $material-panel-divider-padding-multiplier: 0.3 !default;
 ///   The multiplier to use to scale the padding values up or down. By default,
 ///   this shrinks the panel padding values.
 ///
-/// @require {mixin} media
+/// @require {mixin} breakpoint.on
 /// @require {variable} $material-panel-divider-colour
 /// @require {variable} $material-panel-divider-thickness
 /// @require {variable} $material-panel-padding-small
@@ -288,7 +287,7 @@ $material-panel-divider-padding-multiplier: 0.3 !default;
 
   margin: ($padding-small * $padding-multiplier) (-$padding-small);
 
-  @include media($padding-breakpoint) {
+  @include breakpoint.on($padding-breakpoint) {
     margin: ($padding-large * $padding-multiplier) (-$padding-large);
   }
 
@@ -313,7 +312,7 @@ $material-panel-divider-padding-multiplier: 0.3 !default;
 ///   The multiplier to use to scale the padding values up or down. By default,
 ///   this shrinks the panel padding values.
 ///
-/// @require {mixin} media
+/// @require {mixin} breakpoint.on
 /// @require {mixin} material-panel-divider
 /// @require {variable} $material-panel-padding-small
 /// @require {variable} $material-panel-padding-large
@@ -331,7 +330,7 @@ $material-panel-divider-padding-multiplier: 0.3 !default;
   padding-bottom: ($padding-small * $padding-multiplier);
 
   @if $padding-small != $padding-large {
-    @include media($padding-breakpoint) {
+    @include breakpoint.on($padding-breakpoint) {
       margin-top:     $padding-large;
       margin-bottom:  -$padding-large;
       padding-bottom: ($padding-large * $padding-multiplier);
