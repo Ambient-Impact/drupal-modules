@@ -25,7 +25,7 @@ $_breakpoints: (
 ///
 /// @require $_breakpoints
 ///
-@mixin add-breakpoints($new-breakpoints) {
+@mixin add($new-breakpoints) {
   $_breakpoints: map.merge($_breakpoints, $new-breakpoints) !global;
 }
 
@@ -36,7 +36,7 @@ $_breakpoints: (
 ///
 /// @require $_breakpoints
 ///
-@mixin remove-breakpoints($names...) {
+@mixin remove($names...) {
   $_breakpoints: map.remove($_breakpoints, $names...) !global;
 }
 
@@ -49,7 +49,7 @@ $_breakpoints: (
 ///
 /// @throw Will throw a warning if the breakpoint isn't defined.
 ///
-@function get-breakpoint-value($name) {
+@function get-value($name) {
   @if map.has-key($_breakpoints, $name) {
     @return map.get($_breakpoints, $name);
 
@@ -69,7 +69,7 @@ $_breakpoints: (
 ///
 /// @require $_breakpoints
 ///
-@function breakpoint-exists($name) {
+@function exists($name) {
   @return map.has-key($_breakpoints, $name);
 }
 
