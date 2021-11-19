@@ -101,7 +101,7 @@ $material-panel-divider-thickness: 1px !default;
 ///
 $material-panel-divider-padding-multiplier: 0.3 !default;
 
-@include breakpoint.add-breakpoints((
+@include breakpoint.add((
   // The viewport width where Material panels switch between their small and
   // large padding values.
   'material-panel-padding': 30em
