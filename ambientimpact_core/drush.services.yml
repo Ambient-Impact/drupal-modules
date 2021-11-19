@@ -1,7 +1,7 @@
 services:
 
   ambientimpact_core.backup_command:
-    class: \Drupal\ambientimpact_core\Commands\BackupCommand
+    class: Drupal\ambientimpact_core\Commands\BackupCommand
     arguments: ['@file_system']
     tags:
       - { name: drush.command }
@@ -15,8 +15,8 @@ services:
       - { name: drush.command }
 
   ambientimpact_core.install_command:
-    arguments: ['@file_system']
     class: Drupal\ambientimpact_core\Commands\InstallCommand
+    arguments: ['@file_system']
     tags:
       - { name: drush.command }
 
@@ -29,7 +29,7 @@ services:
       - { name: drush.command }
 
   ambientimpact_core.rsync_command:
-    class: \Drupal\ambientimpact_core\Commands\RsyncCommand
+    class: Drupal\ambientimpact_core\Commands\RsyncCommand
     arguments: ['@file_system']
     tags:
       - { name: drush.command }
