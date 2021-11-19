@@ -2,7 +2,7 @@
 
 namespace Drupal\ambientimpact_core\Commands;
 
-use Drupal\ambientimpact_core\Commands\AbstractAmbientImpactFileSystemCommand;
+use Drupal\ambientimpact_core\Commands\AbstractFileSystemCommand;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -11,7 +11,7 @@ use Symfony\Component\Finder\Finder;
  *
  * @see self::backup()
  */
-class AmbientImpactBackupCommand extends AbstractAmbientImpactFileSystemCommand {
+class BackupCommand extends AbstractFileSystemCommand {
 
   /**
    * The \date() format used to generate archive names.

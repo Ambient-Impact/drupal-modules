@@ -5,7 +5,7 @@ namespace Drupal\ambientimpact_core\Commands;
 use Consolidation\AnnotatedCommand\CommandData;
 use Consolidation\SiteAlias\HostPath;
 use Consolidation\SiteAlias\SiteAliasInterface;
-use Drupal\ambientimpact_core\Commands\AbstractAmbientImpactFileSystemCommand;
+use Drupal\ambientimpact_core\Commands\AbstractFileSystemCommand;
 use Drush\Config\ConfigLocator;
 use Drush\Exceptions\UserAbortException;
 use Robo\Collection\CollectionBuilder;
@@ -16,7 +16,7 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
  *
  * @see self::rsync()
  */
-class AmbientImpactRsyncCommand extends AbstractAmbientImpactFileSystemCommand {
+class RsyncCommand extends AbstractFileSystemCommand {
 
   /**
    * HostPath object representing the path to the source Drupal site root.

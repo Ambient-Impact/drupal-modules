@@ -14,7 +14,7 @@ use Robo\LoadAllTasks;
 /**
  * Abstract Ambient.Impact file system Drush command class.
  */
-abstract class AbstractAmbientImpactFileSystemCommand extends DrushCommands implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
+abstract class AbstractFileSystemCommand extends DrushCommands implements BuilderAwareInterface, SiteAliasManagerAwareInterface {
 
   use LoadAllTasks;
 

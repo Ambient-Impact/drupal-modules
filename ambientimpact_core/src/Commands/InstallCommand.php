@@ -2,14 +2,14 @@
 
 namespace Drupal\ambientimpact_core\Commands;
 
-use Drupal\ambientimpact_core\Commands\AbstractAmbientImpactFileSystemCommand;
+use Drupal\ambientimpact_core\Commands\AbstractFileSystemCommand;
 
 /**
  * ambientimpact:install Drush command.
  *
  * @see self::install()
  */
-class AmbientImpactInstallCommand extends AbstractAmbientImpactFileSystemCommand {
+class InstallCommand extends AbstractFileSystemCommand {
 
   /**
    * Install project dependencies.
