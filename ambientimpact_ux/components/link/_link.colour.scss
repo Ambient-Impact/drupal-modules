@@ -275,3 +275,35 @@
 
   @return $colours;
 }
+
+///
+/// Set link colour CSS custom properties on the current element.
+///
+/// @param {Color} $background [$background-colour]
+///   The background colour the link is on.
+///
+/// @param {Map|Null} $colours [null]
+///   A map of link colours returned from the get-link-colours() function, or
+///   null. This is useful if you don't want to generate the colours more than
+///   once, for performance during compilation. If null, will call the function.
+///
+/// @require {function} get-link-colours
+///
+@mixin link-colour-custom-properties(
+  $background:  colour.$background-colour,
+  $colours:     null
+) {
+
+  @if ($colours == null) {
+    $colours: get-link-colours($background);
+  }
+
+  --link-normal-colour: #{map.get($colours, 'normal')};
+  --link-hover-colour:  #{map.get($colours, 'hover')};
+  --link-active-colour: #{map.get($colours, 'active')};
+
+  --link-underline-normal-colour: #{map.get($colours, 'underline-normal')};
+  --link-underline-hover-colour:  #{map.get($colours, 'underline-hover')};
+  --link-underline-active-colour: #{map.get($colours, 'underline-active')};
+
+}
