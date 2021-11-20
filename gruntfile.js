@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+
   'use strict';
 
   const childProcess = require('child_process');
@@ -7,7 +8,7 @@ module.exports = function(grunt) {
     'drush ambientimpact:component-paths'
   ).toString().trim());
 
-  var paths = {
+  let paths = {
     // Drupal extension directory names/paths relative to this Gruntfile.
     // Extensions are either modules or themes.
     extensions: [

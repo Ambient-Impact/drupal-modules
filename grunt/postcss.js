@@ -1,4 +1,5 @@
 module.exports = function(grunt, options) {
+
   'use strict';
 
   return {
@@ -20,4 +21,5 @@ module.exports = function(grunt, options) {
       }]
     }
   };
+
 };
