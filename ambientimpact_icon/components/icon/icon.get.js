@@ -2,9 +2,7 @@
 //   Ambient.Impact - Icons - Icon get component
 // -----------------------------------------------------------------------------
 
-AmbientImpact.on([
-  'icon.support', 'icon.load',
-], function(aiIconSupport, aiIconLoad) {
+AmbientImpact.on(['icon.load'], function(aiIconLoad) {
 AmbientImpact.addComponent('icon.get', function(aiIconGet, $) {
   'use strict';
 

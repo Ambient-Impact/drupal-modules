@@ -7,16 +7,10 @@
 // scrolling up, the viewport has been scrolled down enough to merit it, and no
 // text field is focused (to avoid blocking one on narrow screens).
 
-AmbientImpact.onGlobals([
-  'Headroom',
-  'Modernizr.csstransitions',
-  'ally.get.activeElement',
-], function() {
-AmbientImpact.on([
-  'jquery',
-  'mediaQuery',
-], function(aijQuery, aiMediaQuery) {
+AmbientImpact.onGlobals(['Headroom', 'ally.get.activeElement'], function() {
+AmbientImpact.on(['jquery', 'mediaQuery'], function(aijQuery, aiMediaQuery) {
 AmbientImpact.addComponent('toTop', function(aiToTop, $) {
+
   'use strict';
 
   // Container classes.
@@ -123,12 +117,6 @@ AmbientImpact.addComponent('toTop', function(aiToTop, $) {
     // Hide the container. Again, this does not perform any checks.
     'hide.aiToTop': function(event) {
       $container.addClass(aiToTop.hiddenClass);
-
-      // Manually trigger the transitionend handler if transitions are not
-      // supported so that we still properly hide the container.
-      if (!Modernizr.csstransitions) {
-        $container.trigger('transitionend.aiToTop');
-      }
     },
     'transitionend.aiToTop': function(event) {
       // Hide the container from everything, including screen readers, at the

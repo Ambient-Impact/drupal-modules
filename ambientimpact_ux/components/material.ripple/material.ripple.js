@@ -14,16 +14,8 @@
 // @todo Enable/fix ability to reset the animation if a pointer event occurs
 // while the animation is in progress.
 
-AmbientImpact.onGlobals(['Modernizr.customproperties'], function() {
+AmbientImpact.addComponent('material.ripple', function(aiMaterialRipple, $) {
 
-// Requires CSS custom properties support.
-if (Modernizr.customproperties !== true) {
-  return;
-}
-
-AmbientImpact.addComponent('material.ripple', function(
-  aiMaterialRipple, $
-) {
   'use strict';
 
   // The names of the events that trigger a ripple.
@@ -357,5 +349,4 @@ AmbientImpact.addComponent('material.ripple', function(
         .off(animationEventNames.join(' '));
     }
   );
-});
 });

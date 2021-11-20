@@ -4,5 +4,3 @@ component.material.ripple:
       material.ripple.css: {}
   js:
     material.ripple.js: {}
-  dependencies:
-    - core/modernizr

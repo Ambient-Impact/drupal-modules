@@ -2,9 +2,7 @@
 //   Ambient.Impact - Icons - Icon jQuery component
 // -----------------------------------------------------------------------------
 
-AmbientImpact.on([
-  'icon.support', 'icon.get', 'jquery',
-], function(aiIconSupport, aiIconGet, aijQuery) {
+AmbientImpact.on(['icon.get', 'jquery'], function(aiIconGet, aijQuery) {
 AmbientImpact.addComponent('icon.jquery', function(aiIconjQuery, $) {
   'use strict';
 

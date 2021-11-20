@@ -2,11 +2,9 @@
 //   Ambient.Impact - UX - Overlay component
 // -----------------------------------------------------------------------------
 
-AmbientImpact.onGlobals([
-  'ally.maintain.disabled',
-  'Modernizr.csstransitions',
-], function() {
+AmbientImpact.onGlobals(['ally.maintain.disabled'], function() {
 AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
+
   'use strict';
 
   /**

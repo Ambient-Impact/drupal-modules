@@ -60,10 +60,10 @@ These are managed via Composer like back-end dependencies. See
 
 ## Installation
 
-To build the CSS, custom [Modernizr](https://modernizr.com/) build, and icon
-bundles for this project, you'll need to have [Node.js](https://nodejs.org/)
-installed. Once you've installed it, you'll have to install the [Grunt
-CLI](https://gruntjs.com/getting-started) globally from the commandline:
+To build the CSS, and icon bundles for this project, you'll need to have
+[Node.js](https://nodejs.org/) installed. Once you've installed it, you'll have
+to install the [Grunt CLI](https://gruntjs.com/getting-started) globally from
+the commandline:
 
 ```
 npm install -g grunt-cli
@@ -80,7 +80,6 @@ project root.
 To build specific things:
 
 * ```grunt css``` - builds all CSS files and their associated map files.
-* ```grunt modernizr``` - builds the custom Modernizr build that provides additional tests on top of Drupal core's.
 * ```grunt icons``` - builds all icon bundles by merging the individual icon SVG files.
 
 # Major breaking changes

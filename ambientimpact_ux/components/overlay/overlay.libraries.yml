@@ -5,5 +5,4 @@ component.overlay:
   js:
     overlay.js: {}
   dependencies:
-    - core/modernizr
     - ambientimpact_core/ally.js

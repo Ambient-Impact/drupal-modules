@@ -28,10 +28,6 @@ module.exports = function(grunt) {
       'javascript',
       'components',
     ],
-    // Libraries path, relative to extension directories.
-    libraries: [
-      'assets/vendor',
-    ],
   };
 
   for (const propertyName in paths) {
@@ -62,7 +58,6 @@ module.exports = function(grunt) {
       extensionPaths:   paths.extensions,
       stylesheetPaths:  paths.stylesheets,
       javascriptPaths:  paths.javascript,
-      librariesPath:    paths.libraries,
       componentPaths:   componentPaths,
     }
   });
@@ -71,7 +66,6 @@ module.exports = function(grunt) {
     'sass',
     'postcss',
     'svgstore',
-    'modernizr',
   ]);
 
   grunt.registerTask('css', [

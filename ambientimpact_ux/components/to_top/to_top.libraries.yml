@@ -5,7 +5,6 @@ component.to_top:
   js:
     to_top.js: {}
   dependencies:
-    - core/modernizr
     - ambientimpact_core/ally.js
     - ambientimpact_ux/smoothscroll
     - ambientimpact_core/component.jquery
