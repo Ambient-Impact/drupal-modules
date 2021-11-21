@@ -9,26 +9,7 @@ module.exports = function(grunt) {
   ).toString().trim());
 
   let pathTemplates = {
-    // Drupal extension directory names/paths relative to this Gruntfile.
-    // Extensions are either modules or themes.
-    extensions: [
-      'ambientimpact_core',
-      'ambientimpact_block',
-      'ambientimpact_icon',
-      'ambientimpact_media',
-      'ambientimpact_ux',
-      'ambientimpact_web/ambientimpact_web_components',
-    ],
-    // Stylesheet directory names/paths, relative to extension directories.
-    stylesheets: [
-      'stylesheets',
-      'components',
-    ],
-    // JavaScript directory names/paths, relative to extension directories.
-    javascript: [
-      'javascript',
-      'components',
-    ],
+    components: componentPaths,
   };
 
   for (const propertyName in pathTemplates) {
