@@ -8,63 +8,19 @@
 @use 'sass/helpers/selector';
 @use 'sass/helpers/z-index';
 @use 'sass/variables/motion';
-
-///
-/// To top component horizontal offset from viewport edge.
-///
-$to-top-offset-horizontal: 1em !default;
-
-///
-/// To top component bottom offset from viewport edge.
-///
-$to-top-offset-bottom: 2em !default;
-
-///
-/// To top component horizontal offset from viewport edge when hidden.
-///
-$to-top-hidden-offset: 4em !default;
-
-///
-/// To top component background colour on light backgrounds.
-///
-$to-top-background-colour-normal-on-light: lighten(black, 10%) !default;
-
-///
-/// To top component background colour on dark backgrounds.
-///
-$to-top-background-colour-normal-on-dark: darken(white, 10%) !default;
-
-///
-/// To top component interacted background colour on light backgrounds.
-///
-$to-top-background-colour-interact-on-light: lighten(black, 20%) !default;
-
-///
-/// To top component interacted background colour on dark backgrounds.
-///
-$to-top-background-colour-interact-on-dark: darken(white, 20%) !default;
-
-///
-/// To top component foreground colour on light backgrounds.
-///
-$to-top-foreground-colour-on-light: white !default;
-
-///
-/// To top component foreground colour on dark backgrounds.
-///
-$to-top-foreground-colour-on-dark: black !default;
+@use '_to_top' as to-top;
 
 .to-top {
   position: fixed;
 
   @include selector.root-conditions(('[dir=ltr]'), 'html') {
-    right:  $to-top-offset-horizontal;
+    right:  to-top.$offset-horizontal;
   }
   @include selector.root-conditions(('[dir=rtl]'), 'html') {
-    left: $to-top-offset-horizontal;
+    left: to-top.$offset-horizontal;
   }
 
-  bottom: $to-top-offset-bottom;
+  bottom: to-top.$offset-bottom;
 
   @include z-index.z-index('floating');
 
@@ -76,29 +32,29 @@ $to-top-foreground-colour-on-dark: black !default;
     opacity:  0;
 
     @include selector.root-conditions(('[dir=ltr]'), 'html') {
-      transform:  translateX($to-top-hidden-offset);
+      transform:  translateX(to-top.$hidden-offset);
     }
     @include selector.root-conditions(('[dir=rtl]'), 'html') {
-      transform:  translateX(-$to-top-hidden-offset);
+      transform:  translateX(to-top.$hidden-offset * -1);
     }
   }
 
   &__link {
     display: block;
 
-    color: $to-top-foreground-colour-on-light !important;
+    color: to-top.$foreground-colour-on-light !important;
 
     @include material-button.material-button-fab(
-      $background-colour:           $to-top-background-colour-normal-on-light,
-      $background-colour-interact:  $to-top-background-colour-interact-on-light
+      $background-colour:           to-top.$background-colour-normal-on-light,
+      $background-colour-interact:  to-top.$background-colour-interact-on-light
     );
 
     @include colour.on-dark-colour-scheme {
-      color: $to-top-foreground-colour-on-dark !important;
+      color: to-top.$foreground-colour-on-dark !important;
 
       @include material-button.material-button-fab(
-        $background-colour:           $to-top-background-colour-normal-on-dark,
-        $background-colour-interact:  $to-top-background-colour-interact-on-dark
+        $background-colour:           to-top.$background-colour-normal-on-dark,
+        $background-colour-interact:  to-top.$background-colour-interact-on-dark
       );
     }
 
@@ -109,7 +65,7 @@ $to-top-foreground-colour-on-dark: black !default;
     // Use the background colour for the focus outline to ensure contrast as the
     // outline uses currentColor by default, which is white in this case.
     &:focus {
-      outline-color: $to-top-background-colour-normal-on-light;
+      outline-color: to-top.$background-colour-normal-on-light;
     }
   }
 

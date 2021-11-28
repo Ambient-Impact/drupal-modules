@@ -1,0 +1,59 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - To top component partial
+// -----------------------------------------------------------------------------
+
+@use 'sass:color';
+
+///
+/// To top component horizontal offset from viewport edge.
+///
+$offset-horizontal: 1em !default;
+
+///
+/// To top component bottom offset from viewport edge.
+///
+$offset-bottom: 2em !default;
+
+///
+/// To top component horizontal offset from viewport edge when hidden.
+///
+$hidden-offset: 4em !default;
+
+///
+/// To top component background colour on light backgrounds.
+///
+$background-colour-normal-on-light: color.adjust(
+  black, $lightness: +10%
+) !default;
+
+///
+/// To top component background colour on dark backgrounds.
+///
+$background-colour-normal-on-dark: color.adjust(
+  white, $lightness: -10%
+) !default;
+
+///
+/// To top component interacted background colour on light backgrounds.
+///
+$background-colour-interact-on-light: color.adjust(
+  black, $lightness: +20%
+) !default;
+
+///
+/// To top component interacted background colour on dark backgrounds.
+///
+$background-colour-interact-on-dark: color.adjust(
+  white, $lightness: -20%
+) !default;
+
+///
+/// To top component foreground colour on light backgrounds.
+///
+$foreground-colour-on-light: white !default;
+
+///
+/// To top component foreground colour on dark backgrounds.
+///
+$foreground-colour-on-dark: black !default;
+
