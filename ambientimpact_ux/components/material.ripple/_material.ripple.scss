@@ -99,16 +99,51 @@ $material-ripple-base-class: 'material-ripple';
 }
 
 ///
-/// Fade out the foreground colour for use as the Material ripple colour.
+/// Set an appropriate Material ripple colour given a background and foreground.
 ///
-/// @param {Color} $background
+/// This should only be used in situations where the colour.set-colours() mixin
+/// is impractical to use or would cause unwanted side-effects.
+///
+/// @param {Color} $background-colour
 ///   The background colour of the current element.
 ///
-/// @param {Color} $foreground
+/// @param {Color} $foreground-colour
 ///   The foreground colour of the current element.
 ///
-@function _set-colours-callback($background, $foreground) {
-  @return color.adjust($foreground, $alpha: -0.6);
+/// @require {function} ripple-colour
+///
+@mixin ripple-colour($background-colour, $foreground-colour) {
+  --material-ripple-colour: #{ripple-colour(
+    $background-colour, $foreground-colour
+  )};
+}
+
+///
+/// Get an appropriate Material ripple colour given a background and foreground.
+///
+/// @param {Color} $background-colour
+///   The background colour of the current element.
+///
+/// @param {Color} $foreground-colour
+///   The foreground colour of the current element.
+///
+@function ripple-colour($background-colour, $foreground-colour) {
+  @return color.adjust($foreground-colour, $alpha: -0.6);
+}
+
+///
+/// 'set-colours' callback to set Material ripple colour.
+///
+/// @param {Color} $background-colour
+///   The background colour of the current element.
+///
+/// @param {Color} $foreground-colour
+///   The foreground colour of the current element.
+///
+/// @require {function} ripple-colour
+///
+@function _set-colours-callback($background-colour, $foreground-colour) {
+  @return ripple-colour($background-colour, $foreground-colour);
 }
 
 // _set-colours-callback() event callback registration.
