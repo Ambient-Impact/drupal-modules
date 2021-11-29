@@ -50,6 +50,9 @@ $material-tabs-padding:
 
   display: flex;
 
+  // Required to provide a new positioning context for the ::after.
+  position: relative;
+
   overflow-x: auto;
 
   padding-bottom: $material-tabs-underline-thickness;
