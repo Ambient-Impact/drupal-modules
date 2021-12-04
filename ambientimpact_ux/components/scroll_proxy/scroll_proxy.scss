@@ -1,0 +1,71 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Scroll proxy component
+// -----------------------------------------------------------------------------
+
+@use 'sass/helpers/selector';
+@use 'sass/variables/motion';
+
+[data-scroll-proxy-item] {
+
+  --scroll-proxy-transition-duration: 200ms;
+  --scroll-proxy-transition-timing-function: #{motion.$easing-decelerate};
+
+  // If the user indicates reduced motion, this removes the sliding motion and
+  // makes the item update instantly to the new location.
+  @media (prefers-reduced-motion: reduce) {
+    --scroll-proxy-transition-timing-function: steps(1);
+  }
+
+  --scroll-proxy-visible-area: calc(100vw - var(--scroll-proxy-gutter, 0));
+
+  // LTR: translates in the negative, from left to right.
+  @include selector.root-conditions(('[dir=ltr]'), 'html') {
+    --scroll-proxy-directional-factor: -1;
+  }
+  // RTL: translates in the positive, from right to left.
+  @include selector.root-conditions(('[dir=rtl]'), 'html') {
+    --scroll-proxy-directional-factor: 1;
+  }
+
+  // This is the core of the scroll proxy translate logic. It scales the
+  // custom property value generated via the scroll proxy Intersection
+  // Observer between:
+  //
+  // 1. The start position (zero (0), where the left edge of the item is at the
+  //    left of the container in LTR; vice versa in RTL).
+  //
+  // 2. The end position (one (1), i.e. 100%, where the right edge of the item
+  //    is at the right edge of the container in LTR; vice versa in RTL).
+  --scroll-proxy-transform: translateX(calc(
+    (var(--scroll-proxy-item-width) - var(--scroll-proxy-visible-area)) *
+    (var(--scroll-proxy-sentinel-intersect-amount) *
+      var(--scroll-proxy-directional-factor)
+    )
+  ));
+
+  transform: var(--scroll-proxy-transform);
+
+  transition-duration:        var(--scroll-proxy-transition-duration);
+  transition-property:        transform;
+  transition-timing-function: var(--scroll-proxy-transition-timing-function);
+
+  will-change: transform;
+
+}
+
+.scroll-proxy-sentinel {
+
+  // Don't forget to create a new positioning context to contain this, e.g.
+  // position: relative; on an ancestor.
+  position: absolute;
+
+  top: 0;
+
+  // This must take up at least 1px on both axes to work as a target for
+  // Intersection Observer.
+  width:  1px;
+  height: 90vh;
+
+  pointer-events: none;
+
+}
