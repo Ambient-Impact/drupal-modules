@@ -389,8 +389,6 @@ AmbientImpact.addComponent('scrollProxy', function(aiScrollProxy, $) {
 
           if (shouldObserve === false && isObserving === true) {
 
-            console.log('Stopping observer.');
-
             observer.unobserve($sentinel[0]);
 
             isObserving = false;
@@ -412,8 +410,6 @@ AmbientImpact.addComponent('scrollProxy', function(aiScrollProxy, $) {
           if (isObserving === true) {
             return;
           }
-
-          console.log('Starting observer.');
 
           observer.observe($sentinel[0]);
 
