@@ -7,8 +7,8 @@
 
 [data-scroll-proxy-item] {
 
-  --scroll-proxy-transition-duration: 200ms;
-  --scroll-proxy-transition-timing-function: #{motion.$easing-decelerate};
+  --scroll-proxy-transition-duration:         400ms;
+  --scroll-proxy-transition-timing-function:  #{motion.$easing-decelerate};
 
   // If the user indicates reduced motion, this removes the sliding motion and
   // makes the item update instantly to the new location.
