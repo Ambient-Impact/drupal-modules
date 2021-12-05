@@ -76,7 +76,7 @@ AmbientImpact.addComponent('scrollProxy', function(aiScrollProxy, $) {
    *
    * @type {Number}
    */
-  const thresholdGranularity = 0.02;
+  const thresholdGranularity = 0.01;
 
   /**
    * The array of thresholds to pass to the Intersection Observer.
