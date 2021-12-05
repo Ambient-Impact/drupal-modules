@@ -13,6 +13,11 @@
 //   Can an additional Intersection Observer be added to determine when items
 //   are actually still visible and only update the properties if so?
 
+// @see https://alligator.io/js/smooth-scrolling/
+//   It may be more performant to use the browser's scrolling programmatically
+//   rather than transforms. It would also remove the need to account for the
+//   item width, as that would be handled by the browser.
+
 AmbientImpact.onGlobals([
   'Drupal.debounce',
   'IntersectionObserver',
