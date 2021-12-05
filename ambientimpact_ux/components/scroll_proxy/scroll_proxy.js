@@ -2,9 +2,6 @@
 //   Ambient.Impact - UX - Scroll proxy component
 // -----------------------------------------------------------------------------
 
-// @todo Throttle, debounce, or otherwise reduce the number of times the
-//   sentinel property is written to the DOM to reduce lost frames on mobile.
-
 // @todo Split into sub-components.
 
 // @todo Add a configurable direction so that this can be applied to the
@@ -16,7 +13,10 @@
 //   Can an additional Intersection Observer be added to determine when items
 //   are actually still visible and only update the properties if so?
 
-AmbientImpact.onGlobals(['IntersectionObserver'], function() {
+AmbientImpact.onGlobals([
+  'Drupal.debounce',
+  'IntersectionObserver',
+], function() {
 AmbientImpact.on(['fastdom'], function(aiFastDom) {
 AmbientImpact.addComponent('scrollProxy', function(aiScrollProxy, $) {
 
@@ -86,6 +86,15 @@ AmbientImpact.addComponent('scrollProxy', function(aiScrollProxy, $) {
    * @see https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver#parameters
    */
   let thresholds = [];
+
+  /**
+   * The minimum time between DOM updates in milliseconds for the observer.
+   *
+   * This is passed to Drupal.debounce() as the 'wait' parameter.
+   *
+   * @type {Number}
+   */
+  const observerDebounceTimeout = 10;
 
   /**
    * Sentinel element class.
@@ -279,9 +288,10 @@ AmbientImpact.addComponent('scrollProxy', function(aiScrollProxy, $) {
      *
      * @type {IntersectionObserver}
      */
-    let observer = new IntersectionObserver(intersectionCallback, {
-      threshold: getThresholds()
-    });
+    let observer = new IntersectionObserver(
+      Drupal.debounce(intersectionCallback, observerDebounceTimeout),
+      {threshold: getThresholds()}
+    );
 
     /**
      * Whether the Intersection Observer is currently observing.

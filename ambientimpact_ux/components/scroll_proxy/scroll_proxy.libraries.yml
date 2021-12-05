@@ -7,3 +7,4 @@ component.scroll_proxy:
   dependencies:
     - ambientimpact_core/component.event.lazy_resize
     - ambientimpact_core/component.fastdom
+    - core/drupal.debounce
