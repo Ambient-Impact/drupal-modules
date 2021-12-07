@@ -101,7 +101,7 @@ $material-tabs-padding:
   text-transform: uppercase;
   line-height:    1;
 
-  @include link-state.link-hover {
+  @include link-state.hover {
     background-color:
       material-colour.$material-flat-item-interact-colour-on-light;
 

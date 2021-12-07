@@ -27,7 +27,7 @@
   // text-decoration-thickness: $text-underline-thickness;
   text-decoration-thickness: var(--text-decoration-thickness, 2px);
 
-  @include link-state.link-hover {
+  @include link-state.hover {
     @include transition.transition-fade-hover();
   }
 

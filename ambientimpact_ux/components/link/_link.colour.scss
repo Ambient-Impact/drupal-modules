@@ -148,7 +148,7 @@
     #{map.get($colours, underline-normal)}
   );
 
-  @include link-state.link-hover {
+  @include link-state.hover {
 
     color: var(--link-hover-colour, map.get($colours, hover));
 
@@ -158,7 +158,7 @@
     );
 
   }
-  @include link-state.link-active {
+  @include link-state.active {
 
     color: var(--link-active-colour, map.get($colours, active)) !important;
 

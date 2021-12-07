@@ -12,7 +12,7 @@
 }
 
 .toolbar .toolbar-bar .toolbar-tab > .toolbar-icon {
-  @include link-state.link-hover {
+  @include link-state.hover {
     @include colour.set-colours(
       $background: $toolbar-tab-interact-background-colour
     );
@@ -57,7 +57,7 @@
 
 .toolbar .toolbar-tray .toolbar-icon,
 .toolbar .toolbar-tray .toolbar-menu a:not(.toolbar-icon) {
-  @include link-state.link-hover {
+  @include link-state.hover {
     @include colour.set-colours(
       $background: $toolbar-tray-item-interact-background-colour
     );

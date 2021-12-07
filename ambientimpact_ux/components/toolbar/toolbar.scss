@@ -30,7 +30,7 @@ $toolbar-tray-contents-stacking-order: content, top-shadow;
   :link {
     @include transition.fade-base;
 
-    @include link-state.link-hover {
+    @include link-state.hover {
       @include transition.fade-active;
     }
   }

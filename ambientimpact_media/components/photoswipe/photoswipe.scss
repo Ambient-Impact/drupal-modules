@@ -59,7 +59,7 @@
     }
   }
   &__share-tooltip a:not(&__share--facebook):not(&__share--twitter) {
-    @include link-state.link-hover {
+    @include link-state.hover {
       // This contrasts far better with the white icons/text.
       background-color: colour.greyscale(50%);
     }

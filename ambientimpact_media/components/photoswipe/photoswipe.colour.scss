@@ -23,7 +23,7 @@
   &__share-tooltip a {
     // Set to use a contrasting white. The share menu is always white with
     // the link backgrounds a custom colour depending on the share type.
-    @include link-state.link-hover {
+    @include link-state.hover {
       --link-hover-colour: white;
 
       color: var(--link-hover-colour);
