@@ -22,7 +22,7 @@
 
   bottom: to-top.$offset-bottom;
 
-  @include z-index.z-index('floating');
+  @include z-index.get('floating');
 
   transition-property:        opacity, transform;
   transition-duration:        0.3s;

@@ -18,7 +18,7 @@
 /// each parent must correspond to a positioning context, else the z-indices
 /// will not always work as expected.
 ///
-$z-indices: (
+$map: (
   // Secondary content, such as sidebars, footer, etc.
   page-secondary: (),
   // Main page content.
@@ -57,23 +57,23 @@ $z-indices: (
 ///
 /// @param {ArgList} $keys - The keys to look for.
 ///
-/// @requires $z-indices
+/// @requires $map
 ///
 /// @author Matt Stow
 ///
-@function z-index($keys...) {
-  $map:     $z-indices;
+@function get($keys...) {
+  $current-map: $map;
   $found-index: null;
 
   @each $key in $keys {
     // If this level is a map, get the index and recurse down.
-    @if (meta.type-of($map) == 'map') {
-      $found-index: list.index(map.keys($map), $key);
-      $map:     map.get($map, $key);
+    @if (meta.type-of($current-map) == 'map') {
+      $found-index: list.index(map.keys($current-map), $key);
+      $current-map:     map.get($current-map, $key);
 
     // Otherwise, assume this is a list and try to get the key's index.
     } @else {
-      $found-index: list.index($map, $key);
+      $found-index: list.index($current-map, $key);
     }
   }
 
@@ -87,21 +87,21 @@ $z-indices: (
 }
 
 ///
-/// Mixin wrapper for @function z-index().
+/// Mixin wrapper for @function get().
 ///
 /// @param {ArgList} $keys - The keys to look for.
 ///
 /// @requires {function} z-index
 ///
-@mixin z-index($keys...) {
-  z-index: z-index($keys...);
+@mixin get($keys...) {
+  z-index: get($keys...);
 }
 
-// @mixin add-z-index($new) {
-//  $z-indices: map-merge($z-indices, $new) !global;
+// @mixin add($new) {
+//  $map: map-merge($map, $new) !global;
 // }
 
-// @include add-z-index((
+// @include add((
 //  admin: (
 //    offcanvas: (
 //      butts: (
@@ -110,14 +110,14 @@ $z-indices: (
 //    ),
 //  ),
 // ));
-// @debug $z-indices;
+// @debug $map;
 
 // TO DO: get this working? Will need:
 // https://www.sitepoint.com/extra-map-functions-sass/
 // https://github.com/at-import/Sassy-Maps
 
-// @mixin add-z-index($keys...) {
-//  // $map: $z-indices;
+// @mixin add($keys...) {
+//  // $current-map: $map;
 
 //  @if (length($keys) - 2 > 0) {
 //    // There is at least one map level.
@@ -130,11 +130,11 @@ $z-indices: (
 //  //  @debug $key;
 
 //  //  // Is the current level a map?
-//  //  @if (type-of($map) == 'map') {
+//  //  @if (type-of($current-map) == 'map') {
 //  //    @debug 'Is map!';
-//  //    @if (map-has-key($map, $key)) {
+//  //    @if (map-has-key($current-map, $key)) {
 //  //      @debug 'Has key, recursing!';
-//  //      $map: map-get($map, $key);
+//  //      $current-map: map-get($current-map, $key);
 //  //    } @else if ($i < (length($keys) - 1)) {
 //  //      @debug 'Key not found, creating map and recursing!';
 //  //    } @else {
@@ -143,15 +143,15 @@ $z-indices: (
 
 //  //  // If this is a list, this is the deepest container, and we just need to
 //  //  // append the value.
-//  //  } @else if (type-of($map) == 'list') {
+//  //  } @else if (type-of($current-map) == 'list') {
 //  //    @debug 'Is list, appending value!';
-//  //    $map: append($map, $key);
+//  //    $current-map: append($current-map, $key);
 //  //  }
 //  //  @debug '------------------------------';
 //  // }
 // }
 
-// @include add-z-index(page, floating, butts, plz);
+// @include add(page, floating, butts, plz);
 //      // map  , map , map      , list , index;
 
 // // 'modal' ->

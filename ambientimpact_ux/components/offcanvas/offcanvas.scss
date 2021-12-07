@@ -130,7 +130,7 @@ $offcanvas-panel-max-size: 17em;
   &.offcanvas-panel--modal {
     // This places this over the overlay and most other page elements,
     // including the admin Toolbar.
-    @include z-index.z-index('modal');
+    @include z-index.get('modal');
   }
 
   // Initially hidden. This prevents keyboard/script focus until the panel is

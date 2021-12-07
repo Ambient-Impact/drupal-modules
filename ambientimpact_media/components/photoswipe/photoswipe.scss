@@ -14,7 +14,7 @@
   // Place this in the floating z-index. This ensures we're above most page
   // elements but below fixed and sticky elements, which are then handled by the
   // immerse component, which we trigger the events for.
-  @include z-index.z-index('floating');
+  @include z-index.get('floating');
 
   &--open {
     // Override the inline display, which is set to be display: none; by default
