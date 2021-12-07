@@ -129,7 +129,7 @@ $material-button-border-radius:
 /// @see {mixin} material-button-shadow
 /// @see {mixin} not-pointer-focus
 /// @see {mixin} set-colours
-/// @see {mixin} transition-fade-base
+/// @see {mixin} transition.fade-base
 ///
 /// @author Matei "Ambient.Impact" Stanca
 ///
@@ -176,7 +176,7 @@ $material-button-border-radius:
     @include material-shadow.material-shadow($shadow-depth);
   }
 
-  @include transition.transition-fade-base();
+  @include transition.fade-base();
 
   // Apply hover/focus styles on hover if touch was not used.
   &:not(:disabled):not([data-pointer-used='touch']):hover {
@@ -237,7 +237,7 @@ $material-button-border-radius:
 ///   $background-colour is transparent, inherit, etc.
 ///
 /// @see {mixin} set-colours
-/// @see {mixin} transition-fade-active
+/// @see {mixin} transition.fade-active
 ///
 @mixin material-button-interact(
   $background-colour,
@@ -257,7 +257,7 @@ $material-button-border-radius:
   &,
   &::before,
   &::after {
-    @include transition.transition-fade-active();
+    @include transition.fade-active();
   }
 }
 

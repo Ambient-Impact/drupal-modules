@@ -28,10 +28,10 @@ $toolbar-tray-contents-stacking-order: content, top-shadow;
   // Menu links in trays other than the "Manage" tray don't have the
   // .toolbar-icon class applied to them, so we have to target them directly.
   :link {
-    @include transition.transition-fade-base;
+    @include transition.fade-base;
 
     @include link-state.link-hover {
-      @include transition.transition-fade-active;
+      @include transition.fade-active;
     }
   }
 }
