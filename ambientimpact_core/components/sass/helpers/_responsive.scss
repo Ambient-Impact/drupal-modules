@@ -23,7 +23,7 @@
 ///
 /// @link https://codepen.io/MadeByMike/pen/7744b5fc445e2b34a9e2bb1e21e8b09c
 ///
-@function calc-responsive-value(
+@function calc-value(
   $min-screen, $min-value, $max-screen, $max-value
 ) {
   // Throw an error if different unit types are passed. This can cause Sass to
@@ -34,7 +34,7 @@
     math.unit($min-screen) != math.unit($max-screen) or
     math.unit($min-screen) != math.unit($max-value)
   {
-    @error 'You must pass only the same unit types to calc-responsive-value()!';
+    @error 'You must pass only the same unit types to calc-value()!';
   }
 
   $a: math.div($max-value - $min-value, $max-screen - $min-screen);
