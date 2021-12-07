@@ -1,25 +1,29 @@
 // -----------------------------------------------------------------------------
-//	Shadow helpers
+//   Shadow helpers
 // -----------------------------------------------------------------------------
 
+$generic-colour: greyscale(0, 0.5) !default;
 
-$generic-shadow-colour:		greyscale(0, 0.5)	!default;
-$general-shadow-radius:		0.4rem				!default;
-$general-shadow-offset-x:	0					!default;
-$general-shadow-offset-y:	0					!default;
+$generic-radius: 0.4rem !default;
 
-@mixin generic-shadow(
-	$radius:	$general-shadow-radius,
-	$colour:	$generic-shadow-colour,
-	$offset-x:	$general-shadow-offset-x,
-	$offset-y:	$general-shadow-offset-y,
-	$inset:		false
+$generic-offset-x: 0 !default;
+
+$generic-offset-y: 0 !default;
+
+@mixin generic(
+  $radius:    $generic-radius,
+  $colour:    $generic-colour,
+  $offset-x:  $generic-offset-x,
+  $offset-y:  $generic-offset-y,
+  $inset:     false
 ) {
-	$shadow: $offset-x $offset-y $radius $colour;
 
-	@if $inset == true {
-		$shadow: $shadow inset;
-	}
+  $shadow: $offset-x $offset-y $radius $colour;
 
-	box-shadow: $shadow;
+  @if $inset == true {
+    $shadow: $shadow inset;
+  }
+
+  box-shadow: $shadow;
+
 }

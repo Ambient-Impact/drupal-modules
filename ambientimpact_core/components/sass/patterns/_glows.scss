@@ -2,6 +2,7 @@
 //	Glow effect helpers
 // -----------------------------------------------------------------------------
 
+@use 'sass/helpers/shadow';
 @use 'sass/helpers/value';
 
 @function build-glow($base-glow: '', $fringe-glow: '') {
@@ -50,7 +51,7 @@
 
 
 @function get-box-glow-text-shadow($is-gecko: false) {
-	$shadow: 0 0 get-blur-radius(0.5em, $is-gecko) $generic-shadow-colour;
+	$shadow: 0 0 get-blur-radius(0.5em, $is-gecko) shadow.$generic-colour;
 	@return value.repeat($shadow, 3);
 }
 
