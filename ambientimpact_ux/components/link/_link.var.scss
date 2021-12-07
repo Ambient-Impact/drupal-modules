@@ -10,12 +10,12 @@
 ///
 /// The link base colour.
 ///
-$link-base-colour: material-colour.$material-primary-colour !default;
+$base-colour: material-colour.$material-primary-colour !default;
 
 ///
 /// Link colour on light backgrounds when not highlighted/activated.
 ///
-$link-normal-colour-on-light: $link-base-colour !default;
+$normal-colour-on-light: $base-colour !default;
 
 ///
 /// Link colour on dark backgrounds when not highlighted/activated.
@@ -24,33 +24,34 @@ $link-normal-colour-on-light: $link-base-colour !default;
 /// most colours that aren't too dark, but you may have to adjust it if the base
 /// colour is fairly dark.
 ///
-/// Additionally, we use a custom value if the default $link-base-colour or the
+/// Additionally, we use a custom value if the default $base-colour or the
 /// default $material-primary-colour are in use, as inverting the lightness of
 /// that still results in a colour without enough contrast against dark
 /// background colours.
 ///
-/// @require {variable} $link-base-colour
+/// @require {variable} $base-colour
 /// @require {function} invert-lightness
 ///
-$link-normal-colour-on-dark:
-  if(
-    // Default $material-primary-colour.
-    $link-base-colour == rgb(63, 81, 181),
-    #7280ff,
-    colour.invert-lightness($link-base-colour)
-  ) !default;
+$normal-colour-on-dark: if(
+  // Default $material-primary-colour.
+  $base-colour == rgb(63, 81, 181),
+  #7280ff,
+  colour.invert-lightness($base-colour)
+) !default;
 
 ///
 /// Link colour on light backgrounds when hovered/focused.
 ///
-$link-hover-colour-on-light:
-  color.adjust($link-normal-colour-on-light, $lightness: 10%) !default;
+$hover-colour-on-light: color.adjust(
+  $normal-colour-on-light, $lightness: 10%
+) !default;
 
 ///
 /// Link colour on dark backgrounds when hovered/focused.
 ///
-$link-hover-colour-on-dark:
-  color.adjust($link-normal-colour-on-dark,  $lightness: 10%) !default;
+$hover-colour-on-dark: color.adjust(
+  $normal-colour-on-dark,  $lightness: 10%
+) !default;
 
 ///
 /// Link colour on light backgrounds when activated.
@@ -58,9 +59,9 @@ $link-hover-colour-on-dark:
 /// A value of auto indicates that the active colour should be automatically
 /// generated based on the highlighted colour.
 ///
-/// @see {function} get-link-active-colour
+/// @see {function} link-colour.get-active-colour
 ///
-$link-active-colour-on-light: auto !default;
+$active-colour-on-light: auto !default;
 
 ///
 /// Link colour on dark backgrounds when activated.
@@ -68,31 +69,29 @@ $link-active-colour-on-light: auto !default;
 /// A value of auto indicates that the active colour should be automatically
 /// generated based on the highlighted colour.
 ///
-/// @see {function} get-link-active-colour
+/// @see {function} link-colour.get-active-colour
 ///
-$link-active-colour-on-dark: auto !default;
+$active-colour-on-dark: auto !default;
 
 ///
 /// Link underline colour on light backgrounds when not highlighted/activated.
 ///
-$link-underline-normal-colour-on-light:
-  rgba($link-normal-colour-on-light, 0.6) !default;
+$underline-normal-colour-on-light: rgba($normal-colour-on-light, 0.6) !default;
 
 ///
 /// Link underline colour on dark backgrounds when not highlighted/activated.
 ///
-$link-underline-normal-colour-on-dark:
-  rgba($link-normal-colour-on-dark, 0.6) !default;
+$underline-normal-colour-on-dark: rgba($normal-colour-on-dark, 0.6) !default;
 
 ///
 /// Link underline colour on light backgrounds when hovered/focused.
 ///
-$link-underline-hover-colour-on-light: $link-hover-colour-on-light !default;
+$underline-hover-colour-on-light: $hover-colour-on-light !default;
 
 ///
 /// Link underline colour on dark backgrounds when hovered/focused.
 ///
-$link-underline-hover-colour-on-dark: $link-hover-colour-on-dark !default;
+$underline-hover-colour-on-dark: $hover-colour-on-dark !default;
 
 ///
 /// Link underline colour on light backgrounds when activated.
@@ -100,9 +99,9 @@ $link-underline-hover-colour-on-dark: $link-hover-colour-on-dark !default;
 /// A value of auto indicates that the active colour should be automatically
 /// generated based on the highlighted colour.
 ///
-/// @see {function} get-link-active-colour
+/// @see {function} link-colour.get-active-colour
 ///
-$link-underline-active-colour-on-light: $link-active-colour-on-light !default;
+$underline-active-colour-on-light: $active-colour-on-light !default;
 
 ///
 /// Link underline colour on dark backgrounds when activated.
@@ -110,6 +109,6 @@ $link-underline-active-colour-on-light: $link-active-colour-on-light !default;
 /// A value of auto indicates that the active colour should be automatically
 /// generated based on the highlighted colour.
 ///
-/// @see {function} get-link-active-colour
+/// @see {function} link-colour.get-active-colour
 ///
-$link-underline-active-colour-on-dark: $link-active-colour-on-dark !default;
+$underline-active-colour-on-dark: $active-colour-on-dark !default;
