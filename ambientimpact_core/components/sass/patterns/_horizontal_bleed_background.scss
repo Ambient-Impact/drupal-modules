@@ -33,7 +33,7 @@
 /// @link https://css-tricks.com/full-browser-width-bars/
 ///   Loosely inspired by this.
 ///
-@mixin horizontal-bleed-background(
+@mixin set(
   $colour,
   $z-index:       1,
   $shadow:        false,
@@ -115,10 +115,10 @@
 ///
 /// Sets the targetted element as a full viewport width top edge shadow.
 ///
-/// Meant to be used when you pass $shadow: (false, true, true) to
-/// horizontal-bleed-background, and need to set the top peek shadow on another
-/// element to prevent the top peek shadow from being set on top of certain
-/// elements, e.g. to maintain visual continuity.
+/// Meant to be used when you pass $shadow: (false, true, true) to mixin set,
+/// and need to set the top peek shadow on another element to prevent the top
+/// peek shadow from being set on top of certain elements, e.g. to maintain
+/// visual continuity.
 ///
 /// @param {Number} $depth [2]
 ///   The depth value passed to material-shadow().
@@ -129,12 +129,12 @@
 /// @param {Number} $height [1rem]
 ///   The height to set on the generated element.
 ///
-/// @require {function } material-shadow
+/// @require {function} material-shadow
 ///
-/// @see {mixin} horizontal-bleed-background
+/// @see {mixin} set
 ///   Meant to be used along with this.
 ///
-@mixin horizontal-bleed-background-top-peek-shadow(
+@mixin top-peek-shadow(
   $depth:   2,
   $z-index: 1,
   $height:  1rem
