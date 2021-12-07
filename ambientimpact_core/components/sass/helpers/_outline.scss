@@ -56,7 +56,7 @@ $outline-offset:	0.1em			!default;
 		}
 	}
 }
-@mixin focus-outline(
+@mixin focus(
 	$width:			$outline-width,
 	$style:			$outline-style,
 	$colour:		$outline-colour,
