@@ -86,7 +86,7 @@
     // there for assistive software, which doesn't always pick up the title
     // attribute text.
     &:not(&--has-ambientimpact-icon) {
-      @include hide.hide-text;
+      @include hide.text;
     }
 
     &--has-ambientimpact-icon#{&} { // Specificity.

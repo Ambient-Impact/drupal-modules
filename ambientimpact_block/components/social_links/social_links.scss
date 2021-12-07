@@ -26,7 +26,7 @@
   }
 
   &--display-icon-and-text &__network-link-accessibility-text {
-    @include hide.hide-me;
+    @include hide.me;
   }
 }
 
