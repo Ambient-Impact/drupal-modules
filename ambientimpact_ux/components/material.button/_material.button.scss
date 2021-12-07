@@ -127,7 +127,7 @@ $material-button-border-radius:
 ///
 /// @see {mixin} material-button-interact
 /// @see {mixin} material-button-shadow
-/// @see {mixin} not-pointer-focus
+/// @see {mixin} pointer-focus-hide.not
 /// @see {mixin} set-colours
 /// @see {mixin} transition.fade-base
 ///
@@ -189,7 +189,7 @@ $material-button-border-radius:
   }
 
   // Apply hover/focus styles on non-pointer focus.
-  @include pointer-focus-hide.not-pointer-focus {
+  @include pointer-focus-hide.not {
     &:not(:disabled) {
       @include material-button-interact(
         $background-colour-interact,

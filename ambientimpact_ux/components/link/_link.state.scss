@@ -18,7 +18,7 @@
 /// @content
 ///   The styles to apply on hover and focus (if indicated).
 ///
-/// @require {mixin} not-pointer-focus
+/// @require {mixin} pointer-focus-hide.not
 ///
 /// @link https://developer.mozilla.org/en-US/docs/Web/CSS/@media/hover
 ///
@@ -31,7 +31,7 @@
   }
 
   @if ($focus == true) {
-    @include pointer-focus-hide.not-pointer-focus {
+    @include pointer-focus-hide.not {
       @content;
     }
   }

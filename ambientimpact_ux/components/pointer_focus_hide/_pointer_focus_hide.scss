@@ -9,7 +9,7 @@
 ///
 /// @content
 ///
-@mixin pointer-focus-hide {
+@mixin on {
   @include selector.root-conditions('[data-focus-source=pointer]', 'html') {
     &.pointer-focus-hide:focus {
       @content;
@@ -22,7 +22,7 @@
 ///
 /// @content
 ///
-@mixin not-pointer-focus {
+@mixin not {
   @include selector.root-conditions(
     ':not([data-focus-source=pointer])', 'html'
   ) {
