@@ -58,7 +58,7 @@ $material-input-autocomplete-selected-background-colour:
         background-color: $material-input-autocomplete-selected-background-colour !important;
         color:        $material-panel-colour  !important;
 
-        // @include transition.fade-active;
+        // @include transition.fade-highlight;
       }
     }
   }

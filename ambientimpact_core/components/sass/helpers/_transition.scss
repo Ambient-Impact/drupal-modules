@@ -40,7 +40,7 @@ $fade-properties: color, background-color, border-color, outline-color, opacity,
 /// @param $easing {Mixed}
 ///   An easing type to use in transition-timing-function.
 ///
-/// @see {Mixin} fade-active
+/// @see {Mixin} fade-highlight
 ///   Used to set transition properties when an element is interacted with, such
 ///   as being hovered or focused.
 ///
@@ -55,11 +55,11 @@ $fade-properties: color, background-color, border-color, outline-color, opacity,
 }
 
 ///
-/// Set active fade transition properties. This is usually on focus/hover.
+/// Set highlighted fade transition properties. This is usually on focus/hover.
 ///
 /// @see {Mixin} fade-base
 ///
-@mixin fade-active {
+@mixin fade-highlight {
   transition-duration: $fade-in-duration;
 }
 
@@ -73,10 +73,10 @@ $fade-properties: color, background-color, border-color, outline-color, opacity,
 }
 
 ///
-/// Backwards-compatible wrapper around fade-active().
+/// Backwards-compatible wrapper around fade-highlight().
 ///
-/// @see {Mixin} fade-active
+/// @see {Mixin} fade-highlight
 ///
 @mixin transition-fade-hover {
-  @include fade-active;
+  @include fade-highlight;
 }

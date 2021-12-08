@@ -237,7 +237,7 @@ $material-button-border-radius:
 ///   $background-colour is transparent, inherit, etc.
 ///
 /// @see {mixin} set-colours
-/// @see {mixin} transition.fade-active
+/// @see {mixin} transition.fade-highlight
 ///
 @mixin material-button-interact(
   $background-colour,
@@ -257,7 +257,7 @@ $material-button-border-radius:
   &,
   &::before,
   &::after {
-    @include transition.fade-active();
+    @include transition.fade-highlight();
   }
 }
 

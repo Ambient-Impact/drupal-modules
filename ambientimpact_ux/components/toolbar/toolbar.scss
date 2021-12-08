@@ -31,7 +31,7 @@ $toolbar-tray-contents-stacking-order: content, top-shadow;
     @include transition.fade-base;
 
     @include link-state.highlight {
-      @include transition.fade-active;
+      @include transition.fade-highlight;
     }
   }
 }
