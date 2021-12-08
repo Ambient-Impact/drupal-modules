@@ -59,6 +59,11 @@ $material-tabs-padding:
 
   padding-bottom: $material-tabs-underline-thickness;
 
+  // Force a single line so multiple word items don't wrap to a new line and
+  // defeat the purpose of horizontal scrolling the container to minimize
+  // vertical space usage.
+  white-space: nowrap;
+
   // A pseudo-element is necessary as a border will not allow the active item
   // indicator to shift down without causing vertical scrollbars.
   &::after {
