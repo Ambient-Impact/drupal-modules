@@ -90,7 +90,7 @@ $material-tabs-padding:
 ///
 /// This is usually applied to interactive elements such as <a>.
 ///
-/// @require {mixin} link-state.hover
+/// @require {mixin} link-state.highlight
 /// @require {mixin} colour.on-dark-colour-scheme
 ///
 @mixin material-tabs-item {
@@ -103,7 +103,7 @@ $material-tabs-padding:
   text-transform: uppercase;
   line-height:    1;
 
-  @include link-state.hover {
+  @include link-state.highlight {
     background-color:
       material-colour.$material-flat-item-interact-colour-on-light;
 

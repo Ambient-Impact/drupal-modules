@@ -5,11 +5,11 @@
 @use 'pointer_focus_hide' as pointer-focus-hide;
 
 ///
-/// Apply styles to link hover and focus states.
+/// Apply styles to link highlight state - i.e. hover and focus.
 ///
 /// This applies the given styles to the hover state if the primary input
 /// supports it natively - i.e. is a mouse/trackpad, and not touch - on both the
-/// native hover and .proxy-hover class. If indicated by the parameter, will
+/// native hover and .proxy-highlight class. If indicated by the parameter, will
 /// also apply the styles on a non-pointer focus.
 ///
 /// @param {String} $focus [true]
@@ -22,10 +22,10 @@
 ///
 /// @link https://developer.mozilla.org/en-US/docs/Web/CSS/@media/hover
 ///
-@mixin hover($focus: true) {
+@mixin highlight($focus: true) {
   &:not([data-pointer-used='touch']) {
     &:hover,
-    &.proxy-hover {
+    &.proxy-highlight {
       @content;
     }
   }

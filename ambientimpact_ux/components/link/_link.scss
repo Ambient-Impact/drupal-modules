@@ -18,7 +18,7 @@
 ///
 /// @require {mixin}  transition.transition-fade-normal
 /// @require {mixin}  transition.transition-fade-hover
-/// @require {mixin}  link-state.hover
+/// @require {mixin}  link-state.highlight
 /// @require {mixin}  link-colour.get
 ///
 @mixin link($background: colour.$background-colour) {
@@ -27,7 +27,7 @@
 
   text-decoration-thickness: var(--text-decoration-thickness, 2px);
 
-  @include link-state.hover {
+  @include link-state.highlight {
     @include transition.transition-fade-hover();
   }
 

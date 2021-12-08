@@ -42,14 +42,14 @@ $normal-colour-on-dark: if(
 ///
 /// Link colour on light backgrounds when hovered/focused.
 ///
-$hover-colour-on-light: color.adjust(
+$highlight-colour-on-light: color.adjust(
   $normal-colour-on-light, $lightness: 10%
 ) !default;
 
 ///
 /// Link colour on dark backgrounds when hovered/focused.
 ///
-$hover-colour-on-dark: color.adjust(
+$highlight-colour-on-dark: color.adjust(
   $normal-colour-on-dark,  $lightness: 10%
 ) !default;
 
@@ -86,12 +86,12 @@ $underline-normal-colour-on-dark: rgba($normal-colour-on-dark, 0.6) !default;
 ///
 /// Link underline colour on light backgrounds when hovered/focused.
 ///
-$underline-hover-colour-on-light: $hover-colour-on-light !default;
+$underline-highlight-colour-on-light: $highlight-colour-on-light !default;
 
 ///
 /// Link underline colour on dark backgrounds when hovered/focused.
 ///
-$underline-hover-colour-on-dark: $hover-colour-on-dark !default;
+$underline-highlight-colour-on-dark: $highlight-colour-on-dark !default;
 
 ///
 /// Link underline colour on light backgrounds when activated.

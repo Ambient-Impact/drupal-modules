@@ -63,7 +63,7 @@
 /// @param {Color} $normal-on-light [$normal-colour-on-light]
 ///   Link colour on light backgrounds when not hovered/activated.
 ///
-/// @param {Color} $hover-on-light [$hover-colour-on-light]
+/// @param {Color} $highlight-on-light [$highlight-colour-on-light]
 ///   Link colour on light backgrounds when hovered/focused.
 ///
 /// @param {Color} $active-on-light [$active-colour-on-light]
@@ -72,7 +72,7 @@
 /// @param {Color} $underline-normal-on-light [$underline-normal-colour-on-light]
 ///   Link underline colour on light backgrounds when not hovered/activated.
 ///
-/// @param {Color} $underline-hover-on-light [$underline-hover-colour-on-light]
+/// @param {Color} $underline-highlight-on-light [$underline-highlight-colour-on-light]
 ///   Link underline colour on light backgrounds when hovered/focused.
 ///
 /// @param {Color} $underline-active-on-light [$underline-active-colour-on-light]
@@ -81,7 +81,7 @@
 /// @param {Color} $normal-on-dark [$normal-colour-on-dark]
 ///   Link colour on dark backgrounds when not highdarked/activated.
 ///
-/// @param {Color} $hover-on-dark [$hover-colour-on-dark]
+/// @param {Color} $highlight-on-dark [$highlight-colour-on-dark]
 ///   Link colour on dark backgrounds when hovered/focused.
 ///
 /// @param {Color} $active-on-dark [$active-colour-on-dark]
@@ -90,7 +90,7 @@
 /// @param {Color} $underline-normal-on-dark [$underline-normal-colour-on-dark]
 ///   Link underline colour on dark backgrounds when not highdarked/activated.
 ///
-/// @param {Color} $underline-hover-on-dark [$underline-hover-colour-on-dark]
+/// @param {Color} $underline-highlight-on-dark [$underline-highlight-colour-on-dark]
 ///   Link underline colour on dark backgrounds when hovered/focused.
 ///
 /// @param {Color} $underline-active-on-dark [$underline-active-colour-on-dark]
@@ -101,41 +101,41 @@
 /// @require {function} custom-property
 ///
 @mixin set(
-  $background:                $background-colour,
+  $background: $background-colour,
 
-  $normal-on-light:           $normal-colour-on-light,
-  $hover-on-light:            $hover-colour-on-light,
-  $active-on-light:           $active-colour-on-light,
+  $normal-on-light:     $normal-colour-on-light,
+  $highlight-on-light:  $highlight-colour-on-light,
+  $active-on-light:     $active-colour-on-light,
 
-  $underline-normal-on-light: $underline-normal-colour-on-light,
-  $underline-hover-on-light:  $underline-hover-colour-on-light,
-  $underline-active-on-light: $underline-active-colour-on-light,
+  $underline-normal-on-light:     $underline-normal-colour-on-light,
+  $underline-highlight-on-light:  $underline-highlight-colour-on-light,
+  $underline-active-on-light:     $underline-active-colour-on-light,
 
-  $normal-on-dark:            $normal-colour-on-dark,
-  $hover-on-dark:             $hover-colour-on-dark,
-  $active-on-dark:            $active-colour-on-dark,
+  $normal-on-dark:    $normal-colour-on-dark,
+  $highlight-on-dark: $highlight-colour-on-dark,
+  $active-on-dark:    $active-colour-on-dark,
 
-  $underline-normal-on-dark:  $underline-normal-colour-on-dark,
-  $underline-hover-on-dark:   $underline-hover-colour-on-dark,
-  $underline-active-on-dark:  $underline-active-colour-on-dark
+  $underline-normal-on-dark:    $underline-normal-colour-on-dark,
+  $underline-highlight-on-dark: $underline-highlight-colour-on-dark,
+  $underline-active-on-dark:    $underline-active-colour-on-dark
 ) {
   $colours: get(
     $background,
 
     $normal-on-light,
-    $hover-on-light,
+    $highlight-on-light,
     $active-on-light,
 
     $underline-normal-on-light,
-    $underline-hover-on-light,
+    $underline-highlight-on-light,
     $underline-active-on-light,
 
     $normal-on-dark,
-    $hover-on-dark,
+    $highlight-on-dark,
     $active-on-dark,
 
     $underline-normal-on-dark,
-    $underline-hover-on-dark,
+    $underline-highlight-on-dark,
     $underline-active-on-dark
   );
 
@@ -148,13 +148,13 @@
     #{map.get($colours, underline-normal)}
   );
 
-  @include link-state.hover {
+  @include link-state.highlight {
 
-    color: var(--link-hover-colour, map.get($colours, hover));
+    color: var(--link-highlight-colour, map.get($colours, hover));
 
     text-decoration-color: var(
-      --link-underline-hover-colour,
-      #{map.get($colours, underline-hover)}
+      --link-underline-highlight-colour,
+      #{map.get($colours, underline-highlight)}
     );
 
   }
@@ -179,7 +179,7 @@
 /// @param {Color} $normal-on-light [$normal-colour-on-light]
 ///   Link colour on light backgrounds when not hovered/activated.
 ///
-/// @param {Color} $hover-on-light [$hover-colour-on-light]
+/// @param {Color} $highlight-on-light [$highlight-colour-on-light]
 ///   Link colour on light backgrounds when hovered/focused.
 ///
 /// @param {Color} $active-on-light [$active-colour-on-light]
@@ -188,7 +188,7 @@
 /// @param {Color} $underline-normal-on-light [$underline-normal-colour-on-light]
 ///   Link underline colour on light backgrounds when not hovered/activated.
 ///
-/// @param {Color} $underline-hover-on-light [$underline-hover-colour-on-light]
+/// @param {Color} $underline-highlight-on-light [$underline-highlight-colour-on-light]
 ///   Link underline colour on light backgrounds when hovered/focused.
 ///
 /// @param {Color} $underline-active-on-light [$underline-active-colour-on-light]
@@ -197,7 +197,7 @@
 /// @param {Color} $normal-on-dark [$normal-colour-on-dark]
 ///   Link colour on dark backgrounds when not highdarked/activated.
 ///
-/// @param {Color} $hover-on-dark [$hover-colour-on-dark]
+/// @param {Color} $highlight-on-dark [$highlight-colour-on-dark]
 ///   Link colour on dark backgrounds when hovered/focused.
 ///
 /// @param {Color} $active-on-dark [$active-colour-on-dark]
@@ -206,7 +206,7 @@
 /// @param {Color} $underline-normal-on-dark [$underline-normal-colour-on-dark]
 ///   Link underline colour on dark backgrounds when not highdarked/activated.
 ///
-/// @param {Color} $underline-hover-on-dark [$underline-hover-colour-on-dark]
+/// @param {Color} $underline-highlight-on-dark [$underline-highlight-colour-on-dark]
 ///   Link underline colour on dark backgrounds when hovered/focused.
 ///
 /// @param {Color} $underline-active-on-dark [$underline-active-colour-on-dark]
@@ -220,23 +220,23 @@
 /// @require {function} get-active-colour
 ///
 @function get(
-  $background:                colour.$background-colour,
+  $background: colour.$background-colour,
 
-  $normal-on-light:           $normal-colour-on-light,
-  $hover-on-light:            $hover-colour-on-light,
-  $active-on-light:           $active-colour-on-light,
+  $normal-on-light:     $normal-colour-on-light,
+  $highlight-on-light:  $highlight-colour-on-light,
+  $active-on-light:     $active-colour-on-light,
 
-  $underline-normal-on-light: $underline-normal-colour-on-light,
-  $underline-hover-on-light:  $underline-hover-colour-on-light,
-  $underline-active-on-light: $underline-active-colour-on-light,
+  $underline-normal-on-light:     $underline-normal-colour-on-light,
+  $underline-highlight-on-light:  $underline-highlight-colour-on-light,
+  $underline-active-on-light:     $underline-active-colour-on-light,
 
-  $normal-on-dark:            $normal-colour-on-dark,
-  $hover-on-dark:             $hover-colour-on-dark,
-  $active-on-dark:            $active-colour-on-dark,
+  $normal-on-dark:    $normal-colour-on-dark,
+  $highlight-on-dark: $highlight-colour-on-dark,
+  $active-on-dark:    $active-colour-on-dark,
 
-  $underline-normal-on-dark:  $underline-normal-colour-on-dark,
-  $underline-hover-on-dark:   $underline-hover-colour-on-dark,
-  $underline-active-on-dark:  $underline-active-colour-on-dark
+  $underline-normal-on-dark:    $underline-normal-colour-on-dark,
+  $underline-highlight-on-dark: $underline-highlight-colour-on-dark,
+  $underline-active-on-dark:    $underline-active-colour-on-dark
 ) {
   $colours: ();
 
@@ -249,28 +249,28 @@
   @if ($contrasting-colour == $normal-on-light) {
     $colours: (
       normal:           $normal-on-light,
-      hover:            $hover-on-light,
+      hover:            $highlight-on-light,
       active:           get-active-colour(
-        $hover-on-light, $active-on-light
+        $highlight-on-light, $active-on-light
       ),
 
       underline-normal: $underline-normal-on-light,
-      underline-hover:  $underline-hover-on-light,
+      underline-highlight:  $underline-highlight-on-light,
       underline-active: get-active-colour(
-        $underline-hover-on-light, $underline-active-on-light
+        $underline-highlight-on-light, $underline-active-on-light
       )
     );
 
   } @else if ($contrasting-colour == $normal-on-dark) {
     $colours: (
       normal:           $normal-on-dark,
-      hover:            $hover-on-dark,
-      active:           get-active-colour($hover-on-dark, $active-on-dark),
+      hover:            $highlight-on-dark,
+      active:           get-active-colour($highlight-on-dark, $active-on-dark),
 
       underline-normal: $underline-normal-on-dark,
-      underline-hover:  $underline-hover-on-dark,
+      underline-highlight:  $underline-highlight-on-dark,
       underline-active: get-active-colour(
-        $underline-hover-on-dark, $underline-active-on-dark
+        $underline-highlight-on-dark, $underline-active-on-dark
       )
     );
   }
@@ -300,12 +300,13 @@
     $colours: get($background);
   }
 
-  --link-normal-colour: #{map.get($colours, 'normal')};
-  --link-hover-colour:  #{map.get($colours, 'hover')};
-  --link-active-colour: #{map.get($colours, 'active')};
+  --link-normal-colour:     #{map.get($colours, 'normal')};
+  --link-highlight-colour:  #{map.get($colours, 'hover')};
+  --link-active-colour:     #{map.get($colours, 'active')};
 
   --link-underline-normal-colour: #{map.get($colours, 'underline-normal')};
-  --link-underline-hover-colour:  #{map.get($colours, 'underline-hover')};
+  --link-underline-highlight-colour:
+    #{map.get($colours, 'underline-highlight')};
   --link-underline-active-colour: #{map.get($colours, 'underline-active')};
 
 }
