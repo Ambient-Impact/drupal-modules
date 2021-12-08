@@ -62,21 +62,3 @@ $fade-properties: color, background-color, border-color, outline-color, opacity,
 @mixin fade-highlight {
   transition-duration: $fade-in-duration;
 }
-
-///
-/// Backwards-compatible wrapper around fade-base().
-///
-/// @see {Mixin} fade-base
-///
-@mixin transition-fade-normal($arguments...) {
-  @include fade-base($arguments...);
-}
-
-///
-/// Backwards-compatible wrapper around fade-highlight().
-///
-/// @see {Mixin} fade-highlight
-///
-@mixin transition-fade-hover {
-  @include fade-highlight;
-}

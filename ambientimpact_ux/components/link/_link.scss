@@ -16,19 +16,19 @@
 /// @param {Color} $background [$background-colour]
 ///   The background colour the link is on.
 ///
-/// @require {mixin}  transition.transition-fade-normal
-/// @require {mixin}  transition.transition-fade-hover
+/// @require {mixin}  transition.fade-base
+/// @require {mixin}  transition.fade-highlight
 /// @require {mixin}  link-state.highlight
 /// @require {mixin}  link-colour.get
 ///
 @mixin link($background: colour.$background-colour) {
 
-  @include transition.transition-fade-normal();
+  @include transition.fade-base();
 
   text-decoration-thickness: var(--text-decoration-thickness, 2px);
 
   @include link-state.highlight {
-    @include transition.transition-fade-hover();
+    @include transition.fade-highlight();
   }
 
   @include link-colour.set($background);

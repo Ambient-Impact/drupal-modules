@@ -44,14 +44,14 @@ $outline-offset:	0.1em			!default;
 		}
 
 		@if $transitions == true {
-			@include transition.transition-fade-normal;
+			@include transition.fade-base;
 		}
 
 		&#{$show-on} {
 			outline:		$colour $style $width;
 
 			@if $transitions == true {
-				@include transition.transition-fade-hover;
+				@include transition.fade-highlight;
 			}
 		}
 	}
