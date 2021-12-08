@@ -46,6 +46,8 @@ $material-tabs-padding:
 ///
 /// This is usually applied to a <ul> or similar element.
 ///
+/// @require {mixin} colour.on-dark-colour-scheme
+///
 @mixin material-tabs-container {
 
   display: flex;
@@ -88,8 +90,8 @@ $material-tabs-padding:
 ///
 /// This is usually applied to interactive elements such as <a>.
 ///
-/// @see {mixin} link-hover
-///   Used to set interacted state.
+/// @require {mixin} link-state.hover
+/// @require {mixin} colour.on-dark-colour-scheme
 ///
 @mixin material-tabs-item {
 

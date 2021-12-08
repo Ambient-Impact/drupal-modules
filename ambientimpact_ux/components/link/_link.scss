@@ -16,9 +16,9 @@
 /// @param {Color} $background [$background-colour]
 ///   The background colour the link is on.
 ///
-/// @require {mixin}  transition-fade-normal
-/// @require {mixin}  transition-fade-hover
-/// @require {mixin}  link-hover
+/// @require {mixin}  transition.transition-fade-normal
+/// @require {mixin}  transition.transition-fade-hover
+/// @require {mixin}  link-state.hover
 /// @require {mixin}  link-colour.get
 ///
 @mixin link($background: colour.$background-colour) {
