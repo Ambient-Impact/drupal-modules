@@ -3,7 +3,7 @@
 // -----------------------------------------------------------------------------
 
 @use '../helpers/colour';
-@use 'material.common/material.shadow' as ms;
+@use 'material.common/material.shadow' as material-shadow;
 @use 'sass:color';
 @use 'sass:list';
 @use 'sass:meta';
@@ -20,15 +20,15 @@
 /// @param {Boolean|List} $shadow [false]
 ///   Whether to use a Material shadow. Can be a boolean or a list of 3
 ///   booleans. In the case of a list, controls which parts of the list returned
-///   by material-shadow() are used; if an index is true, that part of the
-///   shadow will be used; if an index is false, that part of the shadow will
-///   not be used.
+///   by material-shadow.shadow() are used; if an index is true, that part of
+///   the shadow will be used; if an index is false, that part of the shadow
+///   will not be used.
 ///
 /// @param {Number} $shadow-depth [2]
-///   The depth value passed to material-shadow().
+///   The depth value passed to material-shadow.shadow().
 ///
 /// @require {mixin} set-colours
-/// @require {function } material-shadow
+/// @require {function} material-shadow.shadow
 ///
 /// @link https://css-tricks.com/full-browser-width-bars/
 ///   Loosely inspired by this.
@@ -95,7 +95,7 @@
     $shadow-list: ();
 
     @if meta.type-of($shadow) == 'list' and list.length($shadow) == 3 {
-      $material-shadow: ms.material-shadow($shadow-depth);
+      $material-shadow: material-shadow.shadow($shadow-depth);
 
       // Use the parts of the shadow that we're asked to.
       @for $i from 1 through list.length($shadow) {
@@ -121,7 +121,7 @@
 /// visual continuity.
 ///
 /// @param {Number} $depth [2]
-///   The depth value passed to material-shadow().
+///   The depth value passed to material-shadow.shadow().
 ///
 /// @param {Number} $z-index [1]
 ///   The z-index of the generated element.
@@ -129,7 +129,7 @@
 /// @param {Number} $height [1rem]
 ///   The height to set on the generated element.
 ///
-/// @require {function} material-shadow
+/// @require {function} material-shadow.shadow
 ///
 /// @see {mixin} set
 ///   Meant to be used along with this.
@@ -140,7 +140,7 @@
   $height:  1rem
 ) {
   // Generate a Material shadow with the required depth.
-  $material-shadow: ms.material-shadow($depth);
+  $material-shadow: material-shadow.shadow($depth);
 
   // Grab the first item in the list, which is the top peek shadow.
   $shadow: list.nth($material-shadow, 1);

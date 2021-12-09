@@ -169,7 +169,7 @@ $border-radius: material-general.$border-radius !default;
   // Only add a shadow if the depth is a valid value. This allows for passing
   // anything else to disable the shadow.
   @if $shadow-depth >= 1 and $shadow-depth <= 5 {
-    @include material-shadow.material-shadow($shadow-depth);
+    @include material-shadow.shadow($shadow-depth);
   }
 
   @include transition.fade-base();
@@ -265,10 +265,10 @@ $border-radius: material-general.$border-radius !default;
 /// @param {Number} $shadow-depth
 ///   The shadow depth to pass to Material shadow mixins.
 ///
-/// @see {mixin} material-shadow-top
-/// @see {mixin} material-shadow-bottom
-/// @see {mixin} material-shadow-top-opacity
-/// @see {mixin} material-shadow-bottom-opacity
+/// @see {mixin} material-shadow.top
+/// @see {mixin} material-shadow.bottom
+/// @see {mixin} material-shadow.top-opacity
+/// @see {mixin} material-shadow.bottom-opacity
 ///
 /// @author Matei "Ambient.Impact" Stanca
 /// @author Stoikerty
@@ -283,13 +283,13 @@ $border-radius: material-general.$border-radius !default;
 
     // Top shadow
     &::before {
-      opacity: material-shadow.material-shadow-top-opacity($depth);
+      opacity: material-shadow.top-opacity($depth);
 
       $shadow: ();
       @for $i from 1 through 5 {
         $shadow: list.append(
           $shadow,
-          material-shadow.material-shadow-top($i, list.nth($depth-map, $i)),
+          material-shadow.top($i, list.nth($depth-map, $i)),
           comma
         );
       }
@@ -298,13 +298,13 @@ $border-radius: material-general.$border-radius !default;
 
     // Bottom shadow
     &::after {
-      opacity: material-shadow.material-shadow-bottom-opacity($depth);
+      opacity: material-shadow.bottom-opacity($depth);
 
       $shadow: ();
       @for $i from 1 through 5 {
         $shadow: list.append(
           $shadow,
-          material-shadow.material-shadow-bottom($i, list.nth($depth-map, $i)),
+          material-shadow.bottom($i, list.nth($depth-map, $i)),
           comma
         );
       }

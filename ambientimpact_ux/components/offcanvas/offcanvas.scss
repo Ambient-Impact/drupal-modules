@@ -195,7 +195,7 @@ $offcanvas-panel-max-size: 17em;
     );
   }
 
-  @include material-shadow.material-shadow(3);
+  @include material-shadow.shadow(3);
 
   &.offcanvas-panel--left {
     left:   0;

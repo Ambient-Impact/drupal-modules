@@ -170,7 +170,7 @@ $divider-padding-multiplier: 0.3 !default;
     $foreground-on-dark:  $foreground-colour-on-dark
   );
 
-  @include material-shadow.material-shadow($shadow-depth);
+  @include material-shadow.shadow($shadow-depth);
 }
 
 ///
