@@ -18,7 +18,7 @@
 /// Material button background colour, light variant.
 ///
 $background-colour-light: color.adjust(
-  material-panel.$material-panel-background-colour-light, $lightness: -10%
+  material-panel.$background-colour-light, $lightness: -10%
 ) !default;
 
 ///
@@ -32,7 +32,7 @@ $background-colour-light-interact: color.adjust(
 /// Material button background colour, dark variant.
 ///
 $background-colour-dark: color.adjust(
-  material-panel.$material-panel-background-colour-dark, $lightness: 10%
+  material-panel.$background-colour-dark, $lightness: 10%
 ) !default;
 
 ///

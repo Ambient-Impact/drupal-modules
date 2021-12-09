@@ -39,13 +39,13 @@ $material-input-autocomplete-selected-background-colour:
 
     margin-top: $material-input-label-height;
 
-    @include material-panel(
+    @include material-panel.panel(
       $padding-small  : 0,
       $padding-large  : 0
     );
 
     li {
-      background-color: $material-panel-colour  !important;
+      background-color: material-panel.$colour  !important;
       color:        inherit         !important;
 
       padding:      0 0.2em;
@@ -56,7 +56,7 @@ $material-input-autocomplete-selected-background-colour:
 
       &.selected {
         background-color: $material-input-autocomplete-selected-background-colour !important;
-        color:        $material-panel-colour  !important;
+        color:        material-panel.$colour  !important;
 
         // @include transition.fade-highlight;
       }
