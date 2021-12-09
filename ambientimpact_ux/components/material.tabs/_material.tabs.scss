@@ -10,36 +10,34 @@
 ///
 /// Material tabs container underline colour on light backgrounds.
 ///
-$material-tabs-underline-colour-on-light:
+$underline-colour-on-light:
   material-colour.$material-line-colour-on-light !default;
 
 ///
 /// Material tabs container underline colour on dark backgrounds.
 ///
-$material-tabs-underline-colour-on-dark:
+$underline-colour-on-dark:
   material-colour.$material-line-colour-on-dark !default;
 
 ///
 /// Material tabs container underline thickness.
 ///
-$material-tabs-underline-thickness: 1px !default;
+$underline-thickness: 1px !default;
 
 ///
 /// Material tabs active indicator underline colour.
 ///
-$material-tabs-indicator-colour:
-  material-colour.$material-primary-colour !default;
+$indicator-colour: material-colour.$material-primary-colour !default;
 
 ///
 /// Material tabs active indicator underline thickness.
 ///
-$material-tabs-indicator-thickness: 2px !default;
+$indicator-thickness: 2px !default;
 
 ///
 /// Material tabs padding.
 ///
-$material-tabs-padding:
-  material-general.$material-item-padding-text-align !default;
+$padding: material-general.$material-item-padding-text-align !default;
 
 ///
 /// Style and layout for a Material tabs container.
@@ -48,7 +46,7 @@ $material-tabs-padding:
 ///
 /// @require {mixin} colour.on-dark-colour-scheme
 ///
-@mixin material-tabs-container {
+@mixin container {
 
   display: flex;
 
@@ -57,7 +55,7 @@ $material-tabs-padding:
 
   overflow-x: auto;
 
-  padding-bottom: $material-tabs-underline-thickness;
+  padding-bottom: $underline-thickness;
 
   // Force a single line so multiple word items don't wrap to a new line and
   // defeat the purpose of horizontal scrolling the container to minimize
@@ -79,11 +77,11 @@ $material-tabs-padding:
     // Use border rather a background colour with height as the latter has
     // issues with sub-pixel rounding issues and can be rendered thicker than
     // intended.
-    border-bottom: $material-tabs-underline-thickness solid
-      $material-tabs-underline-colour-on-light;
+    border-bottom: $underline-thickness solid
+      $underline-colour-on-light;
 
     @include colour.on-dark-colour-scheme {
-      border-bottom-color: $material-tabs-underline-colour-on-dark;
+      border-bottom-color: $underline-colour-on-dark;
     }
 
   }
@@ -98,11 +96,11 @@ $material-tabs-padding:
 /// @require {mixin} link-state.highlight
 /// @require {mixin} colour.on-dark-colour-scheme
 ///
-@mixin material-tabs-item {
+@mixin item {
 
   position: relative;
 
-  padding:  $material-tabs-padding;
+  padding:  $padding;
 
   font-weight:    strong;
   text-transform: uppercase;
@@ -125,22 +123,21 @@ $material-tabs-padding:
 /// Style and layout for Material tab item current indicator.
 ///
 /// This is intended to be applied to a descendent of the current tab that has
-/// had the material-tabs-item mixin applied.
+/// had the item mixin applied.
 ///
 /// This adds a bar under the active item to indicate its active state.
 ///
-@mixin material-tabs-item-current {
+@mixin item-current {
 
   position: absolute;
 
   left:   0;
   right:  0;
   // Shift down to cancel out the container underline.
-  bottom: -$material-tabs-underline-thickness;
+  bottom: -$underline-thickness;
 
   // Use border rather a background colour with height as the latter has issues
   // with sub-pixel rounding issues and can be rendered thicker than intended.
-  border-bottom: $material-tabs-indicator-thickness solid
-    $material-tabs-indicator-colour;
+  border-bottom: $indicator-thickness solid $indicator-colour;
 
 }
