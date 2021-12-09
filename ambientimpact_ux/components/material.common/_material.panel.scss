@@ -140,7 +140,7 @@ $material-panel-divider-padding-multiplier: 0.3 !default;
 ///
 /// @require {mixin} material-panel-padding
 /// @require {mixin} material-shadow
-/// @require {variable} $material-border-radius
+/// @require {variable} material-general.$border-radius
 /// @require {variable} $material-panel-padding-small
 /// @require {variable} $material-panel-padding-large
 /// @require {variable} $material-panel-padding-breakpoint
@@ -163,7 +163,7 @@ $material-panel-divider-padding-multiplier: 0.3 !default;
     $padding-breakpoint:  $padding-breakpoint
   );
 
-  border-radius: material-general.$material-border-radius;
+  border-radius: material-general.$border-radius;
 
   @include colour.set-colours(
     $background:          $background-colour,

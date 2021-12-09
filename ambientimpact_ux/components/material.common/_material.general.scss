@@ -2,10 +2,11 @@
 //   Ambient.Impact - UX - Material general partial
 // -----------------------------------------------------------------------------
 
-$material-is-dark:					false !default;
+$material-is-dark: false !default;
 
-$material-border-radius:			2px !default;
-$material-item-padding:				0.6em 1em;
+$border-radius: 2px !default;
+
+$item-padding: 0.6em 1em;
 
 ///
 /// Material item padding taking text align weirdness into account.
@@ -13,4 +14,4 @@ $material-item-padding:				0.6em 1em;
 /// This basically just adds a bit to the top padding to offset the text
 /// downwards.
 ///
-$material-item-padding-text-align:	0.75em 1em 0.6em;
+$item-padding-text-align: 0.75em 1em 0.6em;
