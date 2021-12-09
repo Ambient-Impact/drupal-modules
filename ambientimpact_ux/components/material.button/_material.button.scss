@@ -17,49 +17,47 @@
 ///
 /// Material button background colour, light variant.
 ///
-$material-button-background-colour-light: color.adjust(
+$background-colour-light: color.adjust(
   material-panel.$material-panel-background-colour-light, $lightness: -10%
 ) !default;
 
 ///
 /// Material button background colour, light variant, with user interaction.
 ///
-$material-button-background-colour-light-interact: color.adjust(
-  $material-button-background-colour-light, $lightness: -10%
+$background-colour-light-interact: color.adjust(
+  $background-colour-light, $lightness: -10%
 ) !default;
 
 ///
 /// Material button background colour, dark variant.
 ///
-$material-button-background-colour-dark: color.adjust(
+$background-colour-dark: color.adjust(
   material-panel.$material-panel-background-colour-dark, $lightness: 10%
 ) !default;
 
 ///
 /// Material button background colour, dark variant, with user interaction.
 ///
-$material-button-background-colour-dark-interact: color.adjust(
-  $material-button-background-colour-dark, $lightness: 10%
+$background-colour-dark-interact: color.adjust(
+  $background-colour-dark, $lightness: 10%
 ) !default;
 
 ///
 /// Material button background colour, light variant, with user interaction.
 ///
-$material-button-background-colour-light-interact: color.adjust(
-  $material-button-background-colour-light, $lightness: -10%
+$background-colour-light-interact: color.adjust(
+  $background-colour-light, $lightness: -10%
 ) !default;
 
 ///
 /// Material button foreground colour when button background colour is light.
 ///
-$material-button-foreground-colour-on-light:
-  colour.$foreground-colour-on-light !default;
+$foreground-colour-on-light: colour.$foreground-colour-on-light !default;
 
 ///
 /// Material button foreground colour when button background colour is dark.
 ///
-$material-button-foreground-colour-on-dark:
-  colour.$foreground-colour-on-dark !default;
+$foreground-colour-on-dark: colour.$foreground-colour-on-dark !default;
 
 ///
 /// Material button padding.
@@ -67,13 +65,12 @@ $material-button-foreground-colour-on-dark:
 /// These specific values allow us to vertically centre text. They work in
 /// concert with the button's line-height value to do this.
 ///
-$material-button-padding: 0.7em 1em 0.6em !default;
+$padding: 0.7em 1em 0.6em !default;
 
 ///
 /// Material button border radius.
 ///
-$material-button-border-radius:
-  material-general.$material-border-radius !default;
+$border-radius: material-general.$material-border-radius !default;
 
 ///
 /// Base styles for Material buttons.
@@ -81,8 +78,8 @@ $material-button-border-radius:
 /// This is intended to be used in situations where only the typography and
 /// layout styles need to be applied, without background colours, etc.
 ///
-@mixin material-button-base {
-  padding: $material-button-padding;
+@mixin base {
+  padding: $padding;
 
   font-weight:    bold;
   text-transform: uppercase;
@@ -95,11 +92,11 @@ $material-button-border-radius:
 ///
 /// Styles to present an element as a Material button.
 ///
-/// @param {Color} $background-colour [$material-button-background-colour-light]
+/// @param {Color} $background-colour [$background-colour-light]
 ///   The background colour for the button.
 ///
 /// @param {Color} $background-colour-interact
-///   [$material-button-background-colour-light-interact]
+///   [$background-colour-light-interact]
 ///   The background colour for the button when the user is interacting with it.
 ///
 /// @param {null|Color} $background-colour-reference [null]
@@ -122,21 +119,20 @@ $material-button-border-radius:
 /// @param {Number} $shadow-depth [1]
 ///   The shadow depth to pass to mixin material-shadow.
 ///
-/// @param {Number} $border-radius [$material-button-border-radius]
+/// @param {Number} $border-radius [$border-radius]
 ///   The border radius to use for this button.
 ///
-/// @see {mixin} material-button-interact
-/// @see {mixin} material-button-shadow
+/// @see {mixin} interact
+/// @see {mixin} shadow
 /// @see {mixin} pointer-focus-hide.not
 /// @see {mixin} set-colours
 /// @see {mixin} transition.fade-base
 ///
 /// @author Matei "Ambient.Impact" Stanca
 ///
-@mixin material-button(
-  $background-colour: $material-button-background-colour-light,
-  $background-colour-interact:
-    $material-button-background-colour-light-interact,
+@mixin button(
+  $background-colour:           $background-colour-light,
+  $background-colour-interact:  $background-colour-light-interact,
 
   $background-colour-reference:           null,
   $background-colour-interact-reference:  null,
@@ -146,9 +142,9 @@ $material-button-border-radius:
 
   $shadow-depth: 1,
 
-  $border-radius: $material-button-border-radius
+  $border-radius: $border-radius
 ) {
-  @include material-button-base;
+  @include base;
 
   position: relative;
 
@@ -180,7 +176,7 @@ $material-button-border-radius:
 
   // Apply hover/focus styles on hover if touch was not used.
   &:not(:disabled):not([data-pointer-used='touch']):hover {
-    @include material-button-interact(
+    @include interact(
       $background-colour-interact,
       $foreground-colour-on-light,
       $foreground-colour-on-dark,
@@ -191,7 +187,7 @@ $material-button-border-radius:
   // Apply hover/focus styles on non-pointer focus.
   @include pointer-focus-hide.not {
     &:not(:disabled) {
-      @include material-button-interact(
+      @include interact(
         $background-colour-interact,
         $foreground-colour-on-light,
         $foreground-colour-on-dark,
@@ -239,7 +235,7 @@ $material-button-border-radius:
 /// @see {mixin} set-colours
 /// @see {mixin} transition.fade-highlight
 ///
-@mixin material-button-interact(
+@mixin interact(
   $background-colour,
   $foreground-colour-on-light,
   $foreground-colour-on-dark,
@@ -248,10 +244,10 @@ $material-button-border-radius:
   // In addition to requiring the colours here to be passed explicitly, this
   // overrides the colour of links masquerading as buttons.
   @include colour.set-colours(
-    $background:      $background-colour,
+    $background:            $background-colour,
     $background-reference:  $background-colour-reference,
-    $foreground-on-light: $foreground-colour-on-light,
-    $foreground-on-dark:  $foreground-colour-on-dark
+    $foreground-on-light:   $foreground-colour-on-light,
+    $foreground-on-dark:    $foreground-colour-on-dark
   );
 
   &,
@@ -279,9 +275,9 @@ $material-button-border-radius:
 ///
 /// @link http://codepen.io/stoikerty/pen/Glwxi
 ///
-@mixin material-button-shadow($depth) {
+@mixin shadow($depth) {
   @if $depth < 1 or $depth > 5 {
-    @warn "Invalid $depth `#{$depth}` for mixin `material-button-shadow`.";
+    @warn "Invalid $depth `#{$depth}` for mixin `shadow`.";
   } @else {
     $depth-map: sl-replace-nth(0 0 0 0 0, $depth, 1);
 
@@ -324,11 +320,10 @@ $material-button-border-radius:
 /// rounded corner. If a standalone (square) icon is used, this button will be
 /// perfectly circular.
 ///
-/// @param {Color} $background-colour [$material-button-background-colour-light]
+/// @param {Color} $background-colour [$background-colour-light]
 ///   The background colour for the button.
 ///
-/// @param {Color} $background-colour-interact
-///   [$material-button-background-colour-light-interact]
+/// @param {Color} $background-colour-interact [$background-colour-light-interact]
 ///   The background colour for the button when the user is interacting with it.
 ///
 /// @param {Number} $icon-size [$icon-size]
@@ -337,15 +332,15 @@ $material-button-border-radius:
 /// @param {Number} $padding [$icon-size * 0.9]
 ///   The padding for the button.
 ///
-/// @see {mixin} material-button
+/// @see {mixin} button
 /// @see {variable} $icon-size
 /// @see {mixin} set-icon-size
 ///
 /// @author Matei "Ambient.Impact" Stanca
 ///
-@mixin material-button-fab(
-  $background-colour:           $material-button-background-colour,
-  $background-colour-interact:  $material-button-background-colour-interact,
+@mixin fab(
+  $background-colour:           $background-colour-light,
+  $background-colour-interact:  $background-colour-light-interact,
   $icon-size: icon.$icon-size,
   $padding:   icon.$icon-size * 0.9
 ) {
@@ -355,7 +350,7 @@ $material-button-border-radius:
   // having the content overflow.
   $border-radius: math.div(($icon-size + $padding) * 2, 2);
 
-  @include material-button(
+  @include button(
     $background-colour:           $background-colour,
     $background-colour-interact:  $background-colour-interact,
     $shadow-depth:  2,

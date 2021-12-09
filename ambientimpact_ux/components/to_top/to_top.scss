@@ -44,7 +44,7 @@
 
     color: to-top.$foreground-colour-on-light !important;
 
-    @include material-button.material-button-fab(
+    @include material-button.fab(
       $background-colour:           to-top.$background-colour-normal-on-light,
       $background-colour-interact:  to-top.$background-colour-interact-on-light
     );
@@ -52,7 +52,7 @@
     @include colour.on-dark-colour-scheme {
       color: to-top.$foreground-colour-on-dark !important;
 
-      @include material-button.material-button-fab(
+      @include material-button.fab(
         $background-colour:           to-top.$background-colour-normal-on-dark,
         $background-colour-interact:  to-top.$background-colour-interact-on-dark
       );
