@@ -14,7 +14,7 @@
 /// focused.
 ///
 $material-input-underline-colour-inactive-on-light:
-  material-colour.$material-line-colour-on-light !default;
+  material-colour.$line-on-light !default;
 
 ///
 /// Material input inactive underline colour on dark backgrounds.
@@ -23,15 +23,14 @@ $material-input-underline-colour-inactive-on-light:
 /// focused.
 ///
 $material-input-underline-colour-inactive-on-dark:
-  material-colour.$material-line-colour-on-dark !default;
+  material-colour.$line-on-dark !default;
 
 ///
 /// Material Input underline colour when the input is focused.
 ///
 /// This is applied to the thick underline.
 ///
-$material-input-underline-colour-focus:
-  material-colour.$material-primary-colour !default;
+$material-input-underline-colour-focus: material-colour.$primary !default;
 
 ///
 /// Material Input underline transition duration.

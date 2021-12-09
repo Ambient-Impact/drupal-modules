@@ -10,7 +10,7 @@
 ///
 /// The link base colour.
 ///
-$base-colour: material-colour.$material-primary-colour !default;
+$base-colour: material-colour.$primary !default;
 
 ///
 /// Link colour on light backgrounds when not highlighted/activated.
@@ -25,15 +25,15 @@ $normal-colour-on-light: $base-colour !default;
 /// colour is fairly dark.
 ///
 /// Additionally, we use a custom value if the default $base-colour or the
-/// default $material-primary-colour are in use, as inverting the lightness of
-/// that still results in a colour without enough contrast against dark
-/// background colours.
+/// default material-colour.$primary are in use, as inverting
+/// the lightness of that still results in a colour without enough contrast
+/// against dark background colours.
 ///
 /// @require {variable} $base-colour
 /// @require {function} invert-lightness
 ///
 $normal-colour-on-dark: if(
-  // Default $material-primary-colour.
+  // Default material-colour.$primary.
   $base-colour == rgb(63, 81, 181),
   #7280ff,
   colour.invert-lightness($base-colour)

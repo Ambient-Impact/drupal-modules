@@ -10,14 +10,12 @@
 ///
 /// Material tabs container underline colour on light backgrounds.
 ///
-$underline-colour-on-light:
-  material-colour.$material-line-colour-on-light !default;
+$underline-colour-on-light: material-colour.$line-on-light !default;
 
 ///
 /// Material tabs container underline colour on dark backgrounds.
 ///
-$underline-colour-on-dark:
-  material-colour.$material-line-colour-on-dark !default;
+$underline-colour-on-dark: material-colour.$line-on-dark !default;
 
 ///
 /// Material tabs container underline thickness.
@@ -27,7 +25,7 @@ $underline-thickness: 1px !default;
 ///
 /// Material tabs active indicator underline colour.
 ///
-$indicator-colour: material-colour.$material-primary-colour !default;
+$indicator-colour: material-colour.$primary !default;
 
 ///
 /// Material tabs active indicator underline thickness.
@@ -107,12 +105,10 @@ $padding: material-general.$material-item-padding-text-align !default;
   line-height:    1;
 
   @include link-state.highlight {
-    background-color:
-      material-colour.$material-flat-item-interact-colour-on-light;
+    background-color: material-colour.$flat-item-interact-on-light;
 
     @include colour.on-dark-colour-scheme {
-      background-color:
-        material-colour.$material-flat-item-interact-colour-on-dark;
+      background-color: material-colour.$flat-item-interact-on-dark;
     }
   }
 

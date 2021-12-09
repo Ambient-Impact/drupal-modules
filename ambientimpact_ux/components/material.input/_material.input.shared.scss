@@ -27,8 +27,7 @@ $material-input-line-height: 1.2 !default;
 ///
 /// Material Input error message colour.
 ///
-$material-input-messages-colour-error:
-  material-colour.$material-error-colour !default;
+$material-input-messages-colour-error: material-colour.$error !default;
 
 ///
 /// Material Input messages height.

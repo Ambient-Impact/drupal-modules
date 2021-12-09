@@ -81,7 +81,7 @@ $material-panel-padding-breakpoint: '>=material-panel-padding' !default;
 ///
 /// @see {mixin} material-panel-divider
 ///
-$material-panel-divider-colour: material-colour.$material-line-colour !default;
+$material-panel-divider-colour: material-colour.$line !default;
 
 ///
 /// Material panel divider thickness.

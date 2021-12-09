@@ -11,22 +11,22 @@
 /// @link https://www.materialui.co/colors/indigo/500
 ///   Defaults to this indigo.
 ///
-$material-primary-colour: rgb(63, 81, 181) !default;
+$primary: rgb(63, 81, 181) !default;
 
 ///
 /// Material Design error colour.
 ///
-$material-error-colour: rgb(219, 68, 55) !default;
+$error: rgb(219, 68, 55) !default;
 
 ///
 /// Material Design line colour on light backgrounds.
 ///
-$material-line-colour-on-light: hsla(0, 0%, 0%, 0.15) !default;
+$line-on-light: hsla(0, 0%, 0%, 0.15) !default;
 
 ///
 /// Material Design line colour on dark backgrounds.
 ///
-$material-line-colour-on-dark: hsla(0, 0%, 100%, 0.25) !default;
+$line-on-dark: hsla(0, 0%, 100%, 0.25) !default;
 
 ///
 /// Material Design line colour.
@@ -34,7 +34,7 @@ $material-line-colour-on-dark: hsla(0, 0%, 100%, 0.25) !default;
 /// @deprecated This will be removed when all uses of it are converted to light/
 /// dark colour scheme-aware.
 ///
-$material-line-colour: $material-line-colour-on-light !default;
+$line: $line-on-light !default;
 
 ///
 /// Material Design flat item interact colour on light backgrounds.
@@ -42,7 +42,7 @@ $material-line-colour: $material-line-colour-on-light !default;
 /// This is used for items such as buttons and tabs when they're being
 /// interacted with, i.e. are hovered by the pointer or focused.
 ///
-$material-flat-item-interact-colour-on-light: hsla(0, 0%, 0%, 0.1) !default;
+$flat-item-interact-on-light: hsla(0, 0%, 0%, 0.1) !default;
 
 ///
 /// Material Design flat item interact colour on dark backgrounds.
@@ -50,4 +50,4 @@ $material-flat-item-interact-colour-on-light: hsla(0, 0%, 0%, 0.1) !default;
 /// This is used for items such as buttons and tabs when they're being
 /// interacted with, i.e. are hovered by the pointer or focused.
 ///
-$material-flat-item-interact-colour-on-dark: hsla(0, 0%, 100%, 0.15) !default;
+$flat-item-interact-on-dark: hsla(0, 0%, 100%, 0.15) !default;
