@@ -21,7 +21,7 @@
 /// @require {mixin}  link-state.highlight
 /// @require {mixin}  link-colour.get
 ///
-@mixin link($background: colour.$background-colour) {
+@mixin link($background: colour.$background) {
 
   @include transition.fade-base();
 

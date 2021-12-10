@@ -10,12 +10,12 @@
 .contextual-region .contextual .contextual-links,
 .contextual-region .contextual .contextual-links li,
 .contextual-region .contextual .contextual-links a {
-  @include colour.set-colours(
+  @include colour.set(
     $background: $contextual-background-colour-on-light
   );
 
-  @include colour.on-dark-colour-scheme {
-    @include colour.set-colours(
+  @include colour.on-dark-scheme {
+    @include colour.set(
       $background: $contextual-background-colour-on-dark
     );
   }
@@ -23,15 +23,15 @@
 
 .contextual-region .contextual .contextual-links a:hover,
 .no-touchevents .contextual-region .contextual .contextual-links li a:hover {
-  @include colour.set-colours($background: color.mix(
-    colour.$foreground-colour-on-light,
+  @include colour.set($background: color.mix(
+    colour.$foreground-on-light,
     $contextual-background-colour-on-light,
     10%
   ));
 
-  @include colour.on-dark-colour-scheme {
-    @include colour.set-colours($background: color.mix(
-      colour.$foreground-colour-on-dark,
+  @include colour.on-dark-scheme {
+    @include colour.set($background: color.mix(
+      colour.$foreground-on-dark,
       $contextual-background-colour-on-dark,
       10%
     ));

@@ -220,7 +220,7 @@
 /// @require {function} get-active-colour
 ///
 @function get(
-  $background: colour.$background-colour,
+  $background: colour.$background,
 
   $normal-on-light:     $normal-colour-on-light,
   $highlight-on-light:  $highlight-colour-on-light,
@@ -240,7 +240,7 @@
 ) {
   $colours: ();
 
-  $contrasting-colour: colour.get-contrasting-colour(
+  $contrasting-colour: colour.get-contrasting(
     $background:          $background,
     $foreground-on-light: $normal-on-light,
     $foreground-on-dark:  $normal-on-dark
@@ -292,7 +292,7 @@
 /// @require {function} get
 ///
 @mixin custom-properties(
-  $background:  colour.$background-colour,
+  $background:  colour.$background,
   $colours:     null
 ) {
 

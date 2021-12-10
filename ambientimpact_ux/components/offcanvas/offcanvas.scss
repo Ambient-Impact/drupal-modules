@@ -172,25 +172,25 @@ $offcanvas-panel-max-size: 17em;
   // Auto panel theme; switches between light and dark based on
   // prefers-colour-scheme media feature.
   &.offcanvas-panel--theme-auto {
-    @include colour.set-colours(
+    @include colour.set(
       $background: material-panel.$background-colour-light
     );
 
-    @include colour.on-dark-colour-scheme {
-      @include colour.set-colours(
+    @include colour.on-dark-scheme {
+      @include colour.set(
         $background: material-panel.$background-colour-dark
       );
     }
   }
   // Light panel theme.
   &.offcanvas-panel--theme-light {
-    @include colour.set-colours(
+    @include colour.set(
       $background: material-panel.$background-colour-light
     );
   }
   // Dark panel theme.
   &.offcanvas-panel--theme-dark {
-    @include colour.set-colours(
+    @include colour.set(
       $background: material-panel.$background-colour-dark
     );
   }

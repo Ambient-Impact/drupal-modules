@@ -43,7 +43,7 @@
 
   // Fallback just in case the browser doesn't support generated content, though
   // that's ancient by 2019 standards.
-  @include colour.set-colours(
+  @include colour.set(
     $background: $colour
   );
 
@@ -52,7 +52,7 @@
   // background colour will be set on the absolutely positioned generated
   // content element below.
   @supports (content: '') {
-    @include colour.set-colours(
+    @include colour.set(
       $background:            transparent,
       $background-reference:  $colour
     );
@@ -84,7 +84,7 @@
       margin-left: -50vw;
     }
 
-    @include colour.set-colours(
+    @include colour.set(
       $background: $colour
     );
 

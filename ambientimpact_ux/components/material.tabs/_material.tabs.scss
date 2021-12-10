@@ -42,7 +42,7 @@ $padding: material-general.$item-padding-text-align !default;
 ///
 /// This is usually applied to a <ul> or similar element.
 ///
-/// @require {mixin} colour.on-dark-colour-scheme
+/// @require {mixin} colour.on-dark-scheme
 ///
 @mixin container {
 
@@ -78,7 +78,7 @@ $padding: material-general.$item-padding-text-align !default;
     border-bottom: $underline-thickness solid
       $underline-colour-on-light;
 
-    @include colour.on-dark-colour-scheme {
+    @include colour.on-dark-scheme {
       border-bottom-color: $underline-colour-on-dark;
     }
 
@@ -92,7 +92,7 @@ $padding: material-general.$item-padding-text-align !default;
 /// This is usually applied to interactive elements such as <a>.
 ///
 /// @require {mixin} link-state.highlight
-/// @require {mixin} colour.on-dark-colour-scheme
+/// @require {mixin} colour.on-dark-scheme
 ///
 @mixin item {
 
@@ -107,7 +107,7 @@ $padding: material-general.$item-padding-text-align !default;
   @include link-state.highlight {
     background-color: material-colour.$flat-item-interact-on-light;
 
-    @include colour.on-dark-colour-scheme {
+    @include colour.on-dark-scheme {
       background-color: material-colour.$flat-item-interact-on-dark;
     }
   }

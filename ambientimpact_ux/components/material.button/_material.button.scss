@@ -52,12 +52,12 @@ $background-colour-light-interact: color.adjust(
 ///
 /// Material button foreground colour when button background colour is light.
 ///
-$foreground-colour-on-light: colour.$foreground-colour-on-light !default;
+$foreground-colour-on-light: colour.$foreground-on-light !default;
 
 ///
 /// Material button foreground colour when button background colour is dark.
 ///
-$foreground-colour-on-dark: colour.$foreground-colour-on-dark !default;
+$foreground-colour-on-dark: colour.$foreground-on-dark !default;
 
 ///
 /// Material button padding.
@@ -99,19 +99,19 @@ $border-radius: material-general.$border-radius !default;
 ///   The background colour for the button when the user is interacting with it.
 ///
 /// @param {null|Color} $background-colour-reference [null]
-///   The background colour reference to pass to set-colours() if
+///   The background colour reference to pass to set() if
 ///   $background-colour is transparent, inherit, etc.
 ///
 /// @param {null|Color} $background-colour-interact-reference [null]
 ///   The background colour reference (when user is interacting with the button)
-///   to pass to colour.set-colours() if $background-colour is transparent,
+///   to pass to colour.set() if $background-colour is transparent,
 ///   inherit, etc.
 ///
-/// @param {Color} $foreground-colour-on-light [colour.$foreground-colour-on-light]
+/// @param {Color} $foreground-colour-on-light [colour.$foreground-on-light]
 ///   The foreground colour to use if the background colour is considered to be
 ///   more dark than light.
 ///
-/// @param {Color} $foreground-colour-on-dark [colour.$foreground-colour-on-dark]
+/// @param {Color} $foreground-colour-on-dark [colour.$foreground-on-dark]
 ///   The foreground colour to use if the background colour is considered to be
 ///   more light than dark.
 ///
@@ -136,8 +136,8 @@ $border-radius: material-general.$border-radius !default;
   $background-colour-reference:           null,
   $background-colour-interact-reference:  null,
 
-  $foreground-colour-on-light:  colour.$foreground-colour-on-light,
-  $foreground-colour-on-dark:   colour.$foreground-colour-on-dark,
+  $foreground-colour-on-light:  colour.$foreground-on-light,
+  $foreground-colour-on-dark:   colour.$foreground-on-dark,
 
   $shadow-depth: 1,
 
@@ -158,7 +158,7 @@ $border-radius: material-general.$border-radius !default;
     border-radius: $border-radius;
   }
 
-  @include colour.set-colours(
+  @include colour.set(
     $background:            $background-colour,
     $background-reference:  $background-colour-reference,
     $foreground-on-light:   $foreground-colour-on-light,
@@ -197,10 +197,10 @@ $border-radius: material-general.$border-radius !default;
 
   // Disabled buttons get faded out foreground colours.
   &:disabled {
-    // @todo Can we remove this line since we use colour.set-colours()?
+    // @todo Can we remove this line since we use colour.set()?
     // color: rgba($foreground-colour, 0.3);
 
-    @include colour.set-colours(
+    @include colour.set(
       $background:
         $background-colour,
       $foreground-on-light: color.adjust(
@@ -228,7 +228,7 @@ $border-radius: material-general.$border-radius !default;
 ///   background colour is light.
 ///
 /// @param {null|Color} $background-colour-reference [null]
-///   The background colour reference to pass to colour.set-colours() if
+///   The background colour reference to pass to colour.set() if
 ///   $background-colour is transparent, inherit, etc.
 ///
 /// @see {mixin} colour.set-colours
@@ -242,7 +242,7 @@ $border-radius: material-general.$border-radius !default;
 ) {
   // In addition to requiring the colours here to be passed explicitly, this
   // overrides the colour of links masquerading as buttons.
-  @include colour.set-colours(
+  @include colour.set(
     $background:            $background-colour,
     $background-reference:  $background-colour-reference,
     $foreground-on-light:   $foreground-colour-on-light,

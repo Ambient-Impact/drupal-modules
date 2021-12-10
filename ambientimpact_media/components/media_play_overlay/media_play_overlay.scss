@@ -45,7 +45,7 @@
   &__icon {
     padding:        0.5em 0.8em;
 
-    @include colour.set-colours(
+    @include colour.set(
       $background:  $media-play-overlay-indicator-background-colour
     );
 

@@ -35,12 +35,12 @@ $text-inactive-selection-background-colour:
 ) {
   // Active selection.
   @include selection-active {
-    @include colour.set-colours($active-background-colour);
+    @include colour.set($active-background-colour);
   }
 
   // Inactive selection, i.e when the viewport is not in focus.
   @include selection-inactive {
-    @include colour.set-colours($inactive-background-colour);
+    @include colour.set($inactive-background-colour);
   }
 }
 

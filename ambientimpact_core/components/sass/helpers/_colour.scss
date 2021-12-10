@@ -9,29 +9,29 @@
 ///
 /// Light background colour; usually used for light themes.
 ///
-$background-colour-light: white !default;
+$background-light: white !default;
 
 ///
 /// Dark background colour; usually used for dark themes.
 ///
-$background-colour-dark: black !default;
+$background-dark: black !default;
 
 ///
 /// Default background colour; light theme by default.
 ///
-$background-colour: $background-colour-light !default;
+$background: $background-light !default;
 
 ///
 /// Foreground (usually text) colour on light backgrounds.
 ///
-$foreground-colour-on-light: hsl(0, 0%, 20%) !default;
+$foreground-on-light: hsl(0, 0%, 20%) !default;
 
 ///
 /// Foreground colour on dark backgrounds.
 ///
-$foreground-colour-on-dark: white !default;
+$foreground-on-dark: white !default;
 
-// *** $foreground-colour is set lower down. ***
+// *** $foreground is set lower down. ***
 
 ///
 /// Get a greyscale colour as rgba().
@@ -68,7 +68,7 @@ $foreground-colour-on-dark: white !default;
 ///
 /// @link https://ambientimpact.com/web/snippets/sass-text-contrast-mixin
 ///
-@function get-colour-brightness($colour) {
+@function get-brightness($colour) {
   @return math.div(
     (color.red($colour)   * .299) +
     (color.green($colour) * .587) +
@@ -83,14 +83,14 @@ $foreground-colour-on-dark: white !default;
 /// Compares contrast of a given colour to the light/dark arguments and returns
 /// whichever is most "contrasty".
 ///
-/// @param {Color} $background [$background-colour]
+/// @param {Color} $background [$background]
 ///   The background colour to test against.
 ///
-/// @param {Color} $foreground-on-light [$foreground-colour-on-light]
+/// @param {Color} $foreground-on-light [$foreground-on-light]
 ///   The foreground colour to return if the background is considered to be more
 ///   dark than light.
 ///
-/// @param {Color} $foreground-on-dark [$foreground-colour-on-dark]
+/// @param {Color} $foreground-on-dark [$foreground-on-dark]
 ///   The foreground colour to return if the background is considered to be more
 ///   light than dark.
 ///
@@ -104,21 +104,19 @@ $foreground-colour-on-dark: white !default;
 ///
 /// @link https://ambientimpact.com/web/snippets/sass-text-contrast-mixin
 ///
-@function get-contrasting-colour(
-  $background:      $background-colour,
-  $foreground-on-light: $foreground-colour-on-light,
-  $foreground-on-dark:  $foreground-colour-on-dark
+@function get-contrasting(
+  $background:          $background,
+  $foreground-on-light: $foreground-on-light,
+  $foreground-on-dark:  $foreground-on-dark
 ) {
   @if $background == null {
     @return null;
 
   } @else {
-    $background-brightness:
-      get-colour-brightness($background);
-    $foreground-on-dark-brightness:
-      get-colour-brightness($foreground-on-dark);
-    $foreground-on-light-brightness:
-      get-colour-brightness($foreground-on-light);
+
+    $background-brightness:           get-brightness($background);
+    $foreground-on-dark-brightness:   get-brightness($foreground-on-dark);
+    $foreground-on-light-brightness:  get-brightness($foreground-on-light);
 
     @return if(
       math.abs($background-brightness - $foreground-on-dark-brightness) >
@@ -133,14 +131,13 @@ $foreground-colour-on-dark: white !default;
 /// Default foreground colour.
 ///
 /// This automatically chooses the most contrasting colour by default, so you
-/// may not need to change this at all when changing $background-colour. Set
-/// $foreground-colour-on-light and $foreground-colour-on-dark instead of this
-/// if you need to.
+/// may not need to change this at all when changing $background. Set
+/// $foreground-on-light and $foreground-on-dark instead of this if you need to.
 ///
-$foreground-colour: get-contrasting-colour(
-  $background-colour,
-  $foreground-colour-on-light,
-  $foreground-colour-on-dark
+$foreground: get-contrasting(
+  $background,
+  $foreground-on-light,
+  $foreground-on-dark
 ) !default;
 
 ///
@@ -152,33 +149,33 @@ $foreground-colour: get-contrasting-colour(
 /// --foreground-colour custom properties on the element, for browsers that
 /// support them.
 ///
-/// @param {Color} $background [$background-colour]
+/// @param {Color} $background [$background]
 ///   The background colour to test against.
 ///
-/// @param {Color} $foreground-on-light [$foreground-colour-on-light]
+/// @param {Color} $foreground-on-light [$foreground-on-light]
 ///   The foreground colour to return if the background is considered to be more
 ///   dark than light.
 ///
-/// @param {Color} $foreground-on-dark [$foreground-colour-on-dark]
+/// @param {Color} $foreground-on-dark [$foreground-on-dark]
 ///   The foreground colour to return if the background is considered to be more
 ///   light than dark.
 ///
 /// @param {null|Color} $background-reference [null]
-///   The background colour reference to pass to get-contrasting-colour() if
-///   $background-colour is transparent, inherit, etc.
+///   The background colour reference to pass to get-contrasting() if
+///   $background is transparent, inherit, etc.
 ///
-/// @see {function} get-contrasting-colour
+/// @see {function} get-contrasting
 ///
 /// @author Matei "Ambient.Impact" Stanca
 ///
-@mixin set-colours(
-  $background:      $background-colour,
-  $foreground-on-light: $foreground-colour-on-light,
-  $foreground-on-dark:  $foreground-colour-on-dark,
+@mixin set(
+  $background:            $background,
+  $foreground-on-light:   $foreground-on-light,
+  $foreground-on-dark:    $foreground-on-dark,
   $background-reference:  null
 ) {
   // Get the appropriately contrasting foreground colour.
-  $foreground: get-contrasting-colour(
+  $foreground: get-contrasting(
     if($background-reference != null, $background-reference, $background),
     $foreground-on-light,
     $foreground-on-dark
@@ -191,7 +188,7 @@ $foreground-colour: get-contrasting-colour(
   @include event.trigger('set-colours', $background, $foreground);
 
   background-color: $background;
-  color:        $foreground;
+  color:            $foreground;
 }
 
 ///
@@ -226,7 +223,7 @@ $foreground-colour: get-contrasting-colour(
 ///   We use this media feature to detect if the user has chosen a dark theme,
 ///   which is usually set at the operating system level.
 ///
-@mixin on-dark-colour-scheme {
+@mixin on-dark-scheme {
   @supports (--test: orange) and (filter: invert(100%)) {
     @media (prefers-color-scheme: dark) {
       @content;

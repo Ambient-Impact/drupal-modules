@@ -12,7 +12,7 @@
 ///
 /// Material panel background colour, light variant.
 ///
-$background-colour-light: colour.$background-colour-light !default;
+$background-colour-light: colour.$background-light !default;
 
 ///
 /// Material panel background colour, light on light variant.
@@ -21,13 +21,13 @@ $background-colour-light: colour.$background-colour-light !default;
 /// against a light background, if needed.
 ///
 $background-colour-light-on-light: color.mix(
-  colour.$background-colour-light, colour.$foreground-colour-on-light, 90%
+  colour.$background-light, colour.$foreground-on-light, 90%
 ) !default;
 
 ///
 /// Material panel background colour, dark variant.
 ///
-$background-colour-dark: colour.$background-colour-dark !default;
+$background-colour-dark: colour.$background-dark !default;
 
 ///
 /// Material panel background colour, dark on dark variant.
@@ -36,7 +36,7 @@ $background-colour-dark: colour.$background-colour-dark !default;
 /// against a dark background, if needed.
 ///
 $background-colour-dark-on-dark: color.mix(
-  colour.$background-colour-dark, colour.$foreground-colour-on-dark, 90%
+  colour.$background-dark, colour.$foreground-on-dark, 90%
 ) !default;
 
 ///
@@ -126,11 +126,11 @@ $divider-padding-multiplier: 0.3 !default;
 /// @param {Color} $background-colour [$background-colour-light]
 ///   The background colour for the panel.
 ///
-/// @param {Color} $foreground-colour-on-light [colour.$foreground-colour-on-light]
+/// @param {Color} $foreground-colour-on-light [colour.$foreground-on-light]
 ///   The foreground colour to use if the background colour is considered to be
 ///   more dark than light.
 ///
-/// @param {Color} $foreground-colour-on-dark [colour.$foreground-colour-on-dark]
+/// @param {Color} $foreground-colour-on-dark [colour.$foreground-on-dark]
 ///   The foreground colour to use if the background colour is considered to be
 ///   more light than dark.
 ///
@@ -144,16 +144,16 @@ $divider-padding-multiplier: 0.3 !default;
 /// @require {variable} $padding-large
 /// @require {variable} $padding-breakpoint
 /// @require {variable} $background-colour-light
-/// @require {variable} colour.$foreground-colour-on-light
-/// @require {variable} colour.$foreground-colour-on-dark
+/// @require {variable} colour.$foreground-on-light
+/// @require {variable} colour.$foreground-on-dark
 ///
 @mixin panel(
   $padding-small:               $padding-small,
   $padding-large:               $padding-large,
   $padding-breakpoint:          $padding-breakpoint,
   $background-colour:           $background-colour-light,
-  $foreground-colour-on-light:  colour.$foreground-colour-on-light,
-  $foreground-colour-on-dark:   colour.$foreground-colour-on-dark,
+  $foreground-colour-on-light:  colour.$foreground-on-light,
+  $foreground-colour-on-dark:   colour.$foreground-on-dark,
   $shadow-depth:                2
 ) {
   @include padding(
@@ -164,7 +164,7 @@ $divider-padding-multiplier: 0.3 !default;
 
   border-radius: material-general.$border-radius;
 
-  @include colour.set-colours(
+  @include colour.set(
     $background:          $background-colour,
     $foreground-on-light: $foreground-colour-on-light,
     $foreground-on-dark:  $foreground-colour-on-dark

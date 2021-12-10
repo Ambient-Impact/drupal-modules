@@ -8,12 +8,12 @@
 @use '_toolbar.colour' as *;
 
 .toolbar .toolbar-bar {
-  @include colour.set-colours($background: $toolbar-bar-background-colour);
+  @include colour.set($background: $toolbar-bar-background-colour);
 }
 
 .toolbar .toolbar-bar .toolbar-tab > .toolbar-icon {
   @include link-state.highlight {
-    @include colour.set-colours(
+    @include colour.set(
       $background: $toolbar-tab-interact-background-colour
     );
   }
@@ -42,7 +42,7 @@
   }
 
   &.toolbar-icon.is-active {
-    @include colour.set-colours(
+    @include colour.set(
       $background: $toolbar-tab-current-background-colour
     );
 
@@ -58,7 +58,7 @@
 .toolbar .toolbar-tray .toolbar-icon,
 .toolbar .toolbar-tray .toolbar-menu a:not(.toolbar-icon) {
   @include link-state.highlight {
-    @include colour.set-colours(
+    @include colour.set(
       $background: $toolbar-tray-item-interact-background-colour
     );
   }

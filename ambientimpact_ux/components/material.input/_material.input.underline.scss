@@ -52,7 +52,7 @@ $material-input-underline-transition-duration:
     border-style: solid;
     border-color: $material-input-underline-colour-inactive-on-light;
 
-    @include colour.on-dark-colour-scheme {
+    @include colour.on-dark-scheme {
       border-color: $material-input-underline-colour-inactive-on-dark;
     }
   }

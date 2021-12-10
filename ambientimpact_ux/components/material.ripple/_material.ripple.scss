@@ -101,7 +101,7 @@ $material-ripple-base-class: 'material-ripple';
 ///
 /// Set an appropriate Material ripple colour given a background and foreground.
 ///
-/// This should only be used in situations where the colour.set-colours() mixin
+/// This should only be used in situations where the colour.set() mixin
 /// is impractical to use or would cause unwanted side-effects.
 ///
 /// @param {Color} $background-colour
