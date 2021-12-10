@@ -104,8 +104,8 @@ $border-radius: material-general.$border-radius !default;
 ///
 /// @param {null|Color} $background-colour-interact-reference [null]
 ///   The background colour reference (when user is interacting with the button)
-///   to pass to set-colours() if $background-colour is transparent, inherit,
-///   etc.
+///   to pass to colour.set-colours() if $background-colour is transparent,
+///   inherit, etc.
 ///
 /// @param {Color} $foreground-colour-on-light [colour.$foreground-colour-on-light]
 ///   The foreground colour to use if the background colour is considered to be
@@ -197,7 +197,7 @@ $border-radius: material-general.$border-radius !default;
 
   // Disabled buttons get faded out foreground colours.
   &:disabled {
-    // @todo Can we remove this line since we use set-colours()?
+    // @todo Can we remove this line since we use colour.set-colours()?
     // color: rgba($foreground-colour, 0.3);
 
     @include colour.set-colours(
@@ -228,7 +228,7 @@ $border-radius: material-general.$border-radius !default;
 ///   background colour is light.
 ///
 /// @param {null|Color} $background-colour-reference [null]
-///   The background colour reference to pass to set-colours() if
+///   The background colour reference to pass to colour.set-colours() if
 ///   $background-colour is transparent, inherit, etc.
 ///
 /// @see {mixin} colour.set-colours

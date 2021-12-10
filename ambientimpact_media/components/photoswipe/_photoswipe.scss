@@ -64,9 +64,9 @@ $photoswipe-themes: (
 /// - The foreground colour to apply if $background is found to be more light
 ///   than dark. Defaults to $photoswipe-foreground-colour-theme-light.
 ///
-/// @see {mixin} get-contrasting-colour
+/// @see {mixin} colour.get-contrasting-colour
 ///
-/// @see {mixin} set-colours
+/// @see {mixin} colour.set-colours
 ///
 @mixin set-photoswipe-colours(
   $background,
