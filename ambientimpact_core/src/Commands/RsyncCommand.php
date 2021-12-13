@@ -3,12 +3,8 @@
 namespace Drupal\ambientimpact_core\Commands;
 
 use Consolidation\AnnotatedCommand\CommandData;
-use Consolidation\SiteAlias\HostPath;
-use Consolidation\SiteAlias\SiteAliasInterface;
-use Drupal\ambientimpact_core\Commands\AbstractFileSystemCommand;
-use Drush\Config\ConfigLocator;
+use Drupal\ambientimpact_core\Commands\AbstractSyncCommand;
 use Drush\Exceptions\UserAbortException;
-use Robo\Collection\CollectionBuilder;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 
 /**
@@ -16,21 +12,7 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
  *
  * @see self::rsync()
  */
-class RsyncCommand extends AbstractFileSystemCommand {
-
-  /**
-   * HostPath object representing the path to the source Drupal site root.
-   *
-   * @var \Consolidation\SiteAlias\HostPath
-   */
-  protected $sourceEvaluatedPath;
-
-  /**
-   * HostPath object representing the path to the target Drupal site root.
-   *
-   * @var \Consolidation\SiteAlias\HostPath
-   */
-  protected $targetEvaluatedPath;
+class RsyncCommand extends AbstractSyncCommand {
 
   /**
    * Rsync a local Drupal site to another local Drupal site.
@@ -151,12 +133,12 @@ class RsyncCommand extends AbstractFileSystemCommand {
 
     // Add Robo rsync task.
     $rsyncTask = $collection->taskRsync()
-      ->fromPath($this->alterRsyncPath(
-        $this->getProjectRoot($source) . \DIRECTORY_SEPARATOR)
-      )
-      ->toPath($this->alterRsyncPath(
-        $this->getProjectRoot($target))
-      )
+      ->fromPath($this->prepareRsyncPath(
+        $this->getProjectRoot($source) . \DIRECTORY_SEPARATOR
+      ))
+      ->toPath($this->prepareRsyncPath(
+        $this->getProjectRoot($target)
+      ))
       ->archive();
 
     if ($options['verbose'] || $options['debug']) {
@@ -191,7 +173,9 @@ class RsyncCommand extends AbstractFileSystemCommand {
       $rsyncTask->exclude($options['exclude-paths']);
     }
 
-    $this->setMaintenance($targetRecord, $collection, $options, true);
+    if ($options['target-maintenance']) {
+      $this->addMaintenanceModeTask($targetRecord, $collection, $options, true);
+    }
 
     // If not simulating, add the Drush commands to be run on the target site
     // after the rsync.
@@ -223,207 +207,38 @@ class RsyncCommand extends AbstractFileSystemCommand {
       });
     }
 
-    $this->setMaintenance($targetRecord, $collection, $options, false);
+    if ($options['target-maintenance']) {
+      $this->addMaintenanceModeTask(
+        $targetRecord, $collection, $options, false
+      );
+    }
 
     $collection->run();
 
   }
 
   /**
-   * Evaluate the path aliases in the source and destination parameters. We do
-   * this in the pre-command-event so that we can set up the configuration
-   * object to include options from the source and target aliases, if any, so
-   * that these values may participate in configuration injection.
-   *
-   * Used for setting up the ambientimpact:rsync command.
-   *
-   * @see \Drush\Commands\core\RsyncCommands::preCommandEvent()
-   *   Adapted from the core:rsync Drush command.
+   * {@inheritdoc}
    *
    * @hook command-event ambientimpact:rsync
    *
-   * @param ConsoleCommandEvent $event
+   * @see \Drupal\ambientimpact_core\Commands\AbstractSyncCommand::preCommandEvent()
+   *   Uses this parent method.
    */
   public function preCommandEvent(ConsoleCommandEvent $event) {
-    $input = $event->getInput();
-
-    $this->sourceEvaluatedPath = $this->injectAliasPathParameterOptions(
-      $input, 'source'
-    );
-    $this->targetEvaluatedPath = $this->injectAliasPathParameterOptions(
-      $input, 'target'
-    );
+    parent::preCommandEvent($event);
   }
 
   /**
-   * Injects...alias path parameter options, I guess?
-   *
-   * Used for setting up the ambientimpact:rsync command.
-   *
-   * @param $input
-   *
-   * @param $parameterName
-   *
-   * @return \Consolidation\SiteAlias\HostPath
-   *
-   * @see \Drush\Commands\core\RsyncCommands::injectAliasPathParameterOptions()
-   *   Copied from the core:rsync Drush command.
-   */
-  protected function injectAliasPathParameterOptions($input, $parameterName) {
-    // The Drush configuration object is a ConfigOverlay; fetch the alias
-    // context, that already has the options et. al. from the site-selection
-    // alias ('drush @site rsync ...'), @self.
-    $aliasConfigContext = $this->getConfig()->getContext(
-      ConfigLocator::ALIAS_CONTEXT
-    );
-
-    $aliasName = $input->getArgument($parameterName);
-    $evaluatedPath = HostPath::create($this->siteAliasManager(), $aliasName);
-
-    $this->pathEvaluator->evaluate($evaluatedPath);
-
-    $aliasRecord = $evaluatedPath->getSiteAlias();
-
-    return $evaluatedPath;
-  }
-
-  /**
-   * Validate that passed aliases are both local for ambientimpact:rsync.
+   * {@inheritdoc}
    *
    * @hook validate ambientimpact:rsync
    *
-   * @param \Consolidation\AnnotatedCommand\CommandData $commandData
-   *
-   * @throws \Exception
+   * @see \Drupal\ambientimpact_core\Commands\AbstractSyncCommand::validate()
+   *   Uses this parent method.
    */
   public function validate(CommandData $commandData) {
-    if (
-      $this->sourceEvaluatedPath->isRemote() ||
-      $this->targetEvaluatedPath->isRemote()
-    ) {
-      throw new \Exception(dt(
-        'This command can currently only rsync between two local Drupal sites.'
-      ));
-    }
-  }
-
-  /**
-   * Alter paths for rsync.
-   *
-   * This works around an issue on Windows where a drive letter and colon at the
-   * start of paths will cause rsync to throw an error because it interprets
-   * those as remote URLs/paths. Converting Windows paths to Cygwin-style paths
-   * fixes this.
-   *
-   * If the 'cygpath' executable exists, that will be used to convert the path.
-   * If it doesn't exist, we fall back to altering the path ourselves.
-   *
-   * @param string $path
-   *   A path to alter.
-   *
-   * @return string
-   *   Either $path converted to Cygwin-style, or if not a Windows-style path,
-   *   will just be unaltered $path.
-   *
-   * @see https://github.com/mitchellh/vagrant-aws/issues/27#issuecomment-16955400
-   *   Description of the problem and the working solution.
-   *
-   * @see https://beamtic.com/if-command-exists-php
-   *   Inspiration on use of the 'where' command on Windows.
-   *
-   * @see https://cygwin.com/cygwin-ug-net/cygpath.html
-   *   cygpath documentation.
-   *
-   * @see https://github.com/consolidation/Robo/issues/1045
-   *   Robo issue opened about this.
-   */
-  protected function alterRsyncPath(string $path): string {
-
-    if (\stripos(\PHP_OS, 'win') !== false) {
-
-      // Attempt to determine if the 'cygpath' executable exists using the
-      // 'where' utility bundled with Windows. $returnCode will be 0 (zero) if
-      // 'cygpath' is found, and 1 if not.
-      \exec('where /Q cygpath', $output, $returnCode);
-
-      // If 'cygpath' exists, use it to convert the path.
-      if ($returnCode === 0) {
-        return \shell_exec('cygpath -u ' . \escapeshellarg($path));
-      }
-    }
-
-    // This replaces a drive letter at the start of a path (e.g. "C:/") to
-    // Cygwin-style (e.g. "/c/"). Note that if a Windows drive letter is not
-    // found, \preg_replace_callback() just returns the string unaltered.
-    $path = \preg_replace_callback('|^([A-Z]):\\\|', function(array $matches) {
-      return '/' . \strtolower($matches[1]) . '/';
-    }, $path);
-
-    // If the path separator is a backslash, we're on Windows so replace
-    // backslashes with slashes or rsync will get confused.
-    if (\DIRECTORY_SEPARATOR === '\\') {
-      $path = \str_replace('\\', '/', $path);
-    }
-
-    return $path;
-
-  }
-
-  /**
-   * Set maintenance mode state.
-   *
-   * @param \Consolidation\SiteAlias\SiteAliasInterface $targetRecord
-   *   The site alias record for the target site to set maintenance mode for.
-   *
-   * @param \Robo\Collection\CollectionBuilder $collection
-   *   The Robo collection to add the maintenance mode task to.
-   *
-   * @param array $options
-   *   The Drush command options passed to the ai:rsync command.
-   *
-   * @param bool|boolean $maintenance
-   *   True to enable maintenance mode and false to disable it.
-   */
-  protected function setMaintenance(
-    SiteAliasInterface $targetRecord,
-    CollectionBuilder $collection,
-    array $options,
-    bool $maintenance = true
-  ): void {
-
-    // Save $this because we need to pass it to the Drush command closure where
-    // $this will have a different value.
-    /** @var \Drush\Commands\DrushCommands */
-    $drushCommand = $this;
-
-    /** @var \Drush\Config\DrushConfig */
-    $config = $this->getConfig();
-
-    if ($config->simulate() || !$options['target-maintenance']) {
-      return;
-    }
-
-    $collection->addCode(function() use (
-      $drushCommand, $targetRecord, $options, $maintenance
-    ) {
-
-      /** @var \Consolidation\SiteProcess\SiteProcess */
-      $process = $drushCommand->processManager()->drush(
-        $targetRecord,
-        'state:set',
-        ['system.maintenance_mode', ($maintenance === true ? '1' : '0')],
-        ['input-format' => 'integer']
-      );
-
-      if ($options['verbose'] || $options['debug']) {
-        $process->mustRun($process->showRealtime());
-
-      } else {
-        $process->mustRun();
-      }
-
-    });
-
+    parent::validate($commandData);
   }
 
 }
