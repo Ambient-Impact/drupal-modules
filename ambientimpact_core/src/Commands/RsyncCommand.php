@@ -42,6 +42,10 @@ class RsyncCommand extends AbstractSyncCommand {
    *   Whether to exclude generated files, such as compiled Twig templates,
    *   aggregated JavaScript/CSS, and image style derivatives.
    *
+   * @option exclude-vcs
+   *   Whether to exclude version control directories, i.e. .git, .svn, and .hg
+   *   directories.
+   *
    * @option exclude-paths
    *   File paths to pass to Robo's rsync command to exclude from syncing.
    *
@@ -74,6 +78,7 @@ class RsyncCommand extends AbstractSyncCommand {
   public function rsync($source, $target, $options = [
     'exclude-files' => true,
     'exclude-generated-files' => true,
+    'exclude-vcs' => true,
     'exclude-paths' => [
       'sites/*/settings.database.php',
       'sites/*/settings.local.php',
@@ -171,6 +176,10 @@ class RsyncCommand extends AbstractSyncCommand {
 
     if (count($options['exclude-paths']) > 0) {
       $rsyncTask->exclude($options['exclude-paths']);
+    }
+
+    if ($options['exclude-vcs']) {
+      $rsyncTask->excludeVcs();
     }
 
     if ($options['target-maintenance']) {
