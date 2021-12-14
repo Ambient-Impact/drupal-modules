@@ -69,13 +69,13 @@ class RsyncCommand extends AbstractSyncCommand {
    * @aliases ai:rsync
    *
    * @todo Add arguments and options to target-post-drush-commands, or
-   * generalize them so that any shell commands can be specified.
+   *   generalize them so that any shell commands can be specified.
    *
    * @todo Can we use the @link https://www.drush.org/deploycommand/ deploy
    *   command @endlink in 'target-post-drush-commands' to condense it and allow
    *   the use of deploy hooks?
    */
-  public function rsync($source, $target, $options = [
+  public function rsync(string $source, string $target, array $options = [
     'exclude-files' => true,
     'exclude-generated-files' => true,
     'exclude-vcs' => true,
@@ -89,16 +89,17 @@ class RsyncCommand extends AbstractSyncCommand {
       // This is necessary so that Drupal doesn't throw an error if a new module
       // or theme was added by the rsync and then set to be enabled in the
       // subsequent config import.
-      'cr',
-      'config-import',
+      'cache:rebuild',
+      'config:import',
       'updb',
       // Cache rebuild a second time after everything is done.
-      'cr',
+      'cache:rebuild',
     ],
-  ]) {
+  ]): void {
+
     if (
       !$this->getConfig()->simulate() &&
-      !$this->io()->confirm(dt(
+      !$this->io()->confirm(\dt(
         'Rsync files from !source to !target?', [
           '!source' => $this->sourceEvaluatedPath
             ->fullyQualifiedPathPreservingTrailingSlash(),
@@ -108,35 +109,38 @@ class RsyncCommand extends AbstractSyncCommand {
       throw new UserAbortException();
     }
 
-    // Robo collection builder instance.
+    /** @var \Robo\Collection\CollectionBuilder Robo collection builder instance. */
     $collection = $this->collectionBuilder();
 
+    /** @var string The full path to the project root directory. */
     $projectRoot  = $this->getProjectRoot();
 
-    // Paths to public and private files relative to the project root.
+    /** @var string[] Paths to public and private files relative to the project root. */
     $relativeFileDirs = [];
 
     // Build relative file directory paths by removing the project root path
     // from their absolute paths.
     foreach (['public', 'private'] as $type) {
-      $relativeFileDirs[$type] = preg_replace(
-        '%^' . preg_quote($projectRoot . DIRECTORY_SEPARATOR) . '%',
+      $relativeFileDirs[$type] = \preg_replace(
+        '%^' . \preg_quote($projectRoot . \DIRECTORY_SEPARATOR) . '%',
         '',
         $this->fileSystemService->realPath($type . '://')
       );
     }
 
-    // Save $this because we need to pass it to the Drush command closure where
-    // $this will have a different value.
+    /** @var \Drush\Commands\DrushCommands Copy of $this for use in closures. */
     $drushCommand = $this;
 
+    /** @var \Drush\Config\DrushConfig Configuration for this command. */
     $config = $this->getConfig();
 
-    // Get source and target site alias records.
+    /** @var \Consolidation\SiteAlias\SiteAliasInterface The source site alias record. */
     $sourceRecord = $this->siteAliasManager()->getAlias($source);
+
+    /** @var \Consolidation\SiteAlias\SiteAliasInterface The target site alias record. */
     $targetRecord = $this->siteAliasManager()->getAlias($target);
 
-    // Add Robo rsync task.
+    /** @var \Robo\Task\Remote\Rsync The Robo rsync task. */
     $rsyncTask = $collection->taskRsync()
       ->fromPath($this->prepareRsyncPath(
         $this->getProjectRoot($source) . \DIRECTORY_SEPARATOR
@@ -170,7 +174,7 @@ class RsyncCommand extends AbstractSyncCommand {
     if ($options['exclude-generated-files']) {
       foreach ($this->generatedFileDirectories as $dirName) {
         $options['exclude-paths'][] = $relativeFileDirs['public'] .
-          DIRECTORY_SEPARATOR . $dirName;
+          \DIRECTORY_SEPARATOR . $dirName;
       }
     }
 
@@ -189,7 +193,7 @@ class RsyncCommand extends AbstractSyncCommand {
     // Add the Drush commands to be run on the target site after the sync.
     foreach ($options['target-post-drush-commands'] as $command) {
       $collection->addCode(function() use (
-        $drushCommand, $command, $targetRecord, $sourceRecord, $options
+        $drushCommand, $command, $targetRecord
       ) {
         $drushCommand->processManager()->drush(
           $targetRecord, $command, []
