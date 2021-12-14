@@ -92,7 +92,7 @@ abstract class AbstractSyncCommand extends AbstractFileSystemCommand {
    * @see \Drush\Commands\core\RsyncCommands::preCommandEvent()
    *   Adapted from the core:rsync Drush command.
    */
-  public function preCommandEvent(ConsoleCommandEvent $event) {
+  public function preCommandEvent(ConsoleCommandEvent $event): void {
 
     /** @var \Symfony\Component\Console\Input\InputInterface A Symfony input instance. */
     $input = $event->getInput();
@@ -115,7 +115,7 @@ abstract class AbstractSyncCommand extends AbstractFileSystemCommand {
    * @throws \Exception
    *   If the command attempts to sync to or from a remote site.
    */
-  public function validate(CommandData $commandData) {
+  public function validate(CommandData $commandData): void {
 
     if (
       $this->sourceEvaluatedPath->isRemote() ||

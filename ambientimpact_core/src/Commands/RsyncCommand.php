@@ -220,7 +220,7 @@ class RsyncCommand extends AbstractSyncCommand {
    * @see \Drupal\ambientimpact_core\Commands\AbstractSyncCommand::preCommandEvent()
    *   Uses this parent method.
    */
-  public function preCommandEvent(ConsoleCommandEvent $event) {
+  public function preCommandEvent(ConsoleCommandEvent $event): void {
     parent::preCommandEvent($event);
   }
 
@@ -232,7 +232,7 @@ class RsyncCommand extends AbstractSyncCommand {
    * @see \Drupal\ambientimpact_core\Commands\AbstractSyncCommand::validate()
    *   Uses this parent method.
    */
-  public function validate(CommandData $commandData) {
+  public function validate(CommandData $commandData): void {
     parent::validate($commandData);
   }
 
