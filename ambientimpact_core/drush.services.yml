@@ -14,6 +14,12 @@ services:
     tags:
       - { name: drush.command }
 
+  ambientimpact_core.content_sync_command:
+    class: Drupal\ambientimpact_core\Commands\ContentSyncCommand
+    arguments: ['@file_system']
+    tags:
+      - { name: drush.command }
+
   ambientimpact_core.install_command:
     class: Drupal\ambientimpact_core\Commands\InstallCommand
     arguments: ['@file_system']
