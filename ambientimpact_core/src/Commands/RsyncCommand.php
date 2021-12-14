@@ -186,33 +186,15 @@ class RsyncCommand extends AbstractSyncCommand {
       $this->addMaintenanceModeTask($targetRecord, $collection, $options, true);
     }
 
-    // If not simulating, add the Drush commands to be run on the target site
-    // after the rsync.
-    if (!$config->simulate()) {
-      foreach ($options['target-post-drush-commands'] as $command) {
-        $collection->addCode(function() use (
-          $drushCommand, $command, $targetRecord, $sourceRecord, $options
-        ) {
-          $drushCommand->processManager()->drush(
-            $targetRecord, $command, []
-          )
-          ->mustRun();
-        });
-      }
-
-    // If simulating, just list the Drush commands we would have run if doing
-    // this for real.
-    } else {
-      $collection->addCode(function() use ($drushCommand, $target, $options) {
-        $drushCommand->logger()->notice(dt(
-          'The following Drush commands would be run on !target after rsync has completed in non-simulated mode: @commands',
-          [
-            '!target'   => $target,
-            '@commands' => "\n" . implode(
-              "\n", $options['target-post-drush-commands']
-            ) . "\n",
-          ]
-        ));
+    // Add the Drush commands to be run on the target site after the sync.
+    foreach ($options['target-post-drush-commands'] as $command) {
+      $collection->addCode(function() use (
+        $drushCommand, $command, $targetRecord, $sourceRecord, $options
+      ) {
+        $drushCommand->processManager()->drush(
+          $targetRecord, $command, []
+        )
+        ->mustRun();
       });
     }
 
