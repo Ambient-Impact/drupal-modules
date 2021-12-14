@@ -156,6 +156,10 @@ class RsyncCommand extends AbstractSyncCommand {
 
     if ($options['verbose'] || $options['debug']) {
       $rsyncTask->verbose()->progress();
+
+    // @see https://github.com/consolidation/robo/issues/629
+    } else {
+      $rsyncTask->silent(true)->printOutput(false);
     }
 
     if ($config->simulate()) {
