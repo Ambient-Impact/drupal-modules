@@ -140,6 +140,10 @@ class RsyncCommand extends AbstractSyncCommand {
     /** @var \Consolidation\SiteAlias\SiteAliasInterface The target site alias record. */
     $targetRecord = $this->siteAliasManager()->getAlias($target);
 
+    if ($options['target-maintenance']) {
+      $this->addMaintenanceModeTask($targetRecord, $collection, $options, true);
+    }
+
     /** @var \Robo\Task\Remote\Rsync The Robo rsync task. */
     $rsyncTask = $collection->taskRsync()
       ->fromPath($this->prepareRsyncPath(
@@ -184,10 +188,6 @@ class RsyncCommand extends AbstractSyncCommand {
 
     if ($options['exclude-vcs']) {
       $rsyncTask->excludeVcs();
-    }
-
-    if ($options['target-maintenance']) {
-      $this->addMaintenanceModeTask($targetRecord, $collection, $options, true);
     }
 
     // Add the Drush commands to be run on the target site after the sync.
