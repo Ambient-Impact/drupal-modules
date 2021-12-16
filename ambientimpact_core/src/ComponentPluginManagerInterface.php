@@ -139,12 +139,17 @@ interface ComponentPluginManagerInterface {
   public static function camelizeComponentID(string $id): string;
 
   /**
-   * Get component directory paths for all discovered Component providers.
+   * Get component directory paths for Component providers.
+   *
+   * @param string[] $providerNames
+   *   Zero or more provider machine names or wildcard patterns to limit the
+   *   returned paths to. If not specified, all discovered (enabled) Component
+   *   providers will be returned.
    *
    * @return string[]
    *   An array of paths to each discovered provider's 'components' directory,
    *   relative to the Drupal root.
    */
-  public function getComponentPaths(): array;
+  public function getComponentPaths(array $providerNames = []): array;
 
 }

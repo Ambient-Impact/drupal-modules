@@ -295,8 +295,11 @@ implements ComponentPluginManagerInterface{
    * @todo Cache this and invalidate when plug-in discovery occurs?
    *
    * @todo Can this be done without hard coding '/components' here?
+   *
+   * @todo Can we just rely on \fnmatch() to inform us if the pattern matches
+   *   without checking for the presence of the '*' character?
    */
-  public function getComponentPaths(): array {
+  public function getComponentPaths(array $providerNames = []): array {
 
     /** @var array */
     $definitions = $this->getDefinitions();
@@ -305,9 +308,44 @@ implements ComponentPluginManagerInterface{
     $providers = [];
 
     foreach ($definitions as $machineName => $definition) {
-      if (!\in_array($definition['provider'], $providers)) {
-        $providers[] = $definition['provider'];
+
+      // Skip providers that have already been added.
+      if (\in_array($definition['provider'], $providers)) {
+        continue;
       }
+
+      // If no providers names have been provided or some have and the provider
+      // name matches one of them exactly, add this provider.
+      if (
+        count($providerNames) === 0 ||
+        \in_array($definition['provider'], $providerNames)
+      ) {
+
+        $providers[] = $definition['provider'];
+
+        continue;
+
+      }
+
+      // If we haven't skipped to the next iteration yet, attempt to match
+      // against a wildcard pattern.
+      foreach ($providerNames as $i => $name) {
+
+        // Skip provider patterns that don't contain the wildcard asterisk.
+        if (\strpos($name, '*') === false) {
+          continue;
+        }
+
+        // Skip to the next provider pattern to check against if the pattern
+        // doesn't match.
+        if (!\fnmatch($name, $definition['provider'])) {
+          continue;
+        }
+
+        $providers[] = $definition['provider'];
+
+      }
+
     }
 
     /** @var array */
