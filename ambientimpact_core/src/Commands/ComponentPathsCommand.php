@@ -7,6 +7,7 @@ use Drupal\ambientimpact_core\ComponentPluginManagerInterface;
 use Drupal\Core\File\FileSystemInterface;
 use Drush\Commands\DrushCommands;
 use Drush\Exceptions\CommandFailedException;
+use Drush\Utils\StringUtils;
 
 /**
  * ambientimpact:component-paths Drush command.
@@ -56,18 +57,38 @@ class ComponentPathsCommand extends DrushCommands {
    *
    * @aliases ai:component-paths
    *
+   * @option providers
+   *   A comma-separated list of one or more providers to limit paths to. Each
+   *   entry can either be an exact provider name or a wildcard pattern, such as
+   *   <info>example_*</info>, where all providers starting with
+   *   <info>example_</info> will match.
+   *
    * @option absolute
    *   Whether the paths should be absolute. If false, paths will be relative to
    *   the Drupal root.
    *
    * @return \Consolidation\OutputFormatters\StructuredData\PropertyList
+   *
+   * @usage ambientimpact:component-paths
+   *   Get all component paths across all enabled providers.
+   *
+   * @usage ambientimpact:component-paths --providers=example_module
+   *   Get the component path for the <info>example_module</info> provider.
+   *
+   * @usage ambientimpact:component-paths --providers=example_module,another_example_*
+   *   Get the component paths for the <info>example_module</info> provider and
+   *   any providers that begin with <info>another_example_</info>.
    */
-  public function componentPaths(
-    array $options = ['format' => 'json', 'absolute' => true]
-  ): PropertyList {
+  public function componentPaths(array $options = [
+    'absolute'  => true,
+    'format'    => 'json',
+    'providers' => [],
+  ]): PropertyList {
 
     /** @var array */
-    $relativePaths = $this->componentManager->getComponentPaths();
+    $relativePaths = $this->componentManager->getComponentPaths(
+      StringUtils::csvToArray($options['providers'])
+    );
 
     if ($options['absolute'] === false) {
       return new PropertyList($relativePaths);
