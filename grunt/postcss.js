@@ -9,7 +9,7 @@ module.exports = function(grunt, options) {
           inline: false
         },
         processors: [
-          require('autoprefixer')
+          require('autoprefixer'),
         ]
       },
       files: [{

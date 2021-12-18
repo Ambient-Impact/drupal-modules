@@ -3,8 +3,9 @@ module.exports = function(grunt, options) {
   'use strict';
 
   // grunt-sass requires that we pass the Sass implementation in the options,
-  // which we cannot do via a YAML file. See:
-  // https://github.com/sindresorhus/grunt-sass/issues/288
+  // which we cannot do via a YAML file.
+  //
+  // @see https://github.com/sindresorhus/grunt-sass/issues/288
   const sass = require('sass');
 
   const moduleImporter = require('sass-module-importer');
