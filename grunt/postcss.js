@@ -3,7 +3,7 @@ module.exports = function(grunt, options) {
   'use strict';
 
   return {
-    module: {
+    modules: {
       options: {
         map: {
           inline: false

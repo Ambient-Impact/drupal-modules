@@ -13,7 +13,7 @@ module.exports = function(grunt, options) {
   let includePaths = options.componentPaths.slice();
 
   return {
-    module: {
+    modules: {
       options: {
         implementation: sass,
         importer:       moduleImporter(),
