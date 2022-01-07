@@ -2,7 +2,7 @@ name: Ambient.Impact - Web migrate
 type: module
 description: Web snippets migration from Drupal 7.
 package: Ambient.Impact
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9
 
 dependencies:
   - drupal:link

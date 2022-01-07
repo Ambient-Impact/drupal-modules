@@ -2,7 +2,7 @@ name: Ambient.Impact - Icons
 type: module
 description: Provides a system to manage and render icons.
 package: Ambient.Impact
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9
 
 dependencies:
   - ambientimpact_core:ambientimpact_core

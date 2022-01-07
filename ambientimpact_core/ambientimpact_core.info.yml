@@ -2,7 +2,7 @@ name: Ambient.Impact - Core
 type: module
 description: Core framework for back-end and front-end development.
 package: Ambient.Impact
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9
 
 dependencies:
   - hook_event_dispatcher:core_event_dispatcher

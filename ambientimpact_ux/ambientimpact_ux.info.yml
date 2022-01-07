@@ -2,7 +2,7 @@ name: Ambient.Impact - UX
 type: module
 description: Various UX (user experience) improvements and components.
 package: Ambient.Impact
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9
 
 dependencies:
   - ambientimpact_core:ambientimpact_core

@@ -2,7 +2,7 @@ name: Ambient.Impact - Markdown
 type: module
 description: Markdown functionality related to CommonMark.
 package: Ambient.Impact
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9
 
 dependencies:
   - markdown:markdown
