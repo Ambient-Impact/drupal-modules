@@ -10,14 +10,8 @@
       "role": "Developer"
     }
   ],
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://git.drupalcode.org/issue/markdown-3103679.git"
-    }
-  ],
   "require": {
-    "drupal/markdown": "dev-3103679-8.x-2.x",
+    "drupal/markdown": "^3.0@RC",
     "league/commonmark": "^1.5"
   }
 }
