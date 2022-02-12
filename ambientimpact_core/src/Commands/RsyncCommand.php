@@ -3,8 +3,12 @@
 namespace Drupal\ambientimpact_core\Commands;
 
 use Consolidation\AnnotatedCommand\CommandData;
+use Consolidation\AnnotatedCommand\Events\CustomEventAwareInterface;
+use Consolidation\AnnotatedCommand\Events\CustomEventAwareTrait;
+use Consolidation\SiteAlias\SiteAliasInterface;
 use Drupal\ambientimpact_core\Commands\AbstractSyncCommand;
 use Drush\Exceptions\UserAbortException;
+use Robo\Collection\CollectionBuilder;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 
 /**
@@ -12,7 +16,9 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
  *
  * @see self::rsync()
  */
-class RsyncCommand extends AbstractSyncCommand {
+class RsyncCommand extends AbstractSyncCommand implements CustomEventAwareInterface {
+
+  use CustomEventAwareTrait;
 
   /**
    * Rsync a local Drupal site to another local Drupal site.
@@ -55,10 +61,6 @@ class RsyncCommand extends AbstractSyncCommand {
    * @option target-maintenance
    *   Whether to put the target site into maintenance mode during the rsync.
    *
-   * @option target-post-drush-commands
-   *   An array of Drush commands to run on $target after rsync has been
-   *   performed.
-   *
    * @usage ambientimpact:rsync @staging @live
    *   Rsync @staging to @live using default options.
    *
@@ -67,13 +69,6 @@ class RsyncCommand extends AbstractSyncCommand {
    *   public and private files.
    *
    * @aliases ai:rsync
-   *
-   * @todo Add arguments and options to target-post-drush-commands, or
-   *   generalize them so that any shell commands can be specified.
-   *
-   * @todo Can we use the @link https://www.drush.org/deploycommand/ deploy
-   *   command @endlink in 'target-post-drush-commands' to condense it and allow
-   *   the use of deploy hooks?
    */
   public function rsync(string $source, string $target, array $options = [
     'exclude-files' => true,
@@ -85,16 +80,6 @@ class RsyncCommand extends AbstractSyncCommand {
     ],
     'delete' => true,
     'target-maintenance' => true,
-    'target-post-drush-commands' => [
-      // This is necessary so that Drupal doesn't throw an error if a new module
-      // or theme was added by the rsync and then set to be enabled in the
-      // subsequent config import.
-      'cache:rebuild',
-      'config:import',
-      'updb',
-      // Cache rebuild a second time after everything is done.
-      'cache:rebuild',
-    ],
   ]): void {
 
     if (
@@ -134,14 +119,10 @@ class RsyncCommand extends AbstractSyncCommand {
     /** @var \Drush\Config\DrushConfig Configuration for this command. */
     $config = $this->getConfig();
 
-    /** @var \Consolidation\SiteAlias\SiteAliasInterface The source site alias record. */
-    $sourceRecord = $this->siteAliasManager()->getAlias($source);
-
-    /** @var \Consolidation\SiteAlias\SiteAliasInterface The target site alias record. */
-    $targetRecord = $this->siteAliasManager()->getAlias($target);
-
     if ($options['target-maintenance']) {
-      $this->addMaintenanceModeTask($targetRecord, $collection, $options, true);
+      $this->addMaintenanceModeTask(
+        $this->targetRecord, $collection, $options, true
+      );
     }
 
     /** @var \Robo\Task\Remote\Rsync The Robo rsync task. */
@@ -194,21 +175,28 @@ class RsyncCommand extends AbstractSyncCommand {
       $rsyncTask->excludeVcs();
     }
 
-    // Add the Drush commands to be run on the target site after the sync.
-    foreach ($options['target-post-drush-commands'] as $command) {
-      $collection->addCode(function() use (
-        $drushCommand, $command, $targetRecord
-      ) {
-        $drushCommand->processManager()->drush(
-          $targetRecord, $command, []
-        )
-        ->mustRun();
-      });
-    }
+    // Add post-rsync commands.
+    $this->addSyncTasks($collection, $this->getSyncCommands(
+      'ambientimpact-rsync-post-commands', [
+        // This first cache rebuild is necessary so that Drupal doesn't throw an
+        // error if a new module or theme was added by the rsync and then set to
+        // be enabled in the subsequent config import.
+        //
+        // @todo Change this to "cache:clear bin default" so we don't clear
+        //   render and other caches.
+        'cache-rebuild-pre'   => [$this->targetRecord, 'cache:rebuild'],
+        'config-import'       => [$this->targetRecord, 'config:import'],
+        'updatedb'            => [
+          $this->targetRecord, 'updatedb', [], ['cache-clear' => false]
+        ],
+        // Cache rebuild a second time after everything is done.
+        'cache-rebuild-post'  => [$this->targetRecord, 'cache:rebuild'],
+      ]
+    ));
 
     if ($options['target-maintenance']) {
       $this->addMaintenanceModeTask(
-        $targetRecord, $collection, $options, false
+        $this->targetRecord, $collection, $options, false
       );
     }
 

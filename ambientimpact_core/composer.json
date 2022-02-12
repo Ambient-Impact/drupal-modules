@@ -26,6 +26,7 @@
     }
   },
   "require": {
+    "php": "^8",
     "drupal/hook_event_dispatcher": "^2.0",
     "npm-asset/chillout": "^3.1.7",
     "npm-asset/js-cookie": "~2.1.2",
