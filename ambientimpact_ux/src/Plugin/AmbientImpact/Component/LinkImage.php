@@ -367,8 +367,14 @@ class LinkImage extends ComponentBase {
         }
       }
 
-      // Render the content.
-      $linkContentRendered = $linkContentCrawler->html();
+      // Try to render the content, returning if the Symfony DomCrawler throws
+      // an exception.
+      try {
+        $linkContentRendered = $linkContentCrawler->html();
+
+      } catch (\Exception $exception) {
+        return;
+      }
 
       // If the original link text was a string, set the HTML as a string.
       if (is_string($link['text'])) {
