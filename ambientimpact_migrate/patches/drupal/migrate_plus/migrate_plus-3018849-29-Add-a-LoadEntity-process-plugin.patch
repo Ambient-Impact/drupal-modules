@@ -1,0 +1,712 @@
+diff --git a/src/Plugin/migrate/process/EntityLoad.php b/src/Plugin/migrate/process/EntityLoad.php
+new file mode 100644
+index 0000000..48aa4fd
+--- /dev/null
++++ b/src/Plugin/migrate/process/EntityLoad.php
+@@ -0,0 +1,177 @@
++<?php
++
++namespace Drupal\migrate_plus\Plugin\migrate\process;
++
++use Drupal\Core\Entity\ContentEntityInterface;
++use Drupal\Core\Entity\EntityInterface;
++use Drupal\Core\Entity\EntityTypeManagerInterface;
++use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
++use Drupal\migrate\MigrateExecutableInterface;
++use Drupal\migrate\ProcessPluginBase;
++use Drupal\migrate\Row;
++use Symfony\Component\DependencyInjection\ContainerInterface;
++
++/**
++ * Loads an entity.
++ *
++ * This loads an entity of specified entity type by its ID. The provided array
++ * value usually will be passed to the get process plugin to extract field
++ * values. It there is no entity with that ID, null is returned,
++ * so this must be checked e.g. with the skip_on_empty plugin.
++ *
++ * For content entities, if a langcode is given, that translation is loaded.
++ * The langcode is a reference so can be dynamic.
++ *
++ * Example:
++ *
++ * @code
++ * process:
++ *   _noderef:
++ *     plugin: entity_load
++ *     source: field_noderef/0/target_id
++ *     entity_type: node
++ *     langcode: @_langcode
++ *   name: "@_noderef/field_name/0/value"
++ * @endcode
++ *
++ * @MigrateProcessPlugin(
++ *   id = "entity_load",
++ * )
++ */
++class EntityLoad extends ProcessPluginBase implements ContainerFactoryPluginInterface {
++
++  /**
++   * The entity type manager.
++   *
++   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
++   */
++  protected $entityTypeManager;
++
++  /**
++   * The langcode reference. False if not configured.
++   *
++   * @var string
++   */
++  protected $langCodeRef;
++
++  /**
++   * The storage for the configured entity type.
++   *
++   * @var \Drupal\Core\Entity\EntityStorageInterface|\Drupal\Core\Entity\RevisionableStorageInterface
++   */
++  protected $entityStorage;
++
++  /**
++   * Flag indicating whether there are multiple values.
++   *
++   * @var bool
++   */
++  protected $multiple;
++
++  /**
++   * Creates a EntityValue instance.
++   *
++   * @param array $configuration
++   *   A configuration array containing information about the plugin instance.
++   * @param string $plugin_id
++   *   The plugin_id for the plugin instance.
++   * @param mixed $plugin_definition
++   *   The plugin implementation definition.
++   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
++   *   The entity type manager.
++   *
++   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
++   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
++   * @throws \InvalidArgumentException
++   */
++  public function __construct(
++    array $configuration,
++    $plugin_id,
++    $plugin_definition,
++    EntityTypeManagerInterface $entity_type_manager
++  ) {
++    parent::__construct($configuration, $plugin_id, $plugin_definition);
++    $this->entityTypeManager = $entity_type_manager;
++
++    if (empty($this->configuration['entity_type'])) {
++      throw new \InvalidArgumentException("'entity_type' configuration must be specified for the entity_load process plugin.");
++    }
++    $entity_type = $this->configuration['entity_type'];
++    $this->entityStorage = $this->entityTypeManager->getStorage($entity_type);
++
++    $this->langCodeRef = isset($this->configuration['langcode']) ? $this->configuration['langcode'] : NULL;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
++    return new static(
++      $configuration,
++      $plugin_id,
++      $plugin_definition,
++      $container->get('entity_type.manager')
++    );
++  }
++
++  /**
++   * {@inheritdoc}
++   *
++   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
++   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
++   * @throws \Drupal\migrate\MigrateException
++   */
++  public function transform($value, MigrateExecutableInterface $migrateExecutable, Row $row, $destinationProperty) {
++
++    $this->multiple = is_array($value);
++    if (!isset($value)) {
++      return [];
++    }
++    $ids = $this->multiple ? $value : [$value];
++    $entities = $this->loadEntities($ids);
++
++    $langcode = $this->langCodeRef;
++    $arrays = array_map(function (EntityInterface $entity) use ($langcode) {
++      if ($entity instanceof ContentEntityInterface) {
++        if ($langcode) {
++          $entity = $entity->getTranslation($langcode);
++        }
++        else {
++          $entity = $entity->getUntranslated();
++        }
++      }
++      else {
++        if ($langcode) {
++          throw new \InvalidArgumentException('Langcode can only be used with content entities currently.');
++        }
++      }
++      return $entity->toArray();
++    }, $entities);
++
++    $return = $this->multiple ? array_values($arrays) : ($arrays ? reset($arrays) : []);
++
++    return $return;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function multiple() {
++    return $this->multiple;
++  }
++
++  /**
++   * Load entities.
++   *
++   * @param array $ids
++   *   The entity IDs.
++   *
++   * @return \Drupal\Core\Entity\EntityInterface[]
++   *   The entities.
++   */
++  protected function loadEntities(array $ids) {
++    $entities = $this->entityStorage->loadMultiple($ids);
++    return $entities;
++  }
++
++}
+diff --git a/src/Plugin/migrate/process/EntityLoadRevision.php b/src/Plugin/migrate/process/EntityLoadRevision.php
+new file mode 100644
+index 0000000..327cb7a
+--- /dev/null
++++ b/src/Plugin/migrate/process/EntityLoadRevision.php
+@@ -0,0 +1,59 @@
++<?php
++
++namespace Drupal\migrate_plus\Plugin\migrate\process;
++
++use Drupal\Core\Entity\EntityTypeManagerInterface;
++use Drupal\Core\Entity\RevisionableStorageInterface;
++
++/**
++ * Loads an entity revision.
++ *
++ * This loads an entity of specified entity type by its ID. The provided array
++ * value usually will be passed to the get process plugin to extract field
++ * values. It there is no entity with that ID, null is returned,
++ * so this must be checked e.g. with the skip_on_empty plugin.
++ *
++ * For content entities, if a langcode is given, that translation is loaded.
++ * The langcode is a reference so can be dynamic.
++ *
++ * Example:
++ *
++ * @code
++ * process:
++ *   _paragraph_foo:
++ *     plugin: entity_load
++ *     source: field_paragraph_foo/0/target_revision_id
++ *     entity_type: paragraph
++ *   name: "@_paragraph_foo/field_name/0/value"
++ * @endcode
++ *
++ * @MigrateProcessPlugin(
++ *   id = "entity_load_revision",
++ * )
++ */
++class EntityLoadRevision extends EntityLoad {
++
++  /**
++   * {@inheritdoc}
++   */
++  public function __construct(
++    array $configuration,
++    $plugin_id,
++    $plugin_definition,
++    EntityTypeManagerInterface $entity_type_manager
++  ) {
++    parent::__construct($configuration, $plugin_id, $plugin_definition, $entity_type_manager);
++    if (!($this->entityStorage instanceof RevisionableStorageInterface)) {
++      throw new \InvalidArgumentException("'entity_type' configuration must be instance of RevisionableStorageInterface");
++    }
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function loadEntities(array $ids) {
++    $entities = $this->entityStorage->loadMultipleRevisions($ids);
++    return $entities;
++  }
++
++}
+diff --git a/tests/src/Kernel/Plugin/migrate/process/EntityLoadRevisionTest.php b/tests/src/Kernel/Plugin/migrate/process/EntityLoadRevisionTest.php
+new file mode 100644
+index 0000000..dcfdcbe
+--- /dev/null
++++ b/tests/src/Kernel/Plugin/migrate/process/EntityLoadRevisionTest.php
+@@ -0,0 +1,272 @@
++<?php
++
++namespace Drupal\Tests\migrate_plus\Kernel\Plugin\migrate\process;
++
++use Drupal\field\Entity\FieldConfig;
++use Drupal\field\Entity\FieldStorageConfig;
++use Drupal\KernelTests\KernelTestBase;
++use Drupal\migrate\MigrateExecutableInterface;
++use Drupal\migrate\Row;
++use Drupal\node\Entity\Node;
++use Drupal\node\Entity\NodeType;
++use Drupal\paragraphs\Entity\Paragraph;
++use Drupal\paragraphs\Entity\ParagraphsType;
++use Drupal\language\Entity\ConfigurableLanguage;
++
++/**
++ * Tests the entity_load plugin.
++ *
++ * @coversDefaultClass \Drupal\migrate_plus\Plugin\migrate\process\EntityLoadRevision
++ * @group migrate_drupal
++ * @requires module paragraphs
++ */
++class EntityLoadRevisionTest extends KernelTestBase {
++
++  /**
++   * The generated title.
++   *
++   * @var string
++   */
++  protected $oldTitle;
++
++  /**
++   * The generated title.
++   *
++   * @var string
++   */
++  protected $title;
++
++  /**
++   * The generated Spanish title.
++   *
++   * @var string
++   */
++  protected $titleSpanish;
++
++  /**
++   * The generated node old revision ID.
++   *
++   * @var int
++   */
++  protected $revisionIdOld;
++
++  /**
++   * The generated node revision ID.
++   *
++   * @var int
++   */
++  protected $revisionId;
++
++  /**
++   * The plugin to test.
++   *
++   * @var \Drupal\migrate_plus\Plugin\migrate\process\EntityLoad
++   */
++  protected $plugin;
++
++
++  /**
++   * {@inheritdoc}
++   */
++  public static $modules = [
++    'migrate',
++    'migrate_plus',
++    'system',
++    'node',
++    'user',
++    'language',
++    'paragraphs',
++    'field',
++    'entity_reference_revisions',
++    'file',
++  ];
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function setUp() {
++    parent::setUp();
++    $values = ['type' => 'article', 'name' => 'Article'];
++    $node_type = NodeType::create($values);
++    $node_type->save();
++    ConfigurableLanguage::createFromLangcode('es')->save();
++    $this->installSchema('system', ['sequences']);
++    $this->installSchema('node', 'node_access');
++    $this->installEntitySchema('user');
++    $this->installEntitySchema('node');
++    $this->installEntitySchema('paragraph');
++    \Drupal::moduleHandler()->loadInclude('paragraphs', 'install');
++
++    $this->title = $this->randomString();
++    $this->oldTitle = $this->randomString();
++    $this->titleSpanish = $this->randomString();
++
++    // Create the paragraph type.
++    $paragraph_type = ParagraphsType::create([
++      'label' => 'test_text',
++      'id' => 'test_text',
++    ]);
++    $paragraph_type->save();
++
++    // Add a title field to paragraph type.
++    $field_storage = FieldStorageConfig::create([
++      'field_name' => 'title',
++      'entity_type' => 'paragraph',
++      'type' => 'string',
++      'cardinality' => '1',
++    ]);
++    $field_storage->save();
++    $field = FieldConfig::create([
++      'field_storage' => $field_storage,
++      'bundle' => 'test_text',
++    ]);
++    $field->save();
++
++    // Add a paragraph field to the article.
++    $field_storage = FieldStorageConfig::create([
++      'field_name' => 'node_paragraph_field',
++      'entity_type' => 'node',
++      'type' => 'entity_reference_revisions',
++      'cardinality' => '-1',
++      'settings' => [
++        'target_type' => 'paragraph',
++      ],
++    ]);
++    $field_storage->save();
++    $field = FieldConfig::create([
++      'field_storage' => $field_storage,
++      'bundle' => 'article',
++    ]);
++    $field->save();
++
++    // Create a paragraph.
++    $paragraph = Paragraph::create([
++      'title' => $this->oldTitle,
++      'type' => 'test_text',
++    ]);
++    $paragraph->save();
++    $this->revisionIdOld = $paragraph->getRevisionId();
++
++    $paragraph->setNewRevision(TRUE);
++    $paragraph->set('title', $this->title);
++    $paragraph->save();
++
++    /** @var \Drupal\paragraphs\Entity\Paragrap $paragraph_es */
++    $paragraph_es = $paragraph->addTranslation('es');
++    $paragraph_es->set('title', $this->titleSpanish);
++    $paragraph_es->save();
++
++    // Create a node with two paragraphs.
++    $node = Node::create([
++      'title' => $this->randomMachineName(),
++      'type' => 'article',
++      'node_paragraph_field' => [$paragraph],
++    ]);
++    $node->save();
++
++    $this->revisionId = $paragraph->getRevisionId();
++  }
++
++  /**
++   * Test the EntityLoad plugin succeeding.
++   *
++   * @covers ::transform
++   */
++  public function testEntityLoadSuccess() {
++    $this->plugin = \Drupal::service('plugin.manager.migrate.process')
++      ->createInstance('entity_load_revision', [
++        'entity_type' => 'paragraph',
++        'lang' => 'en',
++      ]);
++    $executable = $this->prophesize(MigrateExecutableInterface::class)
++      ->reveal();
++    $row = new Row();
++
++    // Ensure that the entity is returned if it really exists.
++    $value = $this->plugin->transform($this->revisionId, $executable, $row,
++      'dummmy');
++    $this->assertSame($this->title, $value['title'][0]['value']);
++    $this->assertFalse($this->plugin->multiple());
++
++    // Ensure that the entity is returned old revision if it really exists.
++    $value = $this->plugin->transform($this->revisionIdOld, $executable, $row,
++      'dummmy');
++    $this->assertSame($this->oldTitle, $value['title'][0]['value']);
++    $this->assertFalse($this->plugin->multiple());
++
++    // Ensure that an array of entities is returned.
++    $value = $this->plugin->transform([$this->revisionId], $executable, $row,
++      'dummmy');
++    $this->assertSame($this->title, $value[0]['title'][0]['value']);
++    $this->assertTrue($this->plugin->multiple());
++
++    // Ensure that the plugin returns [] if the entity doesn't exist.
++    $value = $this->plugin->transform(9999999, $executable, $row, 'dummmy');
++    $this->assertSame([], $value);
++    $this->assertFalse($this->plugin->multiple());
++
++    // Ensure that the plugin returns [] if NULL is passed.
++    $value = $this->plugin->transform(NULL, $executable, $row, 'dummmy');
++    $this->assertSame([], $value);
++    $this->assertFalse($this->plugin->multiple());
++  }
++
++  /**
++   * Test the EntityLoad plugin succeeding.
++   *
++   * @covers ::transform
++   */
++  public function testEntityLoadLangSuccess() {
++    $this->plugin = \Drupal::service('plugin.manager.migrate.process')
++      ->createInstance('entity_load_revision', [
++        'entity_type' => 'paragraph',
++        'langcode' => 'es',
++      ]);
++    $executable = $this->prophesize(MigrateExecutableInterface::class)
++      ->reveal();
++    $row = new Row();
++
++    // Ensure that the entity is returned if it really exists.
++    $value = $this->plugin->transform($this->revisionId, $executable, $row,
++      'dummmy');
++    $this->assertSame($this->titleSpanish, $value['title'][0]['value']);
++    $this->assertFalse($this->plugin->multiple());
++
++    // Ensure that an array of entities is returned.
++    $value = $this->plugin->transform([$this->revisionId], $executable, $row,
++      'dummmy');
++    $this->assertSame($this->titleSpanish, $value[0]['title'][0]['value']);
++    $this->assertTrue($this->plugin->multiple());
++  }
++
++  /**
++   * Test the EntityLoad plugin throwing.
++   *
++   * @param mixed $entity_type
++   *   the Entity type.
++   *
++   * @covers ::__construct
++   * @dataProvider entityLoadFailureConfigData
++   */
++  public function testEntityLoadConfig($entity_type) {
++    $this->setExpectedException(\InvalidArgumentException::class);
++    $plugin = \Drupal::service('plugin.manager.migrate.process')
++      ->createInstance('entity_load', [
++        'entity_type' => $entity_type,
++      ]);
++  }
++
++  /**
++   * Provides data for entityLoadFailureConfigData.
++   *
++   * @return array
++   *   The data.
++   */
++  public function entityLoadFailureConfigData() {
++    return [
++      [''],
++      [NULL],
++    ];
++  }
++
++}
+diff --git a/tests/src/Kernel/Plugin/migrate/process/EntityLoadTest.php b/tests/src/Kernel/Plugin/migrate/process/EntityLoadTest.php
+new file mode 100644
+index 0000000..43e35ae
+--- /dev/null
++++ b/tests/src/Kernel/Plugin/migrate/process/EntityLoadTest.php
+@@ -0,0 +1,180 @@
++<?php
++
++namespace Drupal\Tests\migrate_plus\Kernel\Plugin\migrate\process;
++
++use Drupal\KernelTests\KernelTestBase;
++use Drupal\migrate\MigrateExecutableInterface;
++use Drupal\migrate\Row;
++use Drupal\node\Entity\Node;
++use Drupal\language\Entity\ConfigurableLanguage;
++
++/**
++ * Tests the entity_load plugin.
++ *
++ * @coversDefaultClass \Drupal\migrate_plus\Plugin\migrate\process\EntityLoad
++ * @group migrate_drupal
++ */
++class EntityLoadTest extends KernelTestBase {
++
++  /**
++   * The generated title.
++   *
++   * @var string
++   */
++  protected $title;
++
++  /**
++   * The generated Spanish title.
++   *
++   * @var string
++   */
++  protected $titleSpanish;
++
++  /**
++   * The generated node ID.
++   *
++   * @var int
++   */
++  protected $uid;
++
++  /**
++   * The plugin to test.
++   *
++   * @var \Drupal\migrate_plus\Plugin\migrate\process\EntityLoad
++   */
++  protected $plugin;
++
++
++  /**
++   * {@inheritdoc}
++   */
++  public static $modules = [
++    'migrate',
++    'migrate_plus',
++    'system',
++    'node',
++    'user',
++    'language',
++  ];
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function setUp() {
++    parent::setUp();
++    ConfigurableLanguage::createFromLangcode('es')->save();
++    $this->installSchema('system', ['sequences']);
++    $this->installSchema('node', 'node_access');
++    $this->installEntitySchema('user');
++    $this->installEntitySchema('node');
++
++    $this->title = $this->randomString();
++    $this->titleSpanish = $this->randomString();
++
++    $node = Node::create([
++      'type' => 'page',
++      'title' => $this->title,
++      'langcode' => 'en',
++    ]);
++    $node->save();
++
++    $node_es = $node->addTranslation('es');
++    $node_es->setTitle($this->titleSpanish);
++    $node_es->save();
++
++    $this->uid = $node->id();
++  }
++
++  /**
++   * Test the EntityLoad plugin succeeding.
++   *
++   * @covers ::transform
++   */
++  public function testEntityLoadSuccess() {
++    $this->plugin = \Drupal::service('plugin.manager.migrate.process')
++      ->createInstance('entity_load', [
++        'entity_type' => 'node',
++        'lang' => 'en',
++      ]);
++    $executable = $this->prophesize(MigrateExecutableInterface::class)
++      ->reveal();
++    $row = new Row();
++
++    // Ensure that the entity is returned if it really exists.
++    $value = $this->plugin->transform($this->uid, $executable, $row, 'dummmy');
++    $this->assertSame($this->title, $value['title'][0]['value']);
++    $this->assertFalse($this->plugin->multiple());
++
++    // Ensure that an array of entities is returned.
++    $value = $this->plugin->transform([$this->uid], $executable, $row, 'dummmy');
++    $this->assertSame($this->title, $value[0]['title'][0]['value']);
++    $this->assertTrue($this->plugin->multiple());
++
++    // Ensure that the plugin returns [] if the entity doesn't exist.
++    $value = $this->plugin->transform(9999999, $executable, $row, 'dummmy');
++    $this->assertSame([], $value);
++    $this->assertFalse($this->plugin->multiple());
++
++    // Ensure that the plugin returns [] if NULL is passed.
++    $value = $this->plugin->transform(NULL, $executable, $row, 'dummmy');
++    $this->assertSame([], $value);
++    $this->assertFalse($this->plugin->multiple());
++  }
++
++  /**
++   * Test the EntityLoad plugin succeeding.
++   *
++   * @covers ::transform
++   */
++  public function testEntityLoadLangSuccess() {
++    $this->plugin = \Drupal::service('plugin.manager.migrate.process')
++      ->createInstance('entity_load', [
++        'entity_type' => 'node',
++        'langcode' => 'es',
++      ]);
++    $executable = $this->prophesize(MigrateExecutableInterface::class)
++      ->reveal();
++    $row = new Row();
++
++    // Ensure that the entity is returned if it really exists.
++    $value = $this->plugin->transform($this->uid, $executable, $row, 'dummmy');
++    $this->assertSame($this->titleSpanish, $value['title'][0]['value']);
++    $this->assertFalse($this->plugin->multiple());
++
++    // Ensure that an array of entities is returned.
++    $value = $this->plugin->transform([$this->uid], $executable, $row, 'dummmy');
++    $this->assertSame($this->titleSpanish, $value[0]['title'][0]['value']);
++    $this->assertTrue($this->plugin->multiple());
++  }
++
++  /**
++   * Test the EntityLoad plugin throwing.
++   *
++   * @param mixed $entity_type
++   *   the Entity type.
++   *
++   * @covers ::__construct
++   * @dataProvider entityLoadFailureConfigData
++   */
++  public function testEntityLoadConfig($entity_type) {
++    $this->setExpectedException(\InvalidArgumentException::class);
++    $plugin = \Drupal::service('plugin.manager.migrate.process')
++      ->createInstance('entity_load', [
++        'entity_type' => $entity_type,
++      ]);
++  }
++
++  /**
++   * Provides data for entityLoadFailureConfigData.
++   *
++   * @return array
++   *   The data.
++   */
++  public function entityLoadFailureConfigData() {
++    return [
++      [''],
++      [NULL],
++    ];
++  }
++
++}

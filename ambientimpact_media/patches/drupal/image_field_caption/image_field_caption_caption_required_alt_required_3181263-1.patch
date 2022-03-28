@@ -1,0 +1,15 @@
+diff --git a/image_field_caption.module b/image_field_caption.module
+index f4fa48d..d79c70a 100644
+--- a/image_field_caption.module
++++ b/image_field_caption.module
+@@ -76,8 +76,8 @@ function _image_field_caption_widget_process($element, &$form_state, $form) {
+     '#default_value' => (!empty($element['#value']['caption'])) ? $element['#value']['caption'] : (!empty($element['#value']['image_field_caption']) ? $element['#value']['image_field_caption']['value'] : ''),
+     '#access' => (bool) $element['#value']['fids'],
+     '#format' => (!empty($field_value['format'])) ? $field_value['format'] : ((!empty($element['#value']['caption_format'])) ? $element['#value']['caption_format'] : 'plain_text'),
+-    '#required' => $element['#alt_field_required'],
+-    '#element_validate' => $element['#alt_field_required'] ? ['_image_field_caption_validate_required'] : [],
++    '#required' => $element['#caption_field_required'],
++    '#element_validate' => $element['#caption_field_required'] ? ['_image_field_caption_validate_required'] : [],
+   ];
+ 
+   return $element;

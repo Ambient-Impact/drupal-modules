@@ -1,0 +1,73 @@
+diff --git a/geshifield/geshifield.module b/geshifield/geshifield.module
+index 2ec686d..37157fe 100644
+--- a/geshifield/geshifield.module
++++ b/geshifield/geshifield.module
+@@ -15,34 +15,28 @@ use Drupal\geshifilter\GeshiFilterProcess;
+ function geshifield_theme() {
+   return [
+     'geshifield_default' => [
+-      'function' => 'geshifield_formatter_default',
+       'render element' => 'geshifield',
++      'variables' => [
++        'language' => NULL,
++        'sourcecode' => NULL
++      ],
+     ],
+   ];
+ }
+ 
+ /**
+- * Format the field.
++ * Prepares variables for geshifield theme.
+  *
+- * This function get the sorcecode and language and format it using geshi.
++ * Default template: geshifield_default.html.twig.
+  *
+  * @param array $variables
+- *   Variables disponible for theme.
+- *
+- * @return string
+- *   The HTML to show the code formated with geshi.
++ *   An associative array containing the following keys:
++ *   - entity: the entity the TOC belongs to.
++ *   - title: the TOC title.
++ *   - tag: the tag title.
+  */
+-function geshifield_formatter_default(array $variables) {
+-  $language = $variables['geshifield']['#language'];
+-  $sourcecode = $variables['geshifield']['#sourcecode'];
+-  $output = '';
+-  module_load_include('inc', 'geshifilter', 'geshifilter.pages');
+-  if ($sourcecode) {
+-    $output .= GeshiFilterProcess::geshiProcess($sourcecode, $language);
+-  }
+-  $elements = [];
+-  $elements[] = [
+-    '#markup' => $output,
+-  ];
+-  return $output;
++function template_preprocess_geshifield_default(&$variables) {
++  $language = $variables['language'];
++  $sourcecode = $variables['sourcecode'];
++  $variables['geshicode'] = GeshiFilterProcess::geshiProcess($sourcecode, $language);
+ }
+diff --git a/geshifield/templates/geshifield-default.html.twig b/geshifield/templates/geshifield-default.html.twig
+new file mode 100644
+index 0000000..a75fd80
+--- /dev/null
++++ b/geshifield/templates/geshifield-default.html.twig
+@@ -0,0 +1,14 @@
++{#
++/**
++ * @file
++ * Default theme implementation for a geshifield element.
++ *
++ * Available variables:
++ * - language: The language of the source code.
++ * - sourcecode: The original source code.
++ * - geshicode: The source code transformed by geshi.
++ *
++ * @see template_preprocess_geshifield_default()
++ */
++#}
++{{ geshicode | raw }}

@@ -19,10 +19,10 @@
   "extra": {
     "patches": {
       "drupal/core": {
-        "Migrate 'findMigrationDependencies' function throws error when 'process' param is null https://www.drupal.org/project/drupal/issues/2981837": "https://www.drupal.org/files/issues/2019-05-22/findMigrationDependencies-null-process-value-2981837-5.patch"
+        "Migrate 'findMigrationDependencies' function throws error when 'process' param is null: https://www.drupal.org/project/drupal/issues/2981837#comment-13117221": "https://raw.githubusercontent.com/Ambient-Impact/drupal-modules/4.x/ambientimpact_migrate/patches/drupal/core/findMigrationDependencies-null-process-value-2981837-5.patch"
       },
       "drupal/migrate_plus": {
-        "Add a LoadEntity process plugin [#3018849] https://www.drupal.org/project/migrate_plus/issues/3018849#comment-12928073": "https://www.drupal.org/files/issues/2019-01-15/migrate_plus-3018849-29-Add-a-LoadEntity-process-plugin.patch"
+        "Add a LoadEntity process plugin [#3018849] https://www.drupal.org/project/migrate_plus/issues/3018849#comment-12928073": "https://raw.githubusercontent.com/Ambient-Impact/drupal-modules/4.x/ambientimpact_migrate/patches/drupal/migrate_plus/migrate_plus-3018849-29-Add-a-LoadEntity-process-plugin.patch"
       }
     }
   }

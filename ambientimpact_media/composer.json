@@ -21,11 +21,11 @@
   "extra": {
     "patches": {
       "drupal/core": {
-        "Add a hook to modify oEmbed resource data (core 9.3.x) [#3042423]: https://www.drupal.org/project/drupal/issues/3042423#comment-14333467": "https://www.drupal.org/files/issues/2021-12-08/3042423-43.patch",
-        "Apply width and height attributes to responsive image tag (core 9.3.x) [#3192234]: https://www.drupal.org/project/drupal/issues/3192234#comment-14296101": "https://www.drupal.org/files/issues/2021-11-18/3192234-116.patch"
+        "Add a hook to modify oEmbed resource data (core 9.3.x) [#3042423]: https://www.drupal.org/project/drupal/issues/3042423#comment-14333467": "https://raw.githubusercontent.com/Ambient-Impact/drupal-modules/4.x/ambientimpact_media/patches/drupal/core/3042423-43.patch",
+        "Apply width and height attributes to responsive image tag (core 9.3.x) [#3192234]: https://www.drupal.org/project/drupal/issues/3192234#comment-14296101": "https://raw.githubusercontent.com/Ambient-Impact/drupal-modules/4.x/ambientimpact_media/patches/drupal/core/3192234-116.patch"
       },
       "drupal/image_field_caption": {
-        "Caption required incorrectly based on alt field required https://www.drupal.org/project/image_field_caption/issues/3181263 ": "https://www.drupal.org/files/issues/2020-11-07/image_field_caption_caption_required_alt_required_3181263-1.patch"
+        "Caption required incorrectly based on alt field required: https://www.drupal.org/project/image_field_caption/issues/3181263#comment-13895775": "https://raw.githubusercontent.com/Ambient-Impact/drupal-modules/4.x/ambientimpact_media/patches/drupal/image_field_caption/image_field_caption_caption_required_alt_required_3181263-1.patch"
       }
     }
   }
