@@ -1,0 +1,9 @@
+component.scroll_blocker:
+  css:
+    component:
+      scroll_blocker.css: {}
+  js:
+    scroll_blocker.js: {}
+  dependencies:
+    - ambientimpact_core/component.fastdom
+    - ambientimpact_ux/scrollbar_gutter

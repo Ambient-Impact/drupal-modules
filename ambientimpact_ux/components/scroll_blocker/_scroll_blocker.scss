@@ -1,0 +1,32 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Scroll blocker component partial
+// -----------------------------------------------------------------------------
+
+@use 'sass/helpers/selector';
+
+///
+/// Class applied to an element when scrolling is blocked.
+///
+$_blocked-class: 'scroll-blocked';
+
+///
+/// Apply styles when scroll blocking is in effect.
+///
+/// @content The styles to apply when scroll blocking is in effect.
+///
+/// @require {mixin} selector.root-conditions
+/// @require {variable} $blocked-class
+///
+/// @todo Should this be split in to two mixins, or a parameter added for
+///   whether to target the <html> element at all, or to specify which selector
+///   to target with a default of 'html'?
+///
+@mixin on-scroll-blocked {
+  @include selector.root-conditions(('.#{$_blocked-class}'), 'html') {
+    @content;
+  }
+
+  .#{$_blocked-class} {
+    @content;
+  }
+}

@@ -1,0 +1,28 @@
+// -----------------------------------------------------------------------------
+//   Ambient.Impact - UX - Scroll blocker component
+// -----------------------------------------------------------------------------
+
+@use 'sass/helpers/selector';
+@use '_scroll_blocker' as scroll-blocker;
+
+@include scroll-blocker.on-scroll-blocked {
+
+  // Supported by every modern browser.
+  overflow-y: hidden;
+  // Supported by more recent modern browsers.
+  overflow-y: clip;
+  // Cutting edge, but only supported by Firefox 69+ at time of writing.
+  overflow-block: clip;
+
+  // This uses the scrollbar gutter component's custom property, when available,
+  // to prevent layout shifting when the scrollbars are hidden versus when
+  // they're visible, on platforms where the scrollbars take up space and aren't
+  // floating on top of content, i.e. usually desktop.
+  @include selector.root-conditions(('[dir=ltr]'), 'html') {
+    padding-right: var(--scrollbar-gutter, 0) !important;
+  }
+  @include selector.root-conditions(('[dir=rtl]'), 'html') {
+    padding-left: var(--scrollbar-gutter, 0) !important;
+  }
+
+}
