@@ -6,3 +6,4 @@ component.overlay:
     overlay.js: {}
   dependencies:
     - ambientimpact_core/ally.js
+    - ambientimpact_ux/component.scroll_blocker

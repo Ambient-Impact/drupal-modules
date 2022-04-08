@@ -3,6 +3,7 @@
 // -----------------------------------------------------------------------------
 
 AmbientImpact.onGlobals(['ally.maintain.disabled'], function() {
+AmbientImpact.on(['scrollBlocker'], function(aiScrollBlocker, $) {
 AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
 
   'use strict';
@@ -129,7 +130,9 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
 
     var data = this;
 
-    disabledPromise.then(function() {
+    this.scrollBlocker.block(data.$overlay)
+    .then(disabledPromise)
+    .then(function() {
 
       data.disabledHandle = ally.maintain.disabled({
         filter:   data.settings.modalFilter,
@@ -172,12 +175,21 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
     var data = this;
 
     disabledPromise.then(function() {
+
       data.disabledHandle.disengage();
 
       data.disabledHandle = null;
 
+    }).then(function() {
+
+      return data.scrollBlocker.unblock(data.$overlay);
+
+    }).then(function() {
+
       data.$overlay.trigger('overlayHidden');
+
     });
+
   };
 
   /**
@@ -197,6 +209,12 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
    *   Creates an overlay.
    */
   function destroy() {
+
+    // Unblock scrolling due to the overlay if currently active tell the scroll
+    // blocker it can destroy if no blocking elements are left.
+    this.scrollBlocker.unblock(this.$overlay);
+    this.scrollBlocker.destroy();
+
     this.$overlay.remove();
 
     // If the ally.maintain.disabled handle is found, disengage the service.
@@ -274,6 +292,7 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
       isActive:       isActive,
       destroy:        destroy,
       disabledHandle: null,
+      scrollBlocker:  aiScrollBlocker.create(),
       settings:       settings
     };
 
@@ -287,5 +306,6 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
     $('body').removeClass(overlayActiveBodyClass);
   });
 
+});
 });
 });
