@@ -123,6 +123,8 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
     this.$overlay.trigger('overlayShowing');
 
     if (this.settings.modal === false) {
+      // @todo Trigger 'overlayShown' here?
+
       return;
     }
 
