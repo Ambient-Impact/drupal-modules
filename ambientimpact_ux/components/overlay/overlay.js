@@ -34,6 +34,9 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
    *
    * The following keys are supported:
    *
+   * - blockScroll: If true, will block scrolling while the overlay is open via
+   *   the scroll block component.
+   *
    * - elementType: the type of HTML element of the newly created overlay
    *   element.
    *
@@ -56,6 +59,7 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
    *   ally.maintain.disabled() documentation.
    */
   this.defaults = {
+    blockScroll:  true,
     elementType:  'div',
     modal:        false,
     modalContext: document.documentElement,
@@ -122,6 +126,20 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
 
     this.$overlay.trigger('overlayShowing');
 
+    /**
+     * The scroll blocker Promise or an already resolved one if disabled.
+     *
+     * @type {Promise}
+     */
+    let scrollBlockerPromise;
+
+    if (this.settings.blockScroll === true) {
+      scrollBlockerPromise = this.scrollBlocker.block(this.$overlay);
+
+    } else {
+      scrollBlockerPromise = Promise.resolve();
+    }
+
     if (this.settings.modal === false) {
       // @todo Trigger 'overlayShown' here?
 
@@ -132,9 +150,7 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
 
     var data = this;
 
-    this.scrollBlocker.block(data.$overlay)
-    .then(disabledPromise)
-    .then(function() {
+    scrollBlockerPromise.then(disabledPromise).then(function() {
 
       data.disabledHandle = ally.maintain.disabled({
         filter:   data.settings.modalFilter,
@@ -169,7 +185,13 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
       this.disabledHandle === null ||
       !('disengage' in this.disabledHandle)
     ) {
+
+      if (this.settings.blockScroll === true) {
+        this.scrollBlocker.unblock(this.$overlay);
+      }
+
       return;
+
     }
 
     disabledPromise = getDisabledPromise(disabledPromise);
