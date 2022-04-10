@@ -141,9 +141,11 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
     }
 
     if (this.settings.modal === false) {
-      // @todo Trigger 'overlayShown' here?
+
+      this.$overlay.trigger('overlayShown');
 
       return;
+
     }
 
     disabledPromise = getDisabledPromise(disabledPromise);
@@ -189,6 +191,8 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
       if (this.settings.blockScroll === true) {
         this.scrollBlocker.unblock(this.$overlay);
       }
+
+      this.$overlay.trigger('overlayHidden');
 
       return;
 
