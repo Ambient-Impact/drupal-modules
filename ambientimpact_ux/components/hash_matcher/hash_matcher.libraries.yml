@@ -1,0 +1,3 @@
+component.hash_matcher:
+  js:
+    hash_matcher.js: {}
