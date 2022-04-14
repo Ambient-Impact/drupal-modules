@@ -1,0 +1,6 @@
+component.layout_size_change:
+  js:
+    layout_size_change.js: {}
+  dependencies:
+    - ambientimpact_core/component.event.lazy_resize
+    - ambientimpact_core/component.fastdom
