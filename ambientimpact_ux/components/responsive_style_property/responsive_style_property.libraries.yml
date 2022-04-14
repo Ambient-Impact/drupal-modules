@@ -1,0 +1,6 @@
+component.responsive_style_property:
+  js:
+    responsive_style_property.js: {}
+  dependencies:
+    - ambientimpact_core/component.fastdom
+    - ambientimpact_ux/component.layout_size_change
