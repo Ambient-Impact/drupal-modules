@@ -25,6 +25,13 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
   'use strict';
 
   /**
+   * The maximum number of decimals to measure sub-pixel values to.
+   *
+   * @type {Number}
+   */
+  const decimals = 4;
+
+  /**
    * FastDom instance.
    *
    * @type {FastDom}
@@ -40,13 +47,6 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
    * @type {Number}
    */
   let scrollbarThickness;
-
-  /**
-   * The maximum number of decimals to measure sub-pixel values to.
-   *
-   * @type {Number}
-   */
-  const decimals = 4;
 
   /**
    * The scrollbar measure container element, wrapped in a jQuery collection.
