@@ -31,14 +31,14 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
    *
    * @type {Number}
    */
-  var scrollbarThickness;
+  let scrollbarThickness;
 
   /**
    * The maximum number of decimals to measure sub-pixel values to.
    *
    * @type {Number}
    */
-  var decimals = 4;
+  const decimals = 4;
 
   /**
    * The scrollbar measure container element, wrapped in a jQuery collection.
@@ -47,7 +47,7 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
    *
    * @type {jQuery}
    */
-  var $scrollbarMeasureContainer = $();
+  let $scrollbarMeasureContainer = $();
 
   /**
    * The scrollbar measure child element, wrapped in a jQuery collection.
@@ -58,7 +58,7 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
    *
    * @type {jQuery}
    */
-  var $scrollbarMeasureChild = $();
+  let $scrollbarMeasureChild = $();
 
   /**
    * Get the detected scrollbar thickness, in pixels.
@@ -102,13 +102,13 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
     }
 
     /** @type {Number} The full width of the container, including the scrollbar. */
-    var containerWidth = parseFloat(
+    let containerWidth = parseFloat(
       $scrollbarMeasureContainer[0].getBoundingClientRect().width
         .toFixed(decimals)
     );
 
     /** @type {Number} The full width of the child element. */
-    var childWidth = parseFloat(
+    let childWidth = parseFloat(
       $scrollbarMeasureChild[0].getBoundingClientRect().width.toFixed(decimals)
     );
 
@@ -136,7 +136,7 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
      *
      * @type {Number}
      */
-    var measured = getScrollbarThickness();
+    let measured = getScrollbarThickness();
 
     // Only update the property if the scrollbar thickness has actually changed
     // to avoid unnecessary DOM and style updates.
