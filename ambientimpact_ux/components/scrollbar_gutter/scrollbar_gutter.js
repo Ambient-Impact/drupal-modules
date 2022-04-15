@@ -39,6 +39,13 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
   const fastdom = aiFastDom.getInstance();
 
   /**
+   * Attribute name containing the scrollbar gutter value in pixels.
+   *
+   * @type {String}
+   */
+  const attributeName = 'data-scrollbar-gutter';
+
+  /**
    * Selector for the element that we set and update the custom property on.
    *
    * @type {String}
@@ -227,7 +234,9 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
 
     return fastdom.mutate(function() {
 
-      $(element).prop('style').setProperty(propertyName, thickness + 'px');
+      $(element)
+      .attr(attributeName, thickness)
+      .prop('style').setProperty(propertyName, thickness + 'px');
 
     });
 
@@ -271,7 +280,9 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
       destroyMeasure().then(function() {
         fastdom.mutate(function() {
 
-          behaviourTarget.style.removeProperty(propertyName);
+          $(behaviourTarget)
+          .removeAttr(attributeName)
+          .prop('style').removeProperty(propertyName);
 
         });
       });
