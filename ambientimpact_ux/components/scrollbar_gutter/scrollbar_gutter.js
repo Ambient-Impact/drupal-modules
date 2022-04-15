@@ -19,9 +19,17 @@
 //   CSS property that is currently not supported in any browsers that may
 //   eventually make this component unnecessary.
 
+AmbientImpact.on(['fastdom'], function(aiFastDom) {
 AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
 
   'use strict';
+
+  /**
+   * FastDom instance.
+   *
+   * @type {FastDom}
+   */
+  const fastdom = aiFastDom.getInstance();
 
   /**
    * The current scrollbar thickness.
@@ -61,20 +69,19 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
   let $scrollbarMeasureChild = $();
 
   /**
-   * Get the detected scrollbar thickness, in pixels.
+   * Build the measure elements if they don't exist yet.
    *
-   * @return {Number}
-   *   The scrollbar thickness, in pixels.
-   *
-   * @see https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
-   *   We use this rather than HTMLElement.offsetWidth as the latter rounds to
-   *   the nearest integer, while the value of
-   *   Element.getBoundingClientRect().width is a float and thus allows for more
-   *   precision.
+   * @return {Promise}
+   *   A Promise that resolves when the measure elements are created and
+   *   attached or an immediately resolved Promise if they already exist.
    */
-  function getScrollbarThickness() {
+  function buildMeasure() {
 
-    if ($scrollbarMeasureContainer.length === 0) {
+    if ($scrollbarMeasureContainer.length > 0) {
+      return Promise.resolve();
+    }
+
+    return fastdom.mutate(function() {
 
       $scrollbarMeasureContainer = $('<div></div>')
         .attr('id', 'overlay-scroll-scrollbar-measure')
@@ -99,28 +106,68 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
         .attr('id', 'overlay-scroll-scrollbar-measure-child')
         .appendTo($scrollbarMeasureContainer);
 
-    }
+    });
 
-    /** @type {Number} The full width of the container, including the scrollbar. */
-    let containerWidth = parseFloat(
-      $scrollbarMeasureContainer[0].getBoundingClientRect().width
-        .toFixed(decimals)
-    );
+  };
 
-    /** @type {Number} The full width of the child element. */
-    let childWidth = parseFloat(
-      $scrollbarMeasureChild[0].getBoundingClientRect().width.toFixed(decimals)
-    );
+  /**
+   * Destroy and detach the measure elements.
+   *
+   * @return {Promise}
+   *   Promise that resolves when the measure elements have been detached.
+   */
+  function destroyMeasure() {
 
-    return parseFloat((containerWidth - childWidth).toFixed(decimals));
+    return fastdom.mutate(function() {
+      $scrollbarMeasureContainer.remove();
+    });
 
   };
 
   /**
    * Get the detected scrollbar thickness, in pixels.
    *
-   * @return {Number}
-   *   The scrollbar thickness, in pixels.
+   * @return {Promise}
+   *   A Promise that resolves with the scrollbar thickness, in pixels.
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
+   *   We use this rather than HTMLElement.offsetWidth as the latter rounds to
+   *   the nearest integer, while the value of
+   *   Element.getBoundingClientRect().width is a float and thus allows for more
+   *   precision.
+   */
+  function getScrollbarThickness() {
+
+    return buildMeasure().then(function() {
+
+      return fastdom.measure(function() {
+
+        /** @type {Number} The full width of the container, including the scrollbar. */
+        let containerWidth = parseFloat(
+          $scrollbarMeasureContainer[0].getBoundingClientRect().width
+            .toFixed(decimals)
+        );
+
+        /** @type {Number} The full width of the child element. */
+        let childWidth = parseFloat(
+          $scrollbarMeasureChild[0].getBoundingClientRect().width.toFixed(
+            decimals
+          )
+        );
+
+        return parseFloat((containerWidth - childWidth).toFixed(decimals));
+
+      });
+
+    });
+
+  };
+
+  /**
+   * Get the detected scrollbar thickness, in pixels.
+   *
+   * @return {Promise}
+   *   A Promise that resolves with the scrollbar thickness, in pixels.
    */
   this.getScrollbarThickness = function() {
     return getScrollbarThickness();
@@ -131,23 +178,22 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
    */
   function resizeHandler() {
 
-    /**
-     * The scrollbar thickness measured just now.
-     *
-     * @type {Number}
-     */
-    let measured = getScrollbarThickness();
+    getScrollbarThickness().then(function(measured) {
 
-    // Only update the property if the scrollbar thickness has actually changed
-    // to avoid unnecessary DOM and style updates.
-    //
-    // @todo Should this have some tolerance for sub-pixel differences and only
-    //   update when the value has changed past a certain threshold?
-    if (measured !== scrollbarThickness) {
-      setProperty($('html'), measured);
-    }
+      // Only update the property if the scrollbar thickness has actually
+      // changed to avoid unnecessary DOM and style updates.
+      //
+      // @todo Should this have some tolerance for sub-pixel differences and
+      //   only update when the value has changed past a certain threshold?
+      if (measured !== scrollbarThickness) {
 
-    scrollbarThickness = measured;
+        scrollbarThickness = measured;
+
+        setProperty($('html'), measured);
+
+      }
+
+    });
 
   };
 
@@ -159,12 +205,21 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
    *
    * @param {Number} thickness
    *   The scrollbar thickness to set.
+   *
+   * @return {Promise}
+   *   Promise that resolves when style mutation is complete.
    */
   function setProperty(element, thickness) {
-    $(element).prop('style').setProperty(
-      '--scrollbar-gutter',
-      thickness + 'px'
-    );
+
+    return fastdom.mutate(function() {
+
+      $(element).prop('style').setProperty(
+        '--scrollbar-gutter',
+        thickness + 'px'
+      );
+
+    });
+
   };
 
   this.addBehaviour(
@@ -173,18 +228,45 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
     'html',
     function(context, settings) {
 
-      setProperty(this, getScrollbarThickness());
+      /**
+       * The behaviour target element.
+       *
+       * @type {HTMLElement}
+       */
+      let behaviourTarget = this;
 
-      $(window).on('lazyResize.aiScrollbarGutter', resizeHandler);
+      getScrollbarThickness().then(function(measured) {
+
+        return setProperty(behaviourTarget, measured);
+
+      }).then(function() {
+
+        $(window).on('lazyResize.aiScrollbarGutter', resizeHandler);
+
+      });
 
     },
     function(context, settings, trigger) {
 
+      /**
+       * The behaviour target element.
+       *
+       * @type {HTMLElement}
+       */
+      let behaviourTarget = this;
+
       $(window).off('lazyResize.aiScrollbarGutter', resizeHandler);
 
-      this.style.removeProperty('--scrollbar-gutter');
+      destroyMeasure().then(function() {
+        fastdom.mutate(function() {
+
+          behaviourTarget.style.removeProperty('--scrollbar-gutter');
+
+        });
+      });
 
     }
   );
 
+});
 });
