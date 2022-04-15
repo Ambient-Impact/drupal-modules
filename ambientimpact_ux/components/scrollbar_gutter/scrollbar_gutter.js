@@ -39,6 +39,20 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
   const fastdom = aiFastDom.getInstance();
 
   /**
+   * Selector for the element that we set and update the custom property on.
+   *
+   * @type {String}
+   */
+  const propertyTargetSelector = 'html';
+
+  /**
+   * CSS custom property name that we set and update.
+   *
+   * @type {String}
+   */
+  const propertyName = '--scrollbar-gutter';
+
+  /**
    * The current scrollbar thickness.
    *
    * This is used to store the measured scrollbar thickness to avoid writing to
@@ -189,7 +203,7 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
 
         scrollbarThickness = measured;
 
-        setProperty($('html'), measured);
+        setProperty($(propertyTargetSelector), measured);
 
       }
 
@@ -213,10 +227,7 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
 
     return fastdom.mutate(function() {
 
-      $(element).prop('style').setProperty(
-        '--scrollbar-gutter',
-        thickness + 'px'
-      );
+      $(element).prop('style').setProperty(propertyName, thickness + 'px');
 
     });
 
@@ -225,7 +236,7 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
   this.addBehaviour(
     'AmbientImpactScrollbarGutter',
     'ambientimpact-scrollbar-gutter',
-    'html',
+    propertyTargetSelector,
     function(context, settings) {
 
       /**
@@ -260,7 +271,7 @@ AmbientImpact.addComponent('scrollbarGutter', function(aiScrollbarGutter, $) {
       destroyMeasure().then(function() {
         fastdom.mutate(function() {
 
-          behaviourTarget.style.removeProperty('--scrollbar-gutter');
+          behaviourTarget.style.removeProperty(propertyName);
 
         });
       });
