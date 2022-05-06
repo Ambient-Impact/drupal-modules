@@ -6,4 +6,4 @@ component.scroll_blocker:
     scroll_blocker.js: {}
   dependencies:
     - ambientimpact_core/component.fastdom
-    - ambientimpact_ux/scrollbar_gutter
+    - ambientimpact_ux/component.scrollbar_gutter
