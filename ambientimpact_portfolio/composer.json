@@ -12,6 +12,6 @@
   ],
   "require": {
     "drupal/entityqueue": "^1.0",
-    "drupal/hook_event_dispatcher": "^2.0"
+    "drupal/hook_event_dispatcher": "^2.0 || ^3.0"
   }
 }

@@ -26,7 +26,7 @@
     }
   },
   "require": {
-    "drupal/hook_event_dispatcher": "^2.0",
+    "drupal/hook_event_dispatcher": "^2.0 || ^3.0",
     "npm-asset/chillout": "^3.1.7",
     "npm-asset/js-cookie": "~2.1.2",
     "drupal-library/jquery.onfontresize": "master",

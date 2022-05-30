@@ -2,8 +2,8 @@
 
 namespace Drupal\ambientimpact_media\Event\Media;
 
+use Drupal\Component\EventDispatcher\Event;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
-use Symfony\Component\EventDispatcher\Event;
 use Drupal\ambientimpact_media\AmbientImpactMediaEventInterface;
 
 /**
