@@ -1,0 +1,417 @@
+diff --git a/core/modules/breakpoint/src/BreakpointManager.php b/core/modules/breakpoint/src/BreakpointManager.php
+index 2e70062a85..6db88219a2 100644
+--- a/core/modules/breakpoint/src/BreakpointManager.php
++++ b/core/modules/breakpoint/src/BreakpointManager.php
+@@ -133,8 +133,9 @@ public function processDefinition(&$definition, $plugin_id) {
+     if (!in_array('1x', $definition['multipliers'])) {
+       $definition['multipliers'][] = '1x';
+     }
+-    // Ensure that multipliers are sorted correctly.
+-    sort($definition['multipliers']);
++    // Ensure that multipliers are sorted numerically so 1x, 1.5x and 2x
++    // come out in that order instead of 1.5x, 1x, 2x.
++    sort($definition['multipliers'], SORT_NUMERIC);
+   }
+ 
+   /**
+diff --git a/core/modules/responsive_image/responsive_image.post_update.php b/core/modules/responsive_image/responsive_image.post_update.php
+index 70093a9eda..0c790e51e9 100644
+--- a/core/modules/responsive_image/responsive_image.post_update.php
++++ b/core/modules/responsive_image/responsive_image.post_update.php
+@@ -5,6 +5,10 @@
+  * Post update functions for Responsive Image.
+  */
+ 
++use Drupal\Core\Config\Entity\ConfigEntityUpdater;
++use Drupal\responsive_image\ResponsiveImageConfigUpdater;
++use Drupal\responsive_image\ResponsiveImageStyleInterface;
++
+ /**
+  * Implements hook_removed_post_updates().
+  */
+@@ -13,3 +17,15 @@ function responsive_image_removed_post_updates() {
+     'responsive_image_post_update_recreate_dependencies' => '9.0.0',
+   ];
+ }
++
++/**
++ * Re-order mappings by breakpoint ID and descending numeric multiplier order.
++ */
++function responsive_image_post_update_order_multiplier_numerically(array &$sandbox = NULL): void {
++  $responsive_image_config_updater = \Drupal::classResolver(ResponsiveImageConfigUpdater::class);
++  assert($responsive_image_config_updater instanceof ResponsiveImageConfigUpdater);
++  $responsive_image_config_updater->setDeprecationsEnabled(FALSE);
++  \Drupal::classResolver(ConfigEntityUpdater::class)->update($sandbox, 'responsive_image_style', function (ResponsiveImageStyleInterface $responsive_image_style) use ($responsive_image_config_updater): bool {
++    return $responsive_image_config_updater->orderMultipliersNumerically($responsive_image_style);
++  });
++}
+diff --git a/core/modules/responsive_image/src/Entity/ResponsiveImageStyle.php b/core/modules/responsive_image/src/Entity/ResponsiveImageStyle.php
+index 508c8f4330..42151186ee 100644
+--- a/core/modules/responsive_image/src/Entity/ResponsiveImageStyle.php
++++ b/core/modules/responsive_image/src/Entity/ResponsiveImageStyle.php
+@@ -3,7 +3,9 @@
+ namespace Drupal\responsive_image\Entity;
+ 
+ use Drupal\Core\Config\Entity\ConfigEntityBase;
++use Drupal\Core\Entity\EntityStorageInterface;
+ use Drupal\image\Entity\ImageStyle;
++use Drupal\responsive_image\ResponsiveImageConfigUpdater;
+ use Drupal\responsive_image\ResponsiveImageStyleInterface;
+ 
+ /**
+@@ -110,6 +112,15 @@ public function __construct(array $values, $entity_type_id = 'responsive_image_s
+     parent::__construct($values, $entity_type_id);
+   }
+ 
++  /**
++   * {@inheritdoc}
++   */
++  public function preSave(EntityStorageInterface $storage) {
++    parent::preSave($storage);
++    $config_updater = \Drupal::classResolver(ResponsiveImageConfigUpdater::class);
++    $config_updater->orderMultipliersNumerically($this);
++  }
++
+   /**
+    * {@inheritdoc}
+    */
+@@ -117,22 +128,41 @@ public function addImageStyleMapping($breakpoint_id, $multiplier, array $image_s
+     // If there is an existing mapping, overwrite it.
+     foreach ($this->image_style_mappings as &$mapping) {
+       if ($mapping['breakpoint_id'] === $breakpoint_id && $mapping['multiplier'] === $multiplier) {
+-        $mapping = [
+-          'breakpoint_id' => $breakpoint_id,
+-          'multiplier' => $multiplier,
+-        ] + $image_style_mapping;
++        $mapping = $image_style_mapping + [
++            'breakpoint_id' => $breakpoint_id,
++            'multiplier' => $multiplier,
++          ];
+         $this->keyedImageStyleMappings = NULL;
++        $this->sortMappings();
+         return $this;
+       }
+     }
+-    $this->image_style_mappings[] = [
++    $this->image_style_mappings[] = $image_style_mapping + [
+       'breakpoint_id' => $breakpoint_id,
+       'multiplier' => $multiplier,
+-    ] + $image_style_mapping;
++    ];
+     $this->keyedImageStyleMappings = NULL;
++    $this->sortMappings();
+     return $this;
+   }
+ 
++  /**
++   * Sort mappings by breakpoint ID and multiplier.
++   */
++  protected function sortMappings(): void {
++    $breakpoints = \Drupal::service('breakpoint.manager')->getBreakpointsByGroup($this->getBreakpointGroup());
++    if (empty($breakpoints)) {
++      return;
++    }
++    usort($this->image_style_mappings, static function (array $a, array $b) use ($breakpoints): int {
++      $breakpoint_a = $breakpoints[$a['breakpoint_id']] ?? NULL;
++      $breakpoint_b = $breakpoints[$b['breakpoint_id']] ?? NULL;
++      $first = ((float) mb_substr($a['multiplier'], 0, -1)) * 100;
++      $second = ((float) mb_substr($b['multiplier'], 0, -1)) * 100;
++      return [$breakpoint_b ? $breakpoint_b->getWeight() : 0, $first] <=> [$breakpoint_a ? $breakpoint_a->getWeight() : 0, $second];
++    });
++  }
++
+   /**
+    * {@inheritdoc}
+    */
+diff --git a/core/modules/responsive_image/src/ResponsiveImageConfigUpdater.php b/core/modules/responsive_image/src/ResponsiveImageConfigUpdater.php
+new file mode 100644
+index 0000000000..ff28e96aa6
+--- /dev/null
++++ b/core/modules/responsive_image/src/ResponsiveImageConfigUpdater.php
+@@ -0,0 +1,71 @@
++<?php
++
++namespace Drupal\responsive_image;
++
++/**
++ * Provides a BC layer for modules providing old configurations.
++ *
++ * @internal
++ *   This class is only meant to fix outdated responsive image configuration and
++ *   its methods should not be invoked directly.
++ */
++final class ResponsiveImageConfigUpdater {
++
++  /**
++   * Flag determining whether deprecations should be triggered.
++   *
++   * @var bool
++   */
++  private $deprecationsEnabled = TRUE;
++
++  /**
++   * Stores which deprecations were triggered.
++   *
++   * @var bool
++   */
++  private $triggeredDeprecations = [];
++
++  /**
++   * Sets the deprecations enabling status.
++   *
++   * @param bool $enabled
++   *   Whether deprecations should be enabled.
++   */
++  public function setDeprecationsEnabled(bool $enabled): void {
++    $this->deprecationsEnabled = $enabled;
++  }
++
++  /**
++   * Re-order mappings by breakpoint ID and descending numeric multiplier order.
++   *
++   * @param \Drupal\responsive_image\ResponsiveImageStyleInterface $responsive_image_style
++   *   The responsive image style
++   *
++   * @return bool
++   *   Whether the responsive image style was updated.
++   *
++   *   TODO: when removing this, evaluate if we need to keep it permanently
++   *   to support an upgrade path (migration) from Drupal 7 picture module.
++   */
++  public function orderMultipliersNumerically(ResponsiveImageStyleInterface $responsive_image_style): bool {
++    $changed = FALSE;
++
++    $original_mapping_order = $responsive_image_style->getImageStyleMappings();
++    $responsive_image_style->removeImageStyleMappings();
++    foreach ($original_mapping_order as $mapping) {
++      $responsive_image_style->addImageStyleMapping($mapping['breakpoint_id'], $mapping['multiplier'], $mapping);
++    }
++    if ($responsive_image_style->getImageStyleMappings() !== $original_mapping_order) {
++      $changed = TRUE;
++    }
++
++    $deprecations_triggered = &$this->triggeredDeprecations['3267870'][$responsive_image_style->id()];
++    if ($this->deprecationsEnabled && $changed && !$deprecations_triggered) {
++      $deprecations_triggered = TRUE;
++      @trigger_error(sprintf('The responsive image style multiplier re-ordering update for "%s" is deprecated in drupal:9.4.0 and is removed from drupal:11.0.0. Profile, module and theme provided Responsive Image configuration should be updated to accommodate the changes described at https://www.drupal.org/node/3274803.', $responsive_image_style->id()), E_USER_DEPRECATED);
++    }
++
++    return $changed;
++  }
++
++}
+diff --git a/core/modules/responsive_image/tests/fixtures/update/responsive_image-order-multipliers-numerically.php b/core/modules/responsive_image/tests/fixtures/update/responsive_image-order-multipliers-numerically.php
+new file mode 100644
+index 0000000000..5d9237bc74
+--- /dev/null
++++ b/core/modules/responsive_image/tests/fixtures/update/responsive_image-order-multipliers-numerically.php
+@@ -0,0 +1,71 @@
++<?php
++
++/**
++ * @file
++ * Test fixture for re-ordering responsive image style multipliers numerically.
++ */
++
++use Drupal\Core\Database\Database;
++
++$connection = Database::getConnection();
++
++// Add a responsive image style.
++$styles = [];
++$styles['langcode'] = 'en';
++$styles['status'] = TRUE;
++$styles['dependencies']['config'][] = 'image.style.large';
++$styles['dependencies']['config'][] = 'image.style.medium';
++$styles['dependencies']['config'][] = 'image.style.thumbnail';
++$styles['id'] = 'responsive_image_style';
++$styles['uuid'] = '46225242-eb4c-4b10-9a8c-966130b18630';
++$styles['label'] = 'Responsive Image Style';
++$styles['breakpoint_group'] = 'responsive_image';
++$styles['fallback_image_style'] = 'medium';
++$styles['image_style_mappings'] = [
++  [
++    'image_mapping_type' => 'sizes',
++    'image_mapping' => [
++      'sizes' => '75vw',
++      'sizes_image_styles' => [
++        'medium',
++      ],
++    ],
++    'breakpoint_id' => 'responsive_image.viewport_sizing',
++    'multiplier' => '1.5x',
++  ],
++  [
++    'image_mapping_type' => 'sizes',
++    'image_mapping' => [
++      'sizes' => '100vw',
++      'sizes_image_styles' => [
++        'large',
++      ],
++    ],
++    'breakpoint_id' => 'responsive_image.viewport_sizing',
++    'multiplier' => '2x',
++  ],
++  [
++    'image_mapping_type' => 'sizes',
++    'image_mapping' => [
++      'sizes' => '50vw',
++      'sizes_image_styles' => [
++        'thumbnail',
++      ],
++    ],
++    'breakpoint_id' => 'responsive_image.viewport_sizing',
++    'multiplier' => '1x',
++  ],
++];
++
++$connection->insert('config')
++  ->fields([
++    'collection',
++    'name',
++    'data',
++  ])
++  ->values([
++    'collection' => '',
++    'name' => 'responsive_image.styles.responsive_image_style',
++    'data' => serialize($styles),
++  ])
++  ->execute();
+diff --git a/core/modules/responsive_image/tests/fixtures/update/responsive_image.php b/core/modules/responsive_image/tests/fixtures/update/responsive_image.php
+new file mode 100644
+index 0000000000..4c6277281b
+--- /dev/null
++++ b/core/modules/responsive_image/tests/fixtures/update/responsive_image.php
+@@ -0,0 +1,55 @@
++<?php
++
++/**
++ * @file
++ * Test fixture.
++ */
++
++use Drupal\Core\Database\Database;
++
++$connection = Database::getConnection();
++
++// Set the schema version.
++$connection->merge('key_value')
++  ->fields([
++    'value' => 'i:8000;',
++    'name' => 'responsive_image',
++    'collection' => 'system.schema',
++  ])
++  ->condition('collection', 'system.schema')
++  ->condition('name', 'responsive_image')
++  ->execute();
++
++// Update core.extension.
++$extensions = $connection->select('config')
++  ->fields('config', ['data'])
++  ->condition('collection', '')
++  ->condition('name', 'core.extension')
++  ->execute()
++  ->fetchField();
++$extensions = unserialize($extensions);
++$extensions['module']['responsive_image'] = 0;
++$connection->update('config')
++  ->fields(['data' => serialize($extensions)])
++  ->condition('collection', '')
++  ->condition('name', 'core.extension')
++  ->execute();
++
++// Add all responsive_image_removed_post_updates() as existing updates.
++require_once __DIR__ . '/../../../../responsive_image/responsive_image.post_update.php';
++$existing_updates = $connection->select('key_value')
++  ->fields('key_value', ['value'])
++  ->condition('collection', 'post_update')
++  ->condition('name', 'existing_updates')
++  ->execute()
++  ->fetchField();
++$existing_updates = unserialize($existing_updates);
++$existing_updates = array_merge(
++  $existing_updates,
++  array_keys(responsive_image_removed_post_updates())
++);
++$connection->update('key_value')
++  ->fields(['value' => serialize($existing_updates)])
++  ->condition('collection', 'post_update')
++  ->condition('name', 'existing_updates')
++  ->execute();
+diff --git a/core/modules/responsive_image/tests/src/Functional/ResponsiveImageOrderMultipliersNumericallyUpdateTest.php b/core/modules/responsive_image/tests/src/Functional/ResponsiveImageOrderMultipliersNumericallyUpdateTest.php
+new file mode 100644
+index 0000000000..76607c79ab
+--- /dev/null
++++ b/core/modules/responsive_image/tests/src/Functional/ResponsiveImageOrderMultipliersNumericallyUpdateTest.php
+@@ -0,0 +1,71 @@
++<?php
++
++namespace Drupal\Tests\responsive_image\Functional;
++
++use Drupal\FunctionalTests\Update\UpdatePathTestBase;
++use Drupal\responsive_image\Entity\ResponsiveImageStyle;
++
++/**
++ * Tests order multipliers numerically upgrade path.
++ *
++ * @coversDefaultClass \Drupal\responsive_image\ResponsiveImageConfigUpdater
++ *
++ * @group responsive_image
++ * @group legacy
++ */
++class ResponsiveImageOrderMultipliersNumericallyUpdateTest extends UpdatePathTestBase {
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function setDatabaseDumpFiles(): void {
++    $this->databaseDumpFiles = [
++      __DIR__ . '/../../../../system/tests/fixtures/update/drupal-9.3.0.filled.standard.php.gz',
++      __DIR__ . '/../../fixtures/update/responsive_image.php',
++      __DIR__ . '/../../fixtures/update/responsive_image-order-multipliers-numerically.php',
++    ];
++  }
++
++  /**
++   * Test order multipliers numerically upgrade path.
++   *
++   * @see responsive_image_post_update_order_multiplier_numerically()
++   *
++   * @legacy
++   */
++  public function testUpdate(): void {
++    $mappings = ResponsiveImageStyle::load('responsive_image_style')->getImageStyleMappings();
++    $this->assertEquals('1.5x', $mappings[0]['multiplier']);
++    $this->assertEquals('2x', $mappings[1]['multiplier']);
++    $this->assertEquals('1x', $mappings[2]['multiplier']);
++
++    $this->runUpdates();
++
++    $mappings = ResponsiveImageStyle::load('responsive_image_style')->getImageStyleMappings();
++    $this->assertEquals('1x', $mappings[0]['multiplier']);
++    $this->assertEquals('1.5x', $mappings[1]['multiplier']);
++    $this->assertEquals('2x', $mappings[2]['multiplier']);
++  }
++
++  /**
++   * Test ResponsiveImageStyle::preSave correctly orders by multiplier weight.
++   *
++   * @covers ::orderMultipliersNumerically
++   */
++  public function testEntitySave(): void {
++    $this->expectDeprecation('The responsive image style multiplier re-ordering update for "responsive_image_style" is deprecated in drupal:9.4.0 and is removed from drupal:11.0.0. Profile, module and theme provided Responsive Image configuration should be updated to accommodate the changes described at https://www.drupal.org/node/3274803.');
++    $image_style = ResponsiveImageStyle::load('responsive_image_style');
++    $mappings = $image_style->getImageStyleMappings();
++    $this->assertEquals('1.5x', $mappings[0]['multiplier']);
++    $this->assertEquals('2x', $mappings[1]['multiplier']);
++    $this->assertEquals('1x', $mappings[2]['multiplier']);
++
++    $image_style->save();
++
++    $mappings = ResponsiveImageStyle::load('responsive_image_style')->getImageStyleMappings();
++    $this->assertEquals('1x', $mappings[0]['multiplier']);
++    $this->assertEquals('1.5x', $mappings[1]['multiplier']);
++    $this->assertEquals('2x', $mappings[2]['multiplier']);
++  }
++
++}

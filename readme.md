@@ -89,3 +89,5 @@ The following major version bumps indicate breaking changes:
 * 3.x - Some modules now require Drupal 9 and all development is now against that major version of Drupal.
 
 * 4.x - Refactored to use [Sass modules](https://sass-lang.com/blog/the-module-system-is-launched); all development is now against this and will no longer compile using the old ```@import``` directive.
+
+* 5.x - Now requires Drupal core 9.4.x; this is currently due to the patches in `ambientimpact_media` only applying against this core version.

@@ -1,0 +1,1630 @@
+diff --git a/core/modules/responsive_image/config/schema/responsive_image.schema.yml b/core/modules/responsive_image/config/schema/responsive_image.schema.yml
+index f05a8e2608..8fae617593 100644
+--- a/core/modules/responsive_image/config/schema/responsive_image.schema.yml
++++ b/core/modules/responsive_image/config/schema/responsive_image.schema.yml
+@@ -67,3 +67,10 @@ field.formatter.settings.responsive_image:
+     image_link:
+       type: string
+       label: 'Link image to'
++    image_loading:
++      type: mapping
++      label: 'Image loading settings'
++      mapping:
++        attribute:
++          type: string
++          label: 'Loading attribute'
+diff --git a/core/modules/responsive_image/responsive_image.module b/core/modules/responsive_image/responsive_image.module
+index 6bd0e51f28..ef458a530c 100644
+--- a/core/modules/responsive_image/responsive_image.module
++++ b/core/modules/responsive_image/responsive_image.module
+@@ -5,12 +5,14 @@
+  * Responsive image display formatter for image fields.
+  */
+ 
++use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+ use Drupal\Core\Url;
+ use Drupal\Core\Template\Attribute;
+ use Drupal\Core\Logger\RfcLogLevel;
+ use Drupal\Core\Routing\RouteMatchInterface;
+ use Drupal\image\Entity\ImageStyle;
+ use Drupal\responsive_image\Entity\ResponsiveImageStyle;
++use Drupal\responsive_image\ResponsiveImageConfigUpdater;
+ use Drupal\responsive_image\ResponsiveImageStyleInterface;
+ use Drupal\breakpoint\BreakpointInterface;
+ use Symfony\Component\Mime\MimeTypeGuesserInterface;
+@@ -32,11 +34,11 @@ function responsive_image_help($route_name, RouteMatchInterface $route_match) {
+       $output .= '<dt>' . t('Fallback image style') . '</dt>';
+       $output .= '<dd>' . t('The fallback image style is typically the smallest size image you expect to appear in this space. Because the responsive images module uses the Picturefill library so that responsive images can work in older browsers, the fallback image should only appear on a site if an error occurs.') . '</dd>';
+       $output .= '<dt>' . t('Breakpoint groups: viewport sizing vs art direction') . '</dt>';
+-      $output .= '<dd>' . t('The breakpoint group typically only needs a single breakpoint with an empty media query in order to do <em>viewport sizing.</em> Multiple breakpoints are used for changing the crop or aspect ratio of images at different viewport sizes, which is often referred to as <em>art direction.</em> Once you select a breakpoint group, you can choose which breakpoints to use for the responsive image style. By default, the option <em>do not use this breakpoint</em> is selected for each breakpoint. See the <a href=":breakpoint_help">help page of the Breakpoint module</a> for more information.', [':breakpoint_help' => Url::fromRoute('help.page', ['name' => 'breakpoint'])->toString()]) . '</dd>';
++      $output .= '<dd>' . t('The breakpoint group typically only needs a single breakpoint with an empty media query in order to do <em>viewport sizing.</em> Multiple breakpoints are used for changing the crop or aspect ratio of images at different viewport sizes, which is often referred to as <em>art direction.</em> A new breakpoint group should be created for each aspect ratio to avoid content shift. Once you select a breakpoint group, you can choose which breakpoints to use for the responsive image style. By default, the option <em>do not use this breakpoint</em> is selected for each breakpoint. See the <a href=":breakpoint_help">help page of the Breakpoint module</a> for more information.', [':breakpoint_help' => Url::fromRoute('help.page', ['name' => 'breakpoint'])->toString()]) . '</dd>';
+       $output .= '<dt>' . t('Breakpoint settings: sizes vs image styles') . '</dt>';
+-      $output .= '<dd>' . t('While you have the option to provide only one image style per breakpoint, the sizes option allows you to provide more options to browsers as to which image file it can display, even when using multiple breakpoints for art direction. Breakpoints are defined in the configuration files of the theme.') . '</dd>';
++      $output .= '<dd>' . t('While you have the option to provide only one image style per breakpoint, the sizes attribute allows you to provide more options to browsers as to which image file it can display. If using sizes field and art direction, all selected image styles should use the same aspect ratio to avoid content shifting. Breakpoints are defined in the configuration files of the theme.') . '</dd>';
+       $output .= '<dt>' . t('Sizes field') . '</dt>';
+-      $output .= '<dd>' . t('Once the sizes option is selected, you can let the browser know the size of this image in relation to the site layout, using the <em>Sizes</em> field. For a hero image that always fills the entire screen, you could simply enter 100vw, which means 100% of the viewport width. For an image that fills 90% of the screen for small viewports, but only fills 40% of the screen when the viewport is larger than 40em (typically 640px), you could enter "(min-width: 40em) 40vw, 90vw" in the Sizes field. The last item in the comma-separated list is the smallest viewport size: other items in the comma-separated list should have a media condition paired with an image width. <em>Media conditions</em> are similar to a media query, often a min-width paired with a viewport width using em or px units: e.g. (min-width: 640px) or (min-width: 40em). This is paired with the <em>image width</em> at that viewport size using px, em or vw units. The vw unit is viewport width and is used instead of a percentage because the percentage always refers to the width of the entire viewport.') . '</dd>';
++      $output .= '<dd>' . t('The sizes attribute paired with the srcset attribute provides information on how much space these images take up within the viewport at different browser breakpoints, but the aspect ratios should remain the same across those breakpoints. Once the sizes option is selected, you can let the browser know the size of this image in relation to the site layout, using the Sizes field. For a hero image that always fills the entire screen, you could simply enter 100vw, which means 100% of the viewport width. For an image that fills 90% of the screen for small viewports, but only fills 40% of the screen when the viewport is larger than 40em (typically 640px), you could enter "(min-width: 40em) 40vw, 90vw" in the Sizes field. The last item in the comma-separated list is the smallest viewport size: other items in the comma-separated list should have a media condition paired with an image width. Media conditions are similar to a media query, often a min-width paired with a viewport width using em or px units: e.g. (min-width: 640px) or (min-width: 40em). This is paired with the image width at that viewport size using px, em or vw units. The vw unit is viewport width and is used instead of a percentage because the percentage always refers to the width of the entire viewport.') . '</dd>';
+       $output .= '<dt>' . t('Image styles for sizes') . '</dt>';
+       $output .= '<dd>' . t('Below the Sizes field you can choose multiple image styles so the browser can choose the best image file size to fill the space defined in the Sizes field. Typically you will want to use image styles that resize your image to have options that range from the smallest px width possible for the space the image will appear in to the largest px width possible, with a variety of widths in between. You may want to provide image styles with widths that are 1.5x to 2x the space available in the layout to account for high resolution screens. Image styles can be defined on the <a href=":image_styles">Image styles page</a> that is provided by the <a href=":image_help">Image module</a>.', [':image_styles' => Url::fromRoute('entity.image_style.collection')->toString(), ':image_help' => Url::fromRoute('help.page', ['name' => 'image'])->toString()]) . '</dd>';
+       $output .= '</dl></dd>';
+@@ -187,6 +189,7 @@ function template_preprocess_responsive_image(&$variables) {
+     $variables['img_element'] = [
+       '#theme' => 'image',
+       '#uri' => _responsive_image_image_style_url($responsive_image_style->getFallbackImageStyle(), $variables['uri']),
++      '#attributes' => [],
+     ];
+   }
+   else {
+@@ -198,6 +201,7 @@ function template_preprocess_responsive_image(&$variables) {
+     $variables['img_element'] = [
+       '#theme' => 'image',
+       '#uri' => _responsive_image_image_style_url($responsive_image_style->getFallbackImageStyle(), $variables['uri']),
++      '#attributes' => [],
+     ];
+   }
+ 
+@@ -212,6 +216,18 @@ function template_preprocess_responsive_image(&$variables) {
+     }
+     $variables['img_element']['#attributes'] = $variables['attributes'];
+   }
++
++  // Get width and height from fallback responsive image style and transfer them
++  // to img tag so browser can do aspect ratio calculation and prevent
++  // recalculation of layout on image load.
++  if (isset($variables['width'], $variables['height'])) {
++    $dimensions = responsive_image_get_image_dimensions($responsive_image_style->getFallbackImageStyle(), ['width' => $variables['width'], 'height' => $variables['height']], $variables['uri']);
++    // Unset current image attributes, so the new ones that are set will work.
++    unset($variables['img_element']['#attributes']['width']);
++    unset($variables['img_element']['#attributes']['height']);
++    $variables['img_element']['#width'] = $dimensions['width'];
++    $variables['img_element']['#height'] = $dimensions['height'];
++  }
+ }
+ 
+ /**
+@@ -365,7 +381,9 @@ function _responsive_image_build_source_attributes(array $variables, BreakpointI
+   $sizes = [];
+   $srcset = [];
+   $derivative_mime_types = [];
+-  foreach ($multipliers as $multiplier => $image_style_mapping) {
++  // Traverse the multipliers in reverse so the largest image is processed last.
++  // The last image's dimensions are used for img.srcset height and width.
++  foreach (array_reverse($multipliers) as $multiplier => $image_style_mapping) {
+     switch ($image_style_mapping['image_mapping_type']) {
+       // Create a <source> tag with the 'sizes' attribute.
+       case 'sizes':
+@@ -403,13 +421,15 @@ function _responsive_image_build_source_attributes(array $variables, BreakpointI
+         // be used. We multiply it by 100 so multipliers with up to two decimals
+         // can be used.
+         $srcset[intval(mb_substr($multiplier, 0, -1) * 100)] = _responsive_image_image_style_url($image_style_mapping['image_mapping'], $variables['uri']) . ' ' . $multiplier;
++        $dimensions = responsive_image_get_image_dimensions($image_style_mapping['image_mapping'], ['width' => $width, 'height' => $height], $variables['uri']);
+         break;
+     }
+   }
+   // Sort the srcset from small to large image width or multiplier.
+   ksort($srcset);
++  $srcset = array_unique($srcset);
+   $source_attributes = new Attribute([
+-    'srcset' => implode(', ', array_unique($srcset)),
++    'srcset' => implode(', ', $srcset),
+   ]);
+   $media_query = trim($breakpoint->getMediaQuery());
+   if (!empty($media_query)) {
+@@ -421,6 +441,21 @@ function _responsive_image_build_source_attributes(array $variables, BreakpointI
+   if (!empty($sizes)) {
+     $source_attributes->setAttribute('sizes', implode(',', array_unique($sizes)));
+   }
++  // The images used in a particular srcset attribute should all have the same
++  // aspect ratio. The sizes attribute paired with the srcset attribute provides
++  // information on how much space these images take up within the viewport at
++  // different breakpoints, but the aspect ratios should remain the same across
++  // those breakpoints. Multiple source elements can be used for art direction,
++  // where aspect ratios should change at particular breakpoints. Each source
++  // element can still have srcset and sizes attributes to handle variations for
++  // that particular aspect ratio. Because the same aspect ratio is assumed for
++  // all images in a srcset, dimensions are always added to the source
++  // attribute. Within srcset, images are sorted from largest to smallest in
++  // terms of the real dimension of the image.
++  if (!empty($dimensions['width']) && !empty($dimensions['height'])) {
++    $source_attributes->setAttribute('width', $dimensions['width']);
++    $source_attributes->setAttribute('height', $dimensions['height']);
++  }
+   return $source_attributes;
+ }
+ 
+@@ -516,3 +551,12 @@ function responsive_image_library_info_alter(array &$libraries, $module) {
+     $libraries['drupal.ajax']['dependencies'][] = 'responsive_image/ajax';
+   }
+ }
++
++/**
++ * Implements hook_ENTITY_TYPE_presave() for entity_view_display.
++ */
++function responsive_image_entity_view_display_presave(EntityViewDisplayInterface $view_display): void {
++  $config_updater = \Drupal::classResolver(ResponsiveImageConfigUpdater::class);
++  assert($config_updater instanceof ResponsiveImageConfigUpdater);
++  $config_updater->processResponsiveImageField($view_display);
++}
+diff --git a/core/modules/responsive_image/responsive_image.post_update.php b/core/modules/responsive_image/responsive_image.post_update.php
+index 0c790e51e9..06c3643a01 100644
+--- a/core/modules/responsive_image/responsive_image.post_update.php
++++ b/core/modules/responsive_image/responsive_image.post_update.php
+@@ -6,6 +6,7 @@
+  */
+ 
+ use Drupal\Core\Config\Entity\ConfigEntityUpdater;
++use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+ use Drupal\responsive_image\ResponsiveImageConfigUpdater;
+ use Drupal\responsive_image\ResponsiveImageStyleInterface;
+ 
+@@ -29,3 +30,13 @@ function responsive_image_post_update_order_multiplier_numerically(array &$sandb
+     return $responsive_image_config_updater->orderMultipliersNumerically($responsive_image_style);
+   });
+ }
++
++/**
++ * Add the image loading settings to responsive image field formatter instances.
++ */
++function responsive_image_post_update_image_loading_attribute(array &$sandbox = NULL): void {
++  $responsive_image_config_updater = \Drupal::classResolver(ResponsiveImageConfigUpdater::class);
++  \Drupal::classResolver(ConfigEntityUpdater::class)->update($sandbox, 'entity_view_display', function (EntityViewDisplayInterface $view_display) use ($responsive_image_config_updater): bool {
++    return $responsive_image_config_updater->processResponsiveImageField($view_display);
++  });
++}
+diff --git a/core/modules/responsive_image/responsive_image.post_update.php.orig b/core/modules/responsive_image/responsive_image.post_update.php.orig
+new file mode 100644
+index 0000000000..0c790e51e9
+--- /dev/null
++++ b/core/modules/responsive_image/responsive_image.post_update.php.orig
+@@ -0,0 +1,31 @@
++<?php
++
++/**
++ * @file
++ * Post update functions for Responsive Image.
++ */
++
++use Drupal\Core\Config\Entity\ConfigEntityUpdater;
++use Drupal\responsive_image\ResponsiveImageConfigUpdater;
++use Drupal\responsive_image\ResponsiveImageStyleInterface;
++
++/**
++ * Implements hook_removed_post_updates().
++ */
++function responsive_image_removed_post_updates() {
++  return [
++    'responsive_image_post_update_recreate_dependencies' => '9.0.0',
++  ];
++}
++
++/**
++ * Re-order mappings by breakpoint ID and descending numeric multiplier order.
++ */
++function responsive_image_post_update_order_multiplier_numerically(array &$sandbox = NULL): void {
++  $responsive_image_config_updater = \Drupal::classResolver(ResponsiveImageConfigUpdater::class);
++  assert($responsive_image_config_updater instanceof ResponsiveImageConfigUpdater);
++  $responsive_image_config_updater->setDeprecationsEnabled(FALSE);
++  \Drupal::classResolver(ConfigEntityUpdater::class)->update($sandbox, 'responsive_image_style', function (ResponsiveImageStyleInterface $responsive_image_style) use ($responsive_image_config_updater): bool {
++    return $responsive_image_config_updater->orderMultipliersNumerically($responsive_image_style);
++  });
++}
+diff --git a/core/modules/responsive_image/src/Plugin/Field/FieldFormatter/ResponsiveImageFormatter.php b/core/modules/responsive_image/src/Plugin/Field/FieldFormatter/ResponsiveImageFormatter.php
+index 331c278e0c..affbc11a89 100644
+--- a/core/modules/responsive_image/src/Plugin/Field/FieldFormatter/ResponsiveImageFormatter.php
++++ b/core/modules/responsive_image/src/Plugin/Field/FieldFormatter/ResponsiveImageFormatter.php
+@@ -118,6 +118,9 @@ public static function defaultSettings() {
+     return [
+       'responsive_image_style' => '',
+       'image_link' => '',
++      'image_loading' => [
++        'attribute' => 'lazy',
++      ],
+     ] + parent::defaultSettings();
+   }
+ 
+@@ -125,6 +128,8 @@ public static function defaultSettings() {
+    * {@inheritdoc}
+    */
+   public function settingsForm(array $form, FormStateInterface $form_state) {
++    $elements = parent::settingsForm($form, $form_state);
++
+     $responsive_image_options = [];
+     $responsive_image_styles = $this->responsiveImageStyleStorage->loadMultiple();
+     uasort($responsive_image_styles, '\Drupal\responsive_image\Entity\ResponsiveImageStyle::sort');
+@@ -148,6 +153,27 @@ public function settingsForm(array $form, FormStateInterface $form_state) {
+         ],
+     ];
+ 
++    $image_loading = $this->getSetting('image_loading');
++    $elements['image_loading'] = [
++      '#type' => 'details',
++      '#title' => $this->t('Image loading'),
++      '#weight' => 10,
++      '#description' => $this->t('Modern browsers will lazily load images with the <em>loading="lazy"</em> attribute (default). Choose "eager" to force browsers to download an image as soon as possible.'),
++    ];
++    $loading_attribute_options = [
++      'lazy' => $this->t('Lazy'),
++      'eager' => $this->t('Eager'),
++    ];
++    $elements['image_loading']['attribute'] = [
++      '#title' => $this->t('Lazy loading attribute'),
++      '#type' => 'select',
++      '#default_value' => $image_loading['attribute'],
++      '#options' => $loading_attribute_options,
++      '#description' => $this->t('Select the lazy loading attribute for images. <a href=":link">Learn more.</a>', [
++        ':link' => 'https://html.spec.whatwg.org/multipage/urls-and-fetching.html#lazy-loading-attributes',
++      ]),
++    ];
++
+     $link_types = [
+       'content' => t('Content'),
+       'file' => t('File'),
+@@ -186,7 +212,12 @@ public function settingsSummary() {
+       $summary[] = t('Select a responsive image style.');
+     }
+ 
+-    return $summary;
++    $image_loading = $this->getSetting('image_loading');
++    $summary[] = $this->t('Loading attribute: @attribute', [
++      '@attribute' => $image_loading['attribute'],
++    ]);
++
++    return array_merge($summary, parent::settingsSummary());
+   }
+ 
+   /**
+@@ -239,6 +270,9 @@ public function viewElements(FieldItemListInterface $items, $langcode) {
+       $item_attributes = $item->_attributes;
+       unset($item->_attributes);
+ 
++      $image_loading_settings = $this->getSetting('image_loading');
++      $item_attributes['loading'] = $image_loading_settings['attribute'];
++
+       $elements[$delta] = [
+         '#theme' => 'responsive_image_formatter',
+         '#item' => $item,
+diff --git a/core/modules/responsive_image/src/ResponsiveImageConfigUpdater.php b/core/modules/responsive_image/src/ResponsiveImageConfigUpdater.php
+index ff28e96aa6..880bb347df 100644
+--- a/core/modules/responsive_image/src/ResponsiveImageConfigUpdater.php
++++ b/core/modules/responsive_image/src/ResponsiveImageConfigUpdater.php
+@@ -2,6 +2,8 @@
+ 
+ namespace Drupal\responsive_image;
+ 
++use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
++
+ /**
+  * Provides a BC layer for modules providing old configurations.
+  *
+@@ -68,4 +70,30 @@ public function orderMultipliersNumerically(ResponsiveImageStyleInterface $respo
+     return $changed;
+   }
+ 
++  /**
++   * Processes responsive image type fields.
++   *
++   * @param \Drupal\Core\Entity\Display\EntityViewDisplayInterface $view_display
++   *   The view display.
++   *
++   * @return bool
++   *   Whether the display was updated.
++   */
++  public function processResponsiveImageField(EntityViewDisplayInterface $view_display): bool {
++    $changed = FALSE;
++
++    foreach ($view_display->getComponents() as $field => $component) {
++      if (isset($component['type'])
++        && $component['type'] === 'responsive_image'
++        && !array_key_exists('image_loading', $component['settings'])
++      ) {
++        $component['settings']['image_loading']['attribute'] = 'eager';
++        $view_display->setComponent($field, $component);
++        $changed = TRUE;
++      }
++    }
++
++    return $changed;
++  }
++
+ }
+diff --git a/core/modules/responsive_image/src/ResponsiveImageConfigUpdater.php.orig b/core/modules/responsive_image/src/ResponsiveImageConfigUpdater.php.orig
+new file mode 100644
+index 0000000000..ff28e96aa6
+--- /dev/null
++++ b/core/modules/responsive_image/src/ResponsiveImageConfigUpdater.php.orig
+@@ -0,0 +1,71 @@
++<?php
++
++namespace Drupal\responsive_image;
++
++/**
++ * Provides a BC layer for modules providing old configurations.
++ *
++ * @internal
++ *   This class is only meant to fix outdated responsive image configuration and
++ *   its methods should not be invoked directly.
++ */
++final class ResponsiveImageConfigUpdater {
++
++  /**
++   * Flag determining whether deprecations should be triggered.
++   *
++   * @var bool
++   */
++  private $deprecationsEnabled = TRUE;
++
++  /**
++   * Stores which deprecations were triggered.
++   *
++   * @var bool
++   */
++  private $triggeredDeprecations = [];
++
++  /**
++   * Sets the deprecations enabling status.
++   *
++   * @param bool $enabled
++   *   Whether deprecations should be enabled.
++   */
++  public function setDeprecationsEnabled(bool $enabled): void {
++    $this->deprecationsEnabled = $enabled;
++  }
++
++  /**
++   * Re-order mappings by breakpoint ID and descending numeric multiplier order.
++   *
++   * @param \Drupal\responsive_image\ResponsiveImageStyleInterface $responsive_image_style
++   *   The responsive image style
++   *
++   * @return bool
++   *   Whether the responsive image style was updated.
++   *
++   *   TODO: when removing this, evaluate if we need to keep it permanently
++   *   to support an upgrade path (migration) from Drupal 7 picture module.
++   */
++  public function orderMultipliersNumerically(ResponsiveImageStyleInterface $responsive_image_style): bool {
++    $changed = FALSE;
++
++    $original_mapping_order = $responsive_image_style->getImageStyleMappings();
++    $responsive_image_style->removeImageStyleMappings();
++    foreach ($original_mapping_order as $mapping) {
++      $responsive_image_style->addImageStyleMapping($mapping['breakpoint_id'], $mapping['multiplier'], $mapping);
++    }
++    if ($responsive_image_style->getImageStyleMappings() !== $original_mapping_order) {
++      $changed = TRUE;
++    }
++
++    $deprecations_triggered = &$this->triggeredDeprecations['3267870'][$responsive_image_style->id()];
++    if ($this->deprecationsEnabled && $changed && !$deprecations_triggered) {
++      $deprecations_triggered = TRUE;
++      @trigger_error(sprintf('The responsive image style multiplier re-ordering update for "%s" is deprecated in drupal:9.4.0 and is removed from drupal:11.0.0. Profile, module and theme provided Responsive Image configuration should be updated to accommodate the changes described at https://www.drupal.org/node/3274803.', $responsive_image_style->id()), E_USER_DEPRECATED);
++    }
++
++    return $changed;
++  }
++
++}
+diff --git a/core/modules/responsive_image/src/ResponsiveImageStyleForm.php b/core/modules/responsive_image/src/ResponsiveImageStyleForm.php
+index 7bceff174e..27e9b9e270 100644
+--- a/core/modules/responsive_image/src/ResponsiveImageStyleForm.php
++++ b/core/modules/responsive_image/src/ResponsiveImageStyleForm.php
+@@ -199,7 +199,7 @@ public function form(array $form, FormStateInterface $form_state) {
+       '#default_value' => $responsive_image_style->getFallbackImageStyle(),
+       '#options' => $image_styles,
+       '#required' => TRUE,
+-      '#description' => $this->t('Select the smallest image style you expect to appear in this space. The fallback image style should only appear on the site if an error occurs.'),
++      '#description' => $this->t('Select the image style you wish to use as the style when a browser does not support responsive images.'),
+     ];
+ 
+     $form['#tree'] = TRUE;
+diff --git a/core/modules/responsive_image/tests/fixtures/update/responsive_image-loading-attribute.php b/core/modules/responsive_image/tests/fixtures/update/responsive_image-loading-attribute.php
+new file mode 100644
+index 0000000000..213d10816a
+--- /dev/null
++++ b/core/modules/responsive_image/tests/fixtures/update/responsive_image-loading-attribute.php
+@@ -0,0 +1,70 @@
++<?php
++
++/**
++ * @file
++ * Test lazy load update by modifying an image field form display.
++ */
++
++use Drupal\Core\Database\Database;
++
++$connection = Database::getConnection();
++
++// Add a responsive image style.
++$styles = [];
++$styles['langcode'] = 'en';
++$styles['status'] = TRUE;
++$styles['dependencies']['config'][] = 'image.style.large';
++$styles['dependencies']['config'][] = 'image.style.medium';
++$styles['dependencies']['config'][] = 'image.style.thumbnail';
++$styles['id'] = 'responsive_image_style';
++$styles['uuid'] = '46225242-eb4c-4b10-9a8c-966130b18630';
++$styles['label'] = 'Responsive Image Style';
++$styles['breakpoint_group'] = 'responsive_image';
++$styles['fallback_image_style'] = 'medium';
++$styles['image_style_mappings'] = [
++  [
++    'image_mapping_type' => 'sizes',
++    'image_mapping' => [
++      'sizes' => '100vw',
++      'sizes_image_styles' => [
++        'large',
++        'medium',
++        'thumbnail',
++      ],
++    ],
++    'breakpoint_id' => 'responsive_image.viewport_sizing',
++    'multiplier' => '1x',
++  ],
++];
++
++$connection->insert('config')
++  ->fields([
++    'collection',
++    'name',
++    'data',
++  ])
++  ->values([
++    'collection' => '',
++    'name' => 'responsive_image.styles.responsive_image_style',
++    'data' => serialize($styles),
++  ])
++  ->execute();
++
++// Update article view display to use responsive_image.
++$article_form_display = $connection->select('config')
++  ->fields('config', ['data'])
++  ->condition('collection', '')
++  ->condition('name', 'core.entity_view_display.node.article.default')
++  ->execute()
++  ->fetchField();
++$article_form_display = unserialize($article_form_display);
++$article_form_display['content']['field_image']['type'] = 'responsive_image';
++$article_form_display['content']['field_image']['settings'] = [
++  'responsive_image_style' => 'responsive_image_style',
++  'image_link' => '',
++];
++$connection->update('config')
++  ->fields(['data' => serialize($article_form_display)])
++  ->condition('collection', '')
++  ->condition('name', 'core.entity_view_display.node.article.default')
++  ->execute();
+diff --git a/core/modules/responsive_image/tests/modules/responsive_image_test_module/config/schema/responsive_image_test_module.schema.yml b/core/modules/responsive_image/tests/modules/responsive_image_test_module/config/schema/responsive_image_test_module.schema.yml
+index 6208012735..549a1bb928 100644
+--- a/core/modules/responsive_image/tests/modules/responsive_image_test_module/config/schema/responsive_image_test_module.schema.yml
++++ b/core/modules/responsive_image/tests/modules/responsive_image_test_module/config/schema/responsive_image_test_module.schema.yml
+@@ -9,3 +9,10 @@ field.formatter.settings.responsive_image_test:
+     image_link:
+       type: string
+       label: 'Link image to'
++    image_loading:
++      type: mapping
++      label: 'Image loading settings'
++      mapping:
++        attribute:
++          type: string
++          label: 'Loading attribute'
+diff --git a/core/modules/responsive_image/tests/src/Functional/ResponsiveImageFieldDisplayTest.php b/core/modules/responsive_image/tests/src/Functional/ResponsiveImageFieldDisplayTest.php
+index ed691f3b4d..f2255a4264 100644
+--- a/core/modules/responsive_image/tests/src/Functional/ResponsiveImageFieldDisplayTest.php
++++ b/core/modules/responsive_image/tests/src/Functional/ResponsiveImageFieldDisplayTest.php
+@@ -3,6 +3,7 @@
+ namespace Drupal\Tests\responsive_image\Functional;
+ 
+ use Drupal\image\Entity\ImageStyle;
++use Drupal\image\ImageStyleInterface;
+ use Drupal\node\Entity\Node;
+ use Drupal\file\Entity\File;
+ use Drupal\responsive_image\Plugin\Field\FieldFormatter\ResponsiveImageFormatter;
+@@ -319,6 +320,11 @@ protected function doTestResponsiveImageFieldFormatters($scheme, $empty_styles =
+       $medium_style = ImageStyle::load('medium');
+       $this->assertSession()->responseContains($this->fileUrlGenerator->transformRelative($medium_style->buildUrl($image_uri)) . ' 220w, ' . $this->fileUrlGenerator->transformRelative($large_style->buildUrl($image_uri)) . ' 360w');
+       $this->assertSession()->responseContains('media="(min-width: 851px)"');
++      // Assert the output of the 'width' attribute.
++      $this->assertSession()->responseContains('width="360"');
++      // Assert the output of the 'height' attribute.
++      $this->assertSession()->responseContains('height="240"');
++      $this->assertSession()->responseContains('loading="lazy"');
+     }
+     $this->assertSession()->responseContains('/styles/large/');
+     $this->assertSession()->responseHeaderContains('X-Drupal-Cache-Tags', 'config:responsive_image.styles.style_one');
+@@ -335,6 +341,9 @@ protected function doTestResponsiveImageFieldFormatters($scheme, $empty_styles =
+       '#theme' => 'image',
+       '#alt' => $alt,
+       '#uri' => $this->fileUrlGenerator->transformRelative($large_style->buildUrl($image->getSource())),
++      '#width' => 360,
++      '#height' => 240,
++      '#attributes' => ['loading' => 'lazy'],
+     ];
+     // The image.html.twig template has a newline after the <img> tag but
+     // responsive-image.html.twig doesn't have one after the fallback image, so
+@@ -418,18 +427,44 @@ public function testResponsiveImageFieldFormattersEmptyMediaQuery() {
+   }
+ 
+   /**
+-   * Tests responsive image formatter on node display with one source.
++   * Tests responsive image formatter on node display with one and two sources.
+    */
+-  public function testResponsiveImageFieldFormattersOneSource() {
++  public function testResponsiveImageFieldFormattersMultipleSources() {
++    // Setup known image style sizes so the test can assert on known sizes.
++    $large_style = ImageStyle::load('large');
++    assert($large_style instanceof ImageStyleInterface);
++    $large_style->addImageEffect([
++      'id' => 'image_resize',
++      'data' => [
++        'width' => '480',
++        'height' => '480',
++      ],
++    ]);
++    $large_style->save();
++    $medium_style = ImageStyle::load('medium');
++    assert($medium_style instanceof ImageStyleInterface);
++    $medium_style->addImageEffect([
++      'id' => 'image_resize',
++      'data' => [
++        'width' => '220',
++        'height' => '220',
++      ],
++    ]);
++    $medium_style->save();
++
+     $this->responsiveImgStyle
+       // Test the output of an empty media query.
+       ->addImageStyleMapping('responsive_image_test_module.empty', '1x', [
+         'image_mapping_type' => 'image_style',
+-        'image_mapping' => 'medium',
++        'image_mapping' => $medium_style->id(),
++      ])
++      ->addImageStyleMapping('responsive_image_test_module.empty', '1.5x', [
++        'image_mapping_type' => 'image_style',
++        'image_mapping' => $large_style->id(),
+       ])
+       ->addImageStyleMapping('responsive_image_test_module.empty', '2x', [
+           'image_mapping_type' => 'image_style',
+-          'image_mapping' => 'large',
++          'image_mapping' => $large_style->id(),
+         ])
+       ->save();
+     $node_storage = $this->container->get('entity_type.manager')->getStorage('node');
+@@ -446,6 +481,10 @@ public function testResponsiveImageFieldFormattersOneSource() {
+       'settings' => [
+         'image_link' => '',
+         'responsive_image_style' => 'style_one',
++        'image_loading' => [
++          // Test the image loading default option can be overridden.
++          'attribute' => 'eager',
++        ],
+       ],
+     ];
+     $display = \Drupal::service('entity_display.repository')
+@@ -456,12 +495,25 @@ public function testResponsiveImageFieldFormattersOneSource() {
+     // View the node.
+     $this->drupalGet('node/' . $nid);
+ 
+-    // Assert the media attribute is present if it has a value.
+-    $large_style = ImageStyle::load('large');
+-    $medium_style = ImageStyle::load('medium');
++    // Assert the img tag has medium and large images and fallback dimensions
++    // from the large image style are used.
+     $node = $node_storage->load($nid);
+     $image_uri = File::load($node->{$field_name}->target_id)->getFileUri();
+-    $this->assertSession()->responseContains('<img srcset="' . $this->fileUrlGenerator->transformRelative($medium_style->buildUrl($image_uri)) . ' 1x, ' . $this->fileUrlGenerator->transformRelative($large_style->buildUrl($image_uri)) . ' 2x"');
++    $medium_transform_url = $this->fileUrlGenerator->transformRelative($medium_style->buildUrl($image_uri));
++    $large_transform_url = $this->fileUrlGenerator->transformRelative($large_style->buildUrl($image_uri));
++    $this->assertSession()->responseMatches('/<img loading="eager" srcset="' . \preg_quote($medium_transform_url, '/') . ' 1x, ' . \preg_quote($large_transform_url, '/') . ' 1.5x, ' . \preg_quote($large_transform_url, '/') . ' 2x" src="' . \preg_quote($large_transform_url, '/') . '" width="480" height="480" alt="\w+" \/>/');
++
++    $this->responsiveImgStyle
++      // Test the output of an empty media query.
++      ->addImageStyleMapping('responsive_image_test_module.wide', '1x', [
++        'image_mapping_type' => 'image_style',
++        'image_mapping' => $large_style->id(),
++      ])
++      ->save();
++
++    // Assert the picture tag has source tags that include dimensions.
++    $this->drupalGet('node/' . $nid);
++    $this->assertSession()->responseMatches('/<picture>\s+<source srcset="' . \preg_quote($large_transform_url, '/') . ' 1x" media="\(min-width: 851px\)" type="image\/png" width="480" height="480"\/>\s+<source srcset="' . \preg_quote($medium_transform_url, '/') . ' 1x, ' . \preg_quote($large_transform_url, '/') . ' 1.5x, ' . \preg_quote($large_transform_url, '/') . ' 2x" type="image\/png" width="220" height="220"\/>\s+<img loading="eager" src="' . \preg_quote($large_transform_url, '/') . '" width="480" height="480" alt="\w+" \/>\s+<\/picture>/');
+   }
+ 
+   /**
+diff --git a/core/modules/responsive_image/tests/src/Functional/ResponsiveImageFieldDisplayTest.php.orig b/core/modules/responsive_image/tests/src/Functional/ResponsiveImageFieldDisplayTest.php.orig
+new file mode 100644
+index 0000000000..ed691f3b4d
+--- /dev/null
++++ b/core/modules/responsive_image/tests/src/Functional/ResponsiveImageFieldDisplayTest.php.orig
+@@ -0,0 +1,536 @@
++<?php
++
++namespace Drupal\Tests\responsive_image\Functional;
++
++use Drupal\image\Entity\ImageStyle;
++use Drupal\node\Entity\Node;
++use Drupal\file\Entity\File;
++use Drupal\responsive_image\Plugin\Field\FieldFormatter\ResponsiveImageFormatter;
++use Drupal\responsive_image\Entity\ResponsiveImageStyle;
++use Drupal\responsive_image\ResponsiveImageStyleInterface;
++use Drupal\Tests\image\Functional\ImageFieldTestBase;
++use Drupal\Tests\TestFileCreationTrait;
++use Drupal\user\RoleInterface;
++
++/**
++ * Tests responsive image display formatter.
++ *
++ * @group responsive_image
++ */
++class ResponsiveImageFieldDisplayTest extends ImageFieldTestBase {
++
++  use TestFileCreationTrait;
++
++  /**
++   * {@inheritdoc}
++   */
++  protected $defaultTheme = 'stark';
++
++  protected $dumpHeaders = TRUE;
++
++  /**
++   * Responsive image style entity instance we test with.
++   *
++   * @var \Drupal\responsive_image\Entity\ResponsiveImageStyle
++   */
++  protected $responsiveImgStyle;
++
++  /**
++   * The file URL generator.
++   *
++   * @var \Drupal\Core\File\FileUrlGeneratorInterface
++   */
++  protected $fileUrlGenerator;
++
++  /**
++   * Modules to enable.
++   *
++   * @var array
++   */
++  protected static $modules = [
++    'field_ui',
++    'responsive_image',
++    'responsive_image_test_module',
++  ];
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function setUp(): void {
++    parent::setUp();
++
++    $this->fileUrlGenerator = $this->container->get('file_url_generator');
++
++    // Create user.
++    $this->adminUser = $this->drupalCreateUser([
++      'administer responsive images',
++      'access content',
++      'access administration pages',
++      'administer site configuration',
++      'administer content types',
++      'administer node display',
++      'administer nodes',
++      'create article content',
++      'edit any article content',
++      'delete any article content',
++      'administer image styles',
++    ]);
++    $this->drupalLogin($this->adminUser);
++    // Add responsive image style.
++    $this->responsiveImgStyle = ResponsiveImageStyle::create([
++      'id' => 'style_one',
++      'label' => 'Style One',
++      'breakpoint_group' => 'responsive_image_test_module',
++      'fallback_image_style' => 'large',
++    ]);
++  }
++
++  /**
++   * Tests responsive image formatters on node display for public files.
++   */
++  public function testResponsiveImageFieldFormattersPublic() {
++    $this->addTestImageStyleMappings();
++    $this->doTestResponsiveImageFieldFormatters('public');
++  }
++
++  /**
++   * Tests responsive image formatters on node display for private files.
++   */
++  public function testResponsiveImageFieldFormattersPrivate() {
++    $this->addTestImageStyleMappings();
++    // Remove access content permission from anonymous users.
++    user_role_change_permissions(RoleInterface::ANONYMOUS_ID, ['access content' => FALSE]);
++    $this->doTestResponsiveImageFieldFormatters('private');
++  }
++
++  /**
++   * Tests responsive image formatters when image style is empty.
++   */
++  public function testResponsiveImageFieldFormattersEmptyStyle() {
++    $this->addTestImageStyleMappings(TRUE);
++    $this->doTestResponsiveImageFieldFormatters('public', TRUE);
++  }
++
++  /**
++   * Add image style mappings to the responsive image style entity.
++   *
++   * @param bool $empty_styles
++   *   If true, the image style mappings will get empty image styles.
++   */
++  protected function addTestImageStyleMappings($empty_styles = FALSE) {
++    if ($empty_styles) {
++      $this->responsiveImgStyle
++        ->addImageStyleMapping('responsive_image_test_module.mobile', '1x', [
++          'image_mapping_type' => 'image_style',
++          'image_mapping' => '',
++        ])
++        ->addImageStyleMapping('responsive_image_test_module.narrow', '1x', [
++          'image_mapping_type' => 'sizes',
++          'image_mapping' => [
++            'sizes' => '(min-width: 700px) 700px, 100vw',
++            'sizes_image_styles' => [],
++          ],
++        ])
++        ->addImageStyleMapping('responsive_image_test_module.wide', '1x', [
++          'image_mapping_type' => 'image_style',
++          'image_mapping' => '',
++        ])
++        ->save();
++    }
++    else {
++      $this->responsiveImgStyle
++        // Test the output of an empty image.
++        ->addImageStyleMapping('responsive_image_test_module.mobile', '1x', [
++          'image_mapping_type' => 'image_style',
++          'image_mapping' => ResponsiveImageStyleInterface::EMPTY_IMAGE,
++        ])
++        // Test the output with a 1.5x multiplier.
++        ->addImageStyleMapping('responsive_image_test_module.mobile', '1.5x', [
++          'image_mapping_type' => 'image_style',
++          'image_mapping' => 'thumbnail',
++        ])
++        // Test the output of the 'sizes' attribute.
++        ->addImageStyleMapping('responsive_image_test_module.narrow', '1x', [
++          'image_mapping_type' => 'sizes',
++          'image_mapping' => [
++            'sizes' => '(min-width: 700px) 700px, 100vw',
++            'sizes_image_styles' => [
++              'large',
++              'medium',
++            ],
++          ],
++        ])
++        // Test the normal output of mapping to an image style.
++        ->addImageStyleMapping('responsive_image_test_module.wide', '1x', [
++          'image_mapping_type' => 'image_style',
++          'image_mapping' => 'large',
++        ])
++        // Test the output of the original image.
++        ->addImageStyleMapping('responsive_image_test_module.wide', '3x', [
++          'image_mapping_type' => 'image_style',
++          'image_mapping' => ResponsiveImageStyleInterface::ORIGINAL_IMAGE,
++        ])
++        ->save();
++    }
++  }
++
++  /**
++   * Tests responsive image formatters on node display.
++   *
++   * If the empty styles param is set, then the function only tests for the
++   * fallback image style (large).
++   *
++   * @param string $scheme
++   *   File scheme to use.
++   * @param bool $empty_styles
++   *   If true, use an empty string for image style names.
++   *   Defaults to false.
++   */
++  protected function doTestResponsiveImageFieldFormatters($scheme, $empty_styles = FALSE) {
++    /** @var \Drupal\Core\Render\RendererInterface $renderer */
++    $renderer = $this->container->get('renderer');
++    $node_storage = $this->container->get('entity_type.manager')->getStorage('node');
++    $field_name = mb_strtolower($this->randomMachineName());
++    $this->createImageField($field_name, 'article', ['uri_scheme' => $scheme]);
++    // Create a new node with an image attached. Make sure we use a large image
++    // so the scale effects of the image styles always have an effect.
++    $test_image = current($this->getTestFiles('image', 39325));
++
++    // Create alt text for the image.
++    $alt = $this->randomMachineName();
++
++    $nid = $this->uploadNodeImage($test_image, $field_name, 'article', $alt);
++    $node_storage->resetCache([$nid]);
++    $node = $node_storage->load($nid);
++
++    // Test that the default formatter is being used.
++    $image_uri = File::load($node->{$field_name}->target_id)->getFileUri();
++    $image = [
++      '#theme' => 'image',
++      '#uri' => $image_uri,
++      '#width' => 360,
++      '#height' => 240,
++      '#alt' => $alt,
++      '#attributes' => ['loading' => 'lazy'],
++    ];
++    $default_output = str_replace("\n", '', $renderer->renderRoot($image));
++    $this->assertSession()->responseContains($default_output);
++
++    // Test field not being configured. This should not cause a fatal error.
++    $display_options = [
++      'type' => 'responsive_image_test',
++      'settings' => ResponsiveImageFormatter::defaultSettings(),
++    ];
++    $display = $this->container->get('entity_type.manager')
++      ->getStorage('entity_view_display')
++      ->load('node.article.default');
++    if (!$display) {
++      $values = [
++        'targetEntityType' => 'node',
++        'bundle' => 'article',
++        'mode' => 'default',
++        'status' => TRUE,
++      ];
++      $display = $this->container->get('entity_type.manager')->getStorage('entity_view_display')->create($values);
++    }
++    $display->setComponent($field_name, $display_options)->save();
++
++    $this->drupalGet('node/' . $nid);
++
++    // Test theme function for responsive image, but using the test formatter.
++    $display_options = [
++      'type' => 'responsive_image_test',
++      'settings' => [
++        'image_link' => 'file',
++        'responsive_image_style' => 'style_one',
++      ],
++    ];
++    /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $display_repository */
++    $display_repository = \Drupal::service('entity_display.repository');
++    $display = $display_repository->getViewDisplay('node', 'article');
++    $display->setComponent($field_name, $display_options)
++      ->save();
++
++    $this->drupalGet('node/' . $nid);
++
++    // Use the responsive image formatter linked to file formatter.
++    $display_options = [
++      'type' => 'responsive_image',
++      'settings' => [
++        'image_link' => 'file',
++        'responsive_image_style' => 'style_one',
++      ],
++    ];
++    $display = $display_repository->getViewDisplay('node', 'article');
++    $display->setComponent($field_name, $display_options)
++      ->save();
++
++    $this->drupalGet('node/' . $nid);
++    // No image style cache tag should be found.
++    $this->assertSession()->responseHeaderNotContains('X-Drupal-Cache-Tags', 'image_style:');
++
++    $this->assertSession()->responseMatches('/<a(.*?)href="' . preg_quote($this->fileUrlGenerator->generateString($image_uri), '/') . '"(.*?)>\s*<picture/');
++    // Verify that the image can be downloaded.
++    $this->assertEquals(file_get_contents($test_image->uri), $this->drupalGet($this->fileUrlGenerator->generateAbsoluteString($image_uri)), 'File was downloaded successfully.');
++    if ($scheme == 'private') {
++      // Only verify HTTP headers when using private scheme and the headers are
++      // sent by Drupal.
++      $this->assertSession()->responseHeaderEquals('Content-Type', 'image/png');
++      $this->assertSession()->responseHeaderContains('Cache-Control', 'private');
++
++      // Log out and ensure the file cannot be accessed.
++      $this->drupalLogout();
++      $this->drupalGet($this->fileUrlGenerator->generateAbsoluteString($image_uri));
++      $this->assertSession()->statusCodeEquals(403);
++
++      // Log in again.
++      $this->drupalLogin($this->adminUser);
++    }
++
++    // Use the responsive image formatter with a responsive image style.
++    $display_options['settings']['responsive_image_style'] = 'style_one';
++    $display_options['settings']['image_link'] = '';
++    $display->setComponent($field_name, $display_options)
++      ->save();
++
++    // Create a derivative so at least one MIME type will be known.
++    $large_style = ImageStyle::load('large');
++    $large_style->createDerivative($image_uri, $large_style->buildUri($image_uri));
++
++    // Output should contain all image styles and all breakpoints.
++    $this->drupalGet('node/' . $nid);
++    if (!$empty_styles) {
++      $this->assertSession()->responseContains('/styles/medium/');
++      // Assert the empty image is present.
++      $this->assertSession()->responseContains('data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
++      $thumbnail_style = ImageStyle::load('thumbnail');
++      // Assert the output of the 'srcset' attribute (small multipliers first).
++      $this->assertSession()->responseContains('data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== 1x, ' . $this->fileUrlGenerator->transformRelative($thumbnail_style->buildUrl($image_uri)) . ' 1.5x');
++      $this->assertSession()->responseContains('/styles/medium/');
++      // Assert the output of the original image.
++      $this->assertSession()->responseContains($this->fileUrlGenerator->generateString($image_uri) . ' 3x');
++      // Assert the output of the breakpoints.
++      $this->assertSession()->responseContains('media="(min-width: 0px)"');
++      $this->assertSession()->responseContains('media="(min-width: 560px)"');
++      // Assert the output of the 'sizes' attribute.
++      $this->assertSession()->responseContains('sizes="(min-width: 700px) 700px, 100vw"');
++      $this->assertSession()->responseMatches('/media="\(min-width: 560px\)".+?sizes="\(min-width: 700px\) 700px, 100vw"/');
++      // Assert the output of the 'srcset' attribute (small images first).
++      $medium_style = ImageStyle::load('medium');
++      $this->assertSession()->responseContains($this->fileUrlGenerator->transformRelative($medium_style->buildUrl($image_uri)) . ' 220w, ' . $this->fileUrlGenerator->transformRelative($large_style->buildUrl($image_uri)) . ' 360w');
++      $this->assertSession()->responseContains('media="(min-width: 851px)"');
++    }
++    $this->assertSession()->responseContains('/styles/large/');
++    $this->assertSession()->responseHeaderContains('X-Drupal-Cache-Tags', 'config:responsive_image.styles.style_one');
++    if (!$empty_styles) {
++      $this->assertSession()->responseHeaderContains('X-Drupal-Cache-Tags', 'config:image.style.medium');
++      $this->assertSession()->responseHeaderContains('X-Drupal-Cache-Tags', 'config:image.style.thumbnail');
++      $this->assertSession()->responseContains('type="image/png"');
++    }
++    $this->assertSession()->responseHeaderContains('X-Drupal-Cache-Tags', 'config:image.style.large');
++
++    // Test the fallback image style.
++    $image = \Drupal::service('image.factory')->get($image_uri);
++    $fallback_image = [
++      '#theme' => 'image',
++      '#alt' => $alt,
++      '#uri' => $this->fileUrlGenerator->transformRelative($large_style->buildUrl($image->getSource())),
++    ];
++    // The image.html.twig template has a newline after the <img> tag but
++    // responsive-image.html.twig doesn't have one after the fallback image, so
++    // we remove it here.
++    $default_output = trim($renderer->renderRoot($fallback_image));
++    $this->assertSession()->responseContains($default_output);
++
++    if ($scheme == 'private') {
++      // Log out and ensure the file cannot be accessed.
++      $this->drupalLogout();
++      $this->drupalGet($large_style->buildUrl($image_uri));
++      $this->assertSession()->statusCodeEquals(403);
++      $this->assertSession()->responseHeaderNotMatches('X-Drupal-Cache-Tags', '/ image_style\:/');
++    }
++  }
++
++  /**
++   * Tests responsive image formatters on node display linked to the file.
++   */
++  public function testResponsiveImageFieldFormattersLinkToFile() {
++    $this->addTestImageStyleMappings();
++    $this->assertResponsiveImageFieldFormattersLink('file');
++  }
++
++  /**
++   * Tests responsive image formatters on node display linked to the node.
++   */
++  public function testResponsiveImageFieldFormattersLinkToNode() {
++    $this->addTestImageStyleMappings();
++    $this->assertResponsiveImageFieldFormattersLink('content');
++  }
++
++  /**
++   * Tests responsive image formatter on node display with an empty media query.
++   */
++  public function testResponsiveImageFieldFormattersEmptyMediaQuery() {
++    $this->responsiveImgStyle
++      // Test the output of an empty media query.
++      ->addImageStyleMapping('responsive_image_test_module.empty', '1x', [
++        'image_mapping_type' => 'image_style',
++        'image_mapping' => ResponsiveImageStyleInterface::EMPTY_IMAGE,
++      ])
++      // Test the output with a 1.5x multiplier.
++      ->addImageStyleMapping('responsive_image_test_module.mobile', '1x', [
++        'image_mapping_type' => 'image_style',
++        'image_mapping' => 'thumbnail',
++      ])
++      ->save();
++    $node_storage = $this->container->get('entity_type.manager')->getStorage('node');
++    $field_name = mb_strtolower($this->randomMachineName());
++    $this->createImageField($field_name, 'article', ['uri_scheme' => 'public']);
++    // Create a new node with an image attached.
++    $test_image = current($this->getTestFiles('image'));
++    $nid = $this->uploadNodeImage($test_image, $field_name, 'article', $this->randomMachineName());
++    $node_storage->resetCache([$nid]);
++
++    // Use the responsive image formatter linked to file formatter.
++    $display_options = [
++      'type' => 'responsive_image',
++      'settings' => [
++        'image_link' => '',
++        'responsive_image_style' => 'style_one',
++      ],
++    ];
++    $display = \Drupal::service('entity_display.repository')
++      ->getViewDisplay('node', 'article');
++    $display->setComponent($field_name, $display_options)
++      ->save();
++
++    // View the node.
++    $this->drupalGet('node/' . $nid);
++
++    // Assert an empty media attribute is not output.
++    $this->assertSession()->responseNotMatches('@srcset="data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== 1x".+?media=".+?/><source@');
++
++    // Assert the media attribute is present if it has a value.
++    $thumbnail_style = ImageStyle::load('thumbnail');
++    $node = $node_storage->load($nid);
++    $image_uri = File::load($node->{$field_name}->target_id)->getFileUri();
++    $this->assertSession()->responseMatches('/srcset="' . preg_quote($this->fileUrlGenerator->transformRelative($thumbnail_style->buildUrl($image_uri)), '/') . ' 1x".+?media="\(min-width: 0px\)"/');
++  }
++
++  /**
++   * Tests responsive image formatter on node display with one source.
++   */
++  public function testResponsiveImageFieldFormattersOneSource() {
++    $this->responsiveImgStyle
++      // Test the output of an empty media query.
++      ->addImageStyleMapping('responsive_image_test_module.empty', '1x', [
++        'image_mapping_type' => 'image_style',
++        'image_mapping' => 'medium',
++      ])
++      ->addImageStyleMapping('responsive_image_test_module.empty', '2x', [
++          'image_mapping_type' => 'image_style',
++          'image_mapping' => 'large',
++        ])
++      ->save();
++    $node_storage = $this->container->get('entity_type.manager')->getStorage('node');
++    $field_name = mb_strtolower($this->randomMachineName());
++    $this->createImageField($field_name, 'article', ['uri_scheme' => 'public']);
++    // Create a new node with an image attached.
++    $test_image = current($this->getTestFiles('image'));
++    $nid = $this->uploadNodeImage($test_image, $field_name, 'article', $this->randomMachineName());
++    $node_storage->resetCache([$nid]);
++
++    // Use the responsive image formatter linked to file formatter.
++    $display_options = [
++      'type' => 'responsive_image',
++      'settings' => [
++        'image_link' => '',
++        'responsive_image_style' => 'style_one',
++      ],
++    ];
++    $display = \Drupal::service('entity_display.repository')
++      ->getViewDisplay('node', 'article');
++    $display->setComponent($field_name, $display_options)
++      ->save();
++
++    // View the node.
++    $this->drupalGet('node/' . $nid);
++
++    // Assert the media attribute is present if it has a value.
++    $large_style = ImageStyle::load('large');
++    $medium_style = ImageStyle::load('medium');
++    $node = $node_storage->load($nid);
++    $image_uri = File::load($node->{$field_name}->target_id)->getFileUri();
++    $this->assertSession()->responseContains('<img srcset="' . $this->fileUrlGenerator->transformRelative($medium_style->buildUrl($image_uri)) . ' 1x, ' . $this->fileUrlGenerator->transformRelative($large_style->buildUrl($image_uri)) . ' 2x"');
++  }
++
++  /**
++   * Tests responsive image formatters linked to the file or node.
++   *
++   * @param string $link_type
++   *   The link type to test. Either 'file' or 'content'.
++   */
++  private function assertResponsiveImageFieldFormattersLink(string $link_type): void {
++    $field_name = mb_strtolower($this->randomMachineName());
++    $field_settings = ['alt_field_required' => 0];
++    $this->createImageField($field_name, 'article', ['uri_scheme' => 'public'], $field_settings);
++    // Create a new node with an image attached.
++    $test_image = current($this->getTestFiles('image'));
++
++    /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $display_repository */
++    $display_repository = \Drupal::service('entity_display.repository');
++
++    // Test the image linked to file formatter.
++    $display_options = [
++      'type' => 'responsive_image',
++      'settings' => [
++        'image_link' => $link_type,
++        'responsive_image_style' => 'style_one',
++      ],
++    ];
++    $display_repository->getViewDisplay('node', 'article')
++      ->setComponent($field_name, $display_options)
++      ->save();
++    // Ensure that preview works.
++    $this->previewNodeImage($test_image, $field_name, 'article');
++
++    // Look for a picture tag in the preview output
++    $this->assertSession()->responseMatches('/picture/');
++
++    $nid = $this->uploadNodeImage($test_image, $field_name, 'article');
++    $this->container->get('entity_type.manager')->getStorage('node')->resetCache([$nid]);
++    $node = Node::load($nid);
++
++    // Use the responsive image formatter linked to file formatter.
++    $display_options = [
++      'type' => 'responsive_image',
++      'settings' => [
++        'image_link' => $link_type,
++        'responsive_image_style' => 'style_one',
++      ],
++    ];
++    $display_repository->getViewDisplay('node', 'article')
++      ->setComponent($field_name, $display_options)
++      ->save();
++
++    // Create a derivative so at least one MIME type will be known.
++    $large_style = ImageStyle::load('large');
++    $image_uri = File::load($node->{$field_name}->target_id)->getFileUri();
++    $large_style->createDerivative($image_uri, $large_style->buildUri($image_uri));
++
++    // Output should contain all image styles and all breakpoints.
++    $this->drupalGet('node/' . $nid);
++    switch ($link_type) {
++      case 'file':
++        // Make sure the link to the file is present.
++        $this->assertSession()->responseMatches('/<a(.*?)href="' . preg_quote($this->fileUrlGenerator->generateString($image_uri), '/') . '"(.*?)>\s*<picture/');
++        break;
++
++      case 'content':
++        // Make sure the link to the node is present.
++        $this->assertSession()->responseMatches('/<a(.*?)href="' . preg_quote($node->toUrl()->toString(), '/') . '"(.*?)>\s*<picture/');
++        break;
++    }
++  }
++
++}
+diff --git a/core/modules/responsive_image/tests/src/Functional/ResponsiveImageLazyLoadUpdateTest.php b/core/modules/responsive_image/tests/src/Functional/ResponsiveImageLazyLoadUpdateTest.php
+new file mode 100644
+index 0000000000..1fb310f64d
+--- /dev/null
++++ b/core/modules/responsive_image/tests/src/Functional/ResponsiveImageLazyLoadUpdateTest.php
+@@ -0,0 +1,42 @@
++<?php
++
++namespace Drupal\Tests\responsive_image\Functional;
++
++use Drupal\Core\Entity\Entity\EntityViewDisplay;
++use Drupal\FunctionalTests\Update\UpdatePathTestBase;
++
++/**
++ * Tests lazy-load upgrade path.
++ *
++ * @group responsive_image
++ */
++class ResponsiveImageLazyLoadUpdateTest extends UpdatePathTestBase {
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function setDatabaseDumpFiles(): void {
++    $this->databaseDumpFiles = [
++      __DIR__ . '/../../../../system/tests/fixtures/update/drupal-9.0.0.filled.standard.php.gz',
++      __DIR__ . '/../../fixtures/update/responsive_image.php',
++      __DIR__ . '/../../fixtures/update/responsive_image-loading-attribute.php',
++    ];
++  }
++
++  /**
++   * Test new lazy-load setting upgrade path.
++   *
++   * @see responsive_image_post_update_image_loading_attribute
++   */
++  public function testUpdate(): void {
++    $data = EntityViewDisplay::load('node.article.default')->toArray();
++    $this->assertArrayNotHasKey('image_loading', $data['content']['field_image']['settings']);
++
++    $this->runUpdates();
++
++    $data = EntityViewDisplay::load('node.article.default')->toArray();
++    $this->assertArrayHasKey('image_loading', $data['content']['field_image']['settings']);
++    $this->assertEquals('eager', $data['content']['field_image']['settings']['image_loading']['attribute']);
++  }
++
++}
+diff --git a/core/modules/responsive_image/tests/src/FunctionalJavascript/ResponsiveImageFieldUiTest.php b/core/modules/responsive_image/tests/src/FunctionalJavascript/ResponsiveImageFieldUiTest.php
+index 7ecfd5fbec..9d722a6c8b 100644
+--- a/core/modules/responsive_image/tests/src/FunctionalJavascript/ResponsiveImageFieldUiTest.php
++++ b/core/modules/responsive_image/tests/src/FunctionalJavascript/ResponsiveImageFieldUiTest.php
+@@ -95,7 +95,7 @@ public function testResponsiveImageFormatterUi() {
+     $field_image_type->setValue('responsive_image');
+ 
+     $summary_text = $assert_session->waitForElement('xpath', $this->cssSelectToXpath('#field-image .ajax-new-content .field-plugin-summary'));
+-    $this->assertEquals('Select a responsive image style.', $summary_text->getText());
++    $this->assertEquals('Select a responsive image style. Loading attribute: lazy', $summary_text->getText());
+ 
+     $page->pressButton('Save');
+     $assert_session->responseContains("Select a responsive image style.");
+diff --git a/core/modules/views/src/ViewsConfigUpdater.php b/core/modules/views/src/ViewsConfigUpdater.php
+index 2ddb741c0a..0478c02615 100644
+--- a/core/modules/views/src/ViewsConfigUpdater.php
++++ b/core/modules/views/src/ViewsConfigUpdater.php
+@@ -483,6 +483,50 @@ protected function mapOperatorFromSingleToMultiple($single_operator) {
+     }
+   }
+ 
++  /**
++   * Add lazy load options to all responsive_image type field configurations.
++   *
++   * @param \Drupal\views\ViewEntityInterface $view
++   *   The View to update.
++   *
++   * @return bool
++   *   Whether the view was updated.
++   */
++  public function needsResponsiveImageLazyLoadFieldUpdate(ViewEntityInterface $view): bool {
++    return $this->processDisplayHandlers($view, TRUE, function (&$handler, $handler_type) use ($view) {
++      return $this->processResponsiveImageLazyLoadFieldHandler($handler, $handler_type, $view);
++    });
++  }
++
++  /**
++   * Processes responsive_image type fields.
++   *
++   * @param array $handler
++   *   A display handler.
++   * @param string $handler_type
++   *   The handler type.
++   * @param \Drupal\views\ViewEntityInterface $view
++   *   The View being updated.
++   *
++   * @return bool
++   *   Whether the handler was updated.
++   */
++  protected function processResponsiveImageLazyLoadFieldHandler(array &$handler, string $handler_type, ViewEntityInterface $view): bool {
++    $changed = FALSE;
++
++    // Add any missing settings for lazy loading.
++    if (($handler_type === 'field')
++      && isset($handler['plugin_id'], $handler['type'])
++      && $handler['plugin_id'] === 'field'
++      && $handler['type'] === 'responsive_image'
++      && !isset($handler['settings']['image_loading'])) {
++      $handler['settings']['image_loading'] = ['attribute' => 'lazy'];
++      $changed = TRUE;
++    }
++
++    return $changed;
++  }
++
+   /**
+    * Updates the sort handlers by adding default sort field identifiers.
+    *
+diff --git a/core/modules/views/tests/fixtures/update/views.view.test_responsive_images.yml b/core/modules/views/tests/fixtures/update/views.view.test_responsive_images.yml
+new file mode 100644
+index 0000000000..6537c27184
+--- /dev/null
++++ b/core/modules/views/tests/fixtures/update/views.view.test_responsive_images.yml
+@@ -0,0 +1,224 @@
++uuid: 6a7eb126-7ba9-493f-a209-e3aa0672b8f5
++langcode: en
++status: true
++dependencies:
++  config:
++    - field.storage.entity_test.bar
++    - responsive_image.styles.responsive_image_style_id
++  module:
++    - entity_test
++    - responsive_image
++id: test_responsive_images
++label: 'Responsive Images'
++module: views
++description: ''
++tag: ''
++base_table: entity_test
++base_field: id
++display:
++  default:
++    display_plugin: default
++    id: default
++    display_title: Default
++    position: 0
++    display_options:
++      access:
++        type: none
++        options: {  }
++      cache:
++        type: tag
++        options: {  }
++      query:
++        type: views_query
++        options:
++          disable_sql_rewrite: false
++          distinct: false
++          replica: false
++          query_comment: ''
++          query_tags: {  }
++      exposed_form:
++        type: basic
++        options:
++          submit_button: Apply
++          reset_button: false
++          reset_button_label: Reset
++          exposed_sorts_label: 'Sort by'
++          expose_sort_order: true
++          sort_asc_label: Asc
++          sort_desc_label: Desc
++      pager:
++        type: mini
++        options:
++          items_per_page: 10
++          offset: 0
++          id: 0
++          total_pages: null
++          expose:
++            items_per_page: false
++            items_per_page_label: 'Items per page'
++            items_per_page_options: '5, 10, 25, 50'
++            items_per_page_options_all: false
++            items_per_page_options_all_label: '- All -'
++            offset: false
++            offset_label: Offset
++          tags:
++            previous: ‹‹
++            next: ››
++      style:
++        type: default
++        options:
++          grouping: {  }
++          row_class: ''
++          default_row_class: true
++          uses_fields: false
++      row:
++        type: fields
++        options:
++          inline: {  }
++          separator: ''
++          hide_empty: false
++          default_field_elements: true
++      fields:
++        name:
++          table: entity_test
++          field: name
++          id: name
++          entity_type: null
++          entity_field: name
++          plugin_id: field
++          relationship: none
++          group_type: group
++          admin_label: ''
++          label: ''
++          exclude: false
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: true
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
++          click_sort_column: value
++          type: string
++          settings: {  }
++          group_column: value
++          group_columns: {  }
++          group_rows: true
++          delta_limit: 0
++          delta_offset: 0
++          delta_reversed: false
++          delta_first_last: false
++          multi_type: separator
++          separator: ', '
++          field_api_classes: false
++        bar:
++          id: bar
++          table: entity_test__bar
++          field: bar
++          relationship: none
++          group_type: group
++          admin_label: ''
++          label: ''
++          exclude: false
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: false
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
++          click_sort_column: target_id
++          type: responsive_image
++          settings:
++            responsive_image_style: responsive_image_style_id
++            image_link: ''
++          group_column: ''
++          group_columns: {  }
++          group_rows: true
++          delta_limit: 0
++          delta_offset: 0
++          delta_reversed: false
++          delta_first_last: false
++          multi_type: separator
++          separator: ', '
++          field_api_classes: false
++          plugin_id: field
++      filters: {  }
++      sorts: {  }
++      header: {  }
++      footer: {  }
++      empty: {  }
++      relationships: {  }
++      arguments: {  }
++      display_extenders: {  }
++    cache_metadata:
++      max-age: -1
++      contexts:
++        - entity_test_view_grants
++        - 'languages:language_content'
++        - 'languages:language_interface'
++        - url.query_args
+diff --git a/core/modules/views/tests/src/Kernel/ViewsConfigUpdaterTest.php b/core/modules/views/tests/src/Kernel/ViewsConfigUpdaterTest.php
+index b6f14ccc78..27cdae1ce8 100644
+--- a/core/modules/views/tests/src/Kernel/ViewsConfigUpdaterTest.php
++++ b/core/modules/views/tests/src/Kernel/ViewsConfigUpdaterTest.php
+@@ -5,6 +5,8 @@
+ use Drupal\Core\Config\FileStorage;
+ use Drupal\field\Entity\FieldConfig;
+ use Drupal\field\Entity\FieldStorageConfig;
++use Drupal\responsive_image\Entity\ResponsiveImageStyle;
++use Drupal\Tests\responsive_image\Functional\ViewsIntegrationTest;
+ use Drupal\views\ViewsConfigUpdater;
+ 
+ /**
+@@ -27,9 +29,13 @@ class ViewsConfigUpdaterTest extends ViewsKernelTestBase {
+    */
+   protected static $modules = [
+     'views_config_entity_test',
++    'entity_test',
++    'breakpoint',
+     'field',
+     'file',
+     'image',
++    'responsive_image',
++    'responsive_image_test_module',
+   ];
+ 
+   /**
+@@ -53,6 +59,25 @@ protected function setUp($import_test_views = TRUE): void {
+       'file_directory' => 'pictures/[date:custom:Y]-[date:custom:m]',
+       'bundle' => 'user',
+     ])->save();
++
++    // Create a responsive image style.
++    ResponsiveImageStyle::create([
++      'id' => ViewsIntegrationTest::RESPONSIVE_IMAGE_STYLE_ID,
++      'label' => 'Foo',
++      'breakpoint_group' => 'responsive_image_test_module',
++    ]);
++    // Create an image field to be used with a responsive image formatter.
++    FieldStorageConfig::create([
++      'type' => 'image',
++      'entity_type' => 'entity_test',
++      'field_name' => 'bar',
++    ])->save();
++    FieldConfig::create([
++      'entity_type' => 'entity_test',
++      'bundle' => 'entity_test',
++      'field_name' => 'bar',
++    ])->save();
++
+   }
+ 
+   /**
+@@ -147,6 +172,15 @@ public function testNeedsFieldNamesForMultivalueBaseUpdateFieldsDeprecation() {
+     $this->assertTrue($needs_update);
+   }
+ 
++  /**
++   * @covers ::needsResponsiveImageLazyLoadFieldUpdate
++   */
++  public function testNeedsResponsiveImageLazyLoadFieldUpdate(): void {
++    $test_view = $this->loadTestView('views.view.test_responsive_images');
++    $needs_update = $this->configUpdater->needsResponsiveImageLazyLoadFieldUpdate($test_view);
++    $this->assertTrue($needs_update);
++  }
++
+   /**
+    * @covers ::updateAll
+    */
+diff --git a/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.default.yml b/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.default.yml
+index 16a9d5a4c4..1496bfa2c8 100644
+--- a/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.default.yml
++++ b/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.default.yml
+@@ -18,6 +18,8 @@ content:
+     settings:
+       responsive_image_style: 3_2_image
+       image_link: ''
++      image_loading:
++        attribute: lazy
+     third_party_settings: {  }
+     weight: 1
+     region: content
+diff --git a/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.responsive_3x2.yml b/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.responsive_3x2.yml
+index fa1e74775e..184f0e6fd3 100644
+--- a/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.responsive_3x2.yml
++++ b/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.responsive_3x2.yml
+@@ -24,6 +24,8 @@ content:
+     settings:
+       responsive_image_style: 3_2_image
+       image_link: ''
++      image_loading:
++        attribute: lazy
+     third_party_settings: {  }
+     weight: 1
+     region: content
+diff --git a/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.square.yml b/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.square.yml
+index 0b01d6c50b..a25cc1bb7b 100644
+--- a/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.square.yml
++++ b/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.square.yml
+@@ -24,6 +24,8 @@ content:
+     settings:
+       responsive_image_style: square
+       image_link: ''
++      image_loading:
++        attribute: lazy
+     third_party_settings: {  }
+     weight: 1
+     region: content

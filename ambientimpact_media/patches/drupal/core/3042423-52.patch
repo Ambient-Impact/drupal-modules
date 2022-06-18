@@ -1,8 +1,8 @@
 diff --git a/core/misc/cspell/dictionary.txt b/core/misc/cspell/dictionary.txt
-index 40ebb8e9d1..059401acbe 100644
+index feb5bba6ee..4197057f2b 100644
 --- a/core/misc/cspell/dictionary.txt
 +++ b/core/misc/cspell/dictionary.txt
-@@ -632,6 +632,7 @@ hookname
+@@ -597,6 +597,7 @@ hookname
  horizontalrule
  hosters
  hostnames
@@ -10,7 +10,7 @@ index 40ebb8e9d1..059401acbe 100644
  hreflang
  hreflangs
  hrefs
-@@ -807,6 +808,7 @@ maxage
+@@ -772,6 +773,7 @@ maxage
  maxdepth
  maximumred
  maxlifetime
@@ -45,7 +45,7 @@ index 93244f58a8..5f7b4c7aec 100644
   * Alters an oEmbed resource URL before it is fetched.
   *
 diff --git a/core/modules/media/media.services.yml b/core/modules/media/media.services.yml
-index 847e9e3d48..b4119f1de0 100644
+index 847e9e3d48..9c1549509a 100644
 --- a/core/modules/media/media.services.yml
 +++ b/core/modules/media/media.services.yml
 @@ -16,7 +16,7 @@ services:
@@ -53,12 +53,12 @@ index 847e9e3d48..b4119f1de0 100644
    media.oembed.resource_fetcher:
      class: Drupal\media\OEmbed\ResourceFetcher
 -    arguments: ['@http_client', '@media.oembed.provider_repository', '@cache.default']
-+    arguments: ['@http_client', '@media.oembed.provider_repository', '@module_handler', '@cache.default']
++    arguments: ['@http_client', '@media.oembed.provider_repository', '@cache.default', '@module_handler']
    media.oembed.iframe_url_helper:
      class: Drupal\media\IFrameUrlHelper
      arguments: ['@router.request_context', '@private_key']
 diff --git a/core/modules/media/src/OEmbed/ResourceFetcher.php b/core/modules/media/src/OEmbed/ResourceFetcher.php
-index 39e7dd147f..4e0c40b9bc 100644
+index 39e7dd147f..d20936bcec 100644
 --- a/core/modules/media/src/OEmbed/ResourceFetcher.php
 +++ b/core/modules/media/src/OEmbed/ResourceFetcher.php
 @@ -4,6 +4,7 @@
@@ -69,9 +69,9 @@ index 39e7dd147f..4e0c40b9bc 100644
  use GuzzleHttp\ClientInterface;
  use GuzzleHttp\Exception\TransferException;
  use GuzzleHttp\RequestOptions;
-@@ -27,6 +28,13 @@ class ResourceFetcher implements ResourceFetcherInterface {
+@@ -34,6 +35,13 @@ class ResourceFetcher implements ResourceFetcherInterface {
     */
-   protected $providers;
+   protected $cacheBackend;
  
 +  /**
 +   * The module handler service.
@@ -81,31 +81,36 @@ index 39e7dd147f..4e0c40b9bc 100644
 +  protected $moduleHandler;
 +
    /**
-    * The cache backend.
+    * Constructs a ResourceFetcher object.
     *
 @@ -41,10 +49,12 @@ class ResourceFetcher implements ResourceFetcherInterface {
     *   The HTTP client.
     * @param \Drupal\media\OEmbed\ProviderRepositoryInterface $providers
     *   The oEmbed provider repository service.
-+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
-+   *   The module handler service.
-    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
+-   * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
++   * @param \Drupal\Core\Cache\CacheBackendInterface|null $cache_backend
     *   The cache backend.
++   * @param \Drupal\Core\Extension\ModuleHandlerInterface|null $module_handler
++   *   The module handler service.
     */
 -  public function __construct(ClientInterface $http_client, ProviderRepositoryInterface $providers, CacheBackendInterface $cache_backend = NULL) {
-+  public function __construct(ClientInterface $http_client, ProviderRepositoryInterface $providers, ModuleHandlerInterface $moduleHandler, CacheBackendInterface $cache_backend = NULL) {
++  public function __construct(ClientInterface $http_client, ProviderRepositoryInterface $providers, CacheBackendInterface $cache_backend = NULL, ModuleHandlerInterface $module_handler = NULL) {
      $this->httpClient = $http_client;
      $this->providers = $providers;
      if (empty($cache_backend)) {
-@@ -52,6 +62,7 @@ public function __construct(ClientInterface $http_client, ProviderRepositoryInte
+@@ -52,6 +62,11 @@ public function __construct(ClientInterface $http_client, ProviderRepositoryInte
        @trigger_error('Passing NULL as the $cache_backend parameter to ' . __METHOD__ . '() is deprecated in drupal:9.3.0 and is removed from drupal:10.0.0. See https://www.drupal.org/node/3223594', E_USER_DEPRECATED);
      }
      $this->cacheBackend = $cache_backend;
-+    $this->moduleHandler = $moduleHandler;
++    if (empty($module_handler)) {
++      $module_handler = \Drupal::moduleHandler();
++      @trigger_error('Passing NULL as the $module_handler parameter to ' . __METHOD__ . '() is deprecated in drupal:9.4.0 and is removed from drupal:10.0.0. See https://www.drupal.org/node/3042423', E_USER_DEPRECATED);
++    }
++    $this->moduleHandler = $module_handler;
    }
  
    /**
-@@ -92,6 +103,8 @@ public function fetchResource($url) {
+@@ -92,6 +107,8 @@ public function fetchResource($url) {
        throw new ResourceException('The oEmbed resource could not be decoded.', $url);
      }
  
@@ -114,32 +119,82 @@ index 39e7dd147f..4e0c40b9bc 100644
      $this->cacheBackend->set($cache_id, $data);
  
      return $this->createResource($data, $url);
-diff --git a/core/modules/media/tests/src/Kernel/ResourceFetcherTest.php b/core/modules/media/tests/src/Kernel/ResourceFetcherTest.php
-index e68810f348..6e408f8517 100644
---- a/core/modules/media/tests/src/Kernel/ResourceFetcherTest.php
-+++ b/core/modules/media/tests/src/Kernel/ResourceFetcherTest.php
-@@ -21,7 +21,8 @@ public function testDeprecations(): void {
-     $this->expectDeprecation('Passing NULL as the $cache_backend parameter to Drupal\media\OEmbed\ResourceFetcher::__construct() is deprecated in drupal:9.3.0 and is removed from drupal:10.0.0. See https://www.drupal.org/node/3223594');
-     new ResourceFetcher(
-       $this->container->get('http_client'),
--      $this->createMock('\Drupal\media\OEmbed\ProviderRepositoryInterface')
-+      $this->createMock('\Drupal\media\OEmbed\ProviderRepositoryInterface'),
-+      $this->createMock('\Drupal\Core\Extension\ModuleHandlerInterface')
-     );
+diff --git a/core/modules/media/tests/modules/media_test_oembed/media_test_oembed.module b/core/modules/media/tests/modules/media_test_oembed/media_test_oembed.module
+index 7ab7f12496..31a9997e09 100644
+--- a/core/modules/media/tests/modules/media_test_oembed/media_test_oembed.module
++++ b/core/modules/media/tests/modules/media_test_oembed/media_test_oembed.module
+@@ -27,3 +27,13 @@ function media_test_oembed_oembed_resource_url_alter(array &$parsed_url, Provide
+     $parsed_url['query']['altered'] = 1;
+   }
+ }
++
++/**
++ * Implements hook_oembed_resource_data_alter().
++ */
++function media_test_oembed_oembed_resource_data_alter(array &$data, $url) {
++  if (strpos($url, 'twitter.com/oembed') !== FALSE) {
++    // Change the width property.
++    $data['width'] = 600;
++  }
++}
+diff --git a/core/modules/media/tests/src/Functional/ResourceFetcherTest.php b/core/modules/media/tests/src/Functional/ResourceFetcherTest.php
+index e1e20ff8d9..ea08b6f081 100644
+--- a/core/modules/media/tests/src/Functional/ResourceFetcherTest.php
++++ b/core/modules/media/tests/src/Functional/ResourceFetcherTest.php
+@@ -34,6 +34,7 @@ protected function setUp(): void {
+    * Data provider for testFetchResource().
+    *
+    * @return array
++   *   Resources data provider.
+    */
+   public function providerFetchResource() {
+     return [
+@@ -74,4 +75,19 @@ public function testFetchResource($resource_url, $provider_name, $title) {
+     $this->assertSame($title, $resource->getTitle());
    }
  
++  /**
++   * Tests that hook_oembed_resource_data_alter() is invoked.
++   */
++  public function testResourceDataAlter() {
++    $this->container->get('module_installer')->install(['media_test_oembed']);
++
++    // Get the resource.
++    $resource_url = $this->container->get('media.oembed.resource_fetcher')
++      ->fetchResource('https://publish.twitter.com/oembed?url=https://twitter.com/Dries/status/999985431595880448');
++
++    // Check media_test_oembed_oembed_resource_data_alter
++    // to see the hook implementation.
++    $this->assertEquals(600, $resource_url->getWidth());
++  }
++
+ }
+diff --git a/core/modules/media/tests/src/Kernel/ResourceFetcherTest.php b/core/modules/media/tests/src/Kernel/ResourceFetcherTest.php
+index e68810f348..c011ee8bc4 100644
+--- a/core/modules/media/tests/src/Kernel/ResourceFetcherTest.php
++++ b/core/modules/media/tests/src/Kernel/ResourceFetcherTest.php
+@@ -19,6 +19,7 @@ class ResourceFetcherTest extends KernelTestBase {
+    */
+   public function testDeprecations(): void {
+     $this->expectDeprecation('Passing NULL as the $cache_backend parameter to Drupal\media\OEmbed\ResourceFetcher::__construct() is deprecated in drupal:9.3.0 and is removed from drupal:10.0.0. See https://www.drupal.org/node/3223594');
++    $this->expectDeprecation('Passing NULL as the $module_handler parameter to Drupal\media\OEmbed\ResourceFetcher::__construct() is deprecated in drupal:9.4.0 and is removed from drupal:10.0.0. See https://www.drupal.org/node/3042423');
+     new ResourceFetcher(
+       $this->container->get('http_client'),
+       $this->createMock('\Drupal\media\OEmbed\ProviderRepositoryInterface')
 diff --git a/core/modules/media/tests/src/Unit/ResourceFetcherTest.php b/core/modules/media/tests/src/Unit/ResourceFetcherTest.php
-index 8cd96683c9..327a628a65 100644
+index 8cd96683c9..127dc5c120 100644
 --- a/core/modules/media/tests/src/Unit/ResourceFetcherTest.php
 +++ b/core/modules/media/tests/src/Unit/ResourceFetcherTest.php
-@@ -43,6 +43,7 @@ public function testFetchTimeout(): void {
+@@ -43,7 +43,8 @@ public function testFetchTimeout(): void {
      $fetcher = new ResourceFetcher(
        $client->reveal(),
        $this->createMock('\Drupal\media\OEmbed\ProviderRepositoryInterface'),
-+      $this->createMock('\Drupal\Core\Extension\ModuleHandlerInterface'),
-       new NullBackend('default')
+-      new NullBackend('default')
++      new NullBackend('default'),
++      $this->createMock('\Drupal\Core\Extension\ModuleHandlerInterface')
      );
      $fetcher->fetchResource($url);
+   }
 @@ -80,7 +81,12 @@ public function testUnknownContentTypeHeader(): void {
      ]);
      $providers = $this->createMock('\Drupal\media\OEmbed\ProviderRepositoryInterface');
@@ -148,8 +203,8 @@ index 8cd96683c9..327a628a65 100644
 +    $fetcher = new ResourceFetcher(
 +      $client,
 +      $providers,
-+      $this->createMock('\Drupal\Core\Extension\ModuleHandlerInterface'),
-+      new NullBackend('default')
++      new NullBackend('default'),
++      $this->createMock('\Drupal\Core\Extension\ModuleHandlerInterface')
 +    );
      /** @var \Drupal\media\OEmbed\Resource $resource */
      $resource = $fetcher->fetchResource('valid');
