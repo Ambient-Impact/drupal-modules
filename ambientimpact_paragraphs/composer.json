@@ -19,7 +19,7 @@
   "extra": {
     "patches": {
       "drupal/geshifilter": {
-        "Theme functions are deprecated in geshifield [#3137937]: https://www.drupal.org/project/geshifilter/issues/3137937#comment-13895126": "https://raw.githubusercontent.com/Ambient-Impact/drupal-modules/4.x/ambientimpact_paragraphs/patches/drupal/geshifilter/theme_function_deprecated--3137937-2.patch"
+        "Theme functions are deprecated in geshifield [#3137937]: https://www.drupal.org/project/geshifilter/issues/3137937#comment-13895126": "https://raw.githubusercontent.com/Ambient-Impact/drupal-modules/5.x/ambientimpact_paragraphs/patches/drupal/geshifilter/theme_function_deprecated--3137937-2.patch"
       }
     }
   }
