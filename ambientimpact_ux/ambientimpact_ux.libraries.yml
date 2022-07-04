@@ -30,66 +30,6 @@ frend-offcanvas:
   js:
     /libraries/fr-offcanvas/dist/froffcanvas.min.js: { minified: true }
 
-gsap.tweenmax:
-  remote: https://greensock.com/docs/TweenMax
-  version: 2.1.3
-  license:
-    name: Standard "No Charge" GreenSock License
-    url: https://greensock.com/standard-license
-    gpl-compatible: false
-  js:
-    /libraries/gsap/src/minified/TweenMax.min.js: { minified: true }
-
-gsap.tweenlite:
-  remote: https://greensock.com/docs/TweenLite
-  version: 2.1.3
-  license:
-    name: Standard "No Charge" GreenSock License
-    url: https://greensock.com/standard-license
-    gpl-compatible: false
-  js:
-    /libraries/gsap/src/minified/TweenLite.min.js: { minified: true }
-
-gsap.timelinelite:
-  remote: https://greensock.com/docs/TimelineLite
-  version: 2.1.3
-  license:
-    name: Standard "No Charge" GreenSock License
-    url: https://greensock.com/standard-license
-    gpl-compatible: false
-  js:
-    /libraries/gsap/src/minified/TimelineLite.min.js: { minified: true }
-
-gsap.plugin.colorprops:
-  remote: https://greensock.com/docs/Plugins/ColorPropsPlugin
-  version: 2.1.3
-  license:
-    name: Standard "No Charge" GreenSock License
-    url: https://greensock.com/standard-license
-    gpl-compatible: false
-  js:
-    /libraries/gsap/src/minified/plugins/ColorPropsPlugin.min.js: { minified: true }
-
-gsap.plugin.css:
-  remote: https://greensock.com/docs/Plugins/CSSPlugin
-  version: 2.1.3
-  license:
-    name: Standard "No Charge" GreenSock License
-    url: https://greensock.com/standard-license
-    gpl-compatible: false
-  js:
-    /libraries/gsap/src/minified/plugins/CSSPlugin.min.js: { minified: true }
-
-gsap.plugin.scrollto:
-  remote: https://greensock.com/docs/Plugins/ScrollToPlugin
-  version: 2.1.3
-  license:
-    name: Standard "No Charge" GreenSock License
-    url: https://greensock.com/standard-license
-    gpl-compatible: false
-  js:
-    /libraries/gsap/src/minified/plugins/ScrollToPlugin.min.js: { minified: true }
-
 headroom.js:
   remote: https://wicky.nillia.ms/headroom.js/
   version: 0.10.4
