@@ -1,0 +1,5 @@
+component.property_to_pixel_converter:
+  js:
+    property_to_pixel_converter.js: {}
+  dependencies:
+    - ambientimpact_core/component.fastdom
