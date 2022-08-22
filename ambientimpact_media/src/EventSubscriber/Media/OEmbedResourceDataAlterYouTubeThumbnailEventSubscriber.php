@@ -17,21 +17,12 @@ EventSubscriberInterface {
    *
    * These should be ordered from largest to smallest.
    *
-   * @var array
+   * @var string[]
    *
    * @see https://stackoverflow.com/a/20542029
    *   List taken from this Stackoverflow answer.
    */
-  protected $thumbnailTypes = [
-    'maxresdefault' => [
-      'width'   => 1920,
-      'height'  => 1080,
-    ],
-    'sddefault' => [
-      'width'   => 640,
-      'height'  => 480,
-    ],
-  ];
+  protected $thumbnailTypes = ['maxresdefault', 'sddefault'];
 
   /**
    * {@inheritdoc}
@@ -65,7 +56,8 @@ EventSubscriberInterface {
 
     $client = new GuzzleClient();
 
-    foreach ($this->thumbnailTypes as $thumbnailName => $thumbnailDimensions) {
+    foreach ($this->thumbnailTypes as $thumbnailName) {
+
       // Replace 'hqdefault' in the thumbnail URL with the current type we're
       // testing for.
       $testThumbnailURL = \str_replace(
@@ -88,11 +80,34 @@ EventSubscriberInterface {
       // If this was a 200 response, update the thumbnail URL and dimensions
       // with the higher resolution and break out of the loop.
       if ($response->getStatusCode() === 200) {
+
+        /** @var array|false */
+        $imageSizeData = \getimagesizefromstring(
+          $response->getBody()->getContents()
+        );
+
+        // Check that \getimagesizefromstring() was able to determine the image
+        // size. Note the checks for zero, which can happen in some edge cases
+        // if it was passed valid image data but it couldn't determine the
+        // dimensions due to the image format.
+        //
+        // @see https://www.php.net/manual/en/function.getimagesize.php
+        if (
+          !\is_array($imageSizeData) ||
+          empty($imageSizeData[0]) ||
+          $imageSizeData[0] === 0 ||
+          empty($imageSizeData[1]) ||
+          $imageSizeData[1] === 0
+        ) {
+          continue;
+        }
+
         $data['thumbnail_url']    = $testThumbnailURL;
-        $data['thumbnail_width']  = $thumbnailDimensions['width'];
-        $data['thumbnail_height'] = $thumbnailDimensions['height'];
+        $data['thumbnail_width']  = $imageSizeData[0];
+        $data['thumbnail_height'] = $imageSizeData[1];
 
         break;
+
       }
     }
   }
