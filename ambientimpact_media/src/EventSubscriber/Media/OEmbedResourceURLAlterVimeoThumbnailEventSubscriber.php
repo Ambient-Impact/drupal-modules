@@ -9,8 +9,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Vimeo thumbnail oEmbed hook_oembed_resource_url_alter() event subscriber.
  */
-class OEmbedResourceURLAlterVimeoThumbnailEventSubscriber implements
-EventSubscriberInterface {
+class OEmbedResourceURLAlterVimeoThumbnailEventSubscriber implements EventSubscriberInterface {
+
   /**
    * {@inheritdoc}
    */
@@ -31,6 +31,7 @@ EventSubscriberInterface {
    *   The event object.
    */
   public function oEmbedResourceURLAlter(OEmbedResourceUrlAlterEvent $event) {
+
     /** @var array */
     $parsedURL = &$event->getParsedUrl();
 
@@ -40,5 +41,7 @@ EventSubscriberInterface {
     ) {
       $parsedURL['query']['width'] = '1280';
     }
+
   }
+
 }

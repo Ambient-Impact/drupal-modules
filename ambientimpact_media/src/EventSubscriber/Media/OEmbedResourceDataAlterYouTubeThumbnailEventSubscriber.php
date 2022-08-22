@@ -10,8 +10,8 @@ use GuzzleHttp\Client as GuzzleClient;
 /**
  * YouTube thumbnail oEmbed hook_oembed_resource_data_alter() event subscriber.
  */
-class OEmbedResourceDataAlterYouTubeThumbnailEventSubscriber implements
-EventSubscriberInterface {
+class OEmbedResourceDataAlterYouTubeThumbnailEventSubscriber implements EventSubscriberInterface {
+
   /**
    * Array of thumbnail sizes higher resolution than 'hqdefault' to try.
    *
@@ -45,6 +45,7 @@ EventSubscriberInterface {
    *   The event object.
    */
   public function oEmbedResourceDataAlter(OEmbedResourceDataAlterEvent $event) {
+
     $data = &$event->getData();
 
     if (
@@ -109,6 +110,9 @@ EventSubscriberInterface {
         break;
 
       }
+
     }
+
   }
+
 }
