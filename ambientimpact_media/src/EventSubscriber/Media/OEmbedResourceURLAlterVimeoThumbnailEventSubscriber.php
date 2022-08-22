@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\ambientimpact_media\EventSubscriber\Media;
 
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
