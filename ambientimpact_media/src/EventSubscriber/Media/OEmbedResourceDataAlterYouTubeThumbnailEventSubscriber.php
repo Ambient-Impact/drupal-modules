@@ -24,7 +24,7 @@ class OEmbedResourceDataAlterYouTubeThumbnailEventSubscriber implements EventSub
    * @see https://stackoverflow.com/a/20542029
    *   List taken from this Stackoverflow answer.
    */
-  protected $thumbnailTypes = ['maxresdefault', 'sddefault'];
+  protected array $thumbnailTypes = ['maxresdefault', 'sddefault'];
 
   /**
    * {@inheritdoc}
@@ -46,7 +46,9 @@ class OEmbedResourceDataAlterYouTubeThumbnailEventSubscriber implements EventSub
    * @param \Drupal\ambientimpact_media\Event\Media\OEmbedResourceDataAlterEvent $event
    *   The event object.
    */
-  public function oEmbedResourceDataAlter(OEmbedResourceDataAlterEvent $event) {
+  public function oEmbedResourceDataAlter(
+    OEmbedResourceDataAlterEvent $event
+  ): void {
 
     $data = &$event->getData();
 

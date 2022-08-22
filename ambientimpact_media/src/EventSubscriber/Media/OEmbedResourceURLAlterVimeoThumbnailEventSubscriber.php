@@ -32,7 +32,9 @@ class OEmbedResourceURLAlterVimeoThumbnailEventSubscriber implements EventSubscr
    * @param \Drupal\media_event_dispatcher\Event\Media\OEmbedResourceUrlAlterEvent $event
    *   The event object.
    */
-  public function oEmbedResourceURLAlter(OEmbedResourceUrlAlterEvent $event) {
+  public function oEmbedResourceURLAlter(
+    OEmbedResourceUrlAlterEvent $event
+  ): void {
 
     /** @var array */
     $parsedURL = &$event->getParsedUrl();
