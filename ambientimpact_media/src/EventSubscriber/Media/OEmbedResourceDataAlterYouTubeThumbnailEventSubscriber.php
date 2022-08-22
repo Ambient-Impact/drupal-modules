@@ -50,6 +50,7 @@ class OEmbedResourceDataAlterYouTubeThumbnailEventSubscriber implements EventSub
     OEmbedResourceDataAlterEvent $event
   ): void {
 
+    /** @var array */
     $data = &$event->getData();
 
     if (
@@ -59,12 +60,14 @@ class OEmbedResourceDataAlterYouTubeThumbnailEventSubscriber implements EventSub
       return;
     }
 
+    /** @var \GuzzleHttp\ClientInterface A Guzzle instance to try and fetch thumbnail images with. */
     $client = new GuzzleClient();
 
     foreach ($this->thumbnailTypes as $thumbnailName) {
 
       // Replace 'hqdefault' in the thumbnail URL with the current type we're
       // testing for.
+      /** @var string */
       $testThumbnailURL = \str_replace(
         'hqdefault',
         $thumbnailName,
@@ -74,6 +77,8 @@ class OEmbedResourceDataAlterYouTubeThumbnailEventSubscriber implements EventSub
       // We need to wrap the request in a try {} catch {} because Guzzle will
       // throw an exception on a 404.
       try {
+
+        /** @var \Psr\Http\Message\ResponseInterface */
         $response = $client->request('GET', $testThumbnailURL);
 
       // Got an exception? Skip to the next thumbnail size, assuming this
