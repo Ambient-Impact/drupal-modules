@@ -65,6 +65,11 @@ jquery.hoverintent:
       minified:   true
     }
 
+# @todo Remove this polyfill when Safari/WebKit begins to support smooth
+#   scrolling and has done so long enough for non-supporting versions to be a
+#   small minority of Safari/WebKit users.
+#
+# @see https://developer.mozilla.org/en-US/docs/Web/API/Window/scroll#browser_compatibility
 smoothscroll:
   remote: https://github.com/iamdustan/smoothscroll
   version: 0.4.4
