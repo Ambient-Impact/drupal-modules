@@ -10,5 +10,11 @@ photoswipe:
       /libraries/photoswipe/dist/photoswipe.css: {}
       /libraries/photoswipe/dist/default-skin/default-skin.css: {}
   js:
-    /libraries/photoswipe/dist/photoswipe.min.js: { minified: true }
-    /libraries/photoswipe/dist/photoswipe-ui-default.min.js: { minified: true }
+    /libraries/photoswipe/dist/photoswipe.min.js: {
+      attributes: { defer: true },
+      minified:   true
+    }
+    /libraries/photoswipe/dist/photoswipe-ui-default.min.js: {
+      attributes: { defer: true },
+      minified:   true
+    }

@@ -6,7 +6,10 @@ autosize:
     url: https://github.com/jackmoore/autosize/blob/master/LICENSE.md
     gpl-compatible: true
   js:
-    /libraries/autosize/dist/autosize.min.js: { minified: true }
+    /libraries/autosize/dist/autosize.min.js: {
+      attributes: { defer: true },
+      minified:   true
+    }
 
 fontfaceobserver:
   remote: https://fontfaceobserver.com/
@@ -18,7 +21,10 @@ fontfaceobserver:
   js:
     # This is the version without the Promises polyfill, which we don't need
     # because we require and test for Promises in the framework.
-    /libraries/fontfaceobserver/fontfaceobserver.standalone.js: { minified: true }
+    /libraries/fontfaceobserver/fontfaceobserver.standalone.js: {
+      attributes: { defer: true },
+      minified:   true
+    }
 
 frend-offcanvas:
   remote: https://frend.co/components/offcanvas/
@@ -28,7 +34,10 @@ frend-offcanvas:
     url: https://github.com/frend/frend.co/blob/gh-pages/LICENSE
     gpl-compatible: true
   js:
-    /libraries/fr-offcanvas/dist/froffcanvas.min.js: { minified: true }
+    /libraries/fr-offcanvas/dist/froffcanvas.min.js: {
+      attributes: { defer: true },
+      minified:   true
+    }
 
 headroom.js:
   remote: https://wicky.nillia.ms/headroom.js/
@@ -38,7 +47,10 @@ headroom.js:
     url: https://github.com/WickyNilliams/headroom.js/blob/master/LICENSE
     gpl-compatible: true
   js:
-    /libraries/headroom.js/dist/headroom.min.js: { minified: true }
+    /libraries/headroom.js/dist/headroom.min.js: {
+      attributes: { defer: true },
+      minified:   true
+    }
 
 jquery.hoverintent:
   remote: https://github.com/briancherne/jquery-hoverIntent
@@ -48,7 +60,10 @@ jquery.hoverintent:
     url: https://github.com/briancherne/jquery-hoverIntent/blob/master/jquery.hoverIntent.js
     gpl-compatible: true
   js:
-    /libraries/jquery-hoverintent/jquery.hoverIntent.min.js: { minified: true }
+    /libraries/jquery-hoverintent/jquery.hoverIntent.min.js: {
+      attributes: { defer: true },
+      minified:   true
+    }
 
 smoothscroll:
   remote: https://github.com/iamdustan/smoothscroll
@@ -58,7 +73,7 @@ smoothscroll:
     url: https://github.com/iamdustan/smoothscroll/blob/master/LICENSE
     gpl-compatible: true
   js:
-    /libraries/smoothscroll/src/smoothscroll.js: {}
+    /libraries/smoothscroll/src/smoothscroll.js: { attributes: { defer: true } }
 
 popper.js:
   remote: https://popper.js.org/
@@ -68,7 +83,10 @@ popper.js:
     url: https://github.com/FezVrasta/popper.js/blob/master/LICENSE.md
     gpl-compatible: true
   js:
-    /libraries/popper.js/dist/umd/popper.min.js: { minified: true }
+    /libraries/popper.js/dist/umd/popper.min.js: {
+      attributes: { defer: true },
+      minified:   true
+    }
 
 tippy.js:
   remote: https://atomiks.github.io/tippyjs/
@@ -81,6 +99,9 @@ tippy.js:
     component:
       /libraries/tippy.js/dist/tippy.css: {}
   js:
-    /libraries/tippy.js/dist/tippy.standalone.js: { minified: true }
+    /libraries/tippy.js/dist/tippy.standalone.js: {
+      attributes: { defer: true },
+      minified:   true
+    }
   dependencies:
     - ambientimpact_ux/popper.js

@@ -18,7 +18,10 @@ ally.js:
     url: https://github.com/medialize/ally.js/blob/1.4.1/LICENSE.txt
     gpl-compatible: true
   js:
-    /libraries/ally.js/ally.min.js: { minified: true }
+    /libraries/ally.js/ally.min.js: {
+      attributes: { defer: true },
+      minified:   true
+    }
 
 fastdom:
   remote: https://github.com/wilsonpage/fastdom
@@ -28,7 +31,10 @@ fastdom:
     url: https://github.com/wilsonpage/fastdom#license
     gpl-compatible: true
   js:
-    /libraries/fastdom/fastdom.min.js: { minified: true }
+    /libraries/fastdom/fastdom.min.js: {
+      attributes: { defer: true },
+      minified:   true
+    }
 
 fastdom-promised:
   remote: https://github.com/wilsonpage/fastdom
@@ -38,7 +44,10 @@ fastdom-promised:
     url: https://github.com/wilsonpage/fastdom#license
     gpl-compatible: true
   js:
-    /libraries/fastdom/extensions/fastdom-promised.js: { minified: false }
+    /libraries/fastdom/extensions/fastdom-promised.js: {
+      attributes: { defer: true },
+      minified:   true
+    }
   dependencies:
     - ambientimpact_core/fastdom
 
@@ -50,7 +59,10 @@ fastdom-sandbox:
     url: https://github.com/wilsonpage/fastdom#license
     gpl-compatible: true
   js:
-    /libraries/fastdom/extensions/fastdom-sandbox.js: { minified: false }
+    /libraries/fastdom/extensions/fastdom-sandbox.js: {
+      attributes: { defer: true },
+      minified:   true
+    }
   dependencies:
     - ambientimpact_core/fastdom
 
@@ -62,7 +74,10 @@ fastdom-strict:
     url: https://github.com/wilsonpage/fastdom#license
     gpl-compatible: true
   js:
-    /libraries/fastdom/fastdom-strict.js: { minified: true }
+    /libraries/fastdom/fastdom-strict.js: {
+      attributes: { defer: true },
+      minified:   true
+    }
   dependencies:
     - ambientimpact_core/fastdom
     - ambientimpact_core/strictdom
@@ -75,4 +90,7 @@ strictdom:
     url: https://github.com/wilsonpage/strictdom#license
     gpl-compatible: true
   js:
-    /libraries/strictdom/strictdom.js: { minified: false }
+    /libraries/strictdom/strictdom.js: {
+      attributes: { defer: true },
+      minified:   true
+    }
