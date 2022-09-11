@@ -25,8 +25,6 @@ Creative Commons Attribution 4.0 International (CC BY 4.0).
 
 # GitLab icon
 
-This is taken from the [GitLab press
-kit](https://about.gitlab.com/press/press-kit/) and modified to be
-single-colour; licensed under [Attribution-NonCommercial-ShareAlike 4.0
-International (CC BY-NC-SA
-4.0)](https://about.gitlab.com/handbook/marketing/corporate-marketing/#gitlab-trademark--logo-guidelines).
+This is from [Simple Icons](https://simpleicons.org/?q=gitlab); licensed under
+[Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA
+4.0)](https://about.gitlab.com/handbook/marketing/corporate-marketing/#gitlab-brand).
