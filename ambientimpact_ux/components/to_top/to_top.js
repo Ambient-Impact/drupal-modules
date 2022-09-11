@@ -90,7 +90,7 @@ AmbientImpact.addComponent('toTop', function(aiToTop, $) {
   });
 
   $container.on({
-    // Show even handler. This is naive to any conditions, so only call this to
+    // Show event handler. This is naive to any conditions, so only call this to
     // definitely show the container.
     'show.aiToTop': function(event) {
       // Remove the hidden attribute.
