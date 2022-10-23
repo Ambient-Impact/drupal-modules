@@ -15,6 +15,5 @@
     "sass": "^1.43.3",
     "sass-module-importer": "^1.4.0",
     "sassy-lists": "^3.0.1"
-  },
-  "dependencies": {}
+  }
 }
