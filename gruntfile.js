@@ -59,4 +59,6 @@ module.exports = function(grunt) {
     'svgstore',
   ]);
 
+  grunt.registerTask('default', ['all']);
+
 };
