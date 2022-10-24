@@ -108,6 +108,11 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
    */
   function show(disabledPromise) {
 
+    // Ignore any calls if the overlay is currently open.
+    if (this.$overlay.hasClass(activeClass)) {
+      return;
+    }
+
     this.$overlay.addClass(activeClass);
 
     // Failsafe to prevent disabling anything if the overlay is not visible or
@@ -178,6 +183,12 @@ AmbientImpact.addComponent('overlay', function(aiOverlay, $) {
    *   resolved.
    */
   function hide(disabledPromise) {
+
+    // Ignore any calls if the overlay is currently closed.
+    if (!this.$overlay.hasClass(activeClass)) {
+      return;
+    }
+
     this.$overlay.removeClass(activeClass);
 
     this.$overlay.trigger('overlayHiding');
