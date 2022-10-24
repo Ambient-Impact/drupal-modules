@@ -10,7 +10,7 @@
     "grunt-sass": "^3.1.0",
     "grunt-svgstore": "^2.0.0",
     "include-media": "^1.4.10",
-    "load-grunt-config": "^3.0.2",
+    "load-grunt-config": "^4.0.1",
     "postcss": "^8.3.5",
     "sass": "^1.43.3",
     "sass-module-importer": "^1.4.0",
