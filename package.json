@@ -1,6 +1,6 @@
 {
   "name": "ambientimpact-drupal-modules",
-  "version": "1.0.0",
+  "version": "5.0.0",
   "license": "GPL-2.0",
   "repository": "gitlab:Ambient.Impact/drupal-modules",
   "devDependencies": {
