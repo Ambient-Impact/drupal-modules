@@ -4,16 +4,10 @@
   "license": "GPL-2.0",
   "repository": "gitlab:Ambient.Impact/drupal-modules",
   "devDependencies": {
-    "@lodder/grunt-postcss": "^3.0.1",
     "autoprefixer": "^10.2.6",
-    "grunt": "^1.5.3",
-    "grunt-sass": "^3.1.0",
-    "grunt-svgstore": "^2.0.0",
     "include-media": "^1.4.10",
-    "load-grunt-config": "^4.0.1",
     "postcss": "^8.3.5",
     "sass": "^1.43.3",
-    "sass-module-importer": "^1.4.0",
     "sassy-lists": "^3.0.1"
   }
 }
