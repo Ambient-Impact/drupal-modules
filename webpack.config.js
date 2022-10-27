@@ -1,67 +1,107 @@
 'use strict';
 
 const autoprefixer = require('autoprefixer');
-const globEntry = require('webpack-glob-entry');
-const path = require('path');
+const glob = require('glob');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
 
 const isDev = (process.env.NODE_ENV !== 'production');
 
-const glob = require('glob');
+const distPath = '.webpack-dist';
 
-const componentPaths = [
-  'ambientimpact_block/components',
-  'ambientimpact_core/components',
-  'ambientimpact_icon/components',
-  'ambientimpact_media/components',
-  'ambientimpact_ux/components',
-  'ambientimpact_web/ambientimpact_web_components/components',
-];
+/**
+ * Whether to output to the paths where the source files are found.
+ *
+ * If this is true, compiled Sass files, source maps, etc. will be placed
+ * alongside their source files. If this is false, built files will be placed in
+ * the dist directory defined by distPath.
+ *
+ * @type {Boolean}
+ */
+const outputToSourcePaths = false;
 
-console.log(glob.sync('./ambientimpact_ux/components/**/!(_)*.scss').reduce(function(acc, path) {
-    const entry = path.replace('/index.js', '');
-    acc[entry] = path;
-    return acc;
-}, {}))
+/**
+ * Get component paths discovered by glob.
+ *
+ * @return {String[]}
+ *   An array of string absolute paths.
+ *
+ * @see https://www.npmjs.com/package/glob
+ *
+ * @todo Should we keep these as relative paths?
+ */
+function getComponentPaths() {
+
+  return glob.sync(
+    './!(' + distPath + ')/**/components'
+  ).map(function(componentPath) {
+    return path.resolve(__dirname, componentPath);
+  });
+
+};
+
+const componentPaths = getComponentPaths();
+
+/**
+ * Get globbed entry points.
+ *
+ * This uses the 'glob' package to automagically build the array of entry
+ * points, as there are a lot of them spread out over many components.
+ *
+ * @return {Array}
+ *
+ * @see https://www.npmjs.com/package/glob
+ */
+function getGlobbedEntries() {
+
+  return glob.sync(
+    // This specifically only searches for SCSS files that aren't partials, i.e.
+    // do not start with '_'.
+    './!(' + distPath + ')/**/!(_)*.scss'
+  ).reduce(function(entries, currentPath) {
+
+      const parsed = path.parse(currentPath);
+
+      entries[parsed.dir + '/' + parsed.name] = currentPath;
+
+      return entries;
+
+  }, {});
+
+};
 
 module.exports = {
-  mode: 'development',
-  entry: globEntry(
-    './ambientimpact_block/components/**/!(_)*.scss',
-    './ambientimpact_core/components/**/!(_)*.scss',
-    './ambientimpact_icon/components/**/!(_)*.scss',
-    './ambientimpact_media/components/**/!(_)*.scss',
-    './ambientimpact_ux/components/**/!(_)*.scss',
-    './ambientimpact_web/ambientimpact_web_components/components/**/!(_)*.scss',
-  ),
+
+  mode:     'development',
+  devtool:  isDev ? 'eval':  false,
+
+  entry: getGlobbedEntries,
+
   plugins: [
-    new MiniCssExtractPlugin({
-      // // Options similar to the same options in webpackOptions.output
-      // // all options are optional
-      // filename: "[name].css",
-      // chunkFilename: "[id].css",
-      // ignoreOrder: false, // Enable to remove warnings about conflicting order
-    }),
+    new MiniCssExtractPlugin(),
   ],
+
   output: {
-    clean: true,
-    // filename: 'js/[name].js',
-    // chunkFilename: 'js/async/[name].chunk.js',
-    path: path.resolve(__dirname, 'dist'),
-    // pathinfo: true,
-    // publicPath: '../../',
+
+    path: path.resolve(__dirname, distPath),
+    // path: path.resolve(__dirname),
+
+    clean: !outputToSourcePaths,
+
+    // Since Webpack started out primarily for building JavaScript applications,
+    // it always outputs a JS files, even if empty. We place these in a
+    // temporary directory by default.
+    filename: 'temp/[name].js',
+
   },
+
   module: {
     rules: [
       {
-        test: /\.(css|scss)$/,
-        // test: /\/[^_][^\/]+\.(css|scss)$/,
+        test: /\.(scss)$/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            // options: {
-            //   name: '[name].[ext]?[hash]',
-            // }
           },
           {
             loader: 'css-loader',
@@ -97,14 +137,7 @@ module.exports = {
             options: {
               sourceMap: isDev,
               sassOptions: {
-                includePaths: [
-                  path.resolve(__dirname, 'ambientimpact_block/components'),
-                  path.resolve(__dirname, 'ambientimpact_core/components'),
-                  path.resolve(__dirname, 'ambientimpact_icon/components'),
-                  path.resolve(__dirname, 'ambientimpact_media/components'),
-                  path.resolve(__dirname, 'ambientimpact_ux/components'),
-                  path.resolve(__dirname, 'ambientimpact_web/ambientimpact_web_components/components'),
-                ],
+                includePaths: componentPaths,
               }
             },
           },
