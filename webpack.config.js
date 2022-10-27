@@ -4,6 +4,7 @@ const autoprefixer = require('autoprefixer');
 const glob = require('glob');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 
 const isDev = (process.env.NODE_ENV !== 'production');
 
@@ -78,6 +79,7 @@ module.exports = {
   entry: getGlobbedEntries,
 
   plugins: [
+    new RemoveEmptyScriptsPlugin(),
     new MiniCssExtractPlugin(),
   ],
 
