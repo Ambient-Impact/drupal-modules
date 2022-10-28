@@ -5,6 +5,7 @@ const glob = require('glob');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
+const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin');
 
 const isDev = (process.env.NODE_ENV !== 'production');
 
@@ -71,6 +72,78 @@ function getGlobbedEntries() {
 
 };
 
+/**
+ * Icon bundles objects built from icon directories found via globbing.
+ *
+ * @type {Array}
+ *
+ * @see https://github.com/cascornelissen/svg-spritemap-webpack-plugin/issues/195
+ *   Don't use path.resolve() in any of these as it'll result in incorrect paths
+ *   on Windows.
+ */
+const iconBundles = glob.sync(
+  './**/icons/*/'
+).filter(function(bundlePath) {
+
+  // Only include this entry if it actually has one or more SVG files in it.
+  return glob.sync(`${bundlePath}/*.svg`).length > 0;
+
+}).map(function(bundlePath) {
+
+  let bundleName = path.basename(bundlePath);
+
+  return {
+    sourcePath: bundlePath,
+    bundleName: bundleName,
+    bundleFile: path.join(bundlePath, `../${bundleName}.svg`)
+  };
+
+});
+
+/**
+ * Array of plug-in instances to pass to Webpack.
+ *
+ * @type {Array}
+ */
+let plugins = [
+  new RemoveEmptyScriptsPlugin(),
+  new MiniCssExtractPlugin(),
+];
+
+iconBundles.forEach(function(bundle) {
+
+  plugins.push(
+    new SVGSpritemapPlugin(`${bundle.sourcePath}/*.svg`, {
+      output: {
+        filename: bundle.bundleFile,
+        svg: {
+          sizes: false
+        },
+        svgo: {
+          plugins: [
+            {
+              name: 'removeAttrs',
+              params: {
+                attrs: '(use|symbol|svg):fill'
+              }
+            }
+          ],
+        },
+      },
+      sprite: {
+        prefix: 'icon-',
+        gutter: 0,
+        generate: {
+          title:  false,
+          symbol: true,
+          use:    true,
+        }
+      },
+    }),
+  );
+
+});
+
 module.exports = {
 
   mode:     'development',
@@ -78,10 +151,7 @@ module.exports = {
 
   entry: getGlobbedEntries,
 
-  plugins: [
-    new RemoveEmptyScriptsPlugin(),
-    new MiniCssExtractPlugin(),
-  ],
+  plugins: plugins,
 
   output: {
 
@@ -109,17 +179,6 @@ module.exports = {
             options: {
               sourceMap: isDev,
               importLoaders: 2,
-              url: {
-                filter: function(url, resourcePath) {
-
-                  if (url.includes('sprite.svg')) {
-                    return false;
-                  }
-
-                  return true;
-
-                },
-              },
             },
           },
           {
