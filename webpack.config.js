@@ -157,6 +157,9 @@ module.exports = {
 
     path: path.resolve(__dirname, (outputToSourcePaths ? '.' : distPath)),
 
+    // Be very careful with this - if outputting to the source paths, this must
+    // not be true or it'll delete everything contained in the directory without
+    // warning.
     clean: !outputToSourcePaths,
 
     // Since Webpack started out primarily for building JavaScript applications,
