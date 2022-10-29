@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 const isDev = (process.env.NODE_ENV !== 'production');
 
@@ -25,20 +26,22 @@ const outputToSourcePaths = true;
 /**
  * Get component paths discovered by glob.
  *
- * @return {String[]}
- *   An array of string absolute paths.
+ * @return {Object}
+ *   An object absolute component paths keyed by their relative, globbed paths.
  *
  * @see https://www.npmjs.com/package/glob
- *
- * @todo Should we keep these as relative paths?
  */
 function getComponentPaths() {
 
-  return glob.sync(
-    './!(' + distPath + ')/**/components'
-  ).map(function(componentPath) {
-    return path.resolve(__dirname, componentPath);
-  });
+  let paths = {};
+
+  for (const relativePath of glob.sync(
+    `./!(${distPath})/**/components`
+  )) {
+    paths[relativePath] = path.resolve(__dirname, relativePath);
+  }
+
+  return paths;
 
 };
 
@@ -108,6 +111,19 @@ const iconBundles = glob.sync(
 let plugins = [
   new RemoveEmptyScriptsPlugin(),
   new MiniCssExtractPlugin(),
+  new WebpackManifestPlugin({
+    fileName: 'components.json',
+    // This seeds the manifest with just the relative paths to the components.
+    seed: Object.keys(componentPaths),
+    // This overrides the default behaviour of the manifest plug-in where it
+    // would include all of the entry items. We only want to output the
+    // component directory paths for the time being.
+    //
+    // @todo Could we output those as well in case they're useful?
+    generate: function(seed, files, entries) {
+      return seed;
+    }
+  }),
 ];
 
 iconBundles.forEach(function(bundle) {
@@ -200,7 +216,7 @@ module.exports = {
             options: {
               sourceMap: isDev,
               sassOptions: {
-                includePaths: componentPaths,
+                includePaths: Object.values(componentPaths),
               }
             },
           },
