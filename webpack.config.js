@@ -62,12 +62,12 @@ function getGlobbedEntries() {
   return glob.sync(
     // This specifically only searches for SCSS files that aren't partials, i.e.
     // do not start with '_'.
-    './!(' + distPath + ')/**/!(_)*.scss'
+    `./!(${distPath})/**/!(_)*.scss`
   ).reduce(function(entries, currentPath) {
 
       const parsed = path.parse(currentPath);
 
-      entries[parsed.dir + '/' + parsed.name] = currentPath;
+      entries[`${parsed.dir}/${parsed.name}`] = currentPath;
 
       return entries;
 
