@@ -171,7 +171,7 @@ iconBundles.forEach(function(bundle) {
 
 module.exports = {
 
-  mode:     'development',
+  mode:     isDev ? 'development' : 'production',
   devtool:  isDev ? 'eval-cheap-module-source-map': false,
 
   entry: getGlobbedEntries,
