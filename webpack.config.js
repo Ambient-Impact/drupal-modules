@@ -5,6 +5,7 @@ const glob = require('glob');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
+const SourceMapDevToolPlugin = require('webpack/lib/SourceMapDevToolPlugin');
 const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
@@ -126,6 +127,14 @@ let plugins = [
   }),
 ];
 
+if (isDev === true) {
+  plugins.push(
+    new SourceMapDevToolPlugin({
+      filename: '[file].map',
+    })
+  );
+}
+
 iconBundles.forEach(function(bundle) {
 
   plugins.push(
@@ -163,7 +172,7 @@ iconBundles.forEach(function(bundle) {
 module.exports = {
 
   mode:     'development',
-  devtool:  isDev ? 'eval':  false,
+  devtool:  isDev ? 'eval-cheap-module-source-map': false,
 
   entry: getGlobbedEntries,
 
