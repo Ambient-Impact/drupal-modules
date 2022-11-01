@@ -1,13 +1,13 @@
 'use strict';
 
 const autoprefixer = require('autoprefixer');
+const componentPaths = require('ambientimpact-drupal-modules/componentPaths');
 const glob = require('glob');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 const SourceMapDevToolPlugin = require('webpack/lib/SourceMapDevToolPlugin');
 const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin');
-const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 const isDev = (process.env.NODE_ENV !== 'production');
 
@@ -23,30 +23,6 @@ const distPath = '.webpack-dist';
  * @type {Boolean}
  */
 const outputToSourcePaths = true;
-
-/**
- * Get component paths discovered by glob.
- *
- * @return {Object}
- *   An object absolute component paths keyed by their relative, globbed paths.
- *
- * @see https://www.npmjs.com/package/glob
- */
-function getComponentPaths() {
-
-  let paths = {};
-
-  for (const relativePath of glob.sync(
-    `./!(${distPath})/**/components`
-  )) {
-    paths[relativePath] = path.resolve(__dirname, relativePath);
-  }
-
-  return paths;
-
-};
-
-const componentPaths = getComponentPaths();
 
 /**
  * Get globbed entry points.
@@ -112,19 +88,6 @@ const iconBundles = glob.sync(
 let plugins = [
   new RemoveEmptyScriptsPlugin(),
   new MiniCssExtractPlugin(),
-  new WebpackManifestPlugin({
-    fileName: 'components.json',
-    // This seeds the manifest with just the relative paths to the components.
-    seed: Object.keys(componentPaths),
-    // This overrides the default behaviour of the manifest plug-in where it
-    // would include all of the entry items. We only want to output the
-    // component directory paths for the time being.
-    //
-    // @todo Could we output those as well in case they're useful?
-    generate: function(seed, files, entries) {
-      return seed;
-    }
-  }),
 ];
 
 if (isDev === true) {
@@ -225,7 +188,7 @@ module.exports = {
             options: {
               sourceMap: isDev,
               sassOptions: {
-                includePaths: Object.values(componentPaths),
+                includePaths: componentPaths().all,
               }
             },
           },
