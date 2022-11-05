@@ -8,6 +8,9 @@
     "component-paths": "node componentPaths.js"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.2",
+    "@babel/preset-env": "^7.20.2",
+    "@symfony/webpack-encore": "^4.1.1",
     "autoprefixer": "^10.2.6",
     "css-loader": "^6.7.1",
     "glob": "^8.0.3",
