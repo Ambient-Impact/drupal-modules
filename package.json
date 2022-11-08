@@ -9,6 +9,16 @@
   "exports": {
     "./componentPaths": "./ambientimpact_core/javascript/component_paths.js"
   },
+  "yarn.build": {
+    "input": [
+      "**/components/**/*.scss",
+      "**/icons/*/*.svg"
+    ],
+    "output": [
+      "**/components/**/*.css",
+      "**/icons/*.svg"
+    ]
+  },
   "devDependencies": {
     "@babel/core": "^7.20.2",
     "@babel/preset-env": "^7.20.2",
