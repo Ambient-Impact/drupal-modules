@@ -4,8 +4,10 @@
   "license": "GPL-2.0",
   "repository": "gitlab:Ambient.Impact/drupal-modules",
   "scripts": {
-    "build": "webpack --progress --config webpack.config.js",
-    "component-paths": "node componentPaths.js"
+    "build": "webpack --progress --config webpack.config.js"
+  },
+  "exports": {
+    "./componentPaths": "./ambientimpact_core/javascript/component_paths.js"
   },
   "devDependencies": {
     "@babel/core": "^7.20.2",
