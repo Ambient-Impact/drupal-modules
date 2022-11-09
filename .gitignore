@@ -8,3 +8,5 @@
 # Webpack Encore generated files.
 entrypoints.json
 manifest.json
+
+vendor
