@@ -48,7 +48,7 @@ const vendorDir = './vendor';
 const packageNames = [
   'ally.js', 'autosize', 'chillout', 'fastdom', 'fontfaceobserver',
   'fr-offcanvas', 'headroom.js', 'jquery-hoverintent', 'js-cookie',
-  'photoswipe', 'popper.js', 'strictdom', 'tippy.js',
+  'photoswipe', 'popper.js', 'smoothscroll-polyfill', 'strictdom', 'tippy.js',
 ];
 
 /**

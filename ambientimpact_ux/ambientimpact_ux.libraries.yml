@@ -78,7 +78,10 @@ smoothscroll:
     url: https://github.com/iamdustan/smoothscroll/blob/master/LICENSE
     gpl-compatible: true
   js:
-    /libraries/smoothscroll/src/smoothscroll.js: { attributes: { defer: true } }
+    ../vendor/smoothscroll-polyfill/dist/smoothscroll.min.js: {
+      attributes: { defer: true },
+      minified:   true
+    }
 
 popper.js:
   remote: https://popper.js.org/
