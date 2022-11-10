@@ -10,24 +10,8 @@
       "role": "Developer"
     }
   ],
-  "repositories": {
-    "drupal-library/jquery.onfontresize": {
-      "type": "package",
-      "package": {
-        "name": "drupal-library/jquery.onfontresize",
-        "type": "drupal-library",
-        "version": "master",
-        "source": {
-          "url": "https://github.com/johnantoni/jquery.onfontresize.git",
-          "type": "git",
-          "reference": "master"
-        }
-      }
-    }
-  },
   "require": {
     "drupal/hook_event_dispatcher": "^2.0 || ^3.0",
-    "drupal-library/jquery.onfontresize": "master",
     "symfony/css-selector": "^3.4 || ^4.4",
     "symfony/dom-crawler": "^3.4 || ^4.4"
   },

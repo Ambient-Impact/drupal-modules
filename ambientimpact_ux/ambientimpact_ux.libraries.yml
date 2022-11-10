@@ -65,6 +65,19 @@ jquery.hoverintent:
       minified:   true
     }
 
+jquery.onfontresize:
+  remote: https://github.com/Ambient-Impact/jquery.onfontresize
+  version: 1.1.0
+  license:
+    name: MIT
+    url: https://github.com/Ambient-Impact/jquery.onfontresize/blob/main/LICENSE
+    gpl-compatible: true
+  js:
+    ../vendor/jquery.onfontresize/jquery.onfontresize.min.js: {
+      attributes: { defer: true },
+      minified:   true
+    }
+
 # @todo Remove this polyfill when Safari/WebKit begins to support smooth
 #   scrolling and has done so long enough for non-supporting versions to be a
 #   small minority of Safari/WebKit users.
