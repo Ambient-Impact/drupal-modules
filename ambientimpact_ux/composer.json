@@ -12,14 +12,7 @@
   ],
   "require": {
     "drupal/hook_event_dispatcher": "^2.0 || ^3.0",
-    "npm-asset/autosize": "4.0.2",
-    "npm-asset/fontfaceobserver": "2.1.0",
-    "npm-asset/headroom.js": "0.10.4",
-    "npm-asset/fr-offcanvas": "1.1.1",
-    "npm-asset/jquery-hoverintent": "1.10.0",
     "bower-asset/smoothscroll": "^0.4.4",
-    "npm-asset/popper.js": "1.15.0",
-    "bower-asset/stickyfill": "~1.1.4",
-    "npm-asset/tippy.js": "2.6.0"
+    "bower-asset/stickyfill": "~1.1.4"
   }
 }

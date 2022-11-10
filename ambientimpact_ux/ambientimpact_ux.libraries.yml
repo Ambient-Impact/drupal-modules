@@ -6,7 +6,7 @@ autosize:
     url: https://github.com/jackmoore/autosize/blob/master/LICENSE.md
     gpl-compatible: true
   js:
-    /libraries/autosize/dist/autosize.min.js: {
+    ../vendor/autosize/dist/autosize.min.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -21,7 +21,7 @@ fontfaceobserver:
   js:
     # This is the version without the Promises polyfill, which we don't need
     # because we require and test for Promises in the framework.
-    /libraries/fontfaceobserver/fontfaceobserver.standalone.js: {
+    ../vendor/fontfaceobserver/fontfaceobserver.standalone.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -34,7 +34,7 @@ frend-offcanvas:
     url: https://github.com/frend/frend.co/blob/gh-pages/LICENSE
     gpl-compatible: true
   js:
-    /libraries/fr-offcanvas/dist/froffcanvas.min.js: {
+    ../vendor/fr-offcanvas/dist/froffcanvas.min.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -47,7 +47,7 @@ headroom.js:
     url: https://github.com/WickyNilliams/headroom.js/blob/master/LICENSE
     gpl-compatible: true
   js:
-    /libraries/headroom.js/dist/headroom.min.js: {
+    ../vendor/headroom.js/dist/headroom.min.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -60,7 +60,7 @@ jquery.hoverintent:
     url: https://github.com/briancherne/jquery-hoverIntent/blob/master/jquery.hoverIntent.js
     gpl-compatible: true
   js:
-    /libraries/jquery-hoverintent/jquery.hoverIntent.min.js: {
+    ../vendor/jquery-hoverintent/jquery.hoverIntent.min.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -88,7 +88,7 @@ popper.js:
     url: https://github.com/FezVrasta/popper.js/blob/master/LICENSE.md
     gpl-compatible: true
   js:
-    /libraries/popper.js/dist/umd/popper.min.js: {
+    ../vendor/popper.js/dist/umd/popper.min.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -102,9 +102,9 @@ tippy.js:
     gpl-compatible: true
   css:
     component:
-      /libraries/tippy.js/dist/tippy.css: {}
+      ../vendor/tippy.js/dist/tippy.css: {}
   js:
-    /libraries/tippy.js/dist/tippy.standalone.js: {
+    ../vendor/tippy.js/dist/tippy.standalone.js: {
       attributes: { defer: true },
       minified:   true
     }

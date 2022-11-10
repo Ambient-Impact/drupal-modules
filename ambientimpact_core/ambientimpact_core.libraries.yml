@@ -18,7 +18,7 @@ ally.js:
     url: https://github.com/medialize/ally.js/blob/1.4.1/LICENSE.txt
     gpl-compatible: true
   js:
-    /libraries/ally.js/ally.min.js: {
+    ../vendor/ally.js/ally.min.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -31,7 +31,7 @@ fastdom:
     url: https://github.com/wilsonpage/fastdom#license
     gpl-compatible: true
   js:
-    /libraries/fastdom/fastdom.min.js: {
+    ../vendor/fastdom/fastdom.min.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -44,7 +44,7 @@ fastdom-promised:
     url: https://github.com/wilsonpage/fastdom#license
     gpl-compatible: true
   js:
-    /libraries/fastdom/extensions/fastdom-promised.js: {
+    ../vendor/fastdom/extensions/fastdom-promised.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -59,7 +59,7 @@ fastdom-sandbox:
     url: https://github.com/wilsonpage/fastdom#license
     gpl-compatible: true
   js:
-    /libraries/fastdom/extensions/fastdom-sandbox.js: {
+    ../vendor/fastdom/extensions/fastdom-sandbox.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -74,7 +74,7 @@ fastdom-strict:
     url: https://github.com/wilsonpage/fastdom#license
     gpl-compatible: true
   js:
-    /libraries/fastdom/fastdom-strict.js: {
+    ../vendor/fastdom/fastdom-strict.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -90,7 +90,7 @@ strictdom:
     url: https://github.com/wilsonpage/strictdom#license
     gpl-compatible: true
   js:
-    /libraries/strictdom/strictdom.js: {
+    ../vendor/strictdom/strictdom.js: {
       attributes: { defer: true },
       minified:   true
     }

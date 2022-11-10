@@ -15,8 +15,7 @@
     "drupal/core-recommended": "^9.4",
     "drupal/hook_event_dispatcher": "^2.0 || ^3.0",
     "drupal/image_field_caption": "^1.1",
-    "guzzlehttp/guzzle": "^6.3",
-    "bower-asset/photoswipe": "4.1.3"
+    "guzzlehttp/guzzle": "^6.3"
   },
   "extra": {
     "patches": {
