@@ -39,12 +39,16 @@ const vendorDir = './vendor';
 /**
  * Array of package names to be copied to the public vendor directory.
  *
+ * Note that all of these must be declared as direct dependencies of this
+ * package or Yarn will throw an error when trying to access them. This means
+ * any dependencies of these dependencies need to be listed in the package.json.
+ *
  * @type {String[]}
  */
 const packageNames = [
   'ally.js', 'autosize', 'chillout', 'fastdom', 'fontfaceobserver',
   'fr-offcanvas', 'headroom.js', 'jquery-hoverintent', 'js-cookie',
-  'photoswipe', 'popper.js', 'tippy.js',
+  'photoswipe', 'popper.js', 'strictdom', 'tippy.js',
 ];
 
 /**
