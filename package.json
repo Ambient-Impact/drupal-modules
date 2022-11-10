@@ -5,7 +5,8 @@
   "repository": "gitlab:Ambient.Impact/drupal-modules",
   "scripts": {
     "build": "webpack --progress --config webpack.config.js",
-    "build:vendor": "webpack --progress --config webpack.vendor.js"
+    "build:vendor": "webpack --progress --config webpack.vendor.js",
+    "postinstall": "yarn run build:vendor"
   },
   "exports": {
     "./componentPaths": "./ambientimpact_core/javascript/component_paths.js"
