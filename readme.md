@@ -14,73 +14,154 @@ theme integrates heavily with these modules.
 to maintain a stable API and may occasionally contain bugs, being a
 work-in-progress. Stable releases may be provided at a later date.
 
------------------
+----
 
-# Using Composer
+# Requirements
 
-If you're using [Composer](https://www.drupal.org/docs/develop/using-composer)
-to manage your root project (which you really should), assuming your project is
-using
-[```drupal-composer/drupal-project```](https://github.com/drupal-composer/drupal-project)
-and has installed both
-[```wikimedia/composer-merge-plugin```](https://github.com/wikimedia/composer-merge-plugin)
-and [```cweagans/composer-patches```](https://github.com/cweagans/composer-patches),
-you must add the following to your root ```composer.json```:
+* [Drupal 9.4 or newer](https://www.drupal.org/download) ([Drupal 8 is end-of-life](https://www.drupal.org/psa-2021-11-30))
 
-```
-"extra": {
-  "merge-plugin": {
-    "include": [
-      "drupal/modules/ambientimpact/*/composer.json",
-      "drupal/modules/ambientimpact/*/*/composer.json"
-    ],
-    "merge-extra": true,
-    "merge-extra-deep": true
-  }
+* PHP 8
+
+* [Composer](https://getcomposer.org/)
+
+## Front-end dependencies
+
+To build front-end assets for this project, [Node.js](https://nodejs.org/) and
+[Yarn](https://yarnpkg.com/) are required.
+
+----
+
+# Installation
+
+## Composer
+
+This is a partly legacy codebase, and as such, Composer installation of the
+modules in this repository isn't supported directly. You'll have to check out
+the repository into your Drupal modules directory, optionally as a Git
+submodule. The long term plan is to refactor these as individual Composer
+packages, but for now, manual installation is required. That said, Composer is
+recommended to install the various dependencies of these modules, which you can
+do with the following.
+
+Ensure that you have your Drupal installation set up with the correct Composer
+installer types such as those provided by [the ```drupal\recommended-project```
+template](https://www.drupal.org/docs/develop/using-composer/starting-a-site-using-drupal-composer-project-templates#s-drupalrecommended-project).
+If you're starting from scratch, simply requiring that template and following
+[the Drupal.org Composer
+documentation](https://www.drupal.org/docs/develop/using-composer/starting-a-site-using-drupal-composer-project-templates)
+should get you up and running.
+
+[`cweagans/composer-patches`](https://github.com/cweagans/composer-patches) must
+also be added to your project and set up before attempting to install these
+modules as some of them provide patches for Drupal core and/or other modules
+they depend on. If you're unsure, check each module's `composer.json` to see if
+it defines any patches.
+
+Then, in your root ```composer.json```, add the following to the
+```"repositories"``` section. Note that you can leave out the modules you don't
+plan to use.
+
+```json
+"drupal/ambientimpact_core": {
+  "type": "path",
+  "url": "<web directory>/modules/ambientimpact/ambientimpact_core"
+},
+"drupal/ambientimpact_icon": {
+  "type": "path",
+  "url": "<web directory>/modules/ambientimpact/ambientimpact_icon"
+},
+"drupal/ambientimpact_markdown": {
+  "type": "path",
+  "url": "<web directory>/modules/ambientimpact/ambientimpact_markdown"
+},
+"drupal/ambientimpact_media": {
+  "type": "path",
+  "url": "<web directory>/modules/ambientimpact/ambientimpact_media"
+},
+"drupal/ambientimpact_ux": {
+  "type": "path",
+  "url": "<web directory>/modules/ambientimpact/ambientimpact_ux"
 }
 ```
 
-Once everything is configured, running [```composer
-install```](https://getcomposer.org/doc/03-cli.md#install-i) in your project
-root is all you have to do.
+where `<web directory>` is your public Drupal directory name, `web` by default.
 
-## Notes
+Then, in your project's root, run ```composer require
+"drupal/ambientimpact_core:5.x-dev@dev"``` to have Composer install the core
+module and its required dependencies for you. Repeat the process for any other
+modules you want to install dependencies for.
 
-* The ```merge-plugin``` item should already exist by default in your root ```composer.json```, so you'll have to merge it in manually.
-* If you install this to a different location, update the path accordingly.
-* You must define patches in your root ```composer.json``` and not in an external file via the ```patches-file``` setting for ```wikimedia/composer-merge-plugin``` to be able to merge in patches from dependencies.
-* If your Drupal project was already installed manually or via Drush, you can use [grasmash/composerize-drupal](https://github.com/grasmash/composerize-drupal) to convert it to Composer.
+## Front-end assets
 
-## Third-party front-end libraries
+To build front-end assets for this project, you'll need to install
+[Node.js](https://nodejs.org/) and [Yarn](https://yarnpkg.com/).
 
-These are managed via Composer like back-end dependencies. See
-[third-party_libraries.md](third-party_libraries.md) for more information.
+This package makes use of [Yarn
+Workspaces](https://yarnpkg.com/features/workspaces) and references other local
+workspace dependencies. In the `package.json` in the root of your Drupal
+project, you'll need to add the following:
 
-# Building
-
-## Installation
-
-To build the CSS, and icon bundles for this project, you'll need to have
-[Node.js](https://nodejs.org/) installed. Once you've installed it, you'll have
-to install the [Grunt CLI](https://gruntjs.com/getting-started) globally from
-the commandline:
-
-```
-npm install -g grunt-cli
+```json
+"workspaces": [
+  "<web directory>/modules/ambientimpact/*"
+],
 ```
 
-Once that's installed, you can then install all the required Node modules by
-running ```npm install``` in the project root.
+where `<web directory>` is your public Drupal directory name, `web` by default.
+Once those are defined, add the following to the `"dependencies"` section of
+your top-level `package.json`:
 
-## Building
+```json
+"ambientimpact-drupal-modules": "workspace:^5"
+```
 
-To build everything, you can run ```grunt all``` in the commandline in the
-project root.
+Then run `yarn install` and let Yarn do the rest.
 
-To build specific things:
+### Optional: install yarn.BUILD
 
-* ```grunt css``` - builds all CSS files and their associated map files.
-* ```grunt icons``` - builds all icon bundles by merging the individual icon SVG files.
+While not required, we recommend installing [yarn.BUILD](https://yarn.build/) to
+make building all of the front-end assets even easier.
+
+### Optional: use ```nvm```
+
+If you want to be sure you're using the same Node.js version we're using, we
+support using [Node Version Manager (```nvm```)](https://github.com/nvm-sh/nvm)
+([Windows port](https://github.com/coreybutler/nvm-windows)). Once ```nvm``` is
+installed, you can simply navigate to the project root and run ```nvm install```
+to install the appropriate version contained in the ```.nvmrc``` file.
+
+Note that if you're using the [Windows
+port](https://github.com/coreybutler/nvm-windows), it [does not support
+```.nvmrc```
+files](https://github.com/coreybutler/nvm-windows/wiki/Common-Issues#why-isnt-nvmrc-supported-why-arent-some-nvm-for-macoslinux-features-supported),
+so you'll have to provide the version contained in the ```.nvmrc``` as a
+parameter: ```nvm install <version>``` (without the ```<``` and ```>```).
+
+This step is not required, and may be dropped in the future as Node.js is fairly
+mature and stable at this point.
+
+----
+
+# Building front-end assets
+
+We use [Webpack](https://webpack.js.org/) and [Symfony Webpack
+Encore](https://symfony.com/doc/current/frontend.html) to automate most of the
+build process. These will have been installed for you if you followed the Yarn
+installation instructions above.
+
+If you have [yarn.BUILD](https://yarn.build/) installed, you can run:
+
+```
+yarn build
+```
+
+from the root of your Drupal site. If you want to build just this package, run:
+
+```
+yarn workspace ambientimpact-drupal-modules run build
+```
+
+----
 
 # Major breaking changes
 

@@ -63,8 +63,3 @@ directory. A very simple example can be found in
 [```media_query.libraries.yml```](ambientimpact_core/components/media_query/media_query.libraries.yml),
 while a more complex example can be found in
 [```photoswipe.libraries.yml```](ambientimpact_media/components/photoswipe/photoswipe.libraries.yml).
-
-## Third-party libraries
-
-Various components require third-party libraries to function. See
-[third-party_libraries.md](third-party_libraries.md) for more information.
