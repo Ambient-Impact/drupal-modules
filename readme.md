@@ -87,7 +87,7 @@ plan to use.
 where `<web directory>` is your public Drupal directory name, `web` by default.
 
 Then, in your project's root, run ```composer require
-"drupal/ambientimpact_core:5.x-dev@dev"``` to have Composer install the core
+"drupal/ambientimpact_core:6.x-dev@dev"``` to have Composer install the core
 module and its required dependencies for you. Repeat the process for any other
 modules you want to install dependencies for.
 
@@ -112,7 +112,7 @@ Once those are defined, add the following to the `"dependencies"` section of
 your top-level `package.json`:
 
 ```json
-"ambientimpact-drupal-modules": "workspace:^5"
+"ambientimpact-drupal-modules": "workspace:^6"
 ```
 
 Then run `yarn install` and let Yarn do the rest.
@@ -172,3 +172,5 @@ The following major version bumps indicate breaking changes:
 * 4.x - Refactored to use [Sass modules](https://sass-lang.com/blog/the-module-system-is-launched); all development is now against this and will no longer compile using the old ```@import``` directive.
 
 * 5.x - Now requires Drupal core 9.4.x; this is currently due to the patches in `ambientimpact_media` only applying against this core version.
+
+* 6.x - Front-end dependencies now installed via [Yarn](https://yarnpkg.com/), removing all use of [Asset Packagist](https://asset-packagist.org/); front-end build process ported to [Webpack](https://webpack.js.org/).
