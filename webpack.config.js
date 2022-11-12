@@ -118,8 +118,11 @@ Encore
 .addEntries(getGlobbedEntries())
 
 // Clean out any previously built files in case of source files being removed or
-// renamed.
-.cleanupOutputBeforeBuild(['**/*.css', '**/*.css.map'])
+// renamed. We need to exclude the vendor directory or CSS bundled with
+// libraries will get deleted.
+//
+// @see https://github.com/johnagan/clean-webpack-plugin
+.cleanupOutputBeforeBuild(['**/*.css', '**/*.css.map', '!vendor/**'])
 
 .enableSourceMaps(!Encore.isProduction())
 
