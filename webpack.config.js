@@ -152,7 +152,10 @@ Encore
 // @see https://github.com/symfony/webpack-encore/issues/915#issuecomment-1189319882
 .configureMiniCssExtractPlugin(function(config) {
   config.publicPath = 'auto';
-});
+})
+// Disable the Encore image rule as we don't use it at the moment and it may try
+// to bundle images from the vendor directory which we also don't want.
+.configureImageRule({enabled: false});
 
 iconBundles.forEach(function(bundle) {
 
