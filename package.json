@@ -13,6 +13,7 @@
   },
   "yarn.build": {
     "input": [
+      "webpack.config.js",
       "**/components/**/*.scss",
       "**/icons/*/*.svg"
     ],
