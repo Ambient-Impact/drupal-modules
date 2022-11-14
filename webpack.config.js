@@ -170,7 +170,9 @@ iconBundles.forEach(function(bundle) {
           {
             name: 'removeAttrs',
             params: {
-              attrs: '(use|symbol|svg):fill'
+              // Strip all fill attributes as icons are intended to inherit the
+              // current colour of text they're displayed with.
+              attrs: 'fill'
             }
           }
         ],
