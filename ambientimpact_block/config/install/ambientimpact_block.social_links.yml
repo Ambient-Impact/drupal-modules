@@ -13,6 +13,8 @@ link_text_accessibility: 'on @network'
 # The available social networks keyed by machine name and containing their
 # human-readable title.
 networks:
+  mastodon:
+    title: Mastodon
   facebook:
     title: 'Facebook'
   twitter:
