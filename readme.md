@@ -7,7 +7,7 @@ These are used across multiple sites, including
 [ambientimpact.com](https://ambientimpact.com/).
 
 While not required for these modules to operate, the
-[```ambientimpact_base```](https://gitlab.com/Ambient.Impact/drupal-themes)
+[```ambientimpact_base```](https://github.com/Ambient-Impact/drupal-ambientimpact-base)
 theme integrates heavily with these modules.
 
 **Warning**: while these are generally production-ready, they're not guaranteed
