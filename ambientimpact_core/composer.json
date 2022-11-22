@@ -12,8 +12,8 @@
   ],
   "require": {
     "drupal/hook_event_dispatcher": "^2.0 || ^3.0",
-    "symfony/css-selector": "^3.4 || ^4.4",
-    "symfony/dom-crawler": "^3.4 || ^4.4"
+    "symfony/css-selector": "^3.4 || ^4.4 || ^5.0",
+    "symfony/dom-crawler": "^3.4 || ^4.4 || ^5.0"
   },
   "extra": {
     "drush": {
