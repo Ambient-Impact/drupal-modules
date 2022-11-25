@@ -7,7 +7,6 @@ use Drupal\Component\Serialization\SerializationInterface;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\Core\Image\ImageFactory;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -38,13 +37,6 @@ class Image extends ComponentBase {
   protected $fileStorage;
 
   /**
-   * The Drupal image factory service.
-   *
-   * @var \Drupal\Core\Image\ImageFactory
-   */
-  protected $imageFactory;
-
-  /**
    * The Drupal image style configuration entity storage.
    *
    * @var \Drupal\image\ImageStyleStorageInterface
@@ -56,9 +48,6 @@ class Image extends ComponentBase {
    *
    * @param \Drupal\file\FileStorageInterface $fileStorage
    *   The Drupal file entity storage.
-   *
-   * @param \Drupal\Core\Image\ImageFactory $imageFactory
-   *   The Drupal image factory service.
    *
    * @param \Drupal\image\ImageStyleStorageInterface $imageStyleStorage
    *   The Drupal image style configuration entity storage.
@@ -72,7 +61,6 @@ class Image extends ComponentBase {
     TranslationInterface        $stringTranslation,
     CacheBackendInterface       $htmlCacheService,
     FileStorageInterface        $fileStorage,
-    ImageFactory                $imageFactory,
     ImageStyleStorageInterface  $imageStyleStorage
   ) {
 
@@ -87,7 +75,6 @@ class Image extends ComponentBase {
     );
 
     $this->fileStorage        = $fileStorage;
-    $this->imageFactory       = $imageFactory;
     $this->imageStyleStorage  = $imageStyleStorage;
 
   }
@@ -108,7 +95,6 @@ class Image extends ComponentBase {
       $container->get('string_translation'),
       $container->get('cache.ambientimpact_component_html'),
       $container->get('entity_type.manager')->getStorage('file'),
-      $container->get('image.factory'),
       $container->get('entity_type.manager')->getStorage('image_style')
     );
   }
