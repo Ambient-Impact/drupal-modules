@@ -174,3 +174,9 @@ The following major version bumps indicate breaking changes:
 * 5.x - Now requires Drupal core 9.4.x; this is currently due to the patches in `ambientimpact_media` only applying against this core version.
 
 * 6.x - Front-end dependencies now installed via [Yarn](https://yarnpkg.com/), removing all use of [Asset Packagist](https://asset-packagist.org/); front-end build process ported to [Webpack](https://webpack.js.org/).
+
+* 7.x - Now requires Drupal core 9.5.x; this is due to:
+
+  * [9.5 added explicit `string` return value of `\Drupal\Component\Utility\Html::escape()`](https://git.drupalcode.org/project/drupal/-/commit/58f589c709d070c382027043c5aafe72c181ebde); `\Drupal\ambientimpact_core\Utility\Html::escape()` has been updated to match to prevent fatal errors.
+
+  * The patches in `ambientimpact_media` have been updated to apply against this core version.

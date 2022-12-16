@@ -1,23 +1,23 @@
 diff --git a/core/misc/cspell/dictionary.txt b/core/misc/cspell/dictionary.txt
-index feb5bba6ee..4197057f2b 100644
+index 6a37f15b84..9ee19b8c3c 100644
 --- a/core/misc/cspell/dictionary.txt
 +++ b/core/misc/cspell/dictionary.txt
-@@ -597,6 +597,7 @@ hookname
+@@ -572,6 +572,7 @@ hookname
  horizontalrule
  hosters
  hostnames
 +hqdefault
- hreflang
  hreflangs
  hrefs
-@@ -772,6 +773,7 @@ maxage
+ htkey
+@@ -742,6 +743,7 @@ maxage
  maxdepth
  maximumred
  maxlifetime
 +maxresdefault
- maxsize
  maynot
  mbytes
+ mdhash
 diff --git a/core/modules/media/media.api.php b/core/modules/media/media.api.php
 index 93244f58a8..5f7b4c7aec 100644
 --- a/core/modules/media/media.api.php

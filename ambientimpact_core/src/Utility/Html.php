@@ -52,7 +52,7 @@ class Html extends DrupalHtml {
     bool $doubleEncode  = false,
     int $flags          = \ENT_QUOTES | \ENT_SUBSTITUTE,
     string $encoding    = 'UTF-8'
-  ) {
+  ): string {
     return htmlspecialchars($text, $flags, $encoding, $doubleEncode);
   }
 

@@ -1,5 +1,5 @@
 diff --git a/core/modules/responsive_image/config/schema/responsive_image.schema.yml b/core/modules/responsive_image/config/schema/responsive_image.schema.yml
-index f05a8e2608..8fae617593 100644
+index f05a8e2608e..8fae6175938 100644
 --- a/core/modules/responsive_image/config/schema/responsive_image.schema.yml
 +++ b/core/modules/responsive_image/config/schema/responsive_image.schema.yml
 @@ -67,3 +67,10 @@ field.formatter.settings.responsive_image:
@@ -14,7 +14,7 @@ index f05a8e2608..8fae617593 100644
 +          type: string
 +          label: 'Loading attribute'
 diff --git a/core/modules/responsive_image/responsive_image.module b/core/modules/responsive_image/responsive_image.module
-index 6bd0e51f28..ef458a530c 100644
+index 6bd0e51f28b..ef458a530cb 100644
 --- a/core/modules/responsive_image/responsive_image.module
 +++ b/core/modules/responsive_image/responsive_image.module
 @@ -5,12 +5,14 @@
@@ -146,7 +146,7 @@ index 6bd0e51f28..ef458a530c 100644
 +  $config_updater->processResponsiveImageField($view_display);
 +}
 diff --git a/core/modules/responsive_image/responsive_image.post_update.php b/core/modules/responsive_image/responsive_image.post_update.php
-index 0c790e51e9..06c3643a01 100644
+index 0c790e51e97..06c3643a018 100644
 --- a/core/modules/responsive_image/responsive_image.post_update.php
 +++ b/core/modules/responsive_image/responsive_image.post_update.php
 @@ -6,6 +6,7 @@
@@ -172,7 +172,7 @@ index 0c790e51e9..06c3643a01 100644
 +  });
 +}
 diff --git a/core/modules/responsive_image/src/Plugin/Field/FieldFormatter/ResponsiveImageFormatter.php b/core/modules/responsive_image/src/Plugin/Field/FieldFormatter/ResponsiveImageFormatter.php
-index 331c278e0c..affbc11a89 100644
+index 0afb59ee64b..4409210a698 100644
 --- a/core/modules/responsive_image/src/Plugin/Field/FieldFormatter/ResponsiveImageFormatter.php
 +++ b/core/modules/responsive_image/src/Plugin/Field/FieldFormatter/ResponsiveImageFormatter.php
 @@ -118,6 +118,9 @@ public static function defaultSettings() {
@@ -195,7 +195,7 @@ index 331c278e0c..affbc11a89 100644
      $responsive_image_styles = $this->responsiveImageStyleStorage->loadMultiple();
      uasort($responsive_image_styles, '\Drupal\responsive_image\Entity\ResponsiveImageStyle::sort');
 @@ -148,6 +153,27 @@ public function settingsForm(array $form, FormStateInterface $form_state) {
-         ],
+       ],
      ];
  
 +    $image_loading = $this->getSetting('image_loading');
@@ -220,10 +220,10 @@ index 331c278e0c..affbc11a89 100644
 +    ];
 +
      $link_types = [
-       'content' => t('Content'),
-       'file' => t('File'),
+       'content' => $this->t('Content'),
+       'file' => $this->t('File'),
 @@ -186,7 +212,12 @@ public function settingsSummary() {
-       $summary[] = t('Select a responsive image style.');
+       $summary[] = $this->t('Select a responsive image style.');
      }
  
 -    return $summary;
@@ -247,7 +247,7 @@ index 331c278e0c..affbc11a89 100644
          '#theme' => 'responsive_image_formatter',
          '#item' => $item,
 diff --git a/core/modules/responsive_image/src/ResponsiveImageConfigUpdater.php b/core/modules/responsive_image/src/ResponsiveImageConfigUpdater.php
-index ff28e96aa6..880bb347df 100644
+index ff28e96aa68..880bb347df5 100644
 --- a/core/modules/responsive_image/src/ResponsiveImageConfigUpdater.php
 +++ b/core/modules/responsive_image/src/ResponsiveImageConfigUpdater.php
 @@ -2,6 +2,8 @@
@@ -291,7 +291,7 @@ index ff28e96aa6..880bb347df 100644
 +
  }
 diff --git a/core/modules/responsive_image/src/ResponsiveImageStyleForm.php b/core/modules/responsive_image/src/ResponsiveImageStyleForm.php
-index 7bceff174e..27e9b9e270 100644
+index 7bceff174ec..27e9b9e2709 100644
 --- a/core/modules/responsive_image/src/ResponsiveImageStyleForm.php
 +++ b/core/modules/responsive_image/src/ResponsiveImageStyleForm.php
 @@ -199,7 +199,7 @@ public function form(array $form, FormStateInterface $form_state) {
@@ -305,7 +305,7 @@ index 7bceff174e..27e9b9e270 100644
      $form['#tree'] = TRUE;
 diff --git a/core/modules/responsive_image/tests/fixtures/update/responsive_image-loading-attribute.php b/core/modules/responsive_image/tests/fixtures/update/responsive_image-loading-attribute.php
 new file mode 100644
-index 0000000000..213d10816a
+index 00000000000..213d10816a0
 --- /dev/null
 +++ b/core/modules/responsive_image/tests/fixtures/update/responsive_image-loading-attribute.php
 @@ -0,0 +1,70 @@
@@ -380,7 +380,7 @@ index 0000000000..213d10816a
 +  ->condition('name', 'core.entity_view_display.node.article.default')
 +  ->execute();
 diff --git a/core/modules/responsive_image/tests/modules/responsive_image_test_module/config/schema/responsive_image_test_module.schema.yml b/core/modules/responsive_image/tests/modules/responsive_image_test_module/config/schema/responsive_image_test_module.schema.yml
-index 6208012735..549a1bb928 100644
+index 62080127352..549a1bb928e 100644
 --- a/core/modules/responsive_image/tests/modules/responsive_image_test_module/config/schema/responsive_image_test_module.schema.yml
 +++ b/core/modules/responsive_image/tests/modules/responsive_image_test_module/config/schema/responsive_image_test_module.schema.yml
 @@ -9,3 +9,10 @@ field.formatter.settings.responsive_image_test:
@@ -395,7 +395,7 @@ index 6208012735..549a1bb928 100644
 +          type: string
 +          label: 'Loading attribute'
 diff --git a/core/modules/responsive_image/tests/src/Functional/ResponsiveImageFieldDisplayTest.php b/core/modules/responsive_image/tests/src/Functional/ResponsiveImageFieldDisplayTest.php
-index ed691f3b4d..f2255a4264 100644
+index 8abca68b22a..4b50231d499 100644
 --- a/core/modules/responsive_image/tests/src/Functional/ResponsiveImageFieldDisplayTest.php
 +++ b/core/modules/responsive_image/tests/src/Functional/ResponsiveImageFieldDisplayTest.php
 @@ -3,6 +3,7 @@
@@ -406,7 +406,7 @@ index ed691f3b4d..f2255a4264 100644
  use Drupal\node\Entity\Node;
  use Drupal\file\Entity\File;
  use Drupal\responsive_image\Plugin\Field\FieldFormatter\ResponsiveImageFormatter;
-@@ -319,6 +320,11 @@ protected function doTestResponsiveImageFieldFormatters($scheme, $empty_styles =
+@@ -317,6 +318,11 @@ protected function doTestResponsiveImageFieldFormatters($scheme, $empty_styles =
        $medium_style = ImageStyle::load('medium');
        $this->assertSession()->responseContains($this->fileUrlGenerator->transformRelative($medium_style->buildUrl($image_uri)) . ' 220w, ' . $this->fileUrlGenerator->transformRelative($large_style->buildUrl($image_uri)) . ' 360w');
        $this->assertSession()->responseContains('media="(min-width: 851px)"');
@@ -418,7 +418,7 @@ index ed691f3b4d..f2255a4264 100644
      }
      $this->assertSession()->responseContains('/styles/large/');
      $this->assertSession()->responseHeaderContains('X-Drupal-Cache-Tags', 'config:responsive_image.styles.style_one');
-@@ -335,6 +341,9 @@ protected function doTestResponsiveImageFieldFormatters($scheme, $empty_styles =
+@@ -333,6 +339,9 @@ protected function doTestResponsiveImageFieldFormatters($scheme, $empty_styles =
        '#theme' => 'image',
        '#alt' => $alt,
        '#uri' => $this->fileUrlGenerator->transformRelative($large_style->buildUrl($image->getSource())),
@@ -428,7 +428,7 @@ index ed691f3b4d..f2255a4264 100644
      ];
      // The image.html.twig template has a newline after the <img> tag but
      // responsive-image.html.twig doesn't have one after the fallback image, so
-@@ -418,18 +427,44 @@ public function testResponsiveImageFieldFormattersEmptyMediaQuery() {
+@@ -416,50 +425,93 @@ public function testResponsiveImageFieldFormattersEmptyMediaQuery() {
    }
  
    /**
@@ -436,9 +436,45 @@ index ed691f3b4d..f2255a4264 100644
 +   * Tests responsive image formatter on node display with one and two sources.
     */
 -  public function testResponsiveImageFieldFormattersOneSource() {
+-    $this->responsiveImgStyle
+-      // Test the output of an empty media query.
+-      ->addImageStyleMapping('responsive_image_test_module.empty', '1x', [
+-        'image_mapping_type' => 'image_style',
+-        'image_mapping' => 'medium',
+-      ])
+-      ->addImageStyleMapping('responsive_image_test_module.empty', '2x', [
+-        'image_mapping_type' => 'image_style',
+-        'image_mapping' => 'large',
+-      ])
+-      ->save();
+-    $node_storage = $this->container->get('entity_type.manager')->getStorage('node');
+-    $field_name = mb_strtolower($this->randomMachineName());
+-    $this->createImageField($field_name, 'article', ['uri_scheme' => 'public']);
+-    // Create a new node with an image attached.
+-    $test_image = current($this->getTestFiles('image'));
+-    $nid = $this->uploadNodeImage($test_image, $field_name, 'article', $this->randomMachineName());
+-    $node_storage->resetCache([$nid]);
+-
+-    // Use the responsive image formatter linked to file formatter.
+-    $display_options = [
+-      'type' => 'responsive_image',
+-      'settings' => [
+-        'image_link' => '',
+-        'responsive_image_style' => 'style_one',
+-      ],
+-    ];
+-    $display = \Drupal::service('entity_display.repository')
+-      ->getViewDisplay('node', 'article');
+-    $display->setComponent($field_name, $display_options)
+-      ->save();
+-
+-    // View the node.
+-    $this->drupalGet('node/' . $nid);
+-
+-    // Assert the media attribute is present if it has a value.
 +  public function testResponsiveImageFieldFormattersMultipleSources() {
 +    // Setup known image style sizes so the test can assert on known sizes.
-+    $large_style = ImageStyle::load('large');
+     $large_style = ImageStyle::load('large');
 +    assert($large_style instanceof ImageStyleInterface);
 +    $large_style->addImageEffect([
 +      'id' => 'image_resize',
@@ -448,7 +484,7 @@ index ed691f3b4d..f2255a4264 100644
 +      ],
 +    ]);
 +    $large_style->save();
-+    $medium_style = ImageStyle::load('medium');
+     $medium_style = ImageStyle::load('medium');
 +    assert($medium_style instanceof ImageStyleInterface);
 +    $medium_style->addImageEffect([
 +      'id' => 'image_resize',
@@ -459,42 +495,49 @@ index ed691f3b4d..f2255a4264 100644
 +    ]);
 +    $medium_style->save();
 +
-     $this->responsiveImgStyle
-       // Test the output of an empty media query.
-       ->addImageStyleMapping('responsive_image_test_module.empty', '1x', [
-         'image_mapping_type' => 'image_style',
--        'image_mapping' => 'medium',
++    $this->responsiveImgStyle
++      // Test the output of an empty media query.
++      ->addImageStyleMapping('responsive_image_test_module.empty', '1x', [
++        'image_mapping_type' => 'image_style',
 +        'image_mapping' => $medium_style->id(),
 +      ])
 +      ->addImageStyleMapping('responsive_image_test_module.empty', '1.5x', [
 +        'image_mapping_type' => 'image_style',
 +        'image_mapping' => $large_style->id(),
-       ])
-       ->addImageStyleMapping('responsive_image_test_module.empty', '2x', [
-           'image_mapping_type' => 'image_style',
--          'image_mapping' => 'large',
++      ])
++      ->addImageStyleMapping('responsive_image_test_module.empty', '2x', [
++        'image_mapping_type' => 'image_style',
 +          'image_mapping' => $large_style->id(),
-         ])
-       ->save();
-     $node_storage = $this->container->get('entity_type.manager')->getStorage('node');
-@@ -446,6 +481,10 @@ public function testResponsiveImageFieldFormattersOneSource() {
-       'settings' => [
-         'image_link' => '',
-         'responsive_image_style' => 'style_one',
++      ])
++      ->save();
++    $node_storage = $this->container->get('entity_type.manager')->getStorage('node');
++    $field_name = mb_strtolower($this->randomMachineName());
++    $this->createImageField($field_name, 'article', ['uri_scheme' => 'public']);
++    // Create a new node with an image attached.
++    $test_image = current($this->getTestFiles('image'));
++    $nid = $this->uploadNodeImage($test_image, $field_name, 'article', $this->randomMachineName());
++    $node_storage->resetCache([$nid]);
++
++    // Use the responsive image formatter linked to file formatter.
++    $display_options = [
++      'type' => 'responsive_image',
++      'settings' => [
++        'image_link' => '',
++        'responsive_image_style' => 'style_one',
 +        'image_loading' => [
 +          // Test the image loading default option can be overridden.
 +          'attribute' => 'eager',
 +        ],
-       ],
-     ];
-     $display = \Drupal::service('entity_display.repository')
-@@ -456,12 +495,25 @@ public function testResponsiveImageFieldFormattersOneSource() {
-     // View the node.
-     $this->drupalGet('node/' . $nid);
- 
--    // Assert the media attribute is present if it has a value.
--    $large_style = ImageStyle::load('large');
--    $medium_style = ImageStyle::load('medium');
++      ],
++    ];
++    $display = \Drupal::service('entity_display.repository')
++      ->getViewDisplay('node', 'article');
++    $display->setComponent($field_name, $display_options)
++      ->save();
++
++    // View the node.
++    $this->drupalGet('node/' . $nid);
++
 +    // Assert the img tag has medium and large images and fallback dimensions
 +    // from the large image style are used.
      $node = $node_storage->load($nid);
@@ -520,7 +563,7 @@ index ed691f3b4d..f2255a4264 100644
    /**
 diff --git a/core/modules/responsive_image/tests/src/Functional/ResponsiveImageLazyLoadUpdateTest.php b/core/modules/responsive_image/tests/src/Functional/ResponsiveImageLazyLoadUpdateTest.php
 new file mode 100644
-index 0000000000..1fb310f64d
+index 00000000000..1fb310f64d6
 --- /dev/null
 +++ b/core/modules/responsive_image/tests/src/Functional/ResponsiveImageLazyLoadUpdateTest.php
 @@ -0,0 +1,42 @@
@@ -567,10 +610,10 @@ index 0000000000..1fb310f64d
 +
 +}
 diff --git a/core/modules/responsive_image/tests/src/FunctionalJavascript/ResponsiveImageFieldUiTest.php b/core/modules/responsive_image/tests/src/FunctionalJavascript/ResponsiveImageFieldUiTest.php
-index 7ecfd5fbec..9d722a6c8b 100644
+index fc07a6317c6..70c6aeeaeec 100644
 --- a/core/modules/responsive_image/tests/src/FunctionalJavascript/ResponsiveImageFieldUiTest.php
 +++ b/core/modules/responsive_image/tests/src/FunctionalJavascript/ResponsiveImageFieldUiTest.php
-@@ -95,7 +95,7 @@ public function testResponsiveImageFormatterUi() {
+@@ -102,7 +102,7 @@ public function testResponsiveImageFormatterUi() {
      $field_image_type->setValue('responsive_image');
  
      $summary_text = $assert_session->waitForElement('xpath', $this->cssSelectToXpath('#field-image .ajax-new-content .field-plugin-summary'));
@@ -580,7 +623,7 @@ index 7ecfd5fbec..9d722a6c8b 100644
      $page->pressButton('Save');
      $assert_session->responseContains("Select a responsive image style.");
 diff --git a/core/modules/views/src/ViewsConfigUpdater.php b/core/modules/views/src/ViewsConfigUpdater.php
-index 2ddb741c0a..0478c02615 100644
+index 2ddb741c0a4..0478c02615d 100644
 --- a/core/modules/views/src/ViewsConfigUpdater.php
 +++ b/core/modules/views/src/ViewsConfigUpdater.php
 @@ -483,6 +483,50 @@ protected function mapOperatorFromSingleToMultiple($single_operator) {
@@ -636,7 +679,7 @@ index 2ddb741c0a..0478c02615 100644
     *
 diff --git a/core/modules/views/tests/fixtures/update/views.view.test_responsive_images.yml b/core/modules/views/tests/fixtures/update/views.view.test_responsive_images.yml
 new file mode 100644
-index 0000000000..6537c27184
+index 00000000000..ea154d75182
 --- /dev/null
 +++ b/core/modules/views/tests/fixtures/update/views.view.test_responsive_images.yml
 @@ -0,0 +1,224 @@
@@ -704,8 +747,8 @@ index 0000000000..6537c27184
 +            offset: false
 +            offset_label: Offset
 +          tags:
-+            previous: ‹‹
-+            next: ››
++            previous: â€¹â€¹
++            next: â€ºâ€º
 +      style:
 +        type: default
 +        options:
@@ -865,7 +908,7 @@ index 0000000000..6537c27184
 +        - 'languages:language_interface'
 +        - url.query_args
 diff --git a/core/modules/views/tests/src/Kernel/ViewsConfigUpdaterTest.php b/core/modules/views/tests/src/Kernel/ViewsConfigUpdaterTest.php
-index b6f14ccc78..27cdae1ce8 100644
+index b6f14ccc781..27cdae1ce81 100644
 --- a/core/modules/views/tests/src/Kernel/ViewsConfigUpdaterTest.php
 +++ b/core/modules/views/tests/src/Kernel/ViewsConfigUpdaterTest.php
 @@ -5,6 +5,8 @@
@@ -934,7 +977,7 @@ index b6f14ccc78..27cdae1ce8 100644
     * @covers ::updateAll
     */
 diff --git a/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.default.yml b/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.default.yml
-index 16a9d5a4c4..1496bfa2c8 100644
+index 16a9d5a4c46..1496bfa2c8f 100644
 --- a/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.default.yml
 +++ b/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.default.yml
 @@ -18,6 +18,8 @@ content:
@@ -947,7 +990,7 @@ index 16a9d5a4c4..1496bfa2c8 100644
      weight: 1
      region: content
 diff --git a/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.responsive_3x2.yml b/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.responsive_3x2.yml
-index fa1e74775e..184f0e6fd3 100644
+index 6a55f5fd2ff..90138d2bc57 100644
 --- a/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.responsive_3x2.yml
 +++ b/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.responsive_3x2.yml
 @@ -24,6 +24,8 @@ content:
@@ -960,7 +1003,7 @@ index fa1e74775e..184f0e6fd3 100644
      weight: 1
      region: content
 diff --git a/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.square.yml b/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.square.yml
-index 0b01d6c50b..a25cc1bb7b 100644
+index 0b01d6c50b2..a25cc1bb7bc 100644
 --- a/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.square.yml
 +++ b/core/profiles/demo_umami/config/install/core.entity_view_display.media.image.square.yml
 @@ -24,6 +24,8 @@ content:
