@@ -1,16 +1,16 @@
 diff --git a/core/misc/cspell/dictionary.txt b/core/misc/cspell/dictionary.txt
-index 6a37f15b84..9ee19b8c3c 100644
+index 7a539a085b..9e32f6f294 100644
 --- a/core/misc/cspell/dictionary.txt
 +++ b/core/misc/cspell/dictionary.txt
-@@ -572,6 +572,7 @@ hookname
+@@ -556,6 +556,7 @@ hookname
  horizontalrule
  hosters
  hostnames
 +hqdefault
- hreflangs
  hrefs
  htkey
-@@ -742,6 +743,7 @@ maxage
+ htmlcorrector
+@@ -721,6 +722,7 @@ maxage
  maxdepth
  maximumred
  maxlifetime
@@ -58,7 +58,7 @@ index 847e9e3d48..9c1549509a 100644
      class: Drupal\media\IFrameUrlHelper
      arguments: ['@router.request_context', '@private_key']
 diff --git a/core/modules/media/src/OEmbed/ResourceFetcher.php b/core/modules/media/src/OEmbed/ResourceFetcher.php
-index 39e7dd147f..d20936bcec 100644
+index 39e7dd147f..ff70c41dba 100644
 --- a/core/modules/media/src/OEmbed/ResourceFetcher.php
 +++ b/core/modules/media/src/OEmbed/ResourceFetcher.php
 @@ -4,6 +4,7 @@
@@ -83,7 +83,7 @@ index 39e7dd147f..d20936bcec 100644
    /**
     * Constructs a ResourceFetcher object.
     *
-@@ -41,10 +49,12 @@ class ResourceFetcher implements ResourceFetcherInterface {
+@@ -41,17 +49,24 @@ class ResourceFetcher implements ResourceFetcherInterface {
     *   The HTTP client.
     * @param \Drupal\media\OEmbed\ProviderRepositoryInterface $providers
     *   The oEmbed provider repository service.
@@ -98,13 +98,14 @@ index 39e7dd147f..d20936bcec 100644
      $this->httpClient = $http_client;
      $this->providers = $providers;
      if (empty($cache_backend)) {
-@@ -52,6 +62,11 @@ public function __construct(ClientInterface $http_client, ProviderRepositoryInte
-       @trigger_error('Passing NULL as the $cache_backend parameter to ' . __METHOD__ . '() is deprecated in drupal:9.3.0 and is removed from drupal:10.0.0. See https://www.drupal.org/node/3223594', E_USER_DEPRECATED);
+       $cache_backend = \Drupal::cache();
+-      @trigger_error('Passing NULL as the $cache_backend parameter to ' . __METHOD__ . '() is deprecated in drupal:9.3.0 and is removed from drupal:10.0.0. See https://www.drupal.org/node/3223594', E_USER_DEPRECATED);
++      @trigger_error('Passing NULL as the $cache_backend parameter to ' . __METHOD__ . '() is deprecated in drupal:10.1.0 and is removed from drupal:11.0.0. See https://www.drupal.org/node/3223594', E_USER_DEPRECATED);
      }
      $this->cacheBackend = $cache_backend;
 +    if (empty($module_handler)) {
 +      $module_handler = \Drupal::moduleHandler();
-+      @trigger_error('Passing NULL as the $module_handler parameter to ' . __METHOD__ . '() is deprecated in drupal:9.4.0 and is removed from drupal:10.0.0. See https://www.drupal.org/node/3042423', E_USER_DEPRECATED);
++      @trigger_error('Passing NULL as the $module_handler parameter to ' . __METHOD__ . '() is deprecated in drupal:10.1.0 and is removed from drupal:11.0.0. See https://www.drupal.org/node/3042423', E_USER_DEPRECATED);
 +    }
 +    $this->moduleHandler = $module_handler;
    }
@@ -170,14 +171,16 @@ index e1e20ff8d9..ea08b6f081 100644
 +
  }
 diff --git a/core/modules/media/tests/src/Kernel/ResourceFetcherTest.php b/core/modules/media/tests/src/Kernel/ResourceFetcherTest.php
-index e68810f348..c011ee8bc4 100644
+index e68810f348..ec9ca2387e 100644
 --- a/core/modules/media/tests/src/Kernel/ResourceFetcherTest.php
 +++ b/core/modules/media/tests/src/Kernel/ResourceFetcherTest.php
-@@ -19,6 +19,7 @@ class ResourceFetcherTest extends KernelTestBase {
+@@ -18,7 +18,8 @@ class ResourceFetcherTest extends KernelTestBase {
+    * @group legacy
     */
    public function testDeprecations(): void {
-     $this->expectDeprecation('Passing NULL as the $cache_backend parameter to Drupal\media\OEmbed\ResourceFetcher::__construct() is deprecated in drupal:9.3.0 and is removed from drupal:10.0.0. See https://www.drupal.org/node/3223594');
-+    $this->expectDeprecation('Passing NULL as the $module_handler parameter to Drupal\media\OEmbed\ResourceFetcher::__construct() is deprecated in drupal:9.4.0 and is removed from drupal:10.0.0. See https://www.drupal.org/node/3042423');
+-    $this->expectDeprecation('Passing NULL as the $cache_backend parameter to Drupal\media\OEmbed\ResourceFetcher::__construct() is deprecated in drupal:9.3.0 and is removed from drupal:10.0.0. See https://www.drupal.org/node/3223594');
++    $this->expectDeprecation('Passing NULL as the $cache_backend parameter to Drupal\media\OEmbed\ResourceFetcher::__construct() is deprecated in drupal:10.1.0 and is removed from drupal:11.0.0. See https://www.drupal.org/node/3223594');
++    $this->expectDeprecation('Passing NULL as the $module_handler parameter to Drupal\media\OEmbed\ResourceFetcher::__construct() is deprecated in drupal:10.1.0 and is removed from drupal:11.0.0. See https://www.drupal.org/node/3042423');
      new ResourceFetcher(
        $this->container->get('http_client'),
        $this->createMock('\Drupal\media\OEmbed\ProviderRepositoryInterface')

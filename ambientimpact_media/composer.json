@@ -12,7 +12,7 @@
   ],
   "require": {
     "cweagans/composer-patches": "^1.6.5",
-    "drupal/core-recommended": "^9.5",
+    "drupal/core-recommended": "^9.5.3",
     "drupal/hook_event_dispatcher": "^2.0 || ^3.0",
     "drupal/image_field_caption": "^1.1",
     "guzzlehttp/guzzle": "^6.5.8 || ^7.4.5"
@@ -20,7 +20,7 @@
   "extra": {
     "patches": {
       "drupal/core": {
-        "Add a hook to modify oEmbed resource data (core 9.5.x) [#3042423]: https://www.drupal.org/project/drupal/issues/3042423#comment-14825766": "https://raw.githubusercontent.com/Ambient-Impact/drupal-modules/7.x/ambientimpact_media/patches/drupal/core/3042423-68.patch",
+        "Add a hook to modify oEmbed resource data (core 9.5.3 and up) [#3042423]: https://www.drupal.org/project/drupal/issues/3042423#comment-14902126": "https://raw.githubusercontent.com/Ambient-Impact/drupal-modules/7.x/ambientimpact_media/patches/drupal/core/3042423-72.patch",
         "Order image mappings by breakpoint ID and numeric multiplier [#3267870] (required for subsequent patch): https://www.drupal.org/project/drupal/issues/3267870": "https://raw.githubusercontent.com/Ambient-Impact/drupal-modules/7.x/ambientimpact_media/patches/drupal/core/3267870-9.5.x-47.patch",
         "Apply width and height attributes to responsive image tag (core 9.5.x) [#3192234]: https://www.drupal.org/project/drupal/issues/3192234#comment-14510278": "https://raw.githubusercontent.com/Ambient-Impact/drupal-modules/7.x/ambientimpact_media/patches/drupal/core/3192234-228-9.5.x.patch"
       },
