@@ -1,11 +1,11 @@
 langcode: en
 status: true
 dependencies:
+  module:
+    - search_api_db
   enforced:
     module:
       - ambientimpact_web
-  module:
-    - search_api_db
 id: web_snippets
 name: 'Web snippets'
 description: 'The default search server for web snippets using the database back-end. Feel free to replace this with your own if needed.'

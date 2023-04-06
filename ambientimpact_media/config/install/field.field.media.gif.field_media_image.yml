@@ -17,6 +17,8 @@ translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
+  handler: 'default:file'
+  handler_settings: {  }
   file_directory: media/gifs
   file_extensions: gif
   max_filesize: ''
@@ -35,6 +37,4 @@ settings:
     caption: ''
   caption_field: 1
   caption_field_required: 0
-  handler: 'default:file'
-  handler_settings: {  }
 field_type: image

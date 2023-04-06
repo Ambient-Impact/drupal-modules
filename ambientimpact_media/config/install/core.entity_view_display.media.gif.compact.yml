@@ -14,17 +14,19 @@ bundle: gif
 mode: compact
 content:
   field_media_image:
-    weight: 0
+    type: image
     label: hidden
     settings:
-      image_style: content_image_large
       image_link: ''
+      image_style: content_image_large
+      image_loading:
+        attribute: lazy
     third_party_settings:
       ambientimpact_media:
-        use_photoswipe_gallery: true
         use_photoswipe: false
+        use_photoswipe_gallery: true
         use_animated_gif_toggle: false
-    type: image
+    weight: 0
     region: content
 hidden:
   created: true

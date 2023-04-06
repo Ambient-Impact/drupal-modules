@@ -17,12 +17,12 @@ bundle: project
 mode: teaser
 content:
   body:
-    label: hidden
-    weight: 1
     type: text_summary_or_trimmed
+    label: hidden
     settings:
       trim_length: 600
     third_party_settings: {  }
+    weight: 1
     region: content
 hidden:
   field_project_categories: true

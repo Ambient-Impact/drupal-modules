@@ -12,13 +12,13 @@ bundle: text
 mode: default
 content:
   field_text:
-    weight: 1
     type: text_textarea
+    weight: 1
+    region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-    region: content
 hidden:
   created: true
   status: true

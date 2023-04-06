@@ -16,13 +16,13 @@ bundle: web_snippet
 mode: compact
 content:
   field_paragraphs:
-    label: hidden
-    weight: 0
     type: entity_reference_revisions_entity_view
+    label: hidden
     settings:
       view_mode: compact
       link: ''
     third_party_settings: {  }
+    weight: 0
     region: content
 hidden:
   field_source_link: true

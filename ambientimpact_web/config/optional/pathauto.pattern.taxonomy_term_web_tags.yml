@@ -11,11 +11,11 @@ pattern: 'web/tags/[term:name]'
 selection_criteria:
   -
     id: 'entity_bundle:taxonomy_term'
-    bundles:
-      web_tags: web_tags
     negate: false
     context_mapping:
       taxonomy_term: taxonomy_term
+    bundles:
+      web_tags: web_tags
 selection_logic: and
 weight: -3
 relationships: {  }

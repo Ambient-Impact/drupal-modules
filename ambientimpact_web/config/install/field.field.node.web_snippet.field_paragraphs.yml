@@ -17,24 +17,24 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler_settings:
-    negate: 0
-    target_bundles: null
-    target_bundles_drag_drop:
-      code:
-        enabled: false
-        weight: 4
-      images:
-        enabled: false
-        weight: 5
-      text:
-        enabled: false
-        weight: 2
-      video:
-        enabled: false
-        weight: 7
-      animated_gifs:
-        enabled: false
-        weight: 8
   handler: 'default:paragraph'
+  handler_settings:
+    target_bundles: null
+    negate: 0
+    target_bundles_drag_drop:
+      animated_gifs:
+        weight: 8
+        enabled: false
+      code:
+        weight: 4
+        enabled: false
+      images:
+        weight: 5
+        enabled: false
+      text:
+        weight: 2
+        enabled: false
+      video:
+        weight: 7
+        enabled: false
 field_type: entity_reference_revisions

@@ -17,14 +17,14 @@ bundle: project
 mode: default
 content:
   body:
-    label: hidden
-    weight: 1
     type: text_default
+    label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 1
     region: content
   field_project_link:
-    weight: 2
+    type: link
     label: visually_hidden
     settings:
       trim_length: 80
@@ -33,22 +33,22 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link
+    weight: 2
     region: content
   field_project_media:
     type: entity_reference_entity_view
-    weight: 0
-    region: content
     label: visually_hidden
     settings:
       view_mode: default
       link: false
     third_party_settings: {  }
-  links:
-    weight: 3
+    weight: 0
     region: content
+  links:
     settings: {  }
     third_party_settings: {  }
+    weight: 3
+    region: content
 hidden:
   field_project_categories: true
   search_api_excerpt: true

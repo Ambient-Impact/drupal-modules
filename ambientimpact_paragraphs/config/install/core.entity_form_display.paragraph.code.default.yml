@@ -13,11 +13,11 @@ bundle: code
 mode: default
 content:
   field_code:
+    type: geshifield_default
     weight: 1
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: geshifield_default
-    region: content
 hidden:
   created: true
   field_code_tab_size: true

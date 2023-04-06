@@ -13,11 +13,12 @@ bundle: code
 mode: default
 content:
   field_code:
-    weight: 0
+    type: geshifield_bem_paragraphs
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: geshifield_bem_paragraphs
+    weight: 0
     region: content
 hidden:
   field_code_tab_size: true
+  search_api_excerpt: true

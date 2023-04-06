@@ -17,18 +17,17 @@ bundle: web_snippet
 mode: search_result
 content:
   field_paragraphs:
-    label: hidden
-    weight: 0
     type: entity_reference_revisions_entity_view
+    label: hidden
     settings:
       view_mode: full
       link: ''
     third_party_settings: {  }
+    weight: 0
     region: content
   field_source_link:
-    label: inline
-    weight: 1
     type: link
+    label: inline
     settings:
       trim_length: 80
       url_only: false
@@ -36,18 +35,20 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
+    weight: 1
     region: content
   field_web_tags:
-    label: inline
-    weight: 2
     type: entity_reference_label
+    label: inline
     settings:
       link: true
     third_party_settings: {  }
+    weight: 2
     region: content
   links:
-    weight: 3
-    region: content
     settings: {  }
     third_party_settings: {  }
-hidden: {  }
+    weight: 3
+    region: content
+hidden:
+  search_api_excerpt: true

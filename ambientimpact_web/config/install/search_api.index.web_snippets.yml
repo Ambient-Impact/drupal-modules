@@ -1,9 +1,6 @@
 langcode: en
 status: true
 dependencies:
-  enforced:
-    module:
-      - ambientimpact_web
   config:
     - field.storage.node.field_paragraphs
     - field.storage.paragraph.field_text
@@ -13,6 +10,9 @@ dependencies:
     - paragraphs
     - node
     - search_api
+  enforced:
+    module:
+      - ambientimpact_web
 id: web_snippets
 name: 'Web snippets'
 description: 'The default web snippets search index. Feel free to edit or replace this.'
@@ -92,17 +92,20 @@ processor_settings:
       preprocess_query: -30
   entity_status: {  }
   highlight:
-    highlight: always
-    highlight_partial: true
+    weights:
+      postprocess_query: 0
+    prefix: '<strong class="search-highlight">'
+    suffix: '</strong>'
     excerpt: true
     excerpt_length: 256
     exclude_fields:
       - title
-    prefix: '<strong class="search-highlight">'
-    suffix: '</strong>'
-    weights:
-      postprocess_query: 0
+    highlight: always
+    highlight_partial: true
   html_filter:
+    weights:
+      preprocess_index: -15
+      preprocess_query: -15
     all_fields: false
     fields:
       - processed
@@ -114,20 +117,20 @@ processor_settings:
       h2: 3
       h3: 2
       strong: 2
-    weights:
-      preprocess_index: -15
-      preprocess_query: -15
   ignorecase:
+    weights:
+      preprocess_index: -20
+      preprocess_query: -20
     all_fields: false
     fields:
       - processed
       - title
-    weights:
-      preprocess_index: -20
-      preprocess_query: -20
   language_with_fallback: {  }
   rendered_item: {  }
   stemmer:
+    weights:
+      preprocess_index: 0
+      preprocess_query: 0
     all_fields: true
     fields:
       - processed
@@ -136,22 +139,20 @@ processor_settings:
     exceptions:
       mexican: mexic
       texan: texa
-    weights:
-      preprocess_index: 0
-      preprocess_query: 0
   transliteration:
+    weights:
+      preprocess_index: -20
+      preprocess_query: -20
     all_fields: true
     fields:
       - processed
       - sourcecode
       - title
-    weights:
-      preprocess_index: -20
-      preprocess_query: -20
 tracker_settings:
   default:
     indexing_order: fifo
 options:
-  index_directly: true
   cron_limit: 50
+  index_directly: true
+  track_changes_in_references: true
 server: web_snippets

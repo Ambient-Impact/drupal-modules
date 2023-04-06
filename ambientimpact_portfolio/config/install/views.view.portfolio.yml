@@ -20,73 +20,34 @@ base_table: node_field_data
 base_field: nid
 display:
   default:
-    display_plugin: default
     id: default
     display_title: Master
+    display_plugin: default
     position: 0
     display_options:
-      access:
-        type: perm
-        options:
-          perm: 'access content'
-      cache:
-        type: tag
-        options: {  }
-      query:
-        type: views_query
-        options:
-          disable_sql_rewrite: false
-          distinct: false
-          replica: false
-          query_comment: ''
-          query_tags: {  }
-      exposed_form:
-        type: basic
-        options:
-          submit_button: Apply
-          reset_button: false
-          reset_button_label: Reset
-          exposed_sorts_label: 'Sort by'
-          expose_sort_order: true
-          sort_asc_label: Asc
-          sort_desc_label: Desc
-      pager:
-        type: none
-        options:
-          offset: 0
-      style:
-        type: default
-      row:
-        type: 'entity:node'
-        options:
-          relationship: none
-          view_mode: full
+      title: Portfolio
       fields:
         title:
           id: title
           table: node_field_data
           field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
           entity_type: node
           entity_field: title
+          plugin_id: field
           label: ''
+          exclude: false
           alter:
             alter_text: false
             make_link: false
             absolute: false
-            trim: false
             word_boundary: false
             ellipsis: false
             strip_tags: false
+            trim: false
             html: false
-          hide_empty: false
-          empty_zero: false
-          settings:
-            link_to_entity: true
-          plugin_id: field
-          relationship: none
-          group_type: group
-          admin_label: ''
-          exclude: false
           element_type: ''
           element_class: ''
           element_label_type: ''
@@ -96,9 +57,13 @@ display:
           element_wrapper_class: ''
           element_default_classes: true
           empty: ''
+          hide_empty: false
+          empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
           type: string
+          settings:
+            link_to_entity: true
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -109,6 +74,44 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+      pager:
+        type: none
+        options:
+          offset: 0
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Apply
+          reset_button: false
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      access:
+        type: perm
+        options:
+          perm: 'access content'
+      cache:
+        type: tag
+        options: {  }
+      empty: {  }
+      sorts:
+        entityqueue_relationship:
+          id: entityqueue_relationship
+          table: node_field_data
+          field: entityqueue_relationship
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          plugin_id: entity_queue_position
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: entityqueue_relationship
+          exposed: false
+      arguments: {  }
       filters:
         status:
           id: status
@@ -117,6 +120,9 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          entity_field: status
+          plugin_id: boolean
           operator: '='
           value: '1'
           group: 1
@@ -127,14 +133,14 @@ display:
             description: ''
             use_operator: false
             operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
             identifier: ''
             required: false
             remember: false
             multiple: false
             remember_roles:
               authenticated: authenticated
-            operator_limit_selection: false
-            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -147,53 +153,38 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          entity_type: node
-          entity_field: status
-          plugin_id: boolean
         type:
           id: type
           table: node_field_data
           field: type
-          value:
-            project: project
           entity_type: node
           entity_field: type
           plugin_id: bundle
+          value:
+            project: project
           group: 1
           expose:
             operator_limit_selection: false
             operator_list: {  }
-      sorts:
-        entityqueue_relationship:
-          id: entityqueue_relationship
-          table: node_field_data
-          field: entityqueue_relationship
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      style:
+        type: default
+      row:
+        type: 'entity:node'
+        options:
           relationship: none
-          group_type: group
-          admin_label: ''
-          order: ASC
-          exposed: false
-          expose:
-            label: ''
-          entity_type: node
-          plugin_id: entity_queue_position
-      title: Portfolio
-      header:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: Intro
-          empty: false
-          tokenize: false
-          content:
-            value: 'Please keep your arms and legs inside this portfolio until it has come to a complete stop and have a lovely day.'
-            format: filtered_html
-          plugin_id: text
-      footer: {  }
-      empty: {  }
+          view_mode: full
+      query:
+        type: views_query
+        options:
+          query_comment: ''
+          disable_sql_rewrite: false
+          distinct: false
+          replica: false
+          query_tags: {  }
       relationships:
         entityqueue_relationship:
           id: entityqueue_relationship
@@ -202,17 +193,27 @@ display:
           relationship: none
           group_type: group
           admin_label: 'Content queue'
-          required: false
-          limit_queue: portfolio
           entity_type: node
           plugin_id: entity_queue
-      arguments: {  }
-      display_extenders: {  }
-      filter_groups:
-        operator: AND
-        groups:
-          1: AND
+          required: false
+          limit_queue: portfolio
       use_ajax: false
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: Intro
+          plugin_id: text
+          empty: false
+          content:
+            value: 'Please keep your arms and legs inside this portfolio until it has come to a complete stop and have a lovely day.'
+            format: filtered_html
+          tokenize: false
+      footer: {  }
+      display_extenders: {  }
     cache_metadata:
       max-age: -1
       contexts:
@@ -225,29 +226,17 @@ display:
         - entity_field_info
         - views_data
   block_front_page:
-    display_plugin: block
     id: block_front_page
     display_title: 'Block (front page)'
+    display_plugin: block
     position: 2
     display_options:
-      display_extenders: {  }
       title: 'Featured project'
-      defaults:
-        title: false
-        pager: false
-        filters: false
-        filter_groups: false
-        header: false
-        use_more: false
-        use_more_always: false
-        use_more_text: false
-        style: false
-        row: false
       pager:
         type: some
         options:
-          items_per_page: 1
           offset: 0
+          items_per_page: 1
       filters:
         status:
           id: status
@@ -256,6 +245,9 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          entity_field: status
+          plugin_id: boolean
           operator: '='
           value: '1'
           group: 1
@@ -266,14 +258,14 @@ display:
             description: ''
             use_operator: false
             operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
             identifier: ''
             required: false
             remember: false
             multiple: false
             remember_roles:
               authenticated: authenticated
-            operator_limit_selection: false
-            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -286,18 +278,15 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          entity_type: node
-          entity_field: status
-          plugin_id: boolean
         type:
           id: type
           table: node_field_data
           field: type
-          value:
-            project: project
           entity_type: node
           entity_field: type
           plugin_id: bundle
+          value:
+            project: project
           group: 1
           expose:
             operator_limit_selection: false
@@ -309,6 +298,9 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          entity_field: promote
+          plugin_id: boolean
           operator: '='
           value: '1'
           group: 1
@@ -319,14 +311,14 @@ display:
             description: ''
             use_operator: false
             operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
             identifier: ''
             required: false
             remember: false
             multiple: false
             remember_roles:
               authenticated: authenticated
-            operator_limit_selection: false
-            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -339,18 +331,10 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          entity_type: node
-          entity_field: promote
-          plugin_id: boolean
       filter_groups:
         operator: AND
         groups:
           1: AND
-      header: {  }
-      display_description: ''
-      use_more: true
-      use_more_always: true
-      use_more_text: 'View portfolio'
       style:
         type: default
         options: {  }
@@ -359,6 +343,24 @@ display:
         options:
           relationship: none
           view_mode: compact
+      defaults:
+        title: false
+        pager: false
+        use_more: false
+        use_more_always: false
+        use_more_text: false
+        style: false
+        row: false
+        filters: false
+        filter_groups: false
+        header: false
+      display_description: ''
+      use_more: true
+      use_more_always: true
+      use_more_text: 'View portfolio'
+      header: {  }
+      display_extenders:
+        ajax_history: {  }
       block_hide_empty: true
     cache_metadata:
       max-age: -1
@@ -372,9 +374,9 @@ display:
         - entity_field_info
         - views_data
   page:
-    display_plugin: page
     id: page
     display_title: Page
+    display_plugin: page
     position: 1
     display_options:
       display_extenders: {  }
@@ -383,11 +385,11 @@ display:
         type: normal
         title: Portfolio
         description: ''
-        expanded: false
-        parent: ''
         weight: -48
-        context: '0'
+        expanded: false
         menu_name: main
+        parent: ''
+        context: '0'
     cache_metadata:
       max-age: -1
       contexts:
