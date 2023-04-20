@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @Filter(
  *   id = "ambientimpact_icon",
  *   title = @Translation("Ambient.Impact: render [icon] tags"),
- *   type = Drupal\filter\Plugin\FilterInterface::TYPE_MARKUP_LANGUAGE
+ *   type = Drupal\filter\Plugin\FilterInterface::TYPE_TRANSFORM_REVERSIBLE
  * )
  */
 class IconFilter extends FilterBase implements ContainerFactoryPluginInterface {
