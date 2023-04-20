@@ -19,7 +19,7 @@ use Drupal\ambientimpact_core\Event\DOMCrawlerEvent;
  * @Filter(
  *   id = "ambientimpact_dom",
  *   title = @Translation("Ambient.Impact: DOM tree manipulation"),
- *   type = Drupal\filter\Plugin\FilterInterface::TYPE_MARKUP_LANGUAGE
+ *   type = Drupal\filter\Plugin\FilterInterface::TYPE_TRANSFORM_REVERSIBLE
  * )
  */
 class DOMFilter extends FilterBase implements ContainerFactoryPluginInterface {
