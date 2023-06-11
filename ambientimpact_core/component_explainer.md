@@ -1,7 +1,7 @@
-The ```ambientimpact_core``` module provides a component system whose purpose is
-to organize code into discrete packages that specialize in one thing or a
-collection of tightly related things. The component system is primarily intended
-for front-end CSS, JavaScript, HTML (by way of [Twig
+This module provides a component system whose purpose is to organize code into
+discrete packages that specialize in one thing or a collection of tightly
+related things. The component system is primarily intended for front-end CSS,
+JavaScript, HTML (by way of [Twig
 templates](https://www.drupal.org/docs/8/theming/twig)), and other assets, but
 component plug-ins can provide back-end functionality via their plug-in classes.
 
@@ -34,9 +34,9 @@ directory.
 ## Component plug-in class
 
 The component plug-in class must extend
-[```Drupal\ambientimpact_core\ComponentBase```](ambientimpact_core/src/ComponentBase.php)
+[```Drupal\ambientimpact_core\ComponentBase```](src/ComponentBase.php)
 with the annotation structure defined in
-[```Drupal\ambientimpact_core\Annotation\Component```](ambientimpact_core/src/Annotation/Component.php).
+[```Drupal\ambientimpact_core\Annotation\Component```](src/Annotation/Component.php).
 
 If the only functionality of a component is to provide front-end assets, the
 class can be empty (but must provide annotation data); an example of this can be
@@ -59,7 +59,5 @@ Drupal documentation for the format of the libraries
 file](https://www.drupal.org/docs/8/creating-custom-modules/adding-stylesheets-css-and-javascript-js-to-a-drupal-8-module).
 The one important distinction is that all paths in the component's libraries
 file are relative to the component's directory, not the implementing module's
-directory. A very simple example can be found in
-[```media_query.libraries.yml```](ambientimpact_core/components/media_query/media_query.libraries.yml),
-while a more complex example can be found in
-[```photoswipe.libraries.yml```](ambientimpact_media/components/photoswipe/photoswipe.libraries.yml).
+directory. A simple example can be found in
+[```media_query.libraries.yml```](components/media_query/media_query.libraries.yml).
