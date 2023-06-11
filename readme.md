@@ -181,4 +181,8 @@ The following major version bumps indicate breaking changes:
 
   * The patches in `ambientimpact_media` have been updated to apply against this core version.
 
-* 8.x - Refactored all modules into individual Composer packages in preparation for Git subtree split.
+* 8.x:
+
+  * Refactored all modules into individual Composer packages in preparation for Git subtree split.
+
+  * Moved all migrate modules to `ambientimpact_migrate/modules`
