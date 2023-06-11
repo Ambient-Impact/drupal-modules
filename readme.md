@@ -87,7 +87,7 @@ plan to use.
 where `<web directory>` is your public Drupal directory name, `web` by default.
 
 Then, in your project's root, run ```composer require
-"drupal/ambientimpact_core:7.x-dev@dev"``` to have Composer install the core
+"drupal/ambientimpact_core:8.x-dev@dev"``` to have Composer install the core
 module and its required dependencies for you. Repeat the process for any other
 modules you want to install dependencies for.
 
@@ -112,7 +112,7 @@ Once those are defined, add the following to the `"dependencies"` section of
 your top-level `package.json`:
 
 ```json
-"ambientimpact-drupal-modules": "workspace:^7"
+"ambientimpact-drupal-modules": "workspace:^8"
 ```
 
 Then run `yarn install` and let Yarn do the rest.
@@ -180,3 +180,5 @@ The following major version bumps indicate breaking changes:
   * [9.5 added explicit `string` return value of `\Drupal\Component\Utility\Html::escape()`](https://git.drupalcode.org/project/drupal/-/commit/58f589c709d070c382027043c5aafe72c181ebde); `\Drupal\ambientimpact_core\Utility\Html::escape()` has been updated to match to prevent fatal errors.
 
   * The patches in `ambientimpact_media` have been updated to apply against this core version.
+
+* 8.x - Refactored all modules into individual Composer packages in preparation for Git subtree split.
