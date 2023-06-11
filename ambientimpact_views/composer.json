@@ -1,0 +1,13 @@
+{
+  "name": "drupal/ambientimpact_views",
+  "description": "Ambient.Impact - Views",
+  "type": "drupal-custom-module",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Ambient.Impact",
+      "homepage": "https://ambientimpact.com/",
+      "role": "Developer"
+    }
+  ]
+}
