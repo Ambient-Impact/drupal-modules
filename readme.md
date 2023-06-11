@@ -87,7 +87,7 @@ plan to use.
 where `<web directory>` is your public Drupal directory name, `web` by default.
 
 Then, in your project's root, run ```composer require
-"drupal/ambientimpact_core:6.x-dev@dev"``` to have Composer install the core
+"drupal/ambientimpact_core:7.x-dev@dev"``` to have Composer install the core
 module and its required dependencies for you. Repeat the process for any other
 modules you want to install dependencies for.
 
@@ -112,7 +112,7 @@ Once those are defined, add the following to the `"dependencies"` section of
 your top-level `package.json`:
 
 ```json
-"ambientimpact-drupal-modules": "workspace:^6"
+"ambientimpact-drupal-modules": "workspace:^7"
 ```
 
 Then run `yarn install` and let Yarn do the rest.
