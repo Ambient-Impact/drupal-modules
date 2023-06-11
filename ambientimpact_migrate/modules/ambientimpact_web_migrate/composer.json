@@ -1,7 +1,7 @@
 {
   "name": "drupal/ambientimpact_web_migrate",
   "description": "Ambient.Impact - Web migrate",
-  "type": "project",
+  "type": "drupal-custom-module",
   "license": "GPL-2.0-or-later",
   "authors": [
     {

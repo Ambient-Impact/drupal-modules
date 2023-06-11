@@ -1,7 +1,7 @@
 {
   "name": "drupal/ambientimpact_block",
   "description": "Ambient.Impact - Blocks",
-  "type": "project",
+  "type": "drupal-custom-module",
   "license": "GPL-2.0-or-later",
   "authors": [
     {

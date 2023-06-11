@@ -1,7 +1,7 @@
 {
   "name": "drupal/ambientimpact_web_components",
   "description": "Ambient.Impact - Web - Component pages",
-  "type": "project",
+  "type": "drupal-custom-module",
   "license": "GPL-2.0-or-later",
   "authors": [
     {

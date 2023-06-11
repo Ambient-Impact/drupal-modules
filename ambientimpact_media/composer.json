@@ -1,7 +1,7 @@
 {
   "name": "drupal/ambientimpact_media",
   "description": "Ambient.Impact - Media",
-  "type": "project",
+  "type": "drupal-custom-module",
   "license": "GPL-2.0-or-later",
   "authors": [
     {
