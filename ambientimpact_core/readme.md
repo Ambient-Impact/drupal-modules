@@ -49,7 +49,7 @@ In your root `composer.json`, add the following to the `"repositories"` section:
 
 Once you've completed all of the above, run `composer require
 "drupal/ambientimpact_core:1.x-dev@dev"` in the root of your project to have
- Composer install this and its required dependencies for you.
+Composer install this and its required dependencies for you.
 
 ## Front-end assets
 
