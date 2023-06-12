@@ -11,7 +11,7 @@
     }
   ],
   "require": {
-    "cweagans/composer-patches": "^1.6.5",
+    "cweagans/composer-patches": "^1.7.0",
     "drupal/core-recommended": "^9.5.3",
     "drupal/hook_event_dispatcher": "^2.0 || ^3.0",
     "drupal/image_field_caption": "^1.1",
