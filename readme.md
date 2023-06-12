@@ -185,4 +185,4 @@ The following major version bumps indicate breaking changes:
 
   * Refactored all modules into individual Composer packages in preparation for Git subtree split.
 
-  * Moved all migrate modules to `ambientimpact_migrate/modules`
+  * Moved all migrate modules to [`ambientimpact_migrate/modules`](ambientimpact_migrate/modules).
