@@ -31,6 +31,8 @@ To build front-end assets for this project, [Node.js](https://nodejs.org/) and
 
 ## Composer
 
+### Set up
+
 Ensure that you have your Drupal installation set up with the correct Composer
 installer types such as those provided by [the `drupal/recommended-project`
 template](https://www.drupal.org/docs/develop/using-composer/starting-a-site-using-drupal-composer-project-templates#s-drupalrecommended-project).
@@ -39,8 +41,9 @@ If you're starting from scratch, simply requiring that template and following
 documentation](https://www.drupal.org/docs/develop/using-composer/starting-a-site-using-drupal-composer-project-templates)
 should get you up and running.
 
-Then, in your root `composer.json`, add the following to the `"repositories"`
-section:
+### Repository
+
+In your root `composer.json`, add the following to the `"repositories"` section:
 
 ```json
 "drupal/ambientimpact_media": {
@@ -49,9 +52,46 @@ section:
 }
 ```
 
-Then, in your project's root, run `composer require
-"drupal/ambientimpact_media:1.x-dev@dev"` to have Composer install the module and
-its required dependencies for you.
+### Patching
+
+This provides [one or more patches](#patches). These can be applied automatically by the the
+[`cweagans/composer-patches`](https://github.com/cweagans/composer-patches/tree/1.x)
+Composer plug-in, but some set up is required before installing this module.
+Notably, you'll need to [enable patching from
+dependencies](https://github.com/cweagans/composer-patches/tree/1.x#allowing-patches-to-be-applied-from-dependencies) (such as this module 🤓). At
+a minimum, you should have these values in your root `composer.json` (merge with
+existing keys as needed):
+
+
+```json
+{
+  "require": {
+    "cweagans/composer-patches": "^1.7.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "cweagans/composer-patches": true
+    }
+  },
+  "extra": {
+    "enable-patching": true,
+    "patchLevel": {
+      "drupal/core": "-p2"
+    }
+  }
+}
+
+```
+
+**Important**: The 1.x version of the plug-in is currently required because it
+allows for applying patches from a dependency; this is not implemented nor
+planned for the 2.x branch of the plug-in.
+
+### Installing
+
+Once you've completed all of the above, run `composer require
+"drupal/ambientimpact_media:1.x-dev@dev"` in the root of your project to have
+ Composer install this and its required dependencies for you.
 
 ## Front-end assets
 
@@ -121,3 +161,19 @@ from the root of your Drupal site. If you want to build just this package, run:
 ```
 yarn workspace drupal-ambientimpact-media run build
 ```
+
+# Patches
+
+The following patches are supplied (see [Patching](#patching) above):
+
+* Drupal core:
+
+  * [Add a hook to modify oEmbed resource data [#3042423]](https://www.drupal.org/project/drupal/issues/3042423#comment-14902126) (requires Drupal core 9.5.3 or newer)
+
+  * [Order image mappings by breakpoint ID and numeric multiplier [#3267870]](https://www.drupal.org/project/drupal/issues/3267870) (required for subsequent patch)
+
+  * [Apply width and height attributes to responsive image tag [#3192234]](https://www.drupal.org/project/drupal/issues/3192234#comment-14510278)
+
+* [Image Field Caption module](https://www.drupal.org/project/image_field_caption):
+
+  * [Caption required incorrectly based on alt field required [#3181263]](https://www.drupal.org/project/image_field_caption/issues/3181263#comment-13895775)
