@@ -79,8 +79,8 @@ Then run `yarn install` and let Yarn do the rest.
 
 ### Optional: install yarn.BUILD
 
-While not required, we recommend installing [yarn.BUILD](https://yarn.build/) to
-make building all of the front-end assets even easier.
+While not required, [yarn.BUILD](https://yarn.build/) is recommended to make
+building all of the front-end assets even easier.
 
 ### Optional: use `nvm`
 
@@ -103,7 +103,7 @@ mature and stable at this point.
 
 # Building front-end assets
 
-We use [Webpack](https://webpack.js.org/) and [Symfony Webpack
+This uses [Webpack](https://webpack.js.org/) and [Symfony Webpack
 Encore](https://symfony.com/doc/current/frontend.html) to automate most of the
 build process. These will have been installed for you if you followed the Yarn
 installation instructions above.
