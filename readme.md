@@ -2,7 +2,7 @@ This respository contains Drupal modules that provide a framework for back-end
 and front-end development which includes many PHP, JavaScript, and Sass
 utilities, UX improvements and widgets, base styles, and libraries; for more
 information, see [the component system
-explainer](component_explainer.md).
+explainer](ambientimpact_core/component_explainer.md).
 These are used across multiple sites, including
 [ambientimpact.com](https://ambientimpact.com/).
 
