@@ -1,0 +1,47 @@
+{
+  "name": "drupal-ambientimpact-core",
+  "version": "1.0.0",
+  "license": "GPL-2.0",
+  "repository": "github:Ambient-Impact/drupal-ambientimpact-core",
+  "scripts": {
+    "build": "webpack --progress --config webpack.config.js",
+    "build:vendor": "webpack --progress --config webpack.vendor.js",
+    "postinstall": "yarn run build:vendor"
+  },
+  "exports": {
+    "./componentPaths": "./javascript/component_paths.js"
+  },
+  "yarn.build": {
+    "input": [
+      "webpack.config.js",
+      "**/components/**/*.scss"
+    ],
+    "output": [
+      "**/components/**/*.css"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.2",
+    "@babel/preset-env": "^7.20.2",
+    "@symfony/webpack-encore": "^4.1.1",
+    "autoprefixer": "^10.2.5",
+    "css-loader": "^6.7.1",
+    "file-loader": "^6.0.0",
+    "glob": "^8.0.3",
+    "mini-css-extract-plugin": "^2.6.1",
+    "postcss": "^8.2.15",
+    "postcss-loader": "^7.0.1",
+    "sass": "^1.43.4",
+    "sass-loader": "^13.1.0",
+    "sassy-lists": "^3.0.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-remove-empty-scripts": "^1.0.1"
+  },
+  "dependencies": {
+    "ally.js": "^1.4.1",
+    "fastdom": "^1.0.10",
+    "include-media": "^1.4.10",
+    "strictdom": "^1.0.1"
+  }
+}

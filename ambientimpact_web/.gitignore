@@ -1,0 +1,7 @@
+# Ignore generated CSS files and their associated map files.
+**/*.css
+**/*.css.map
+
+# Webpack Encore generated files.
+entrypoints.json
+manifest.json

@@ -1,0 +1,15 @@
+# Ignore generated CSS files and their associated map files.
+**/*.css
+**/*.css.map
+
+# Ignore generated icon bundles.
+**/icons/*.svg
+
+# Ignore Webpack Encore generated files.
+entrypoints.json
+manifest.json
+
+# Ignore the whole front-end vendor directory.
+#
+# @see webpack.vendor.js
+vendor

@@ -1,0 +1,44 @@
+{
+  "name": "drupal-ambientimpact-media",
+  "version": "1.0.0",
+  "license": "GPL-2.0",
+  "repository": "github:Ambient-Impact/drupal-ambientimpact-media",
+  "scripts": {
+    "build": "webpack --progress --config webpack.config.js",
+    "build:vendor": "webpack --progress --config webpack.vendor.js",
+    "postinstall": "yarn run build:vendor"
+  },
+  "yarn.build": {
+    "input": [
+      "webpack.config.js",
+      "**/components/**/*.scss",
+      "**/icons/*/*.svg"
+    ],
+    "output": [
+      "**/components/**/*.css"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.2",
+    "@babel/preset-env": "^7.20.2",
+    "@symfony/webpack-encore": "^4.1.1",
+    "autoprefixer": "^10.2.5",
+    "css-loader": "^6.7.1",
+    "file-loader": "^6.0.0",
+    "glob": "^8.0.3",
+    "mini-css-extract-plugin": "^2.6.1",
+    "postcss": "^8.2.15",
+    "postcss-loader": "^7.0.1",
+    "sass": "^1.43.4",
+    "sass-loader": "^13.1.0",
+    "svg-spritemap-webpack-plugin": "^4.5.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-remove-empty-scripts": "^1.0.1"
+  },
+  "dependencies": {
+    "drupal-ambientimpact-core": "workspace:^1",
+    "drupal-ambientimpact-icon": "workspace:^1",
+    "photoswipe": "^4.1.3"
+  }
+}

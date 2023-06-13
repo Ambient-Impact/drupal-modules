@@ -6,7 +6,7 @@ autosize:
     url: https://github.com/jackmoore/autosize/blob/master/LICENSE.md
     gpl-compatible: true
   js:
-    ../vendor/autosize/dist/autosize.min.js: {
+    vendor/autosize/dist/autosize.min.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -21,7 +21,7 @@ fontfaceobserver:
   js:
     # This is the version without the Promises polyfill, which we don't need
     # because we require and test for Promises in the framework.
-    ../vendor/fontfaceobserver/fontfaceobserver.standalone.js: {
+    vendor/fontfaceobserver/fontfaceobserver.standalone.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -34,7 +34,7 @@ frend-offcanvas:
     url: https://github.com/frend/frend.co/blob/gh-pages/LICENSE
     gpl-compatible: true
   js:
-    ../vendor/fr-offcanvas/dist/froffcanvas.min.js: {
+    vendor/fr-offcanvas/dist/froffcanvas.min.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -47,7 +47,7 @@ headroom.js:
     url: https://github.com/WickyNilliams/headroom.js/blob/master/LICENSE
     gpl-compatible: true
   js:
-    ../vendor/headroom.js/dist/headroom.min.js: {
+    vendor/headroom.js/dist/headroom.min.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -60,7 +60,7 @@ jquery.hoverintent:
     url: https://github.com/briancherne/jquery-hoverIntent/blob/master/jquery.hoverIntent.js
     gpl-compatible: true
   js:
-    ../vendor/jquery-hoverintent/jquery.hoverIntent.min.js: {
+    vendor/jquery-hoverintent/jquery.hoverIntent.min.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -73,7 +73,7 @@ jquery.onfontresize:
     url: https://github.com/Ambient-Impact/jquery.onfontresize/blob/main/LICENSE
     gpl-compatible: true
   js:
-    ../vendor/jquery.onfontresize/jquery.onfontresize.min.js: {
+    vendor/jquery.onfontresize/jquery.onfontresize.min.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -91,7 +91,7 @@ smoothscroll:
     url: https://github.com/iamdustan/smoothscroll/blob/master/LICENSE
     gpl-compatible: true
   js:
-    ../vendor/smoothscroll-polyfill/dist/smoothscroll.min.js: {
+    vendor/smoothscroll-polyfill/dist/smoothscroll.min.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -104,7 +104,7 @@ popper.js:
     url: https://github.com/FezVrasta/popper.js/blob/master/LICENSE.md
     gpl-compatible: true
   js:
-    ../vendor/popper.js/dist/umd/popper.min.js: {
+    vendor/popper.js/dist/umd/popper.min.js: {
       attributes: { defer: true },
       minified:   true
     }
@@ -118,9 +118,9 @@ tippy.js:
     gpl-compatible: true
   css:
     component:
-      ../vendor/tippy.js/dist/tippy.css: {}
+      vendor/tippy.js/dist/tippy.css: {}
   js:
-    ../vendor/tippy.js/dist/tippy.standalone.js: {
+    vendor/tippy.js/dist/tippy.standalone.js: {
       attributes: { defer: true },
       minified:   true
     }

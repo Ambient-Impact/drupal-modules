@@ -1,0 +1,10 @@
+# Ignore generated CSS files and their associated map files.
+**/*.css
+**/*.css.map
+
+# Ignore generated icon bundles.
+**/icons/*.svg
+
+# Webpack Encore generated files.
+entrypoints.json
+manifest.json

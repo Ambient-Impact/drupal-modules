@@ -7,14 +7,14 @@ photoswipe:
     gpl-compatible: true
   css:
     component:
-      ../vendor/photoswipe/dist/photoswipe.css: {}
-      ../vendor/photoswipe/dist/default-skin/default-skin.css: {}
+      vendor/photoswipe/dist/photoswipe.css: {}
+      vendor/photoswipe/dist/default-skin/default-skin.css: {}
   js:
-    ../vendor/photoswipe/dist/photoswipe.min.js: {
+    vendor/photoswipe/dist/photoswipe.min.js: {
       attributes: { defer: true },
       minified:   true
     }
-    ../vendor/photoswipe/dist/photoswipe-ui-default.min.js: {
+    vendor/photoswipe/dist/photoswipe-ui-default.min.js: {
       attributes: { defer: true },
       minified:   true
     }
