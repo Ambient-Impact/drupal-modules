@@ -1,3 +1,37 @@
+This repository has been
+[`git subtree split`](https://shantanoo-desai.github.io/posts/technology/git_subtree/)
+into individual repositories to align more closely with Drupal best practices
+and will not receive further development. Development will continue in the
+individul modules' repositories which you are encouraged to use instead:
+
+* [`drupal/ambientimpact_block`](https://github.com/Ambient-Impact/drupal-ambientimpact-block)
+
+* [`drupal/ambientimpact_blog`](https://github.com/Ambient-Impact/drupal-ambientimpact-blog)
+
+* [`drupal/ambientimpact_core`](https://github.com/Ambient-Impact/drupal-ambientimpact-core)
+
+* [`drupal/ambientimpact_icon`](https://github.com/Ambient-Impact/drupal-ambientimpact-icon)
+
+* [`drupal/ambientimpact_markdown`](https://github.com/Ambient-Impact/drupal-ambientimpact-markdown)
+
+* [`drupal/ambientimpact_media`](https://github.com/Ambient-Impact/drupal-ambientimpact-media)
+
+* [`drupal/ambientimpact_migrate`](https://github.com/Ambient-Impact/drupal-ambientimpact-migrate)
+
+* [`drupal/ambientimpact_paragraphs`](https://github.com/Ambient-Impact/drupal-ambientimpact-paragraphs)
+
+* [`drupal/ambientimpact_portfolio`](https://github.com/Ambient-Impact/drupal-ambientimpact-portfolio)
+
+* [`drupal/ambientimpact_ux`](https://github.com/Ambient-Impact/drupal-ambientimpact-ux)
+
+* [`drupal/ambientimpact_views`](https://github.com/Ambient-Impact/drupal-ambientimpact-views)
+
+* [`drupal/ambientimpact_web`](https://github.com/Ambient-Impact/drupal-ambientimpact-web)
+
+The rest of this readme is left as-is for historical purposes.
+
+----
+
 This respository contains Drupal modules that provide a framework for back-end
 and front-end development which includes many PHP, JavaScript, and Sass
 utilities, UX improvements and widgets, base styles, and libraries; for more
