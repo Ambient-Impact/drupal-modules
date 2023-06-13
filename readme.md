@@ -2,7 +2,7 @@ This repository has been
 [`git subtree split`](https://shantanoo-desai.github.io/posts/technology/git_subtree/)
 into individual repositories to align more closely with Drupal best practices
 and will not receive further development. Development will continue in the
-individul modules' repositories which you are encouraged to use instead:
+individual modules' repositories which you are encouraged to use instead:
 
 * [`drupal/ambientimpact_block`](https://github.com/Ambient-Impact/drupal-ambientimpact-block)
 
